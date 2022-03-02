@@ -1,18 +1,20 @@
 // components/Layout.js
 import { FC } from 'react';
 import Headers from './Headers';
+import Header from './AppHeader';
+import Footer from 'components/Footer';
 
-const Layout:FC = (props) => {
-  const { children } = props;
+const Layout: FC = ({ children }) => {  
   return (
-      <>
-      <Headers />  
-      <p>Constant header</p>
-      <div className='layout'>
+    <>
+      <Headers />
+      <Header />
+      <main>
         {children}
-      </div>
-      </>
-    );
+      </main>
+      <Footer />
+    </>
+  );
 }
 
 export default Layout;

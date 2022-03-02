@@ -1,0 +1,68 @@
+@import "styles/variables.scss";
+
+.header {
+  background: #f9f9f9;  
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+
+  .top {
+    display: flex;
+    align-items: stretch;
+    padding: 15px 0;
+    height: 56px;
+  }
+
+  .hamber {
+    flex-grow: 0.5;
+    text-align: center;
+    .hamberIcon {
+      background: url($header-footer-sprite) no-repeat;
+      width: 32px;
+      margin-left: 15px;
+      height: 24px;
+      background-size: 654%;
+      background-position: -80px -29px;
+      display: block;
+    }
+  }
+
+  .search {
+    flex-grow: 0.5;
+    text-align: center;
+    .searchIcon {
+      background: url($header-footer-sprite) no-repeat;
+      width: 32px;
+      margin-right: 15px;
+      float: right;
+      height: 24px;
+      background-size: 636%;
+      background-position: -102px -27px;
+      display: block;
+      visibility: visible;
+    }
+  }
+
+  .ctas {
+    text-align: center;
+    font-family: $Montserrat-font-family;
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    padding-bottom: 12px;
+    height: 40px;
+    
+    span {
+      border-radius: 3px;
+      border: solid 1px #000000;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+      background-color: #ffffff;
+      padding: 6px 29px;
+    } 
+    
+    .cta1 {
+      border: solid 1px #ed193b;
+      color: #ed193b;
+      margin-right: 10px;
+    }
+  }
+}
