@@ -1,0 +1,27 @@
+{
+    "request": {
+            "dns": {
+                "development": [
+                    "https://etpwaapi.economictimes.com/",
+                    "https://vsp1etpwaapi.economictimes.com/",
+                    "https://etpwaapipre.economictimes.com/"
+                ],
+                "staging": [
+                    "https://etpwaapipre.economictimes.com/",
+                    "https://etpwaapi.economictimes.com/"
+                ],
+                "production": [
+                    "https://etpwaapi.economictimes.com/",
+                    "https://vsp1etpwaapi.economictimes.com/"
+                ]
+            },
+            "path": "request"
+    },
+    "USER_ACTIVITY": {
+        "dns": {
+            "development": ["https://etua-stg.economictimes.indiatimes.com/personalization/logdata/et/ua"],
+            "production": ["https://etusers1.economictimes.com/personalisation/logdata/et/ua"]
+        },
+        "path": ""
+    }
+}
