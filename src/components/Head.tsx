@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Script from 'next/script'
 
-import * as Config from './../utils/common';
+import * as Config from '../utils/common';
 
 interface Props {
   isprimeuser?: number
@@ -132,6 +132,7 @@ const Headers: NextPage<Props> = ({isprimeuser}) => {
         }
         <Script
           id="google-analytics"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

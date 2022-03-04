@@ -1,6 +1,6 @@
 // components/Layout.js
 import { FC } from 'react';
-import Headers from './Headers';
+import Headers from './Head';
 import Header from './AppHeader';
 import Footer from 'components/Footer';
 

@@ -1,14 +1,17 @@
+import NavDrawer from 'components/NavDrawer';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styles from './styles.module.scss';
 
 const Header: FC = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
+    <>
     <header className={styles.header}>
       <div className={styles.top}>
         <div className={styles.hamber}>
-          <span className={styles.hamberIcon}></span>
+          <span className={styles.hamberIcon} onClick={()=>setIsDrawerOpen(true)}></span>
         </div>        
         <div className={styles.logo}>
           <Link href="/">
@@ -32,6 +35,8 @@ const Header: FC = () => {
 
       </nav>
     </header>
+    {isDrawerOpen && <NavDrawer />}
+    </>
   );
 }
 
