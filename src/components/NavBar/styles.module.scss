@@ -1,0 +1,19 @@
+@import "styles/variables.scss";
+
+.navBar{
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0;
+
+  a {
+    color: #000;
+    font-size: .75rem;
+    font-family: $Montserrat-font-family;
+    display: inline-block;
+    padding: 0 10px 5px;
+  }
+}
