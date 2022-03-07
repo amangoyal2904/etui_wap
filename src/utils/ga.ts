@@ -99,7 +99,7 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
 export const growthRxInit = () => {
     (function (g, r, o, w, t, h, rx) {
         g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
-        }, g[t].l = 1 * new Date();
+        }, g[t].l = 1 * +(new Date());
         g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
         h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
     })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');

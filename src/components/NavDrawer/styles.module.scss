@@ -1,0 +1,109 @@
+@import "styles/variables.scss";
+.drawer{
+  font-family: $Montserrat-font-family;
+  transition: all 0.3s ease-out;
+  position: fixed;
+  z-index: 4;
+  bottom: 45px;
+  top: 0;
+  // left: -100%;
+  width: 80%;
+  height: 100%;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+  background-color: #fff;
+  font-size: 20px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  text-align: left;
+  line-height: 40px;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  .menuWrap {
+    padding: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: block;     
+      font-weight: 600; 
+
+      .rArr {
+        background: url($header-footer-sprite);
+        background-position: -163px -29px;
+        background-repeat: no-repeat;
+        display: inline-block;
+        height: 19px;
+        width: 15px;
+        background-size: 198px;
+        margin-left: 10px;
+      }
+
+      ul {
+        li {
+          font-weight: 400;
+          font-size: 16px;
+        }
+      }
+
+      &.oneDotBdr {
+        // background: url($dbline-img-path);
+        // height: 2px;
+        // width: 100%;
+        // clear: both;
+        // background-size: 2px;
+        // border-bottom: 0;
+        border-bottom: 1px dotted #ccc;
+      }
+    }
+  }
+  
+}
+
+.user {
+  position: sticky;
+  top: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 15px;
+  height: 72px;
+  padding: 20px 20px;
+  background-color: #f6f6f6;
+  border: solid 1px #e6e6e6;
+  .userName {
+    float: left;
+    line-height: 1.31em;
+    position: relative;
+    bottom: 3px;
+
+    img {
+      margin-top: 4px;
+      width: 55px;
+      display: block;
+    }
+  }
+  .signIn {
+    float: right;
+    font-size: 13px;
+    font-weight: normal;
+    position: relative;
+    bottom: 5px;
+    text-align: center;
+
+    .userIcon {
+      background: url($header-footer-sprite);
+      background-position: -231px -35px;
+      background-repeat: no-repeat;
+      height: 27px;
+      width: 35px;
+      background-size: 260px;
+      display: inline-block;
+    }
+  }
+  
+}

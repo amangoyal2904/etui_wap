@@ -7,7 +7,8 @@
     "lint": "next lint",
     "type-check": "tsc",
     "test": "jest",
-    "winDev": "SET NODE_ENV=development && next"
+    "winDev": "SET NODE_ENV=development && next",
+    "winStart": "SET NODE_ENV=production && next start"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
