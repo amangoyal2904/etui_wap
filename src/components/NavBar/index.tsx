@@ -31,7 +31,9 @@ const NavBar: FC = () => {
 
   return (
     <nav className={styles.navBar}>
-      <a href={data.searchResult[0].url}>{data.searchResult[0].title}</a>
+      <Link href={data.searchResult[0].url}>
+        <a className={styles.active}>{data.searchResult[0].title}</a>
+      </Link>
       {data.searchResult[0].sec.map((item: MenuSecProps, i) => (
         <Link href={item.url ? item.url : '/'} key={i}>
           <a>

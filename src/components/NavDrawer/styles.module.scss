@@ -93,13 +93,17 @@
     font-weight: normal;
     position: relative;
     bottom: 5px;
+    text-align: center;
+
+    .userIcon {
+      background: url($header-footer-sprite);
+      background-position: -231px -35px;
+      background-repeat: no-repeat;
+      height: 27px;
+      width: 35px;
+      background-size: 260px;
+      display: inline-block;
+    }
   }
-  .userIcon {
-    background: url($header-footer-sprite);
-    background-position: -231px -35px;
-    background-repeat: no-repeat;
-    height: 27px;
-    width: 43px;
-    background-size: 260px;
-  }
+  
 }

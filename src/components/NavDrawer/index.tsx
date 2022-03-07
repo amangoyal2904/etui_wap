@@ -24,7 +24,7 @@ const NavDrawer: FC = () => {
     parameters: Object
   }>({
     url: "request",
-    params: { type: "menu1" }
+    params: { type: "menu" }
   });
 
   console.log(data);
@@ -45,7 +45,11 @@ const NavDrawer: FC = () => {
       </div>
       <div className={styles.menuWrap}>
         <ul className={styles.level0}>
-          <li><a href={data.searchResult[0].url}>{data.searchResult[0].title}</a></li>
+          <li>
+            <Link href={data.searchResult[0].url}>
+              <a>{data.searchResult[0].title}</a>
+            </Link>
+          </li>
           <li className={styles.oneDotBdr}></li>
           {data.searchResult[0].sec.map((item: MenuSecProps, i) => (
             <React.Fragment key={'l' + i}>
