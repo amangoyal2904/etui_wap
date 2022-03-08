@@ -1,7 +1,7 @@
 import NavDrawer from 'components/NavDrawer';
 import NavBar from 'components/NavBar';
 import Link from 'next/link';
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef, useEffect, createRef } from 'react';
 import styles from './styles.module.scss';
 import useRequest from 'network/service';
 
@@ -25,7 +25,7 @@ const Header: FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const ref = useRef();
+  
 
   const { data, isLoading, error } = useRequest<{
     searchResult: MenuProps,
@@ -36,21 +36,6 @@ const Header: FC = () => {
   });
 
   dispatch(setMenu(data?.searchResult[0]));
-
-  // useEffect(() => {
-  //   const checkIfClickedOutside = e => {
-  //     if(isDrawerOpen && ref.current && !ref.current.contains(e.target)) {
-  //       setIsDrawerOpen(false);
-  //     }
-  //   }
-
-  //   document.addEventListener('mousedown', checkIfClickedOutside);
-
-  //   return () => {
-  //     //clean up
-  //     document.removeEventListener('mousedown', checkIfClickedOutside);
-  //   }
-  // }, [isDrawerOpen]);
 
   return (
     <>
@@ -83,7 +68,7 @@ const Header: FC = () => {
         <NavBar />
 
       </header>
-      {isDrawerOpen && <NavDrawer />}
+      {isDrawerOpen && <NavDrawer setIsDrawerOpen={setIsDrawerOpen}/>}
     </>
   );
 }

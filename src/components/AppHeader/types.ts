@@ -3,6 +3,7 @@ export interface MenuSecProps {
   logo?: string;
   msid?: number;
   url?: string;
+  shorturl?: string;
   sec?: MenuSecProps[];
 }
 export interface MenuProps {
