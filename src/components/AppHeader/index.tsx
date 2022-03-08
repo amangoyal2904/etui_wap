@@ -38,7 +38,7 @@ const Header: FC = () => {
         <NavBar />
 
       </header>
-      {isDrawerOpen && <NavDrawer />}
+      {<NavDrawer isOpen={isDrawerOpen} />}
     </>
   );
 }

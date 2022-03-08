@@ -13,11 +13,12 @@ interface MenuSecProps {
   sec?: MenuSecProps[];
 }
 interface MenuProps {
-  logo: string;
-  sec: MenuSecProps[];
+  logo?: string;
+  sec?: MenuSecProps[];
+  isOpen: Boolean
 }
 
-const NavDrawer: FC = () => {
+const NavDrawer: FC<MenuProps> = (props) => {
 
   const { data, isLoading, error } = useRequest<{
     searchResult: MenuProps,
@@ -27,13 +28,13 @@ const NavDrawer: FC = () => {
     params: { type: "menu" }
   });
 
-  console.log(data);
 
   if (isLoading) return <Loading />
   if (error) return <div>Please try again!</div>
 
   return (
-    <nav className={styles.drawer}>
+    <nav className={`${styles.drawer} ${props.isOpen && styles.isOpen}`} id="mainMenu"
+    is-open={false}>
       <div className={styles.user}>
         <div className={styles.userName}>
           <div>Welcome</div><div>User</div>
