@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 
 import counterReducer from '../components/counter/counterSlice'
+import appHeaderReducer from 'components/AppHeader/appHeaderSlice'
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer },
+    reducer: { 
+      counter: counterReducer,
+      appHeader: appHeaderReducer,
+    },
   })
 }
 
