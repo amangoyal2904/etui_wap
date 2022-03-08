@@ -1,20 +1,20 @@
 import '../styles/globals.css';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
 import Layout from '../components/Layout';
-import { useRouter } from 'next/router' 
+import { useRouter } from 'next/router'
 import { callJsOnRouteChange, InitialJsOnAppLoad } from '../utils/priority';
 import store from '../app/store'
 declare global {
   interface Window {
-    initalJsCalled:any;
+    initalJsCalled: any;
   }
 }
 export default function MyApp({ Component, pageProps }: AppProps) {
 
   const router = useRouter();
-  
+
   if (typeof window != 'undefined' && !window.initalJsCalled) {
     window.initalJsCalled = true;
     InitialJsOnAppLoad();
@@ -24,14 +24,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeComplete', handleRouteChange);
   }, [])
 
-  const handleRouteChange = (url) =>{
+  const handleRouteChange = (url) => {
     callJsOnRouteChange(url);
   };
   return (
+    <Provider store={store}>
       <Layout>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
+        <Component {...pageProps} />
       </Layout>
+    </Provider>
   )
 }
