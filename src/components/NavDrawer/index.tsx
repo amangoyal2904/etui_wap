@@ -2,38 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import { FC } from 'react';
 import styles from './styles.module.scss';
-import useRequest from 'network/service';
-import Loading from 'components/Loading';
-
-interface MenuSecProps {
-  title: string;
-  logo?: string;
-  msid?: number;
-  url?: string;
-  sec?: MenuSecProps[];
-}
-interface MenuProps {
-  logo: string;
-  sec: MenuSecProps[];
-}
+import { useAppSelector } from 'app/hooks';
+import { selectMenu } from 'components/AppHeader/appHeaderSlice';
+import { MenuProps, MenuSecProps } from 'components/AppHeader/types';
 
 const NavDrawer: FC = () => {
 
-  const { data, isLoading, error } = useRequest<{
-    searchResult: MenuProps,
-    parameters: Object
-  }>({
-    url: "request",
-    params: { type: "menu" }
-  });
-
-  console.log(data);
-
-  if (isLoading) return <Loading />
-  if (error) return <div>Please try again!</div>
+  const menuData: MenuProps = useAppSelector(selectMenu);
 
   return (
-    <nav className={styles.drawer}>
+    (()=> menuData && <nav className={styles.drawer}>
       <div className={styles.user}>
         <div className={styles.userName}>
           <div>Welcome</div><div>User</div>
@@ -46,12 +24,12 @@ const NavDrawer: FC = () => {
       <div className={styles.menuWrap}>
         <ul className={styles.level0}>
           <li>
-            <Link href={data.searchResult[0].url}>
-              <a>{data.searchResult[0].title}</a>
+            <Link href={menuData.url}>
+              <a>{menuData.title}</a>
             </Link>
           </li>
           <li className={styles.oneDotBdr}></li>
-          {data.searchResult[0].sec.map((item: MenuSecProps, i) => (
+          {menuData.sec.map((item: MenuSecProps, i) => (
             <React.Fragment key={'l' + i}>
               <li>
                 <Link href={item.url ? item.url : '/'}>
@@ -74,7 +52,7 @@ const NavDrawer: FC = () => {
           ))}
         </ul>
       </div>
-    </nav>
+    </nav>)()
   );
 }
 

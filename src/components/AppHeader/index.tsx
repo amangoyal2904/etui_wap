@@ -1,11 +1,56 @@
 import NavDrawer from 'components/NavDrawer';
 import NavBar from 'components/NavBar';
 import Link from 'next/link';
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import styles from './styles.module.scss';
+import useRequest from 'network/service';
+
+import { useAppDispatch } from 'app/hooks';
+import { setMenu } from './appHeaderSlice';
+
+interface MenuSecProps {
+  title: string;
+  logo?: string;
+  msid?: number;
+  url?: string;
+  sec?: MenuSecProps[];
+}
+interface MenuProps {
+  logo: string;
+  sec: MenuSecProps[];
+}
 
 const Header: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const ref = useRef();
+
+  const { data, isLoading, error } = useRequest<{
+    searchResult: MenuProps,
+    parameters: Object
+  }>({
+    url: "request",
+    params: { type: "menu" }
+  });
+
+  dispatch(setMenu(data?.searchResult[0]));
+
+  // useEffect(() => {
+  //   const checkIfClickedOutside = e => {
+  //     if(isDrawerOpen && ref.current && !ref.current.contains(e.target)) {
+  //       setIsDrawerOpen(false);
+  //     }
+  //   }
+
+  //   document.addEventListener('mousedown', checkIfClickedOutside);
+
+  //   return () => {
+  //     //clean up
+  //     document.removeEventListener('mousedown', checkIfClickedOutside);
+  //   }
+  // }, [isDrawerOpen]);
 
   return (
     <>
