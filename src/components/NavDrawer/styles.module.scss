@@ -18,6 +18,11 @@
   line-height: 40px;
   max-width: 1024px;
   margin: 0 auto;
+  display: none;
+
+  &.isOpen {
+    display: block;
+  }
 
   .menuWrap {
     padding: 20px;

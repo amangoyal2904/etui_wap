@@ -1,5 +1,6 @@
 import NavDrawer from 'components/NavDrawer';
 import NavBar from 'components/NavBar';
+import Search from 'components/Search';
 import Link from 'next/link';
 import { FC, useState, useRef, useEffect, createRef } from 'react';
 import styles from './styles.module.scss';
@@ -22,20 +23,25 @@ interface MenuProps {
 
 const Header: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
   const dispatch = useAppDispatch();
-
   
-
-  const { data, isLoading, error } = useRequest<{
-    searchResult: MenuProps,
-    parameters: Object
-  }>({
-    url: "request",
-    params: { type: "menu" }
-  });
-
-  dispatch(setMenu(data?.searchResult[0]));
+  // useEffect(() => {
+    const { data, isLoading, error } = useRequest<{
+      searchResult: MenuProps,
+      parameters: Object
+    }>({
+      url: "request",
+      params: { type: "menu" }
+    });
+  
+    useEffect(()=>{
+      dispatch(setMenu(data?.searchResult[0]));
+    });
+    
+  // }, []);
+  
 
   return (
     <>
@@ -57,7 +63,7 @@ const Header: FC = () => {
             </Link>
           </div>
           <div className={styles.search}>
-            <span className={styles.searchIcon}></span>
+            <span className={styles.searchIcon} onClick={()=>setIsSearchOverlayOpen(true)}></span>
           </div>
         </div>
         <div className={styles.ctas}>
@@ -65,10 +71,11 @@ const Header: FC = () => {
           <span className={styles.cta2}>Get App</span>
         </div>
 
-        <NavBar />
+        {data && <NavBar />}
 
       </header>
-      {isDrawerOpen && <NavDrawer setIsDrawerOpen={setIsDrawerOpen}/>}
+      {data && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}/>}
+      {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen}/>}
     </>
   );
 }

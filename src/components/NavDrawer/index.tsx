@@ -10,9 +10,10 @@ import { FC, useState, useRef, useEffect, createRef } from 'react';
 
 interface DrawerProps {
   setIsDrawerOpen: (s: boolean) => void;
+  isOpen: boolean;
 }
 
-const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen }) => {
+const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
 
   const menuData: MenuProps = useAppSelector(selectMenu);
 
@@ -20,8 +21,10 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen }) => {
 
   useEffect(() => {
     const checkIfClickedOutside = e => {
+      console.log(e.target, ref.current);
       if(ref.current && !ref.current.contains(e.target)) {
         setIsDrawerOpen(false);
+        console.log(e.target);
       }
     }
 
@@ -31,10 +34,10 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen }) => {
       //clean up
       document.removeEventListener('mousedown', checkIfClickedOutside);
     }
-  }, []);
+  }, [ref]);
 
   return (
-    (()=> menuData && <nav className={styles.drawer} ref={ref}>
+    (()=> menuData ? <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ''}`} ref={ref}>
       <div className={styles.user}>
         <div className={styles.userName}>
           <div>Welcome</div><div>User</div>
@@ -61,7 +64,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen }) => {
                   </a>
                 </Link>
                 {item.sec && <ul> {item.sec?.map((item1, j) => (
-                  <li key={'l1' + j}>
+                  <li key={'l1' + j} className={j>3 ? styles.hidden : ''}>
                     <Link href={item1.shorturl ? item1.shorturl : '/'}>
                       <a>
                         {item1.title}
@@ -75,7 +78,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen }) => {
           ))}
         </ul>
       </div>
-    </nav>)()
+    </nav> : null)()
   );
 }
 

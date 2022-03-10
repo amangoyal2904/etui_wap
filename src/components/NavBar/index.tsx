@@ -18,7 +18,7 @@ const NavBar: FC = () => {
       </Link>
       {menuData?.sec.map((item: MenuSecProps, i) => (
         <Link href={item.url ? item.url : '/'} key={i}>
-          <a>
+          <a data-name={item.title}>
             {item.title}
           </a>
         </Link>

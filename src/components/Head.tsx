@@ -155,6 +155,7 @@ const Headers: NextPage<Props> = ({isprimeuser}) => {
 }
 
 Headers.getInitialProps = async ({ req }) => {
+  console.log(req);
   const isprimeuser = req && req.headers && req.headers.primetemplate ? 1 : 0;
   return { isprimeuser }
 }
