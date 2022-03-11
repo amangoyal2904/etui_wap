@@ -74,4 +74,10 @@ const ArticleShow: NextPage<PageProps> = ({ query }) => {
   )
 }
 
+export async function getServerSideProps() {
+  console.log("props called");
+}
+
+   
+
 export default ArticleShow;
