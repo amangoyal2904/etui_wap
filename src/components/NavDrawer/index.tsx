@@ -34,7 +34,7 @@ const NavDrawer: FC<MenuProps> = (props) => {
 
   return (
     <nav className={`${styles.drawer} ${props.isOpen && styles.isOpen}`} id="mainMenu"
-    is-open={false}>
+    is-open="false">
       <div className={styles.user}>
         <div className={styles.userName}>
           <div>Welcome</div><div>User</div>

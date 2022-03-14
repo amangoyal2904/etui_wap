@@ -1,24 +1,17 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import { configureStore, ThunkAction } from '@reduxjs/toolkit'
+import { combineReducers, Action } from 'redux'
+import {createWrapper} from 'next-redux-wrapper';
 
-import counterReducer from '../components/counter/counterSlice'
 
-export function makeStore() {
-  return configureStore({
-    reducer: { counter: counterReducer },
-  })
-}
+import article from '../Slices/article';
 
-const store = makeStore()
-
-export type AppState = ReturnType<typeof store.getState>
-
-export type AppDispatch = typeof store.dispatch
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppState,
-  unknown,
-  Action<string>
->
-
-export default store
+const reducer = combineReducers({
+  article
+})
+const makeStore = () =>
+    configureStore({
+      reducer,
+    });
+    
+export type AppStore = ReturnType<typeof makeStore>;
+export const wrapper = createWrapper<AppStore>(makeStore);

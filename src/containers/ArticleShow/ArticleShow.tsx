@@ -4,7 +4,8 @@ import styles from './ArticleShow.module.scss';
 import DfpAds from 'components/Ad/DfpAds';
 import SEO from 'components/SEO';
 interface PageProps {
-  query: string | string[]
+  query: string | string[],
+  data: any
 }
 
 const fetchImmediateSubsec = (objSec) => {
@@ -72,10 +73,6 @@ const ArticleShow: NextPage<PageProps> = ({ query }) => {
       <SEO data={seoData} page="articleshow"/>
     </div>
   )
-}
-
-export async function getServerSideProps() {
-  console.log("props called");
 }
 
    

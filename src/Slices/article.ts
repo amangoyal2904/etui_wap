@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import {HYDRATE} from 'next-redux-wrapper';
 
 const slice = createSlice({
     name: 'Article',
@@ -24,25 +24,30 @@ const slice = createSlice({
             state.data =  [];
         }
     },
+    extraReducers: {
+        [HYDRATE]: (state, action) => {
+            console.log('HYDRATE', action.payload);
+            return {
+                ...state,
+                ...action.payload.article,
+            };
+        },
+    },
 });
 
 export default slice.reducer;
 
 //Actions
 
-import useRequest from "../network/service";
 
 const { articleSuccess, articleLoading, articleError } = slice.actions;
 
 export const fetchArticle = (articleId) => async dispatch => {
     try {
-        const { data, isLoading, error } = useRequest({
-            url: "request",
-            params: { type: "article", msid: articleId }
-          });
-
-          console.log(data, isLoading);
-
+        dispatch(articleLoading);
+        let res = await fetch(`https://etpwaapi.economictimes.com/request?type=article&msid=${articleId}`);
+        let data = await res.json();
+        dispatch(articleSuccess(data));
     }
     catch (e) {
         return console.error(e.message);
