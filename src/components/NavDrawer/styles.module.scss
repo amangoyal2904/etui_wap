@@ -6,6 +6,7 @@
   z-index: 4;
   bottom: 45px;
   top: 0;
+  display: none;
   // left: -100%;
   width: 80%;
   height: 100%;
@@ -62,6 +63,10 @@
     }
   }
   
+}
+
+.isOpen {
+  display: block;
 }
 
 .user {

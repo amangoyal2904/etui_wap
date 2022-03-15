@@ -1,0 +1,206 @@
+
+import styles from './styles.module.scss';
+import { FC, useState } from 'react';
+import GreyDivider from 'components/GreyDivider';
+import { ET_WAP_URL } from "../../utils/common";
+declare global {
+  interface Window {
+    __isBrowser__: any;
+    gdprCheck: any;
+    objAuth: any;
+  }
+}
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    // extends React's HTMLAttributes
+    displaytype?: string;
+  }
+}
+
+const DynamicFooter: FC = () => {
+  let hide_footer = false;
+  const _html = [];
+  let paymentButtonListener = () => {
+    let paymentUrl = '';
+    window.location.href = paymentUrl;
+  }
+  let showPersonalizedlink = () => {
+    if (typeof(window) !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
+      return (
+        <div id="personalized">
+          |
+          <a
+            href="https://www.colombiaonline.com/site_policy.html" target='_blank' rel='nofollow noreferrer'
+            className={`${styles.policyTerm} ${styles.withPadding}`}
+          >
+            Opt- out of personalized ads
+          </a>
+          |
+          <a
+            href="https://economictimes.indiatimes.com/feeds/gdprform.cms"
+            className={`${styles.policyTerm} ${styles.withPadding}`}
+          >
+            Delete data
+          </a>
+        </div>
+      );
+    } else {
+      return "";
+    }
+  };
+  let downloadSection = (isSubscribed = false) => {
+    let subscriptionurl = (typeof(window) != 'undefined' && window.objAuth && window.objAuth.planPage) || 'https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution';
+    return (
+      <div className={styles.downloadSection} key="downloadSec">
+        <div className={styles.row} displaytype="GDPR" >
+          <h3>download et app</h3>
+          <a className={styles.appstore_parent}
+            href="http://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            <span className={styles.appstoredownload} />
+          </a>
+
+          <a
+            href="https://play.google.com/store/apps/details?id=com.et.reader.activities"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+          >
+            <span className={styles.gpdownload} />
+          </a>
+        </div>
+        <div className={styles.row} displaytype="GDPR">
+          <h3>follow us on</h3>
+          <div className={styles.shareIcons}>
+            <a
+              href="https://www.facebook.com/EconomicTimes"
+              title="Facebook"
+              target="_blank"
+              onClick={fireGAEvent}
+              data-action="Facebook - Click"
+              data-label="Facebook"
+              data-url="https://www.facebook.com/EconomicTimes"
+              data-link="PWA Footer Follow us icon Click"
+              rel="noopener nofollow noreferrer"
+              className={styles.fbShare}
+            ></a>
+
+            <a
+              href="https://www.linkedin.com/company/economictimes"
+              target="_blank"
+              title="Twitter"
+              onClick={fireGAEvent}
+              data-action="Twitter - Click"
+              data-label="Twitter"
+              data-url="https://www.linkedin.com/company/economictimes"
+              data-link="PWA Footer Follow us icon Click"
+              rel="noopener nofollow noreferrer"
+              className={styles.twShare}
+            ></a>
+
+            <a
+              href="https://twitter.com/economictimes"
+              target="_blank"
+              title="LinkedIn"
+              onClick={fireGAEvent}
+              data-action="LinkedIn - Click"
+              data-label="LinkedIn"
+              data-url="https://twitter.com/economictimes"
+              data-link="PWA Footer Follow us icon Click"
+              rel="noopener nofollow noreferrer"
+              className={styles.inShare}
+            ></a>
+          </div>
+        </div>
+        {
+          !isSubscribed &&  <div className={styles.row}>
+            <a
+                onClick={(e) => {fireGAEvent(e);paymentButtonListener()}}
+                data-action="Footer"
+                data-label="PWA Footer Prime Click"
+                data-url=""
+                data-link="Prime Distribution - PWA"
+                rel="noopener"
+            >
+              <span className={styles.primeLogo} />
+              <h4>
+                become a member
+              </h4>
+            </a>
+          </div>
+        }
+        <div className={styles.row}>
+          <a
+            href="https://m.economictimes.com/termsofuse.cms"
+            className={`${styles.policyTerm} ${styles.withPadding}`}
+          >
+            Terms of Use &amp; Grievance Redressal Policy
+          </a>
+          |
+          <a
+            href="https://m.economictimes.com/codeofconduct.cms"
+            className={`${styles.policyTerm} ${styles.withPadding}`}
+          >
+            DNPA Code of Ethics
+          </a>
+          |
+          <div className={styles.mT15}>
+            <a
+              href="https://m.economictimes.com/privacypolicy.cms"
+              className={`${styles.policyTerm} ${styles.withPadding}`}
+            >
+              Privacy Policy
+            </a>
+            { 
+              <>
+                |
+                <a
+                  href="https://m.economictimes.com/feedback.cms"
+                  displaytype="GDPR"
+                  className={`${styles.policyTerm} ${styles.withPadding}`}
+                >
+                  Feedback
+                </a>
+              </>
+            }
+            {showPersonalizedlink()}
+          </div>
+        </div>
+        <div className={styles.row}>
+          <div className={styles.copyright}>
+            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All
+            rights reserved. Powered by Indiatimes.
+          </div>
+        </div>
+      </div>
+    );
+  };
+  let fireGAEvent = e => {
+    const { action, label, url, link } = e.currentTarget.dataset;
+    const category = link;
+    let footerLink = "";
+    if (url.indexOf("https:") == -1) {
+      footerLink = ET_WAP_URL + url;
+    } else {
+      footerLink = url;
+    }
+    const eventLabel = label + "-" + footerLink;
+    window.ga(category, action, eventLabel);
+  };
+  return (
+    <div id="footer" className={hide_footer ? styles.hide_footer : ''}>
+      {/* {breadCrumbHeading && <h1 className={styles.breadCrumbHeading}>{ breadCrumbHeading }</h1>}
+      {breadCrumb} */}
+      <div className={styles.dynamicContainer}>
+        <GreyDivider/>
+        {
+          downloadSection()
+        }
+        {_html}
+      </div>
+    </div>
+  );
+}
+
+export default DynamicFooter;

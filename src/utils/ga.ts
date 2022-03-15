@@ -9,13 +9,13 @@ declare global {
   }
 }
 export const pageview = (url) => {
-    window['gtag']('config', Config.GA.GTM_KEY, {
-        page_path: url,
-    });
+    // window['gtag']('config', Config.GA.GTM_KEY, {
+    //     page_path: url,
+    // });
 }
 
 export const event = ({ action, params }) => {
-    window['gtag']('event', action, params)
+    // window['gtag']('event', action, params)
 }
 
 export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
