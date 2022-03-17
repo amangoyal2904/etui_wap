@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import styles from './styles.module.scss';
 import { MenuProps, MenuSecProps } from 'components/AppHeader/types';
 import { useSelector } from 'react-redux'

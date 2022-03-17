@@ -2,13 +2,10 @@ import NavDrawer from 'components/NavDrawer';
 import NavBar from 'components/NavBar';
 import Search from 'components/Search';
 import Link from 'next/link';
-import { FC, useState, useRef, useEffect, createRef } from 'react';
+import { FC, useState, useEffect } from 'react';
 import styles from './styles.module.scss';
-import useRequest from 'network/service';
-
-import { useAppDispatch } from 'app/hooks';
-import { setMenu } from './appHeaderSlice';
-
+import {fetchMenu} from "Slices/appHeader"
+import { useDispatch, useSelector } from "react-redux";
 interface MenuSecProps {
   title: string;
   logo?: string;
@@ -25,23 +22,12 @@ const Header: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
-  const dispatch = useAppDispatch();
-  
-  // useEffect(() => {
-    const { data, isLoading, error } = useRequest<{
-      searchResult: MenuProps,
-      parameters: Object
-    }>({
-      url: "request",
-      params: { type: "menu" }
-    });
-  
-    useEffect(()=>{
-      dispatch(setMenu(data?.searchResult[0]));
-    });
+  const dispatch = useDispatch();
+  const store = useSelector(state => state.appHeader);
     
-  // }, []);
-  
+  useEffect(() => {
+    dispatch(fetchMenu());       
+  }, [])
 
   return (
     <>
@@ -71,10 +57,10 @@ const Header: FC = () => {
           <span className={styles.cta2}>Get App</span>
         </div>
 
-        {data && <NavBar />}
+        {store.isFetchSuccess && <NavBar />}
 
       </header>
-      {data && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}/>}
+      {store.isFetchSuccess && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}/>}
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen}/>}
     </>
   );

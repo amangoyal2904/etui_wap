@@ -55,7 +55,7 @@ const Footer: FC = () => {
           }, 700);
           let st = window.pageYOffset || document.documentElement.scrollTop;
           if (st < lastScrollTop) {
-            const isMenuOpen = mainMenu.getAttribute("is-open");
+            const isMenuOpen = mainMenu?.getAttribute("is-open");
             if (isMenuOpen !== "true") {
               if (side == "up") {
                 footerHeight = 0;

@@ -1,16 +1,16 @@
 import '../styles/globals.css';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router'
 import { callJsOnRouteChange, InitialJsOnAppLoad } from '../utils/priority';
-import {wrapper} from '../app/store';
+import { wrapper } from '../app/store';
 declare global {
   interface Window {
     initalJsCalled: any;
   }
 }
- const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const router = useRouter();
 
@@ -27,11 +27,9 @@ declare global {
     callJsOnRouteChange(url);
   };
   return (
-    <Provider store={store}>
-      <Layout>
-          <Component {...pageProps} />
-      </Layout>
-    </Provider>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   )
 }
 
