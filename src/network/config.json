@@ -1,5 +1,5 @@
 {
-  "request": {
+  "REQUEST": {
     "dns": {
       "development": [
         "https://etpwaapi.economictimes.com/",

@@ -4,8 +4,8 @@ const ArticleList = dynamic(() => import('containers/ArticleList'))
 const ArticleShow = dynamic(() => import('containers/ArticleShow'))
 import {wrapper} from '../app/store';
 import {fetchArticle} from "../Slices/article"
-import { useStore, useSelector} from 'react-redux';
-
+import { useStore} from 'react-redux';
+import {pageType} from "../utils/utils";
 interface Query {
   all: string[]
 }
@@ -27,13 +27,11 @@ export default function All(props) {
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({params}) => {
   const { all } = params;
   const lastUrlComponent: string = all.slice(-1).toString();
-  const secondLastUrlComponent: string = all.slice(-2, -1).toString();
-  let page = "articlelist";
-  if(/^[0-9]+\.cms$/.test(lastUrlComponent) && secondLastUrlComponent==='articleshow') {
-    page = "articleshow";
+
+  let page = pageType(all);
+  if(page == 'articleshow') {
     await store.dispatch(fetchArticle(lastUrlComponent.split(".cms")[0]));
   } else {
-    page = "articlelist";
     console.log("came in articlelist");
   }
 

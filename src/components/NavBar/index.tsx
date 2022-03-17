@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import useRequest from 'network/service';
-import Loading from 'components/Loading';
+import Service from 'network/service';
+import APIS_CONFIG from "../../network/config.json";
 
 interface MenuSecProps {
   title: string;
@@ -18,20 +18,21 @@ interface MenuProps {
 
 const NavBar: FC = () => {
 
-  const { data, isLoading, error } = useRequest<{
-    searchResult: MenuProps,
-    parameters: Object
-  }>({
-    url: "request",
-    params: { type: "menu1" }
-  });
-
-  if (isLoading) return <Loading />
-  if (error) return <div>Please try again!</div>
+  let [data, setData]:any = useState({});
+  useEffect(() => {
+    let url = APIS_CONFIG.REQUEST;
+		let params = {
+			type: "menu",
+		};
+		Service.get(url, params)
+		.then(res => {
+      setData(res.data || {});
+		})
+  }, [])
 
   return (
-    <nav className={styles.navBar}>
-      <Link href={data.searchResult[0].url}>
+    data && data.searchResult && data.searchResult[0] && data.searchResult[0].title ? <nav className={styles.navBar}>
+      <Link href={data && data.searchResult && data.searchResult[0] && data.searchResult[0].url}>
         <a className={styles.active}>{data.searchResult[0].title}</a>
       </Link>
       {data.searchResult[0].sec.map((item: MenuSecProps, i) => (
@@ -41,7 +42,7 @@ const NavBar: FC = () => {
           </a>
         </Link>
       ))}
-    </nav>
+    </nav> : null
   );
 }
 

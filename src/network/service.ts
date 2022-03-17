@@ -1,65 +1,67 @@
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
-import  apiConfig from "./config.json";
+import { isHostPreprod, getParameterByName, getApiUrl} from "../utils/utils";
+import axios from "axios";
 
-export type GetRequest = AxiosRequestConfig | null
+let headerWhiteList = ['X-FORWARDED-FOR', 'X-ISBOT', 'fullcontent'];
 
-interface Return<Data, Error>
-    extends Pick<
-    SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
-    'isValidating' | 'error' | 'mutate'
-    > {
-    data: Data | undefined
-    isLoading: boolean
-    response: AxiosResponse<Data> | undefined
-}
-
-export interface Config<Data = unknown, Error = unknown>
-    extends Omit<
-    SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
-    'fallbackData'
-    > {
-    fallbackData?: Data
-}
-
-export default function useRequest<Data = unknown, Error = unknown>(
-    request: GetRequest,
-    { fallbackData, ...config }: Config<Data, Error> = {}
-): Return<Data, Error> {
-    let { url, params, headers, ...rest } = request;
-    const env = process.env['NODE_ENV'] && process.env['NODE_ENV'].trim() || "production";
-    url = apiConfig[url] && apiConfig[url]["dns"][env] && apiConfig[url]["dns"][env][0] + apiConfig[url]["path"] || url;
-    const requestConfig = { ...request!, url, params, headers, ...rest };
-    const { data: response, error, isValidating, mutate } = useSWR<
-        AxiosResponse<Data>,
-        AxiosError<Error>
-    >(
-        request && JSON.stringify(request),
-        /**
-         * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
-         * function is actually only called by `useSWR` when it isn't.
-         */
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        () => axios.request<Data>(requestConfig),
-        {
-            ...config,
-            fallbackData: fallbackData && {
-                status: 200,
-                statusText: 'InitialData',
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                config: request!,
-                headers: {},
-                data: fallbackData
-            }
-        }
-    )
-
-    return {
-        data: response && response.data,
-        response,
-        isLoading: !error && !response,
-        error,
-        isValidating,
-        mutate
+export const get = (api, params = {}, request:any= {}, config:any= {}) => {
+  try {
+    let apidomain = '';
+    let hostByParams = '';
+    if (window.__isBrowser__) {
+      var apidomainParam = getParameterByName("apidomain");
+      apidomain = apidomainParam ? apidomainParam : apidomain;
+      hostByParams = location.host;
+    } else if (request && request.query && request.query.apidomain) {
+      apidomain = request.query.apidomain;
+      hostByParams = request.headers.host;
     }
+    if (!apidomain) {
+      // keep pre-prod api for pre-prod ui
+      // rest all will behave conventionally
+      apidomain =
+          (hostByParams &&
+              (hostByParams.indexOf("etpwapre.economictimes.com") > -1 ||
+                  hostByParams.indexOf("etpwa.economictimes.com") > -1)) ||
+              isHostPreprod()
+              ? "https://etpwaapipre.economictimes.com/"
+              : "";
+    }
+
+    let url = getApiUrl(api, params, 0, apidomain);
+    if (!config.headers) {
+      config['headers'] = {};
+    }
+
+    if (window.__isBrowser__ && params && params['type'] && (params['type'] === 'article' || params['type'] === 'primearticle')) {
+    //   if (univCookies() && univCookies().get('OTR')) {
+    //     config['headers']['OTR'] = univCookies().get('OTR');
+    //   }
+    }
+    if (request && request.headers) {
+      for (let header in request.headers) {
+        if (headerWhiteList.indexOf(header) > -1) {
+          config['headers'][header] = request.headers[header];
+        }
+      }
+    }
+    return axios.get(url, config);
+  } catch (e) {
+    console.log("error in get request", e);
+  }
+};
+
+export const post = (api, params = {}, payload, callback, config = {}) => {
+  const url = getApiUrl(api, params, 0);
+  return axios.request({
+    method: "POST",
+    url,
+    responseType: "json",
+    data: payload,
+    ...config
+  });
+};
+
+export default {
+  get,
+  post,
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import useRequest from 'network/service';
-import Loading from 'components/Loading';
+import Service from 'network/service';
+import APIS_CONFIG from "../../network/config.json";
 
 interface MenuSecProps {
   title: string;
@@ -20,20 +20,23 @@ interface MenuProps {
 
 const NavDrawer: FC<MenuProps> = (props) => {
 
-  const { data, isLoading, error } = useRequest<{
-    searchResult: MenuProps,
-    parameters: Object
-  }>({
-    url: "request",
-    params: { type: "menu" }
-  });
 
 
-  if (isLoading) return <Loading />
-  if (error) return <div>Please try again!</div>
+  let [data, setData]:any = useState({});
+  useEffect(() => {
+    let url = APIS_CONFIG.REQUEST;
+		let params = {
+			type: "menu",
+		};
+		Service.get(url, params)
+		.then(res => {
+      setData(res.data || {});
+		})
+  }, [])
+
 
   return (
-    <nav className={`${styles.drawer} ${props.isOpen && styles.isOpen}`} id="mainMenu"
+    data && data.searchResult && data.searchResult[0] && data.searchResult[0].url ? <nav className={`${styles.drawer} ${props.isOpen && styles.isOpen}`} id="mainMenu"
     is-open="false">
       <div className={styles.user}>
         <div className={styles.userName}>
@@ -75,7 +78,7 @@ const NavDrawer: FC<MenuProps> = (props) => {
           ))}
         </ul>
       </div>
-    </nav>
+    </nav> : null
   );
 }
 
