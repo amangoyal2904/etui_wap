@@ -1,17 +1,16 @@
 import '../styles/globals.css';
-import { useEffect } from 'react';
-import { Provider } from 'react-redux';
+import {useEffect} from 'react';
 import type { AppProps } from 'next/app';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router'
 import { callJsOnRouteChange, InitialJsOnAppLoad } from '../utils/priority';
-import store from '../app/store'
+import {wrapper} from '../app/store';
 declare global {
   interface Window {
     initalJsCalled: any;
   }
 }
-export default function MyApp({ Component, pageProps }: AppProps) {
+ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const router = useRouter();
 
@@ -30,8 +29,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Layout>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
       </Layout>
     </Provider>
   )
 }
+
+export default wrapper.withRedux(MyApp);

@@ -9,6 +9,7 @@ export interface MenuSecProps {
 export interface MenuProps {
   logo?: string;
   url?: string;
+  shorturl?: string;
   title?: string;
   sec?: MenuSecProps[];
 }

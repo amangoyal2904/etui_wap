@@ -1,0 +1,15 @@
+@mixin boxShadow($color, $top, $right, $bottom, $left){
+    box-shadow: $top $right $bottom $left $color;
+    -webkit-box-shadow: $top $right $bottom $left $color;
+    -moz-box-shadow: $top $right $bottom $left $color;
+}
+
+@mixin bg-center-gradient($color) {
+    background: radial-gradient(circle at center, $color 2px, transparent 3px);
+    background: -webkit-radial-gradient(circle at center, $color 1px, transparent 3px);
+    background: -moz-radial-gradient(circle at center, $color 1px, transparent 3px);
+}
+
+@mixin right-gradient($left-color, $right-color) {
+    background-image: linear-gradient(to right, $left-color, $right-color);
+}
