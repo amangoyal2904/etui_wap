@@ -1,7 +1,11 @@
+import os from "os";
+const serverHost = os.hostname() || "";
+
 declare global {
     interface Window { 
       geolocation: any;
       geoinfo: any;
+      __APP: any;
     }
 }
 
@@ -66,6 +70,45 @@ export const pageType = pathurl => {
     return "articlelist";
   }
 };
+
+export const encodeQueryData = data => {
+  const ret = [];
+  for (let d in data)
+    ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+  return ret.join("&");
+};
+
+export const getApiUrl = (api, param, index, apidomain = '') => {
+  let env = '';
+  if (window.__isBrowser__ ) {
+    env = window.__APP && window.__APP.env;
+  } else {
+    env = process.env.NODE_ENV.toLowerCase();
+  }
+  let domain = "";
+  if (api.dns) {
+    domain = api.dns[env][index] ? api.dns[env][index] : api.dns[env][0];
+  }
+
+  const path = api.path;
+  if (path.indexOf("request") > -1) {
+    domain = apidomain ? apidomain : domain;
+  }
+  const querystring = encodeQueryData(param);
+  let url = domain + path;
+  if (querystring) {
+    url = `${url}?${querystring}`;
+  }
+  return url;
+};
+
+export const isHostPreprod = () => {
+  return serverHost.indexOf("3632") > -1
+          || serverHost.indexOf("3633") > -1
+          || serverHost.indexOf("13120") > -1
+          || serverHost.indexOf("35115") > -1;
+}
+
 //Get any parameter value from URL
 export const getParameterByName = (name)=>{
   try{
