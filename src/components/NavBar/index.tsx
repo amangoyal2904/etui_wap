@@ -7,9 +7,7 @@ import { MenuProps, MenuSecProps } from 'components/AppHeader/types';
 
 const NavBar: FC = () => {
 
-  const menuData: MenuProps = useAppSelector(selectMenu);
-
-  console.log(menuData);
+  const menuData: MenuProps = useAppSelector(selectMenu);  
 
   return (
    (()=> menuData ? <nav className={styles.navBar}>
