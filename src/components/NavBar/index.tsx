@@ -9,7 +9,7 @@ const NavBar: FC = () => {
   const menuData: MenuProps = store.data.searchResult[0];  
 
   return (
-   (()=> menuData ? <nav className={styles.navBar}>
+   menuData ? <nav className={styles.navBar}>
       <Link href={menuData?.url}>
         <a className={styles.active}>{menuData?.title}</a>
       </Link>
@@ -22,7 +22,7 @@ const NavBar: FC = () => {
         :
         <a key={i}>{item.title}</a>
       ))}
-    </nav>: null)()
+    </nav>: null
   );
 }
 
