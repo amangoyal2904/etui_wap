@@ -4,19 +4,8 @@ import Search from 'components/Search';
 import Link from 'next/link';
 import { FC, useState, useEffect } from 'react';
 import styles from './styles.module.scss';
-import {fetchMenu} from "Slices/appHeader"
+import { fetchMenu } from "Slices/appHeader"
 import { useDispatch, useSelector } from "react-redux";
-interface MenuSecProps {
-  title: string;
-  logo?: string;
-  msid?: number;
-  url?: string;
-  sec?: MenuSecProps[];
-}
-interface MenuProps {
-  logo: string;
-  sec: MenuSecProps[];
-}
 
 const Header: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -24,9 +13,9 @@ const Header: FC = () => {
 
   const dispatch = useDispatch();
   const store = useSelector(state => state.appHeader);
-    
+
   useEffect(() => {
-    dispatch(fetchMenu());       
+    dispatch(fetchMenu());
   }, [])
 
   return (
@@ -49,7 +38,7 @@ const Header: FC = () => {
             </Link>
           </div>
           <div className={styles.search}>
-            <span className={styles.searchIcon} onClick={()=>setIsSearchOverlayOpen(true)}></span>
+            <span className={styles.searchIcon} onClick={() => setIsSearchOverlayOpen(true)}></span>
           </div>
         </div>
         <div className={styles.ctas}>
@@ -60,8 +49,8 @@ const Header: FC = () => {
         {store.isFetchSuccess && <NavBar />}
 
       </header>
-      {store.isFetchSuccess && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}/>}
-      {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen}/>}
+      {store.isFetchSuccess && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />}
+      {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
     </>
   );
 }
