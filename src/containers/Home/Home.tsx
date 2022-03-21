@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from "./Home.module.scss";
 import DfpAds from 'components/Ad/DfpAds';
 import Colombia from 'components/Ad/Colombia';
-// import SampleListing from 'components/Listing';
+import SampleListing from 'components/Listing';
 import DynamicFooter from 'components/DynamicFooter';
 
 const Home: FC = () => {
@@ -52,7 +52,7 @@ const Home: FC = () => {
             <button data-ga-onclick="ET_Sale_PWA#ONClick#url">Click me for GA Events</button>
           </p>
         </div>
-        {/* <SampleListing /> */}
+        <SampleListing />
       </div>
       <DynamicFooter />
     </>
