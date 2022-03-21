@@ -12,7 +12,9 @@ const Header: FC = () => {
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const store = useSelector(state => state.appHeader);
+  const store = useSelector((state: any) => {     
+    return state.appHeader;
+  });
 
   useEffect(() => {
     dispatch(fetchMenu());
