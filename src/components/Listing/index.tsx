@@ -1,21 +1,24 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from "./styles.module.scss";
-import useRequest from 'network/service'
-import Loading from 'components/Loading';
+import Service from 'network/service';
+import APIS_CONFIG from "network/config.json";
 
 const SampleListing: FC = () => {
-    const { data, isLoading, error } = useRequest<{
-        searchResult: Array<Object>,
-        parameters: Object
-    }>({
-        url: "request",
-        params: { type: "plist", "msid": 2146843 }
-    })
-    if (isLoading) return <Loading />
-    if (error) return <div>Please try again!</div>
+  const [listData, setListData] = useState([]);
 
-    const listData = data?.searchResult?.[0]?.["data"] || [];
+    useEffect(()=>{
+      const url = APIS_CONFIG.REQUEST;
+      const params = { type: "plist", "msid": 2146843 };
+      Service.get(url, params)
+      .then(res => {
+        setListData(res.data?.searchResult?.[0]?.["data"]);
+      })
+      .catch(err => {
+        console.error(err.message);  
+      })
+    }, []);
+
     return (
         <ul className={styles.list}>
             {listData && listData.map(item => <li className={styles.list} key={item.msid}><Link href={item.url.replace("https://m.economictimes.com", "")}>{item.title}</Link></li>)}
