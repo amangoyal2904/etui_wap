@@ -15,7 +15,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState({});
   const ref = useRef<HTMLDivElement>();
 
-  const store = useSelector(state => state.appHeader);
+  const store = useSelector((state: any) => state.appHeader);
   const menuData: MenuProps = store.data.searchResult[0];
 
   useEffect(() => {
