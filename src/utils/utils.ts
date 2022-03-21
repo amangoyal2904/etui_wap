@@ -66,6 +66,8 @@ export const pageType = pathurl => {
     return "techhome";
   } else if (pathurl.indexOf("/topic/") != -1) {
     return "topic";
+  } else if (pathurl.indexOf("/videoshow/") != -1) {
+    return "videoshow";
   } else {
     return "articlelist";
   }

@@ -28,5 +28,24 @@
       padding: 0 0 5px;
       margin: 0 10px;
     }
+
+    &[href="/prime"]:before{
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: url($header-footer-sprite) no-repeat;
+      margin-right: 4px;
+      background-position: 0px -54px;
+      background-size: 1700%;
+      margin-bottom: -1px;
+    }
+    &[data-name="Elections 2022"]{
+      color: transparent; 
+      background: url(https://img.etimg.com/photo/msid-89657646,quality-100/budget_logo.jpg) no-repeat;
+      background-size: contain;
+      background-position: 0px 3px;
+      width: 88px;
+    }
   }
 }
