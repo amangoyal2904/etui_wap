@@ -4,7 +4,7 @@ import Service from 'network/service';
 import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
-  name: "AppHeader",
+  name: "appHeader",
   initialState: {
     data: [],
     isFetching: false,
@@ -33,15 +33,13 @@ const slice = createSlice({
       console.log("HYDRATE", action.payload);
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.appHeader,
       };
     },
   },
 });
 
 export default slice.reducer;
-
-//Actions
 
 const { success, loading, error } = slice.actions;
 
@@ -53,22 +51,9 @@ export const fetchMenu = () => async (dispatch) => {
   };
   Service.get(url, params)
   .then(res => {
-    // setData(res.data || {});
     dispatch(success(res.data));
   })
   .catch(err => {
-    console.error(err.message);
-    return err.message;
+    console.error(err.message);  
   })
-
-  // try {
-  //   dispatch(loading);
-  //   let res = await fetch(
-  //     `https://etpwaapi.economictimes.com/request?type=menu`
-  //   );
-  //   let data = await res.json();
-  //   dispatch(success(data));
-  // } catch (e) {
-  //   return console.error(e.message);
-  // }
 };
