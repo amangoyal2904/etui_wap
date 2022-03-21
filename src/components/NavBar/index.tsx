@@ -5,7 +5,7 @@ import { MenuProps, MenuSecProps } from 'components/AppHeader/types';
 import { useSelector } from 'react-redux'
 
 const NavBar: FC = () => {  
-  const store = useSelector(state => state.appHeader);
+  const store = useSelector((state: any) => state.appHeader);
   const menuData: MenuProps = store.data.searchResult[0];  
 
   return (
