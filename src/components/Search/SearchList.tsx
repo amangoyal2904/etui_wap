@@ -134,7 +134,7 @@ export default function SearchList(props) {
             <>
               <li className={styles.head}>
                 <span className='flt'>COMPANIES</span>
-                <a className='flr' target='_blank' href={`${domain}/currentquote.cms?ticker=${searchValue}`}>
+                <a className='flr' target='_blank' rel='noreferrer' href={`${domain}/currentquote.cms?ticker=${searchValue}`}>
                   more
                 </a>
                 <div className='clr'></div>
@@ -169,7 +169,7 @@ export default function SearchList(props) {
             <>
               <li className={styles.head} >
                 <span className='flt'>COMMODITY</span>
-                <a className='flr' target='_blank' href={`${domain}/commoditysearch.cms?query=${searchValue}`}>more</a>
+                <a className='flr' target='_blank' rel='noreferrer' href={`${domain}/commoditysearch.cms?query=${searchValue}`}>more</a>
                 <div className='clr'></div>
               </li>
               {displayCompanyData('cmdt')}
@@ -247,7 +247,7 @@ export default function SearchList(props) {
             <>
               <li className={styles.head}>
                 <span className='flt'>NEWS</span>
-                <a className='flr' target='_blank' href={`${domain}/topic/${escape(searchValue).replace("%20", "-")}`}>
+                <a className='flr' target='_blank' rel='noreferrer' href={`${domain}/topic/${escape(searchValue).replace("%20", "-")}`}>
                   more
                 </a>
                 <div className='clr'></div>
@@ -262,7 +262,7 @@ export default function SearchList(props) {
         <>
           {data.person && data.person.length > 0 && <li className={styles.head}>
             <span className='flt'>PEOPLE</span>
-            <a className='flr' target='_blank' href={`/panache/panache-people-101`}>
+            <a className='flr' target='_blank' rel='noreferrer' href={`/panache/panache-people-101`}>
               more
             </a>
             <div className='clr'>
@@ -277,7 +277,7 @@ export default function SearchList(props) {
           }
           {data.definitions && data.definitions.length > 0 && <li className={styles.head}>
             <span className='flt'>DEFINITIONS</span>
-            <a className='flr' target='_blank' href={`${domain}/definition/search/${searchValue}`}>
+            <a className='flr' target='_blank' rel='noreferrer' href={`${domain}/definition/search/${searchValue}`}>
               more
             </a>
             <div className='clr'>
