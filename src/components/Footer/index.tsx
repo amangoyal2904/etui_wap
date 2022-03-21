@@ -55,7 +55,7 @@ const Footer: FC = () => {
           }, 700);
           let st = window.pageYOffset || document.documentElement.scrollTop;
           if (st < lastScrollTop) {
-            const isMenuOpen = mainMenu?.getAttribute("is-open");
+            const isMenuOpen = mainMenu && mainMenu.getAttribute("is-open");
             if (isMenuOpen !== "true") {
               if (side == "up") {
                 footerHeight = 0;
@@ -218,33 +218,3 @@ const Footer: FC = () => {
 }
 
 export default Footer;
-
-interface MenuSecProps {
-  title: string;
-  logo?: string;
-  msid?: number;
-  url?: string;
-  sec?: MenuSecProps[];
-}
-interface MenuProps {
-  logo: string;
-  sec: MenuSecProps[];
-}
-
-export async function getServerSideProps(context) {
-  const { data, isLoading, error } = useRequest<{
-    searchResult: MenuProps,
-    parameters: Object
-  }>({
-    url: "request",
-    params: { type: "menu" }
-  });
-
-  console.log(data);
-
-  return {
-    props: {
-      data
-    }, // will be passed to the page component as props
-  }
-}
