@@ -21,7 +21,7 @@ const SampleListing: FC = () => {
 
     return (
         <ul className={styles.list}>
-            {listData && listData.map(item => <li className={styles.list} key={item.msid}><Link href={item.url.replace("https://m.economictimes.com", "")}>{item.title}</Link></li>)}
+            {listData && listData.map(item => <li className={styles.list} key={item.msid}><Link href={item.url.replace("https://m.economictimes.com", "")}><a>{item.title}</a></Link></li>)}
         </ul>
     )
 }
