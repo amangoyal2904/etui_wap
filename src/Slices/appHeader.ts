@@ -27,16 +27,7 @@ const slice = createSlice({
       state.isFetchError = true;
       state.data = [];
     },
-  },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      console.log("HYDRATE", action.payload);
-      return {
-        ...state,
-        ...action.payload.appHeader,
-      };
-    },
-  },
+  }
 });
 
 export default slice.reducer;
