@@ -1,0 +1,27 @@
+@import "ASSETS/Css/_variables.scss";
+
+.wContainer{
+	padding: 20px 16px;
+	font-family:$Montserrat-font-family;
+	.wTitle{
+		font-size: 25px;
+		font-weight: 800;
+		line-height: normal;
+  		letter-spacing: normal;
+	}
+	.wSubtitle{
+		font-size: 14px;
+		  font-weight: 400;
+		  margin-bottom: 10px;
+	}
+	.iconContainer{
+		display: flex;
+		img{
+			width: 34px;
+			height: 34px;
+			object-fit: contain;
+			margin-right: 9px;
+		}
+	}
+
+}

@@ -1,0 +1,20 @@
+@import "styles/variables.scss";
+
+.videoshow {
+  background: #ececec;
+
+  .wrap {
+    padding: 1rem;
+
+    .date {
+      color: #727272;
+      font-size: .95em;
+    }
+  }
+
+  h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.4rem;
+  }
+}
