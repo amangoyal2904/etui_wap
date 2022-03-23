@@ -1,27 +1,40 @@
-@import "ASSETS/Css/_variables.scss";
+.shareText {
+  font-weight: 600;
+  margin: 15px 0;
+}
 
-.wContainer{
-	padding: 20px 16px;
-	font-family:$Montserrat-font-family;
-	.wTitle{
-		font-size: 25px;
-		font-weight: 800;
-		line-height: normal;
-  		letter-spacing: normal;
-	}
-	.wSubtitle{
-		font-size: 14px;
-		  font-weight: 400;
-		  margin-bottom: 10px;
-	}
-	.iconContainer{
-		display: flex;
-		img{
-			width: 34px;
-			height: 34px;
-			object-fit: contain;
-			margin-right: 9px;
-		}
-	}
+.socialLinks {
+  span {
+    background: url("https://img.etimg.com/photo/msid-82825064,quality-100/common-sprite.jpg")
+      no-repeat;
+    width: 36px;
+    height: 36px;
+    background-size: 290px;
+    transform: scale(0.9, 0.9);
+    display: inline-block;
+    cursor: pointer;
 
+    &.wa {
+      background-position: -109px -564px;
+    }
+    &.fb {
+      background-position: -1px -564px;
+    }
+    &.twt {
+      background-position: -37px -564px;
+    }
+    &.in {
+      background-position: 0 -601px;
+    }
+    &.email {
+      background-position: -145px -564px;
+    }
+    &.sms {
+      background-position: -181px -564px;
+    }
+    &.bookmark {
+      background-position: 1px -527px;
+      float: right;
+    }
+  }
 }
