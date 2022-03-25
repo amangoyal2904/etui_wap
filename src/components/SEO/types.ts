@@ -35,12 +35,20 @@ export interface SEOProps {
       subsecname2?: string;
       subsec3?: number;
       subsecname3?: string;
-    };
+    },
     schemaType?: string;
     schemaMeta?: string;
-    seoschema?: object;
+    seoschema?: {
+      webPage?:object,
+      newsArticle?:object,
+      videoObject?:object
+    },
+    seoOrgImgUrl?:{
+      org_img?:string,
+      org_img_hin?:string
+    },
     breadcrumb?: {title: string; url: string;}[];
     seoListData?: {url: string; title: string; date: string; img: string;}[]; // needed for articlelist and topic
-  };
+  }
   page: string;
 }

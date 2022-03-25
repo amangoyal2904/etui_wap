@@ -117,8 +117,139 @@ const seoDate = (dateStr: string) => {
     return "";
   }
 }
+const webPageSchema = (data:any) =>{
+  let {name,url,description} = data;
+  
+  let _schema = {
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    name,
+    url,
+    description,
+    publisher:{
+      "@type": data.publisher.type,
+      "name": data.publisher.name,
+      "url":  data.publisher.url,
+      "logo":{
+        "@type": data.publisher.logo.type,
+        "url": data.publisher.logo.url
+      }
+    }
+  }
+  return _schema;
+}
+const newsArticleSchema = (data:any) =>{
+  let {inLanguage, keywords, headline,  description,datePublished, dateModified,name, url, mainEntityOfPage, articleSection, articleBody} = data
+  let _newsArticleSchema = {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    inLanguage,
+    keywords,
+    headline,
+    description,
+    datePublished,
+    dateModified,
+    name,
+    url,
+    mainEntityOfPage,
+    articleSection,
+    articleBody,
+    image: {
+      "@type": data.image.type,
+      url: data.image.url,
+      height: data.image.height,
+      width: data.image.width
+    },
+    author: {
+      "@type": data.author.type,
+      name: data.author.name
+    },				  
+    publisher: {
+      "@type": data.publisher.type,
+      name: data.publisher.name,
+      logo: {
+        "@type": data.publisher.logo.type,
+        url: data.publisher.logo.url,
+        width: data.publisher.logo.width,
+        height: data.publisher.logo.height
+      }
+    }
+  }
+  return _newsArticleSchema;
+}
+const organizationSchema = (_url:string)=>{
+  let _schema = {
+    "@context" : "http://schema.org",
+    "@type": "NewsMediaOrganization",
+    name: "Economic Times",
+    url : "https://economictimes.indiatimes.com/",
+    logo:{
+      "@type": "ImageObject",
+      url: _url,
+      width:600,
+      height:60
+    }
+  }
+  return _schema
+}
+const videoObjectSchema = (data:any)=>{
+  const {thumbnailUrl,uploadDate,datePublished,dateModified, name,description,keywords,inLanguage, contentUrl, duration} = data;
+  let _schema = {
+    "@context" : "http://schema.org",
+    "@type": "VideoObject",
+    thumbnailUrl,
+    uploadDate ,
+    datePublished ,
+    dateModified ,
+    name,
+    description,
+    keywords,
+    inLanguage,
+    contentUrl,
+    duration,
+    publisher:{
+      "@type":"Organization",
+      name:data.publisher.name,
+      logo:{
+        "@type":"ImageObject",
+        url:data.publisher.logo.url,
+        width:data.publisher.logo.width,
+        height:data.publisher.logo.height
+      }
+    },
+    image:{
+      "@type":"ImageObject",
+      url:data.image.url,
+      width:data.image.width,
+      height:data.image.height
+    }
+  }
+  return _schema
+}
+const breadcrumbSchema = (data:any)=>{
+  const itemListArr = [];
+    data.forEach((d, index) => {
+      if (d && d.url) {
+        itemListArr.push({
+          "@type": "ListItem",
+          position: `${index + 1}`,
+          name: `${d.title}`,
+          item: {
+            "@id": `${d.url}`
+          }
+        })
+      }
+    });
+    const schema = {
+      "@context": "http://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: itemListArr
+    };
+    return schema;
+}
 
 const Schema: NextPage<SEOProps> = ({data, page}) => {
+  console.log('schema data', data.seoschema)
 
   let { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};  
@@ -220,25 +351,6 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
     if (seoschema && Array.isArray(schema)) {
       schema.push(seoschema);
     }
-  } else if (schemaType == "breadcrumb" && Array.isArray(data) && data.length > 0) {
-    const itemListArr = [];
-    data.forEach((d, index) => {
-      if (d && d.url) {
-        itemListArr.push({
-          "@type": "ListItem",
-          position: `${index + 1}`,
-          name: `${d.title}`,
-          item: {
-            "@id": `${d.url}`
-          }
-        })
-      }
-    });
-    schema = {
-      "@context": "http://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: itemListArr
-    };
   } else if (schemaType == "articlelist" || schemaType == "topic") {
     let mapdata = (data.seoListData && ((schemaType == "topic") ? data.seoListData.slice(0, 20) : data.seoListData.slice(0, 10))) || [];
     const itemListArr = mapdata.map((item, index) => {
@@ -347,18 +459,28 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
         }
       );
     }
+  }else if(schemaType == "videoshow"){
+    //Array.isArray(data) && data.length > 0
+    const _breadcrumbSchema = Array.isArray(data.breadcrumb) && data.breadcrumb.length > 0  ? breadcrumbSchema(data.breadcrumb) : null;
+    const _logoImgUrl = data.seoOrgImgUrl.org_img
+    const _webPageSchema = data.seoschema.webPage ? webPageSchema(data.seoschema.webPage) : null 
+    const _newsArticleSchema = data.seoschema.newsArticle ?  newsArticleSchema(data.seoschema.newsArticle) : null
+    const  _organizationSchema = _logoImgUrl && _logoImgUrl !== '' ? organizationSchema(_logoImgUrl) : null
+    const _videoObjectSchema = data.seoschema.videoObject ? videoObjectSchema(data.seoschema.videoObject) : null;
+    schema = [_webPageSchema, _newsArticleSchema, _organizationSchema, _videoObjectSchema,_breadcrumbSchema]
+    //data.seoschema
   }
 
   return (
     <>
-      {schemaData && (
+      {/* {schemaData && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(schemaData)
           }}
         />
-      )}
+      )} */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
