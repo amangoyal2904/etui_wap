@@ -1,13 +1,12 @@
 @import "styles/variables.scss";
-.drawer{
+
+.drawer {
   font-family: $Montserrat-font-family;
   transition: all 0.3s ease-out;
   position: fixed;
-  z-index: 4;
+  z-index: 999;
   bottom: 45px;
   top: 0;
-  display: none;
-  // left: -100%;
   width: 80%;
   height: 100%;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
@@ -19,6 +18,11 @@
   line-height: 40px;
   max-width: 1024px;
   margin: 0 auto;
+  display: none;
+
+  &.isOpen {
+    display: block;
+  }
 
   .menuWrap {
     padding: 20px;
@@ -30,8 +34,7 @@
     margin: 0;
 
     li {
-      display: block;     
-      font-weight: 600; 
+      font-weight: 600;
 
       .rArr {
         background: url($header-footer-sprite);
@@ -49,20 +52,53 @@
           font-weight: 400;
           font-size: 16px;
         }
+
+        [data-more] {
+          color: #ed1a3b;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 50px;
+          cursor: pointer;
+          text-transform: uppercase;
+        }
+
+        .bold {
+          font-weight: 600;
+        }
+
+        .rDown {
+          background: url($header-footer-sprite);
+          background-position: -144px -39px;
+          background-repeat: no-repeat;
+          margin-top: 15px;
+          height: 13px;
+          width: 23px;
+          background-size: 198px;
+          float: right;
+          margin-left: 10px;
+        }
+
+        .rUp {
+          background: url($header-footer-sprite);
+          background-position: -144px -23px;
+          background-repeat: no-repeat;
+          margin-top: 15px;
+          height: 13px;
+          width: 23px;
+          background-size: 198px;
+          float: right;
+        }
+
+        .submenu {
+          padding-left: 20px;
+        }
       }
 
       &.oneDotBdr {
-        // background: url($dbline-img-path);
-        // height: 2px;
-        // width: 100%;
-        // clear: both;
-        // background-size: 2px;
-        // border-bottom: 0;
         border-bottom: 1px dotted #ccc;
       }
     }
   }
-  
 }
 
 .isOpen {
@@ -80,6 +116,7 @@
   padding: 20px 20px;
   background-color: #f6f6f6;
   border: solid 1px #e6e6e6;
+
   .userName {
     float: left;
     line-height: 1.31em;
@@ -92,6 +129,7 @@
       display: block;
     }
   }
+
   .signIn {
     float: right;
     font-size: 13px;
@@ -110,5 +148,8 @@
       display: inline-block;
     }
   }
-  
+}
+
+.hidden {
+  display: none;
 }
