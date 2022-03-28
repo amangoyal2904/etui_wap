@@ -39,7 +39,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({pa
   if(page == 'articleshow') {
     await store.dispatch(fetchArticle(lastUrlComponent.split(".cms")[0]));
   } else if(page == 'videoshow') {
-    let url = 'https://etdev8243.indiatimes.com/reactfeed.cms?feedtype=etjson&type=videoshow&msid=90067526&platform=wap';
+    let url = 'https://etdev8243.indiatimes.com/reactfeed.cms?feedtype=etjson&type=videoshow&msid=90484977&platform=wap';
 		// const { data } = await Service.get(url);
     let res = await fetch(url);
     data = await res.json();
