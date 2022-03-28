@@ -13,8 +13,8 @@ import { useDispatch } from 'react-redux';
 import { setNavBarStatus } from 'Slices/appHeader';
 
 interface PageProps {
-  query: string | string[],
-  data: any
+  query: string | string[];
+  data: any;
 }
 
 const VideoShow: NextPage<PageProps> = ({ query, data }) => {
@@ -57,7 +57,7 @@ const VideoShow: NextPage<PageProps> = ({ query, data }) => {
         <h2>{otherVids.title}</h2>
         <div className={styles.vidsSlider}>
           <ul>
-            {otherVids.data.map(item => (
+            {otherVids.data.map((item) => (
               <li>
                 <Link href={item.url}>
                   <a>

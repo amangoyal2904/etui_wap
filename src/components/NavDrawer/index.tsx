@@ -23,21 +23,21 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setIsDrawerOpen(false);
       }
-    }
+    };
 
     document.addEventListener('mousedown', checkIfClickedOutside);
 
     return () => {
       //clean up
       document.removeEventListener('mousedown', checkIfClickedOutside);
-    }
+    };
   }, []);
 
   const showMore = (i: string) => {
     setIsSiblingsOpen((prev) => {
       return { ...prev, [i]: true };
     });
-  }
+  };
 
   const showSubmenu = (i: string) => {
     setIsSubmenuOpen((prev) => {
