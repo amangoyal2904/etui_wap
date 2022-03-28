@@ -10,6 +10,7 @@ const slice = createSlice({
     isFetching: false,
     isFetchError: false,
     isFetchSuccess: false,
+    isNavBar: true,
   },
   reducers: {
     success: (state, action) => {
@@ -27,12 +28,15 @@ const slice = createSlice({
       state.isFetchError = true;
       state.data = [];
     },
+    setNavBarStatus: (state, action) =>{
+      state.isNavBar =  action.payload;
+    }
   }
 });
 
 export default slice.reducer;
 
-const { success, loading, error } = slice.actions;
+export const { success, loading, error, setNavBarStatus } = slice.actions;
 
 export const fetchMenu = () => async (dispatch) => {
   dispatch(loading);
