@@ -475,14 +475,14 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
 
   return (
     <>
-      {/* {schemaData && (
+      {schemaData && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(schemaData)
           }}
         />
-      )} */}
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema)}}
