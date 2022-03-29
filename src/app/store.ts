@@ -4,10 +4,14 @@ import {createWrapper} from 'next-redux-wrapper';
 
 import article from 'Slices/article';
 import appHeader from 'Slices/appHeader';
+import footer from 'Slices/footer';
+import common from 'Slices/common';
 
 const reducer = combineReducers({
+  common,
   article,
-  appHeader
+  appHeader,
+  footer  
 })
 const makeStore = () =>
     configureStore({

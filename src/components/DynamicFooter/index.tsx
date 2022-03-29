@@ -1,8 +1,9 @@
-
-import styles from './styles.module.scss';
-import { FC, useState } from 'react';
-import GreyDivider from 'components/GreyDivider';
+import styles from "./styles.module.scss";
+import { FC, useState } from "react";
+import GreyDivider from "components/GreyDivider";
 import { ET_WAP_URL } from "../../utils/common";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 declare global {
   interface Window {
     __isBrowser__: any;
@@ -10,7 +11,7 @@ declare global {
     objAuth: any;
   }
 }
-declare module 'react' {
+declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
     // extends React's HTMLAttributes
     displaytype?: string;
@@ -21,16 +22,22 @@ const DynamicFooter: FC = () => {
   let hide_footer = false;
   const _html = [];
   let paymentButtonListener = () => {
-    let paymentUrl = '';
+    let paymentUrl = "";
     window.location.href = paymentUrl;
-  }
+  };
   let showPersonalizedlink = () => {
-    if (typeof(window) !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
+    if (
+      typeof window !== "undefined" &&
+      window.__isBrowser__ &&
+      !window.gdprCheck()
+    ) {
       return (
         <div id="personalized">
           |
           <a
-            href="https://www.colombiaonline.com/site_policy.html" target='_blank' rel='nofollow noreferrer'
+            href="https://www.colombiaonline.com/site_policy.html"
+            target="_blank"
+            rel="nofollow noreferrer"
             className={`${styles.policyTerm} ${styles.withPadding}`}
           >
             Opt- out of personalized ads
@@ -49,12 +56,17 @@ const DynamicFooter: FC = () => {
     }
   };
   let downloadSection = (isSubscribed = false) => {
-    let subscriptionurl = (typeof(window) != 'undefined' && window.objAuth && window.objAuth.planPage) || 'https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution';
+    let subscriptionurl =
+      (typeof window != "undefined" &&
+        window.objAuth &&
+        window.objAuth.planPage) ||
+      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";
     return (
       <div className={styles.downloadSection} key="downloadSec">
-        <div className={styles.row} displaytype="GDPR" >
+        <div className={styles.row} displaytype="GDPR">
           <h3>download et app</h3>
-          <a className={styles.appstore_parent}
+          <a
+            className={styles.appstore_parent}
             href="http://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
             target="_blank"
             rel="noopener nofollow noreferrer"
@@ -113,23 +125,24 @@ const DynamicFooter: FC = () => {
             ></a>
           </div>
         </div>
-        {
-          !isSubscribed &&  <div className={styles.row}>
+        {!isSubscribed && (
+          <div className={styles.row}>
             <a
-                onClick={(e) => {fireGAEvent(e);paymentButtonListener()}}
-                data-action="Footer"
-                data-label="PWA Footer Prime Click"
-                data-url=""
-                data-link="Prime Distribution - PWA"
-                rel="noopener"
+              onClick={(e) => {
+                fireGAEvent(e);
+                paymentButtonListener();
+              }}
+              data-action="Footer"
+              data-label="PWA Footer Prime Click"
+              data-url=""
+              data-link="Prime Distribution - PWA"
+              rel="noopener"
             >
               <span className={styles.primeLogo} />
-              <h4>
-                become a member
-              </h4>
+              <h4>become a member</h4>
             </a>
           </div>
-        }
+        )}
         <div className={styles.row}>
           <a
             href="https://m.economictimes.com/termsofuse.cms"
@@ -152,7 +165,7 @@ const DynamicFooter: FC = () => {
             >
               Privacy Policy
             </a>
-            { 
+            {
               <>
                 |
                 <a
@@ -176,7 +189,43 @@ const DynamicFooter: FC = () => {
       </div>
     );
   };
-  let fireGAEvent = e => {
+
+  const Interlinking = () => {
+    const store = useSelector((state: any) => {
+      return state.footer;
+    });
+
+    let interLinkingData = store.data?.widgets;
+    const interLinkingList = interLinkingData?.map((i, index) => (
+      <div
+        data-attr="interlinking"
+        className={styles.category}
+        key={`${index}_inkl`}
+      >
+        {interLinkingData[index]["data"] && (
+          <h2>{interLinkingData[index].title}</h2>
+        )}
+
+        <ul className={styles.content}>
+          {interLinkingData[index]["data"]?.map((item, index) => {
+            return (
+              <li>
+                <Link href={item.url} key={`${index}_inkd`}>
+                  <a className="ellipsis">{item.title}</a>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ));
+    return (
+      <>
+        <div className={styles.dynamicCategories}>{interLinkingList}</div>
+      </>
+    );
+  };
+  let fireGAEvent = (e) => {
     const { action, label, url, link } = e.currentTarget.dataset;
     const category = link;
     let footerLink = "";
@@ -189,18 +238,17 @@ const DynamicFooter: FC = () => {
     window.ga(category, action, eventLabel);
   };
   return (
-    <div id="footer" className={hide_footer ? styles.hide_footer : ''}>
+    <div id="footer" className={hide_footer ? styles.hide_footer : ""}>
       {/* {breadCrumbHeading && <h1 className={styles.breadCrumbHeading}>{ breadCrumbHeading }</h1>}
       {breadCrumb} */}
       <div className={styles.dynamicContainer}>
-        <GreyDivider/>
-        {
-          downloadSection()
-        }
+        <GreyDivider />
+        {Interlinking()}
+        {downloadSection()}
         {_html}
       </div>
     </div>
   );
-}
+};
 
 export default DynamicFooter;

@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import Service from 'network/service';
-import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
-  name: "appHeader",
+  name: "footer",
   initialState: {
     data: [],
     isFetching: false,
@@ -28,23 +26,25 @@ const slice = createSlice({
       state.data = [];
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      console.log("HYDRATE", action.payload);
+      return {
+        ...state,
+        ...action.payload.footer,
+      };
+    },
+  },
 });
 
 export default slice.reducer;
 
 const { success, loading, error } = slice.actions;
 
-export const fetchMenu = () => async (dispatch) => {
+export const fetchFooter = (subsec1) => async (dispatch) => {
   dispatch(loading);
-  let url = APIS_CONFIG.REQUEST;
-  let params = {
-    type: "menu",
-  };
-  Service.get(url, params)
-  .then(res => {
-    dispatch(success(res.data));
-  })
-  .catch(err => {
-    console.error(err.message);  
-  })
+  let url = `https://economictimes.indiatimes.com/pwa_footer_feed.cms?feedtype=etjson&subsec1=${subsec1}`;
+  let res = await fetch(url);
+  let data = await res.json();
+  dispatch(success(data));
 };
