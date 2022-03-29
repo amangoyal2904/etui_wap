@@ -9,11 +9,7 @@ interface PageProps {
 }
 
 const VideoShow: NextPage<PageProps> = ({ query, data }) => {
-  const _seoOrgImgUrl = data.common_config.seo;
-  let seoData = data.seo;
-      seoData.seoOrgImgUrl = _seoOrgImgUrl;
-      
-  //console.log('data', data.searchResult[2].data)
+  const seoData = {...data.seo,  ...data.common_config.seo};
   return (
     <div className={styles.header}>
       <h1>Video Show</h1>

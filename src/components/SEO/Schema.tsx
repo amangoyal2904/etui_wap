@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { PAGE_TYPE, SiteConfig } from "utils/common";
 import { removeBackSlash } from "utils/utils";
-import { SEOProps } from "./types";
+import { SEOProps, WebPageSchemaProps, NewsArticleSchemaProps, VideoObjectSchemaProps } from "./types";
 
 const itemList = (schemaType: string) => {
   return schemaType == PAGE_TYPE.articlelist
@@ -117,30 +117,31 @@ const seoDate = (dateStr: string) => {
     return "";
   }
 }
-const webPageSchema = (data:any) =>{
-  let {name,url,description} = data;
-  
-  let _schema = {
+const webPageSchema = (data:WebPageSchemaProps) =>{
+  const {name, url, description} = data;
+  const publisherData = data.publisher;
+  const _schema = {
     "@context": "http://schema.org",
     "@type": "WebPage",
     name,
     url,
     description,
     publisher:{
-      "@type": data.publisher.type,
-      "name": data.publisher.name,
-      "url":  data.publisher.url,
-      "logo":{
-        "@type": data.publisher.logo.type,
-        "url": data.publisher.logo.url
+      "@type": publisherData.type,
+      name: publisherData.name,
+      url:  publisherData.url,
+      logo: {
+        "@type": publisherData.logo.type,
+        url: publisherData.logo.url
       }
     }
   }
   return _schema;
 }
-const newsArticleSchema = (data:any) =>{
-  let {inLanguage, keywords, headline,  description,datePublished, dateModified,name, url, mainEntityOfPage, articleSection, articleBody} = data
-  let _newsArticleSchema = {
+const newsArticleSchema = (data:NewsArticleSchemaProps) =>{
+  const {inLanguage, keywords, headline,  description, datePublished, dateModified, name, url, mainEntityOfPage, articleSection, articleBody} = data;
+  const publisherData = data.publisher;
+  const _schema = {
     "@context": "http://schema.org",
     "@type": "NewsArticle",
     inLanguage,
@@ -165,42 +166,43 @@ const newsArticleSchema = (data:any) =>{
       name: data.author.name
     },				  
     publisher: {
-      "@type": data.publisher.type,
-      name: data.publisher.name,
+      "@type": publisherData.type,
+      name: publisherData.name,
       logo: {
-        "@type": data.publisher.logo.type,
-        url: data.publisher.logo.url,
-        width: data.publisher.logo.width,
-        height: data.publisher.logo.height
+        "@type": publisherData.logo.type,
+        url: publisherData.logo.url,
+        width: publisherData.logo.width,
+        height: publisherData.logo.height
       }
     }
   }
-  return _newsArticleSchema;
+  return _schema;
 }
-const organizationSchema = (_url:string)=>{
-  let _schema = {
+const organizationSchema = (url:string)=>{
+  const _schema = {
     "@context" : "http://schema.org",
-    "@type": "NewsMediaOrganization",
-    name: "Economic Times",
+    "@type" : "NewsMediaOrganization",
+    name : "Economic Times",
     url : "https://economictimes.indiatimes.com/",
-    logo:{
-      "@type": "ImageObject",
-      url: _url,
+    logo : {
+      "@type" : "ImageObject",
+      url,
       width:600,
       height:60
     }
   }
   return _schema
 }
-const videoObjectSchema = (data:any)=>{
-  const {thumbnailUrl,uploadDate,datePublished,dateModified, name,description,keywords,inLanguage, contentUrl, duration} = data;
-  let _schema = {
+const videoObjectSchema = (data:VideoObjectSchemaProps)=>{
+  const {thumbnailUrl, uploadDate, datePublished, dateModified, name, description, keywords, inLanguage, contentUrl, duration} = data;
+  const publisherData = data.publisher;
+  const _schema = {
     "@context" : "http://schema.org",
     "@type": "VideoObject",
     thumbnailUrl,
-    uploadDate ,
-    datePublished ,
-    dateModified ,
+    uploadDate,
+    datePublished,
+    dateModified,
     name,
     description,
     keywords,
@@ -209,12 +211,12 @@ const videoObjectSchema = (data:any)=>{
     duration,
     publisher:{
       "@type":"Organization",
-      name:data.publisher.name,
+      name:publisherData.name,
       logo:{
         "@type":"ImageObject",
-        url:data.publisher.logo.url,
-        width:data.publisher.logo.width,
-        height:data.publisher.logo.height
+        url:publisherData.logo.url,
+        width:publisherData.logo.width,
+        height:publisherData.logo.height
       }
     },
     image:{
@@ -250,8 +252,8 @@ const breadcrumbSchema = (data:any)=>{
 
 const Schema: NextPage<SEOProps> = ({data, page}) => {
   console.log('schema data', data.seoschema)
-
-  let { schemaType, behindLogin, isPrime, subsecnames } = data;
+  const pageType = data.page || '';
+  const { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};  
 
   let schema: object | string[] = {};
@@ -297,7 +299,7 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
     }
   }
 
-  if (schemaType == "articleshow") {
+  if (pageType == "articleshow") {
     let subsecname2 = (subsecnames && subsecnames.subsecname2) || '';
     let type = (subsecname2 == 'Interviews') ? 'ReportageNewsArticle' : (subsecname2 == 'Analysis' ? 'AnalysisNewsArticle' : "NewsArticle");
     schema = [
@@ -351,7 +353,7 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
     if (seoschema && Array.isArray(schema)) {
       schema.push(seoschema);
     }
-  } else if (schemaType == "articlelist" || schemaType == "topic") {
+  } else if (pageType == "articlelist" || pageType == "topic") {
     let mapdata = (data.seoListData && ((schemaType == "topic") ? data.seoListData.slice(0, 20) : data.seoListData.slice(0, 10))) || [];
     const itemListArr = mapdata.map((item, index) => {
       // console.log("data", index, item.title, item.url);
@@ -459,15 +461,15 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
         }
       );
     }
-  }else if(schemaType == "videoshow"){
+  }else if(pageType == "videoshow"){
     //Array.isArray(data) && data.length > 0
     const _breadcrumbSchema = Array.isArray(data.breadcrumb) && data.breadcrumb.length > 0  ? breadcrumbSchema(data.breadcrumb) : null;
-    const _logoImgUrl = data.seoOrgImgUrl.org_img
+    const _logoImgUrl = data.org_img || '';
     const _webPageSchema = data.seoschema.webPage ? webPageSchema(data.seoschema.webPage) : null 
     const _newsArticleSchema = data.seoschema.newsArticle ?  newsArticleSchema(data.seoschema.newsArticle) : null
     const  _organizationSchema = _logoImgUrl && _logoImgUrl !== '' ? organizationSchema(_logoImgUrl) : null
     const _videoObjectSchema = data.seoschema.videoObject ? videoObjectSchema(data.seoschema.videoObject) : null;
-    schema = [_webPageSchema, _newsArticleSchema, _organizationSchema, _videoObjectSchema,_breadcrumbSchema]
+    schema = [_breadcrumbSchema, _webPageSchema, _newsArticleSchema, _organizationSchema, _videoObjectSchema]
     //data.seoschema
   }
 
@@ -483,7 +485,7 @@ const Schema: NextPage<SEOProps> = ({data, page}) => {
       )} */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema)}}
       />
     </>
   );
