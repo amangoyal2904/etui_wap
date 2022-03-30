@@ -34,8 +34,9 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
   }, []);
 
   const handleClick = (e) => {
-    // e.preventDefault();
-    setIsDrawerOpen(false);
+    if (e.target.tagName.toLowerCase() === 'a') {
+      setIsDrawerOpen(false);
+    }
   };
 
   const showMore = (i: string) => {
@@ -52,7 +53,6 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
 
   const getMenu = (data: MenuProps, level: number, index: number | string) => {
     const r = data.sec.map((item, i) => {
-      console.log('getMenu::', item);
       return <React.Fragment key={level + '_' + i}>
         <li className={(level === 1 && i > 3 && !isSiblingsOpen[level + '_' + index]) ? styles.hidden : ''}>
           {makeLink(item, level, index, i)}
@@ -74,7 +74,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
 
     return (
       <Link href={data.shorturl ? data.shorturl : data.url}>
-        <a onClick={handleClick} className={isSubmenuOpen[level + '_' + iOuter + '_' + iInner] ? styles.bold : ''}>
+        <a className={isSubmenuOpen[level + '_' + iOuter + '_' + iInner] ? styles.bold : ''}>
           {data.title} {level === 0 && <span className={styles.rArr}></span>}
         </a>
       </Link>
@@ -93,10 +93,10 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
         </div>
       </div>
       <div className={styles.menuWrap}>
-        <ul>
+        <ul onClick={handleClick}>
           <li>
             <Link href={menuData.url}>
-              <a onClick={handleClick}>{menuData.title}</a>
+              <a>{menuData.title}</a>
             </Link>
           </li>
           <li className={styles.oneDotBdr}></li>
