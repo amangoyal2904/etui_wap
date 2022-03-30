@@ -11,6 +11,7 @@ import DfpAds from 'components/Ad/DfpAds';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNavBarStatus } from 'Slices/appHeader';
+import AppDownloadWidget from 'components/AppDownloadWidget';
 
 interface PageProps {
   query: string | string[];
@@ -34,7 +35,7 @@ const VideoShow: NextPage<PageProps> = ({ query, data }) => {
   return (
     <>
       <div className={`${styles.mrecContainer} adContainer`}>
-      <DfpAds adInfo={{ "key": "mrec3" }} />
+        <DfpAds adInfo={{ "key": "mrec3" }} />
       </div>
       <div className={styles.videoshow}>
         <VideoEmbed url={result.iframeUrl} />
@@ -76,7 +77,7 @@ const VideoShow: NextPage<PageProps> = ({ query, data }) => {
           </ul>
         </div>
       </div>
-
+      <AppDownloadWidget tpName='videoShow' />
       <DynamicFooter />
     </>
   );
