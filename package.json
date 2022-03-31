@@ -51,8 +51,10 @@
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": [
+      "npx eslint ./ --fix",
       "pretty-quick --staged",
-      "jest --passWithNoTests"
+      "jest --passWithNoTests",
+      "next build ./"
     ]
   }
 }
