@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import Service from 'network/service';
+import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
@@ -9,7 +9,7 @@ const slice = createSlice({
     data: [],
     isFetching: false,
     isFetchError: false,
-    isFetchSuccess: false,
+    isFetchSuccess: false
   },
   reducers: {
     success: (state, action) => {
@@ -26,17 +26,17 @@ const slice = createSlice({
       state.isFetching = false;
       state.isFetchError = true;
       state.data = [];
-    },
+    }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       console.log("HYDRATE", action.payload);
       return {
         ...state,
-        ...action.payload.appHeader,
+        ...action.payload.appHeader
       };
-    },
-  },
+    }
+  }
 });
 
 export default slice.reducer;
@@ -45,15 +45,15 @@ const { success, loading, error } = slice.actions;
 
 export const fetchMenu = () => async (dispatch) => {
   dispatch(loading);
-  let url = APIS_CONFIG.REQUEST;
-  let params = {
-    type: "menu",
+  const url = APIS_CONFIG.REQUEST;
+  const params = {
+    type: "menu"
   };
   Service.get(url, params)
-  .then(res => {
-    dispatch(success(res.data));
-  })
-  .catch(err => {
-    console.error(err.message);  
-  })
+    .then((res) => {
+      dispatch(success(res.data));
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
 };

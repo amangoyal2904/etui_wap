@@ -1,6 +1,4 @@
 {
-    "cSpell.words": [
-        "articleshow",
-        "primearticleshow"
-    ]
+  "cSpell.words": ["articleshow", "primearticleshow"],
+  "editor.formatOnPaste": true
 }
