@@ -34,7 +34,6 @@ interface VideoShowProps {
   date: string;
 }
 interface PageProps {
-  query: string | string[];
   data: {
     searchResult: [
       {
@@ -50,7 +49,7 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
   // const result:VideoShowProps  = data.searchResult[0].data;
   // const otherVids = data.searchResult.find(
   //   (item) => item.name === 'other_videos'
-  // );
+  // );  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
@@ -66,12 +65,12 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
       {data.searchResult.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          <>
+          console.log(result);
+          return <>
             <div className={styles.videoshow}>
               <VideoEmbed url={result.iframeUrl} />
 
               <div className={styles.wrap}>
-                <h1>hey check</h1>
                 <h1>{result.title}</h1>
                 <div>
                   <p>{result.synopsis}</p>
@@ -88,7 +87,7 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
         } else if (item.name === "other_videos") {
           const otherVids = item as OtherVidsProps;
 
-          <>
+          return <>
             <div className={styles.otherVids}>
               <h2>{otherVids.title}</h2>
               <div className={styles.vidsSlider}>

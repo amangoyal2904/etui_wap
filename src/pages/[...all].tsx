@@ -15,7 +15,7 @@ export default function All(props) {
   if (props.page && props.page == "articleshow") {
     return <ArticleShow query={all} data={storeState.article} />;
   } else if (props.page && props.page == "videoshow") {
-    return <VideoShow query={all} data={props.data} />;
+    return <VideoShow data={props.data} />;
   } else {
     return <ArticleList query={all} />;
   }
