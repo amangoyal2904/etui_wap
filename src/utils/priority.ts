@@ -1,7 +1,7 @@
-import * as ga from './ga';
+import * as ga from "./ga";
 declare global {
-  interface Window { 
-    adDivIds: any;
+  interface Window {
+    adDivIds: string[];
   }
 }
 export function InitialJsOnAppLoad(): void {
@@ -9,7 +9,7 @@ export function InitialJsOnAppLoad(): void {
   try {
     window["arrPageAds"] = [];
     window.adDivIds = [];
-    document.addEventListener('gaLoaded', ()=> {
+    document.addEventListener("gaLoaded", () => {
       ga.gaObserverInit();
     });
     ga.growthRxInit();

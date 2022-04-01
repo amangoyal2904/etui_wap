@@ -1,11 +1,14 @@
-import { NextPage } from "next";
-import styles from './styles.module.scss';
+import { FC } from "react";
+import styles from "./styles.module.scss";
 
-const VideoEmbed: NextPage<any> = (props) => {
+interface VideoEmbedProps {
+  url: string;
+}
+const VideoEmbed: FC<VideoEmbedProps> = ({ url }) => {
   return (
     <>
       <div>
-        <iframe className={styles.style1} src='https://m.economictimes.com/videodash.cms?autostart=1&msid=90200064' />
+        <iframe className={styles.style1} src={url} />
       </div>
     </>
   );

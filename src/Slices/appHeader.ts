@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import Service from 'network/service';
+import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
@@ -10,7 +9,7 @@ const slice = createSlice({
     isFetching: false,
     isFetchError: false,
     isFetchSuccess: false,
-    isNavBar: true,
+    isNavBar: true
   },
   reducers: {
     success: (state, action) => {
@@ -28,8 +27,8 @@ const slice = createSlice({
       state.isFetchError = true;
       state.data = [];
     },
-    setNavBarStatus: (state, action) =>{
-      state.isNavBar =  action.payload;
+    setNavBarStatus: (state, action) => {
+      state.isNavBar = action.payload;
     }
   }
 });
@@ -40,15 +39,15 @@ export const { success, loading, error, setNavBarStatus } = slice.actions;
 
 export const fetchMenu = () => async (dispatch) => {
   dispatch(loading);
-  let url = APIS_CONFIG.REQUEST;
-  let params = {
-    type: "menu",
+  const url = APIS_CONFIG.REQUEST;
+  const params = {
+    type: "menu"
   };
   Service.get(url, params)
-  .then(res => {
-    dispatch(success(res.data));
-  })
-  .catch(err => {
-    console.error(err.message);  
-  })
+    .then((res) => {
+      dispatch(success(res.data));
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
 };
