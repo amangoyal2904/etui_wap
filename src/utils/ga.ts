@@ -1,21 +1,26 @@
 import * as Config from './common';
+import * as utils from './utils';
+import config from '../../jest.config';
+
 declare global {
   interface Window { 
     updateGAObserver: any;
     ga: any;
     grxEvent: any;
     grx: any;
+    gtag: any;
+    dataLayer: [];
     customDimension: any;
   }
 }
-export const pageview = (url) => {
-    // window['gtag']('config', Config.GA.GTM_KEY, {
-    //     page_path: url,
-    // });
+export const pageview = (url) => { 
+    window['gtag']('config', Config.GA.GTM_KEY, {
+        page_path: url,
+    });
 }
 
 export const event = ({ action, params }) => {
-    // window['gtag']('event', action, params)
+    window['gtag']('event', action, params)
 }
 
 export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
@@ -96,10 +101,20 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
   }
 }
 
+/* export const GTMInit = () => {
+  utils.loadAssets("https://www.googletagmanager.com/gtag/js?id=AW-1012951608", 'js', 'defer', "head", function(){
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){
+        window.dataLayer.push(arguments);
+      }
+      gtag('js', new Date());  
+      gtag('config', Config.GA.GTM_ID);
+  });
+} */
 export const growthRxInit = () => {
     (function (g, r, o, w, t, h, rx) {
         g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
-        }, g[t].l = 1 * +(new Date());
+        }, g[t].l = 1 * (+new Date());
         g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
         h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
     })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
