@@ -5,7 +5,9 @@ import APIS_CONFIG from "network/config.json";
 const slice = createSlice({
   name: "appHeader",
   initialState: {
-    data: [],
+    data: {
+      searchResult: []
+    },
     isFetching: false,
     isFetchError: false,
     isFetchSuccess: false,
@@ -20,12 +22,12 @@ const slice = createSlice({
     loading: (state) => {
       state.isFetching = true;
       state.isFetchError = false;
-      state.data = [];
+      // state.data = [];
     },
     error: (state) => {
       state.isFetching = false;
       state.isFetchError = true;
-      state.data = [];
+      // state.data = [];
     },
     setNavBarStatus: (state, action) => {
       state.isNavBar = action.payload;

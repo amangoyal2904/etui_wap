@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect } from "react";
 
 interface Props {
-  adInfo?: object;
+  adInfo?: { key: string };
 }
 declare global {
   interface Window {
@@ -20,10 +20,19 @@ declare global {
     spcKeyword: string;
   }
 }
+interface adInfo {
+  key: string;
+  index?: number;
+  currMsid?: number;
+  customSlot?: number;
+  customDimension?: string;
+}
 
 const DfpAds: NextPage<Props> = function (props) {
-  const adInfo: any = props.adInfo;
+  const adInfo: adInfo = props.adInfo;
+  console.log("dfp1", props.adInfo);
   const { key, index = 0 } = adInfo;
+
   let divId = key;
   if (key) {
     if (key.indexOf("mrec") != -1) {
@@ -47,10 +56,11 @@ const DfpAds: NextPage<Props> = function (props) {
         document.removeEventListener("gptLoaded", loadDfpAds);
       };
     }
-  }, [loadDfpAds]);
+  });
   function loadDfpAds() {
     const googleTag = window.googletag;
     const { adDivIds } = window;
+    console.log("chec;", adInfo);
     const { customDimension, currMsid, customSlot } = adInfo;
     const objVc = {
       dfp: {
@@ -90,6 +100,7 @@ const DfpAds: NextPage<Props> = function (props) {
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize =
             adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
+          console.log(customDimension);
           const dimension = customDimension
             ? JSON.parse(customDimension)
             : adSize

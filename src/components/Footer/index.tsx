@@ -21,7 +21,7 @@ const Footer: FC = () => {
     utm_medium;
   const pageType = Utility.pageType(router.asPath);
   const [activeLink, setActiveLink] = useState("");
-  const [menuStyle, setMenuStyle] = useState(false);
+  // const [menuStyle, setMenuStyle] = useState(false);
 
   useEffect(() => {
     createActiveLink();
@@ -122,14 +122,15 @@ const Footer: FC = () => {
       }
     }
     setActiveLink(selectedMenuOption);
-    setMenuStyle(false);
+    // setMenuStyle(false);
   }
 
   function toggleMenu(evt, type) {
+    console.log("menuName", type); //tbc
     const rootElement = document.getElementById("root");
     fireGAEvent(evt);
-    const menuStyle = false;
-    setMenuStyle(menuStyle);
+    // const menuStyle = false;
+    // setMenuStyle(menuStyle);
     rootElement.style.position = "";
     createActiveLink();
   }

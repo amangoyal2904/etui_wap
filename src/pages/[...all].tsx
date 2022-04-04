@@ -13,7 +13,7 @@ export default function All(props) {
   const { all } = router.query;
   const storeState = useStore().getState();
   if (props.page && props.page == "articleshow") {
-    return <ArticleShow query={all} data={storeState.article} />;
+    return <ArticleShow query={all} />;
   } else if (props.page && props.page == "videoshow") {
     return <VideoShow data={props.data} />;
   } else {

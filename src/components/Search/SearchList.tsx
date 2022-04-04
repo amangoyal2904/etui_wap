@@ -1,4 +1,4 @@
-import { getParameterByName, isDevEnv } from "utils/utils";
+import { getParameterByName } from "utils/utils";
 import styles from "./styles.module.scss";
 
 export default function SearchList(props) {

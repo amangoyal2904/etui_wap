@@ -9,19 +9,19 @@ export interface SEOProps {
     description: string;
     image: string;
     inLanguage: string;
-    authors?: string[],
-    agency?: string[],
+    authors?: string[];
+    agency?: string[];
     date: string;
     updated: string;
-    articleSection?: number;
+    articleSection?: string;
     story?: string;
     remove_paywall_schema?: number;
     behindLogin?: number;
     hostid: number;
-    langInfo?: {url: string; lang: string}[];
+    langInfo?: { url: string; lang: string }[];
     ampURL?: string;
-    keywords?: string; 
-    news_keywords?: string;   
+    keywords?: string;
+    news_keywords?: string;
     noindex?: number;
     noindexFollow?: number;
     expiry?: string;
@@ -39,8 +39,8 @@ export interface SEOProps {
     schemaType?: string;
     schemaMeta?: string;
     seoschema?: object;
-    breadcrumb?: {title: string; url: string;}[];
-    seoListData?: {url: string; title: string; date: string; img: string;}[]; // needed for articlelist and topic
+    breadcrumb?: { title: string; url: string }[];
+    seoListData?: { url: string; title: string; date: string; img: string }[]; // needed for articlelist and topic
   };
   page: string;
 }

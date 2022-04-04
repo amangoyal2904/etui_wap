@@ -3,9 +3,15 @@ const serverHost = os.hostname() || "";
 
 declare global {
   interface Window {
-    geolocation: any;
-    geoinfo: any;
-    __APP: any;
+    geolocation: number;
+    geoinfo: {
+      CountryCode: string;
+      geolocation: string;
+      region_code: string;
+    };
+    __APP: {
+      env?: string;
+    };
   }
 }
 
@@ -59,11 +65,12 @@ export const getCookie = (name) => {
 export const allowGDPR = () => {
   try {
     let flag = false;
-    const ginfo = window["geoinfo"] || {};
+    // const ginfo = window["geoinfo"] || {};
+    const geoinfo = window.geoinfo;
     if (
       window.geolocation &&
       window.geolocation != 5 &&
-      (window.geolocation != 2 || ginfo.region_code != "CA")
+      (window.geolocation != 2 || geoinfo.region_code != "CA")
     ) {
       flag = true;
     }
@@ -175,7 +182,7 @@ export const validateEmail = (emails) => {
 // Date format
 export const appendZero = (num) => (num >= 0 && num < 10 ? "0" + num : num);
 export const dateFormat = (dt, format = "%Y-%M-%d") => {
-  const objD: any = dt instanceof Date ? dt : new Date(dt);
+  const objD: Date = dt instanceof Date ? dt : new Date(dt);
   const shortMonthName = [
     "Jan",
     "Feb",
@@ -225,7 +232,7 @@ export const dateFormat = (dt, format = "%Y-%M-%d") => {
     "Sunday"
   ];
   let newDate = "";
-  if (objD != "Invalid Date") {
+  if (!objD) {
     const hour = objD.getHours();
     const dList = {
       "%ss": objD.getMilliseconds(),
