@@ -11,7 +11,7 @@ import { pageType } from "utils/utils";
 export default function All(props) {
   const router = useRouter();
   const { all } = router.query;
-  const storeState = useStore().getState();
+  // const storeState = useStore().getState();
   if (props.page && props.page == "articleshow") {
     return <ArticleShow query={all} />;
   } else if (props.page && props.page == "videoshow") {
