@@ -1,10 +1,10 @@
 /* next.config.js  */
 module.exports = {
-    i18n: {
-      locales: ["en"],
-      defaultLocale: "en",
-    },
-    images: {
-      domains: ['img.etimg.com'],
-    },
-  };
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en"
+  },
+  images: {
+    domains: ["img.etimg.com"]
+  }
+};
