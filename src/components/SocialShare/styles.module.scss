@@ -1,0 +1,45 @@
+.socialShare {
+  margin: 1rem;
+}
+
+.shareText {
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+.socialLinks {
+  padding-bottom: 1rem;
+
+  span {
+    background: url("https://img.etimg.com/photo/msid-82825064,quality-100/common-sprite.jpg") no-repeat;
+    width: 36px;
+    height: 36px;
+    background-size: 290px;
+    transform: scale(0.9, 0.9);
+    display: inline-block;
+    cursor: pointer;
+
+    &.wa {
+      background-position: -109px -564px;
+    }
+    &.fb {
+      background-position: -1px -564px;
+    }
+    &.twt {
+      background-position: -37px -564px;
+    }
+    &.in {
+      background-position: 0 -601px;
+    }
+    &.email {
+      background-position: -145px -564px;
+    }
+    &.sms {
+      background-position: -181px -564px;
+    }
+    &.bookmark {
+      background-position: 1px -527px;
+      float: right;
+    }
+  }
+}

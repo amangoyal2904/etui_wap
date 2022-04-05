@@ -1,17 +1,15 @@
-import { FC } from 'react';
+import { FC } from "react";
 
 interface pageProps {
-  query: string | string[]
+  query: string | string[];
 }
 
-const ArticleList: FC<pageProps> = ({query}) => {
+const ArticleList: FC<pageProps> = ({ query }) => {
   return (
     <>
-      <div className="root">
-        ArticleList
-      </div>
+      <div className="root">ArticleList {query}</div>
     </>
-  )
-}
+  );
+};
 
 export default ArticleList;

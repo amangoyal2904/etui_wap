@@ -1,7 +1,7 @@
-import * as ga from './ga';
+import * as ga from "./ga";
 declare global {
-  interface Window { 
-    adDivIds: any;
+  interface Window {
+    adDivIds: string[];
   }
 }
 export function InitialJsOnAppLoad(): void {
@@ -9,7 +9,7 @@ export function InitialJsOnAppLoad(): void {
   try {
     window["arrPageAds"] = [];
     window.adDivIds = [];
-    document.addEventListener('gaLoaded', ()=> {
+    document.addEventListener("gaLoaded", () => {
       ga.gaObserverInit();
     });
     ga.growthRxInit();
@@ -23,3 +23,11 @@ export function callJsOnRouteChange(url?): void {
   window.adDivIds = [];
   ga.pageview(url);
 }
+
+// export function gdprCheck(geoCode) {
+//   let geoStatus = geolocation !== "5";
+//   if (geoCode) {
+//     geoStatus = geolocation == geoCode;
+//   }
+//   return geoStatus;
+// }

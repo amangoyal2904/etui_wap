@@ -1,29 +1,31 @@
-import Link from 'next/link';
-import { FC } from 'react';
-import styles from './styles.module.scss';
-import { MenuProps, MenuSecProps } from 'components/AppHeader/types';
-import { useSelector } from 'react-redux'
+import Link from "next/link";
+import { FC } from "react";
+import styles from "./styles.module.scss";
+import { MenuProps, MenuSecProps } from "components/AppHeader/types";
+import { useSelector } from "react-redux";
+import { AppState } from "app/store";
 
-const NavBar: FC = () => {  
-  const store = useSelector((state: any) => state.appHeader);
-  const menuData: MenuProps = store.data.searchResult[0];  
+const NavBar: FC = () => {
+  const store = useSelector((state: AppState) => state.appHeader);
+  console.log("useSelector", store);
+  const menuData: MenuProps = store.data.searchResult[0];
 
-  return (
-   menuData ? <nav className={styles.navBar}>
+  return menuData ? (
+    <nav className={styles.navBar}>
       <Link href={menuData?.url}>
         <a className={styles.active}>{menuData?.title}</a>
       </Link>
-      {menuData?.sec?.map((item: MenuSecProps, i) => (
-        (item.shorturl || item.url) ? <Link href={item.shorturl ? item.shorturl : item.url} key={i}>
-          <a data-name={item.title}>
-            {item.title}
-          </a>
-        </Link>
-        :
-        <a key={i}>{item.title}</a>
-      ))}
-    </nav>: null
-  );
-}
+      {menuData?.sec?.map((item: MenuSecProps, i) =>
+        item.shorturl || item.url ? (
+          <Link href={item.shorturl ? item.shorturl : item.url} key={i}>
+            <a data-name={item.title}>{item.title}</a>
+          </Link>
+        ) : (
+          <a key={i}>{item.title}</a>
+        )
+      )}
+    </nav>
+  ) : null;
+};
 
 export default NavBar;

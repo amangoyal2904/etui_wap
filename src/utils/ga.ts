@@ -122,13 +122,13 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
     console.log("error in on click listener data-ga-onclick");
   }
 };
-
+// tbc
 export const growthRxInit = () => {
   (function (g, r, o, w, t, h, rx) {
     (g[t] =
       g[t] ||
-      function () {
-        (g[t].q = g[t].q || []).push(arguments);
+      function (...args) {
+        (g[t].q = g[t].q || []).push(...args);
       }),
       (g[t].l = 1 * +new Date());
     (g[t] = g[t] || {}),

@@ -52,6 +52,9 @@ const Home: FC = () => {
             <button data-ga-onclick="ET_Sale_PWA#ONClick#url">Click me for GA Events</button>
           </p>
         </div>
+        <Link href="/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/videoshow/90200064.cms">
+          <a>VideoShow</a>
+        </Link>
         <SampleListing />
       </div>
       <DynamicFooter />

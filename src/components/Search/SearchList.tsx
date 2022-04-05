@@ -1,9 +1,9 @@
-import { getParameterByName, isDevEnv } from "utils/utils";
+import { getParameterByName } from "utils/utils";
 import styles from "./styles.module.scss";
 
 export default function SearchList(props) {
-  let { index, data, searchValue } = props;
-  searchValue = searchValue?.toLowerCase();
+  const { index, data, searchValue } = props;
+  const searchKeyword = searchValue?.toLowerCase();
   const displayListData = (type) => {
     const listData =
       type == "primeNews"
@@ -14,19 +14,8 @@ export default function SearchList(props) {
     const list =
       listData.length > 0 &&
       listData.map((data, i) => (
-        <li
-          className={i == listData.length - 1 ? styles.lastList : styles.list}
-          key={i}
-        >
-          <a
-            href={
-              type == "reptr"
-                ? `https://m.economictimes.com${data.link}`
-                : data.link
-            }
-          >
-            {makeBold(data.title)}
-          </a>{" "}
+        <li className={i == listData.length - 1 ? styles.lastList : styles.list} key={i}>
+          <a href={type == "reptr" ? `https://m.economictimes.com${data.link}` : data.link}>{makeBold(data.title)}</a>{" "}
         </li>
       ));
     return list;
@@ -65,11 +54,7 @@ export default function SearchList(props) {
         return data.filter((data) => data.entityType == "index");
 
       case "companyUnlisted":
-        return data.filter(
-          (data) =>
-            data.entityType.toLowerCase() == "company" &&
-            data.subType == "NonList"
-        );
+        return data.filter((data) => data.entityType.toLowerCase() == "company" && data.subType == "NonList");
 
       case "crypto":
         return data.filter((data) => data.entityType == "crypto");
@@ -92,9 +77,9 @@ export default function SearchList(props) {
         TAM: "tamil"
       },
       currentLang: function () {
-        let a = location.pathname.split("/")[1],
-          pLang = getParameterByName("language"),
-          currLang = "";
+        const a = location.pathname.split("/")[1],
+          pLang = getParameterByName("language");
+        let currLang = "";
         for (const key in objLang.maping) {
           if (a == objLang.maping[key]) currLang = key;
         }
@@ -114,10 +99,7 @@ export default function SearchList(props) {
     const list =
       compData.length > 0 &&
       compData.map((data, i) => (
-        <li
-          className={i == compData.length - 1 ? styles.lastList : styles.list}
-          key={i}
-        >
+        <li className={i == compData.length - 1 ? styles.lastList : styles.list} key={i}>
           {(type == "company" || type == "companyUnlisted") && (
             <a
               href={
@@ -127,11 +109,8 @@ export default function SearchList(props) {
                         ? data.tagId.substring(0, data.tagId.length - 4)
                         : data.tagId
                     }.cms${
-                      data.entityType != "company" ||
-                      typeof data.subType != "undefined"
-                        ? `?companytype=${
-                            data.subType ? data.subType : data.entityType
-                          }`
+                      data.entityType != "company" || typeof data.subType != "undefined"
+                        ? `?companytype=${data.subType ? data.subType : data.entityType}`
                         : ""
                     }`
                   : `${domain}/company/${data.tagSeoName}/${data.tagId}`
@@ -141,42 +120,27 @@ export default function SearchList(props) {
             </a>
           )}
           {(type == "mf" || type == "etf") && (
-            <a
-              href={`${domain}/${escape(
-                data.tagSeoName
-              )}/mffactsheet/schemeid-${data.tagId}.cms`}
-            >
+            <a href={`${domain}/${escape(data.tagSeoName)}/mffactsheet/schemeid-${data.tagId}.cms`}>
               {makeBold(data.tagName.trim())}
             </a>
           )}
-          {type == "et" && (
-            <a href={`${domain}/${data.url}`}> {makeBold(data.key)} </a>
-          )}
+          {type == "et" && <a href={`${domain}/${data.url}`}> {makeBold(data.key)} </a>}
           {type == "forex" && (
             <a
               href={`${domain}/forex_home.cms?amount=1&fromcur=${data.fromCurrencyShort}&tocur=${data.toCurrencyShort}`}
             >
               {" "}
-              {makeBold(
-                data.tagName.replace(
-                  data.tagName[0],
-                  data.tagName[0].toUpperCase()
-                )
-              )}{" "}
+              {makeBold(data.tagName.replace(data.tagName[0], data.tagName[0].toUpperCase()))}{" "}
             </a>
           )}
           {type == "cmdt" && (
-            <a
-              href={`${domain}/${langPrefix}commoditysummary/symbol-${data.fno}${langSufix}.cms`}
-            >
+            <a href={`${domain}/${langPrefix}commoditysummary/symbol-${data.fno}${langSufix}.cms`}>
               {makeBold(data.tagName)}
             </a>
           )}
           {type == "index" && (
             <a
-              href={`${domain}/markets/${
-                data.tagSeoName
-              }/indexsummary/indexid-/${langPrefix}'indices/sensex_${
+              href={`${domain}/markets/${data.tagSeoName}/indexsummary/indexid-/${langPrefix}'indices/sensex_${
                 data.tagId == "2369" ? `50` : data.tagId == "2365" ? `30` : ""
               }_companies,exchange-${data.exchange == "BSE" ? 47 : 50}.cms`}
             >
@@ -184,25 +148,15 @@ export default function SearchList(props) {
             </a>
           )}
           {type == "nps" && (
-            <a
-              href={`${domain}/${escape(data.tagSeoName)}/nps/schemecode-${
-                data.tagId
-              }.cms`}
-            >
+            <a href={`${domain}/${escape(data.tagSeoName)}/nps/schemecode-${data.tagId}.cms`}>
               {makeBold(data.SchemeName)}{" "}
-              {(data.SchemeName1 != "" && data.SchemeName1 != undefined
-                ? " - " + data.SchemeName1
-                : "") +
-                (data.SchemeName2 != "" && data.SchemeName2 != undefined
-                  ? " - " + data.SchemeName2
-                  : "")}
+              {(data.SchemeName1 != "" && data.SchemeName1 != undefined ? " - " + data.SchemeName1 : "") +
+                (data.SchemeName2 != "" && data.SchemeName2 != undefined ? " - " + data.SchemeName2 : "")}
             </a>
           )}
           {type == "crypto" && (
             <a
-              href={`${domain}/markets/cryptocurrency/${escape(
-                data.tagSeoName
-              )}/cryptodetail/symbol-${data.tagId}.cms`}
+              href={`${domain}/markets/cryptocurrency/${escape(data.tagSeoName)}/cryptodetail/symbol-${data.tagId}.cms`}
             >
               {makeBold(data.tagName)}
             </a>
@@ -214,17 +168,14 @@ export default function SearchList(props) {
 
   function makeBold(completeText) {
     let matchtext;
-    if (searchValue.search(/[\[\]?*+|{}\\()@.\n\r]/) != -1) {
-      matchtext = new RegExp("/" + searchValue, "i");
+    if (searchKeyword.search(/[\[\]?*+|{}\\()@.\n\r]/) != -1) {
+      matchtext = new RegExp("/" + searchKeyword, "i");
     } else {
-      matchtext = new RegExp(searchValue, "i");
+      matchtext = new RegExp(searchKeyword, "i");
     }
 
-    if (completeText.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0) {
-      const matched = completeText.substr(
-        completeText.search(matchtext),
-        searchValue.length
-      );
+    if (completeText.toLowerCase().indexOf(searchKeyword.toLowerCase()) >= 0) {
+      const matched = completeText.substr(completeText.search(matchtext), searchKeyword.length);
       completeText = completeText.replace(matchtext, "<b>" + matched + "</b>");
     }
     return <span dangerouslySetInnerHTML={{ __html: completeText }}></span>;
@@ -249,7 +200,7 @@ export default function SearchList(props) {
                   className="flr"
                   target="_blank"
                   rel="noreferrer"
-                  href={`${domain}/currentquote.cms?ticker=${searchValue}`}
+                  href={`${domain}/currentquote.cms?ticker=${searchKeyword}`}
                 >
                   more
                 </a>
@@ -284,7 +235,7 @@ export default function SearchList(props) {
                   className="flr"
                   target="_blank"
                   rel="noreferrer"
-                  href={`${domain}/commoditysearch.cms?query=${searchValue}`}
+                  href={`${domain}/commoditysearch.cms?query=${searchKeyword}`}
                 >
                   more
                 </a>
@@ -320,11 +271,7 @@ export default function SearchList(props) {
               {displayCompanyData("index")}
             </>
           )}
-          {data.some(
-            (data) =>
-              data.entityType.toLowerCase() == "company" &&
-              data.subType == "NonList"
-          ) && (
+          {data.some((data) => data.entityType.toLowerCase() == "company" && data.subType == "NonList") && (
             <>
               <li className={styles.head}>
                 <span className="flt">UNLISTED COMPANIES</span>
@@ -366,10 +313,7 @@ export default function SearchList(props) {
                   className="flr"
                   target="_blank"
                   rel="noreferrer"
-                  href={`${domain}/topic/${escape(searchValue).replace(
-                    "%20",
-                    "-"
-                  )}`}
+                  href={`${domain}/topic/${escape(searchKeyword).replace("%20", "-")}`}
                 >
                   more
                 </a>
@@ -387,12 +331,7 @@ export default function SearchList(props) {
           {data.person && data.person.length > 0 && (
             <li className={styles.head}>
               <span className="flt">PEOPLE</span>
-              <a
-                className="flr"
-                target="_blank"
-                rel="noreferrer"
-                href={`/panache/panache-people-101`}
-              >
+              <a className="flr" target="_blank" rel="noreferrer" href={`/panache/panache-people-101`}>
                 more
               </a>
               <div className="clr"></div>
@@ -410,12 +349,7 @@ export default function SearchList(props) {
           {data.definitions && data.definitions.length > 0 && (
             <li className={styles.head}>
               <span className="flt">DEFINITIONS</span>
-              <a
-                className="flr"
-                target="_blank"
-                rel="noreferrer"
-                href={`${domain}/definition/search/${searchValue}`}
-              >
+              <a className="flr" target="_blank" rel="noreferrer" href={`${domain}/definition/search/${searchKeyword}`}>
                 more
               </a>
               <div className="clr"></div>
@@ -426,9 +360,7 @@ export default function SearchList(props) {
             data.definitions.map((data, i) => {
               return (
                 <li className={styles.list} key={i}>
-                  <a href={`${domain}/definition/${data.seo}`}>
-                    {makeBold(data.name)}
-                  </a>
+                  <a href={`${domain}/definition/${data.seo}`}>{makeBold(data.name)}</a>
                 </li>
               );
             })}
