@@ -23,3 +23,11 @@ export function callJsOnRouteChange(url?): void {
   window.adDivIds = [];
   ga.pageview(url);
 }
+
+// export function gdprCheck(geoCode) {
+//   let geoStatus = geolocation !== "5";
+//   if (geoCode) {
+//     geoStatus = geolocation == geoCode;
+//   }
+//   return geoStatus;
+// }

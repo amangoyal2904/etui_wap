@@ -2,11 +2,7 @@ import { NextPage } from "next";
 import Utility from "../../utils/utils";
 import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
-import {
-  TEST_ID_CTN_HOME,
-  TEST_COLOMBIA_DFP_HOME,
-  TEST_COLOMBIA_DFP_ARTICLESHOW
-} from "utils/common";
+import { TEST_ID_CTN_HOME, TEST_COLOMBIA_DFP_HOME, TEST_COLOMBIA_DFP_ARTICLESHOW } from "utils/common";
 import { useEffect } from "react";
 
 interface Props {
@@ -29,9 +25,7 @@ declare global {
 const Colombia: NextPage<Props> = function (props) {
   const { index, currentMSID } = props;
   let id = props.id;
-  const divId = `div-clmb-ctn-${id}-${index}${
-    currentMSID ? "-" + currentMSID : ""
-  }`;
+  const divId = `div-clmb-ctn-${id}-${index}${currentMSID ? "-" + currentMSID : ""}`;
   const router = useRouter();
   const crPath = router.pathname;
   const pageType: string = Utility.pageType(crPath);
@@ -67,20 +61,16 @@ const Colombia: NextPage<Props> = function (props) {
       colombia_dfpslot = TEST_COLOMBIA_DFP_ARTICLESHOW;
       colombia_type = "dfp";
     } else if (id === "129185") {
-      colombia_dfpslot =
-        "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_Bid_Experiment_320";
+      colombia_dfpslot = "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_Bid_Experiment_320";
       colombia_type = "dfp";
     } else if (id === "208234") {
-      colombia_dfpslot =
-        "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_Bid_Experiment_320";
+      colombia_dfpslot = "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_Bid_Experiment_320";
       colombia_type = "dfp";
     } else if (id === "129178") {
-      colombia_dfpslot =
-        "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Bid_Experiment_320";
+      colombia_dfpslot = "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Bid_Experiment_320";
       colombia_type = "dfp";
     } else if (id === "208235") {
-      colombia_dfpslot =
-        "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Bid_Experiment_320";
+      colombia_dfpslot = "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Bid_Experiment_320";
       colombia_type = "dfp";
     }
   }
@@ -90,22 +80,12 @@ const Colombia: NextPage<Props> = function (props) {
     colombia_dfpslot = TEST_COLOMBIA_DFP_HOME;
     colombia_type = "dfp";
   }
-  const mgidGeo = Utility.mgidGeoCheck("mid")
-    ? Utility.mgidGeoCheck("mid")
-    : false;
-  // if (mgidGeo && id == "358378" && pageType == "articleshow") {
-  // tbc
-  if (mgidGeo && id == "358378") {
+  const mgidGeo = Utility.mgidGeoCheck("mid") ? Utility.mgidGeoCheck("mid") : false;
+  if (mgidGeo && id == "358378" && pageType == "articleshow") {
     return (
       <div
-        className={`${styles.colAdContainer} ${
-          props.footerAd ? styles.footerAd : ""
-        } ${
-          pageType === "home" ||
-          pageType === "techhome" ||
-          pageType == "articlelist"
-            ? styles.homecolombia
-            : styles.articleColombia
+        className={`${styles.colAdContainer} ${props.footerAd ? styles.footerAd : ""} ${
+          styles.articleColombia
         } adContainer ${props.hidelabel ? styles.hidelabel : ""} colAd`}
       >
         <div id="M769007ScriptRootC1264385"></div>
@@ -114,12 +94,8 @@ const Colombia: NextPage<Props> = function (props) {
   } else {
     return (
       <div
-        className={`${styles.colAdContainer} ${
-          props.footerAd ? styles.footerAd : ""
-        } ${
-          pageType == "home" ||
-          pageType == "techhome" ||
-          pageType == "articlelist"
+        className={`${styles.colAdContainer} ${props.footerAd ? styles.footerAd : ""} ${
+          pageType == "home" || pageType == "techhome" || pageType == "articlelist"
             ? styles.homecolombia
             : styles.articleColombia
         } adContainer ${props.hidelabel ? styles.hidelabel : ""} colAd`}

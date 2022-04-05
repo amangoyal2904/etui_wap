@@ -25,10 +25,7 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
       <link rel="dns-prefetch" href="https://ade.clmbtech.com" />
       <link rel="dns-prefetch" href="https://static.clmbtech.com" />
       <link rel="dns-prefetch" href="https://googletagservices.com" />
-      <link
-        rel="dns-prefetch"
-        href="https://commondatastorage.googleapis.com"
-      />
+      <link rel="dns-prefetch" href="https://commondatastorage.googleapis.com" />
       <link rel="dns-prefetch" href="https://c1.adform.net" />
       <link rel="dns-prefetch" href="https://bs.serving-sys.com" />
       <link rel="dns-prefetch" href="https://ase.clmbtech.com" />
@@ -54,15 +51,9 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
       <link rel="dns-prefetch" href="https://api.ibeat-analytics.com" />
       <link rel="dns-prefetch" href="https://tml.clmbtech.com" />
       <link rel="dns-prefetch" href="https://px.ads.linkedin.com" />
-      <link
-        rel="dns-prefetch"
-        href="https://secure-assets.rubiconproject.com"
-      />
+      <link rel="dns-prefetch" href="https://secure-assets.rubiconproject.com" />
       <link rel="dns-prefetch" href="https://snap.licdn.com" />
-      <link
-        rel="dns-prefetch"
-        href="https://apw.economictimes.indiatimes.com"
-      />
+      <link rel="dns-prefetch" href="https://apw.economictimes.indiatimes.com" />
       <link rel="dns-prefetch" href="https://match.adsrvr.org" />
       <link rel="dns-prefetch" href="https://htlb.casalemedia.com" />
       <link rel="dns-prefetch" href="https://timesinternet-d.openx.net" />
@@ -102,15 +93,9 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://geoapiet.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://etpwaapi.economictimes.com/" />
         <link rel="dns-prefetch" href="https://static.growthrx.in/" />
-        <link
-          rel="dns-prefetch"
-          href="https://etusers.economictimes.indiatimes.com/"
-        />
+        <link rel="dns-prefetch" href="https://etusers.economictimes.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://economictimes.indiatimes.com/" />
-        <link
-          rel="dns-prefetch"
-          href="https://mobilelivefeeds.indiatimes.com/"
-        />
+        <link rel="dns-prefetch" href="https://mobilelivefeeds.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://google-analytics.com/" />
         <link rel="dns-prefetch" href="https://api.growthrx.in/" />
         <link rel="dns-prefetch" href="https://s3.amazonaws.com/" />
@@ -121,22 +106,19 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://google.co.in" />
         <link rel="dns-prefetch" href="https://facebook.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <link
-          rel="dns-prefetch"
-          href="https://etup.economictimes.indiatimes.com"
-        />
-        <link
-          rel="dns-prefetch"
-          href="https://etprecos.economictimes.indiatimes.com"
-        />
+        <link rel="dns-prefetch" href="https://etup.economictimes.indiatimes.com" />
+        <link rel="dns-prefetch" href="https://etprecos.economictimes.indiatimes.com" />
         <link rel="dns-prefetch" href="https://etsub3.economictimes.com" />
         <link rel="dns-prefetch" href="https://etusers1.economictimes.com" />
         <link rel="dns-prefetch" href="https://mytimes.indiatimes.com" />
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
+        <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
         <link
-          rel="dns-prefetch"
-          href="https://marketservices.indiatimes.com/"
+          href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
+          type="text/css"
+          rel="stylesheet"
+          media="all"
         />
         {prefetchDomains}
       </Head>
@@ -152,10 +134,7 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
             }}
           />
           {router.asPath.indexOf("skip_ctn=1") == -1 && (
-            <Script
-              src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js"
-              strategy="lazyOnload"
-            />
+            <Script src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js" strategy="lazyOnload" />
           )}
           <Script
             id="google-analytics"

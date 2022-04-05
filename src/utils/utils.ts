@@ -65,13 +65,9 @@ export const getCookie = (name) => {
 export const allowGDPR = () => {
   try {
     let flag = false;
-    // const ginfo = window["geoinfo"] || {};
+    // const ginfo = window["geoinfo"] || {}; tbc
     const geoinfo = window.geoinfo;
-    if (
-      window.geolocation &&
-      window.geolocation != 5 &&
-      (window.geolocation != 2 || geoinfo.region_code != "CA")
-    ) {
+    if (window.geolocation && window.geolocation != 5 && (window.geolocation != 2 || geoinfo.region_code != "CA")) {
       flag = true;
     }
     return flag;
@@ -86,10 +82,7 @@ export const pageType = (pathurl) => {
     return "primearticle";
   } else if (pathurl.indexOf("articleshow") != -1) {
     return "articleshow";
-  } else if (
-    pathurl.indexOf("primearticlelist") != -1 ||
-    /prime\/\w/.test(pathurl)
-  ) {
+  } else if (pathurl.indexOf("primearticlelist") != -1 || /prime\/\w/.test(pathurl)) {
     return "primearticlelist";
   } else if (pathurl == "/prime") {
     return "primehome";
@@ -106,8 +99,7 @@ export const pageType = (pathurl) => {
 
 export const encodeQueryData = (data) => {
   const ret = [];
-  for (const d in data)
-    ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+  for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
   return ret.join("&");
 };
 
@@ -148,12 +140,10 @@ export const isHostPreprod = () => {
 export const getParameterByName = (name) => {
   try {
     if (name) {
-      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]"); //eslint-disable-line
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
       const regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
-      return results == null
-        ? ""
-        : decodeURIComponent(results[1].replace(/\+/g, " "));
+      return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     } else {
       return "";
     }
@@ -165,12 +155,11 @@ export const getParameterByName = (name) => {
 export const validateEmail = (emails) => {
   try {
     let b = 0;
-    const c = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/; //eslint-disable-line
+    const c = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z]{2,4})+$/;
     let a = emails;
     let d;
     if (a && a.indexOf(",") != -1) {
-      for (a = a.split(","), d = 0, d = 0; d < a.length; d += 1)
-        c.test(a[d]) && (b += 1);
+      for (a = a.split(","), d = 0, d = 0; d < a.length; d += 1) c.test(a[d]) && (b += 1);
       return d == b ? !0 : !1;
     } else {
       return c.test(a) ? !0 : !1;
@@ -183,20 +172,7 @@ export const validateEmail = (emails) => {
 export const appendZero = (num) => (num >= 0 && num < 10 ? "0" + num : num);
 export const dateFormat = (dt, format = "%Y-%M-%d") => {
   const objD: Date = dt instanceof Date ? dt : new Date(dt);
-  const shortMonthName = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
+  const shortMonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const fullMonthName = [
     "January",
     "February",
@@ -211,28 +187,10 @@ export const dateFormat = (dt, format = "%Y-%M-%d") => {
     "November",
     "December"
   ];
-  const shortDaysName = [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thur",
-    "Fri",
-    "Sat",
-    "Sun"
-  ];
-  const fullDaysName = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ];
+  const shortDaysName = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+  const fullDaysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   let newDate = "";
-  if (!objD) {
+  if (!isNaN(new Date(objD).getTime())) {
     const hour = objD.getHours();
     const dList = {
       "%ss": objD.getMilliseconds(),
@@ -260,9 +218,7 @@ export const dateFormat = (dt, format = "%Y-%M-%d") => {
   return newDate;
 };
 export const processEnv =
-  (process.env.NODE_ENV &&
-    process.env.NODE_ENV.toString().toLowerCase().trim()) ||
-  "production";
+  (process.env.NODE_ENV && process.env.NODE_ENV.toString().toLowerCase().trim()) || "production";
 export const queryString = (params) =>
   Object.keys(params)
     .map((key) => key + "=" + params[key])
@@ -296,31 +252,23 @@ export const isVisible = (elm) => {
 };
 
 export const mgidGeoCheck = (pos) => {
+  if (typeof window === "undefined") return false;
+
   try {
     const geoinfo = window.geoinfo;
     if (pos == "mid") {
       if (
         typeof geoinfo != "undefined" &&
-        ((geoinfo.CountryCode.toUpperCase() == "AU" &&
-          geoinfo.geolocation == "6") ||
-          (geoinfo.CountryCode.toUpperCase() == "CA" &&
-            geoinfo.geolocation == "2") ||
-          (geoinfo.CountryCode.toUpperCase() == "US" &&
-            geoinfo.geolocation == "2") ||
-          (geoinfo.CountryCode.toUpperCase() == "GB" &&
-            geoinfo.geolocation == "5") ||
-          (geoinfo.CountryCode.toUpperCase() == "AE" &&
-            geoinfo.geolocation == "3") ||
-          (geoinfo.CountryCode.toUpperCase() == "SA" &&
-            geoinfo.geolocation == "3") ||
-          (geoinfo.CountryCode.toUpperCase() == "QA" &&
-            geoinfo.geolocation == "3") ||
-          (geoinfo.CountryCode.toUpperCase() == "OM" &&
-            geoinfo.geolocation == "3") ||
-          (geoinfo.CountryCode.toUpperCase() == "KW" &&
-            geoinfo.geolocation == "3") ||
-          (geoinfo.CountryCode.toUpperCase() == "BH" &&
-            geoinfo.geolocation == "3"))
+        ((geoinfo.CountryCode.toUpperCase() == "AU" && geoinfo.geolocation == "6") ||
+          (geoinfo.CountryCode.toUpperCase() == "CA" && geoinfo.geolocation == "2") ||
+          (geoinfo.CountryCode.toUpperCase() == "US" && geoinfo.geolocation == "2") ||
+          (geoinfo.CountryCode.toUpperCase() == "GB" && geoinfo.geolocation == "5") ||
+          (geoinfo.CountryCode.toUpperCase() == "AE" && geoinfo.geolocation == "3") ||
+          (geoinfo.CountryCode.toUpperCase() == "SA" && geoinfo.geolocation == "3") ||
+          (geoinfo.CountryCode.toUpperCase() == "QA" && geoinfo.geolocation == "3") ||
+          (geoinfo.CountryCode.toUpperCase() == "OM" && geoinfo.geolocation == "3") ||
+          (geoinfo.CountryCode.toUpperCase() == "KW" && geoinfo.geolocation == "3") ||
+          (geoinfo.CountryCode.toUpperCase() == "BH" && geoinfo.geolocation == "3"))
       ) {
         return true;
       } else {
@@ -329,10 +277,8 @@ export const mgidGeoCheck = (pos) => {
     } else if (pos == "eoa") {
       if (
         typeof geoinfo != "undefined" &&
-        ((geoinfo.CountryCode.toUpperCase() == "AU" &&
-          geoinfo.geolocation == "6") ||
-          (geoinfo.CountryCode.toUpperCase() == "CA" &&
-            geoinfo.geolocation == "2"))
+        ((geoinfo.CountryCode.toUpperCase() == "AU" && geoinfo.geolocation == "6") ||
+          (geoinfo.CountryCode.toUpperCase() == "CA" && geoinfo.geolocation == "2"))
       ) {
         return true;
       } else {

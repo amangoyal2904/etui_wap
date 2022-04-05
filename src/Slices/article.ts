@@ -39,17 +39,16 @@ export default slice.reducer;
 
 //Actions
 
-const { articleSuccess, articleLoading } = slice.actions;
+const { articleSuccess, articleLoading, articleError } = slice.actions;
 
 export const fetchArticle = (articleId) => async (dispatch) => {
   try {
     dispatch(articleLoading);
-    const res = await fetch(
-      `https://etpwaapi.economictimes.com/request?type=article&msid=${articleId}`
-    );
+    const res = await fetch(`https://etpwaapi.economictimes.com/request?type=article&msid=${articleId}`);
     const data = await res.json();
     dispatch(articleSuccess(data));
   } catch (e) {
+    dispatch(articleError);
     return console.error(e.message);
   }
 };
