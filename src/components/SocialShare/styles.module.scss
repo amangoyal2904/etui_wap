@@ -1,12 +1,17 @@
+.socialShare {
+  margin: 1rem;
+}
+
 .shareText {
   font-weight: 600;
   margin: 15px 0;
 }
 
 .socialLinks {
+  padding-bottom: 1rem;
+
   span {
-    background: url("https://img.etimg.com/photo/msid-82825064,quality-100/common-sprite.jpg")
-      no-repeat;
+    background: url("https://img.etimg.com/photo/msid-82825064,quality-100/common-sprite.jpg") no-repeat;
     width: 36px;
     height: 36px;
     background-size: 290px;
