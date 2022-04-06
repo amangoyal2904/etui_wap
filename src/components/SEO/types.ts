@@ -1,3 +1,9 @@
+export interface BreadCrumbProps {
+  title?: string;
+  url?: string;
+}
+[];
+
 export interface SEOProps {
   data: {
     lang: string;
@@ -9,19 +15,19 @@ export interface SEOProps {
     description: string;
     image: string;
     inLanguage: string;
-    authors?: string[],
-    agency?: string[],
+    authors?: string[];
+    agency?: string[];
     date: string;
     updated: string;
-    articleSection?: number;
+    articleSection?: string;
     story?: string;
     remove_paywall_schema?: number;
     behindLogin?: number;
     hostid: number;
-    langInfo?: {url: string; lang: string}[];
+    langInfo?: { url: string; lang: string }[];
     ampURL?: string;
-    keywords?: string; 
-    news_keywords?: string;   
+    keywords?: string;
+    news_keywords?: string;
     noindex?: number;
     noindexFollow?: number;
     expiry?: string;
@@ -35,91 +41,91 @@ export interface SEOProps {
       subsecname2?: string;
       subsec3?: number;
       subsecname3?: string;
-    },
+    };
     schemaType?: string;
     schemaMeta?: string;
     seoschema?: {
-      webPage?:object,
-      newsArticle?:object,
-      videoObject?:object
-    },
-    org_img?:string,
-    org_img_hin?:string,
-    page?: string,
-    breadcrumb?: {title: string; url: string;}[];
-    seoListData?: {url: string; title: string; date: string; img: string;}[]; // needed for articlelist and topic
-  }
-  page: string;
+      webPage?: object;
+      newsArticle?: object;
+      videoObject?: object;
+    };
+    org_img?: string;
+    org_img_hin?: string;
+    page?: string;
+    breadcrumb?: BreadCrumbProps;
+    seoListData?: { url: string; title: string; date: string; img: string }[]; // needed for articlelist and topic
+  };
+  //page: string;
 }
 export interface WebPageSchemaProps {
-  name?: string, 
-  url?: string, 
-  description?: string,
+  name?: string;
+  url?: string;
+  description?: string;
   publisher?: {
-    type?: string,
-    name?: string,
-    url?: string,
+    type?: string;
+    name?: string;
+    url?: string;
     logo?: {
-      type?: string,
-      url?: string
-    }
-  }
+      type?: string;
+      url?: string;
+    };
+  };
 }
 export interface NewsArticleSchemaProps {
-  inLanguage?: string, 
-  keywords?: string, 
-  headline?: string,  
-  description?: string, 
-  datePublished?: string, 
-  dateModified?: string, 
-  name?: string, 
-  url?: string, 
-  mainEntityOfPage?: string, 
-  articleSection?: string, 
-  articleBody?: string,
+  inLanguage?: string;
+  keywords?: string;
+  headline?: string;
+  description?: string;
+  datePublished?: string;
+  dateModified?: string;
+  name?: string;
+  url?: string;
+  mainEntityOfPage?: string;
+  articleSection?: string;
+  articleBody?: string;
   image?: {
-    type?: string,
-    url?: string,
-    width?: string,
-    height?: string
-  },
+    type?: string;
+    url?: string;
+    width?: string;
+    height?: string;
+  };
   author?: {
-    type?: string,
-    name?: string
-  },
+    type?: string;
+    name?: string;
+  };
   publisher?: {
-    type?: string,
-    name?: string,
+    type?: string;
+    name?: string;
     logo?: {
-      type?: string,
-      url?: string,
-      width?: string,
-      height?: string
-    }
-  }
+      type?: string;
+      url?: string;
+      width?: string;
+      height?: string;
+    };
+  };
 }
 export interface VideoObjectSchemaProps {
-  thumbnailUrl?: string, 
-  uploadDate?: string, 
-  datePublished?: string, 
-  dateModified?: string, 
-  name?: string, 
-  description?: string, 
-  keywords?: string, 
-  inLanguage?: string, 
-  contentUrl?: string, 
-  duration?: string,
+  thumbnailUrl?: string;
+  uploadDate?: string;
+  datePublished?: string;
+  dateModified?: string;
+  name?: string;
+  description?: string;
+  keywords?: string;
+  inLanguage?: string;
+  contentUrl?: string;
+  duration?: string;
   publisher?: {
-    name?: string,
+    name?: string;
     logo?: {
-      url?: string,
-      width?: string,
-      height?: string
-    }
-  },
+      url?: string;
+      width?: string;
+      height?: string;
+    };
+  };
   image?: {
-    url?: string,
-    width?: string,
-    height?: string
-  }
+    url?: string;
+    width?: string;
+    height?: string;
+  };
 }
