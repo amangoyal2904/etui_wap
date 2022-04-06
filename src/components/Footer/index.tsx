@@ -127,19 +127,10 @@ const Footer: FC = () => {
   }
 
   function toggleMenu(evt, type) {
-    var rootElement = document.getElementById("root");
-    fireGAEvent(evt);
     let menuStyle = false;
     setMenuStyle(menuStyle);
-    rootElement?.style.position = "";
+    document.getElementById("root").style.position = "";
     createActiveLink();
-  }
-
-  function fireGAEvent(e) {
-    const label = e.currentTarget.getAttribute("ga-data");
-    const category = "PWA Bottom Nav";
-    const action = window.location.href;
-    window.ga(category, action, label);
   }
 
   return (
@@ -159,7 +150,7 @@ const Footer: FC = () => {
                 activeLink == "home" ? styles.active : null
               }`}
               role="button"
-              ga-data="Home"
+              data-ga-onclick="PWA Bottom Nav#url#Home"
             >
               <Link href="/">
                 <a className={activeLink == "home" ? styles.active : null}>
@@ -178,7 +169,7 @@ const Footer: FC = () => {
               }`}
               role="button"
               onClick={(e) => toggleMenu(e, "markets")}
-              ga-data="Markets"
+              data-ga-onclick="PWA Bottom Nav#url#Markets"
             >
               <a
                 href={ET_MARKET_URL}
@@ -198,7 +189,7 @@ const Footer: FC = () => {
               }`}
               role="button"
               onClick={(e) => toggleMenu(e, "wealth")}
-              ga-data="Wealth"
+              data-ga-onclick="PWA Bottom Nav#url#Wealth"
             >
               <a
                 href={ET_WEALTH_URL}
@@ -217,8 +208,7 @@ const Footer: FC = () => {
                 activeLink == "prime" ? styles.active : null
               }`}
               role="button"
-              onClick={fireGAEvent}
-              ga-data="ET Prime"
+              data-ga-onclick="PWA Bottom Nav#url#ET Prime"
             >
               <Link href={utmPrimeUrl}>
                 <a>

@@ -36,15 +36,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const lastUrlComponent: string = all?.slice(-1).toString();
 
       let page = pageType(resolvedUrl);
-      let data = {};
-      let subsecData = {
-        subsec: {
-          subsec1: "",
-          subsec2: "",
-          subsec3: "",
-          subsec4: "",
-          subsec5: "",
-        },
+      let pageData = {};
+      let commonData_store = {
+        pageType: page,
       };
 
       if (page == "home") {
@@ -52,21 +46,31 @@ export const getServerSideProps = wrapper.getServerSideProps(
       } else if (page == "articleshow") {
         await store.dispatch(fetchArticle(lastUrlComponent.split(".cms")[0]));
       } else if (page == "videoshow") {
-        let url =
+        const url =
           "https://etdev8243.indiatimes.com/reactfeed.cms?feedtype=etjson&type=videoshow&msid=90067526&platform=wap";
         // const { data } = await Service.get(url);
-        let res = await fetch(url);
-        data = await res.json();
-        subsecData.subsec = data?.seo.subsecnames;
+        await fetch(url)
+          .then((res) => res.json())
+          .then((data) => {
+            const { parameters, searchResult, seo, common_config } = data;
+            commonData_store = Object.assign({}, commonData_store, {
+              subsec: seo.subsecnames,
+            });
+            Object.assign(pageData, data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       } else {
         console.log("came in articlelist");
       }
 
-      await store.dispatch(setCommonData(subsecData));
+      await store.dispatch(setCommonData(commonData_store));
+
       return {
         props: {
           page,
-          data,
+          pageData,
         },
       };
     }

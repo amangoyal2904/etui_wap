@@ -89,11 +89,7 @@ const DynamicFooter: FC = () => {
               href="https://www.facebook.com/EconomicTimes"
               title="Facebook"
               target="_blank"
-              onClick={fireGAEvent}
-              data-action="Facebook - Click"
-              data-label="Facebook"
-              data-url="https://www.facebook.com/EconomicTimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#Facebook - Click#Facebook-href"
               rel="noopener nofollow noreferrer"
               className={styles.fbShare}
             ></a>
@@ -102,11 +98,7 @@ const DynamicFooter: FC = () => {
               href="https://www.linkedin.com/company/economictimes"
               target="_blank"
               title="Twitter"
-              onClick={fireGAEvent}
-              data-action="Twitter - Click"
-              data-label="Twitter"
-              data-url="https://www.linkedin.com/company/economictimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#Twitter - Click#Twitter-href"
               rel="noopener nofollow noreferrer"
               className={styles.twShare}
             ></a>
@@ -115,11 +107,7 @@ const DynamicFooter: FC = () => {
               href="https://twitter.com/economictimes"
               target="_blank"
               title="LinkedIn"
-              onClick={fireGAEvent}
-              data-action="LinkedIn - Click"
-              data-label="LinkedIn"
-              data-url="https://twitter.com/economictimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#LinkedIn - Click#LinkedIn-href"
               rel="noopener nofollow noreferrer"
               className={styles.inShare}
             ></a>
@@ -128,14 +116,8 @@ const DynamicFooter: FC = () => {
         {!isSubscribed && (
           <div className={styles.row}>
             <a
-              onClick={(e) => {
-                fireGAEvent(e);
-                paymentButtonListener();
-              }}
-              data-action="Footer"
-              data-label="PWA Footer Prime Click"
-              data-url=""
-              data-link="Prime Distribution - PWA"
+              onClick={(e) => paymentButtonListener()}
+              data-ga-onclick="Prime Distribution - PWA#Footer#PWA Footer Prime Click"
               rel="noopener"
             >
               <span className={styles.primeLogo} />
@@ -195,7 +177,7 @@ const DynamicFooter: FC = () => {
       return state.footer;
     });
 
-    let interLinkingData = store.data?.widgets;
+    const interLinkingData = store.data?.widgets;
     const interLinkingList = interLinkingData?.map((i, index) => (
       <div
         data-attr="interlinking"
@@ -207,12 +189,13 @@ const DynamicFooter: FC = () => {
         )}
 
         <ul className={styles.content}>
-          {interLinkingData[index]["data"]?.map((item, index) => {
+          {interLinkingData[index]["data"]?.map((item, key) => {
             return (
-              <li>
-                <Link href={item.url} key={`${index}_inkd`}>
-                  <a className="ellipsis">{item.title}</a>
-                </Link>
+              <li
+                data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
+                key={`${key}_inkd`}
+              >
+                <Link href={item.url}>{item.title}</Link>
               </li>
             );
           })}
@@ -224,18 +207,6 @@ const DynamicFooter: FC = () => {
         <div className={styles.dynamicCategories}>{interLinkingList}</div>
       </>
     );
-  };
-  let fireGAEvent = (e) => {
-    const { action, label, url, link } = e.currentTarget.dataset;
-    const category = link;
-    let footerLink = "";
-    if (url.indexOf("https:") == -1) {
-      footerLink = ET_WAP_URL + url;
-    } else {
-      footerLink = url;
-    }
-    const eventLabel = label + "-" + footerLink;
-    window.ga(category, action, eventLabel);
   };
   return (
     <div id="footer" className={hide_footer ? styles.hide_footer : ""}>

@@ -28,7 +28,7 @@ const slice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      console.log("HYDRATE", action.payload);
+      //console.log("HYDRATE", action.payload);
       return {
         ...state,
         ...action.payload.footer,
@@ -41,10 +41,16 @@ export default slice.reducer;
 
 const { success, loading, error } = slice.actions;
 
-export const fetchFooter = (subsec1) => async (dispatch) => {
-  dispatch(loading);
-  let url = `https://economictimes.indiatimes.com/pwa_footer_feed.cms?feedtype=etjson&subsec1=${subsec1}`;
-  let res = await fetch(url);
-  let data = await res.json();
-  dispatch(success(data));
+export const fetchFooter = (subsec) => async (dispatch) => {
+  try{
+    dispatch(loading);
+    const params = subsec ? (`subsec1=${subsec.subsec1}&subsec2=${subsec.subsec2}`) : (`subsec1=46286967`);
+    const url = `https://economictimes.indiatimes.com/pwa_footer_feed.cms?feedtype=etjson&${params}`;
+    console.log(url)
+    let res = await fetch(url);
+    let data = await res.json();
+    dispatch(success(data));
+  }catch(e){
+    console.log(e.message)
+  }  
 };
