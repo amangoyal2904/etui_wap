@@ -1,6 +1,5 @@
 {
-    "cSpell.words": [
-        "articleshow",
-        "primearticleshow"
-    ]
+  "cSpell.words": ["articleshow", "primearticleshow"],
+  "prettier.requireConfig": true,
+  "prettier.tabWidth": 4
 }
