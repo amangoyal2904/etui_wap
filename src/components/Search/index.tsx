@@ -122,7 +122,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
         }
       })
       .catch((err) => {
-        console.log("error in redirect Api");
+        console.log("error in redirect Api", err);
         defaultRedirect(keyword.toLowerCase(), specialKeywords);
       });
   };

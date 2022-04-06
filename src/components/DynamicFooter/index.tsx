@@ -1,12 +1,15 @@
 import styles from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
 import { ET_WAP_URL } from "../../utils/common";
+
 declare global {
   interface Window {
-    __isBrowser__: any;
-    gdprCheck: any;
-    objAuth: any;
+    __isBrowser__: boolean;
+    gdprCheck: () => boolean;
+    objAuth: {
+      planPage: string;
+    };
   }
 }
 declare module "react" {
@@ -24,11 +27,7 @@ const DynamicFooter: FC = () => {
     window.location.href = paymentUrl;
   };
   const showPersonalizedlink = () => {
-    if (
-      typeof window !== "undefined" &&
-      window.__isBrowser__ &&
-      !window.gdprCheck()
-    ) {
+    if (typeof window !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
       return (
         <div id="personalized">
           |
@@ -54,11 +53,11 @@ const DynamicFooter: FC = () => {
     }
   };
   const downloadSection = (isSubscribed = false) => {
-    const subscriptionurl =
+    /*const subscriptionurl =
       (typeof window != "undefined" &&
         window.objAuth &&
         window.objAuth.planPage) ||
-      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";
+      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";*/
     return (
       <div className={styles.downloadSection} key="downloadSec">
         <div className={styles.row} displaytype="GDPR">
@@ -142,10 +141,7 @@ const DynamicFooter: FC = () => {
           </div>
         )}
         <div className={styles.row}>
-          <a
-            href="https://m.economictimes.com/termsofuse.cms"
-            className={`${styles.policyTerm} ${styles.withPadding}`}
-          >
+          <a href="https://m.economictimes.com/termsofuse.cms" className={`${styles.policyTerm} ${styles.withPadding}`}>
             Terms of Use &amp; Grievance Redressal Policy
           </a>
           |
@@ -180,8 +176,7 @@ const DynamicFooter: FC = () => {
         </div>
         <div className={styles.row}>
           <div className={styles.copyright}>
-            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All
-            rights reserved. Powered by Indiatimes.
+            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
           </div>
         </div>
       </div>
