@@ -6,7 +6,7 @@ const slice = createSlice({
   initialState: {
     data: [],
     isFetching: false,
-    isFetchError: false,
+    isFetchError: false
   },
   reducers: {
     articleSuccess: (state, action) => {
@@ -22,17 +22,17 @@ const slice = createSlice({
       state.isFetching = false;
       state.isFetchError = true;
       state.data = [];
-    },
+    }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       console.log("HYDRATE", action.payload);
       return {
         ...state,
-        ...action.payload.article,
+        ...action.payload.article
       };
-    },
-  },
+    }
+  }
 });
 
 export default slice.reducer;
@@ -44,12 +44,11 @@ const { articleSuccess, articleLoading, articleError } = slice.actions;
 export const fetchArticle = (articleId) => async (dispatch) => {
   try {
     dispatch(articleLoading);
-    let res = await fetch(
-      `https://etpwaapi.economictimes.com/request?type=article&msid=${articleId}`
-    );
-    let data = await res.json();
+    const res = await fetch(`https://etpwaapi.economictimes.com/request?type=article&msid=${articleId}`);
+    const data = await res.json();
     dispatch(articleSuccess(data));
   } catch (e) {
+    dispatch(articleError);
     return console.error(e.message);
   }
 };

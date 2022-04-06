@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 declare global {
   interface Window {
-    __isBrowser__: any;
-    gdprCheck: any;
-    objAuth: any;
+    __isBrowser__: boolean;
+    gdprCheck: () => boolean;
+    objAuth: {
+      planPage: string;
+    };
   }
 }
 declare module "react" {
@@ -19,18 +21,14 @@ declare module "react" {
 }
 
 const DynamicFooter: FC = () => {
-  let hide_footer = false;
+  const hide_footer = false;
   const _html = [];
-  let paymentButtonListener = () => {
-    let paymentUrl = "";
+  const paymentButtonListener = () => {
+    const paymentUrl = "";
     window.location.href = paymentUrl;
   };
-  let showPersonalizedlink = () => {
-    if (
-      typeof window !== "undefined" &&
-      window.__isBrowser__ &&
-      !window.gdprCheck()
-    ) {
+  const showPersonalizedlink = () => {
+    if (typeof window !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
       return (
         <div id="personalized">
           |
@@ -55,12 +53,12 @@ const DynamicFooter: FC = () => {
       return "";
     }
   };
-  let downloadSection = (isSubscribed = false) => {
-    let subscriptionurl =
+  const downloadSection = (isSubscribed = false) => {
+    /*const subscriptionurl =
       (typeof window != "undefined" &&
         window.objAuth &&
         window.objAuth.planPage) ||
-      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";
+      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";*/
     return (
       <div className={styles.downloadSection} key="downloadSec">
         <div className={styles.row} displaytype="GDPR">
@@ -126,10 +124,7 @@ const DynamicFooter: FC = () => {
           </div>
         )}
         <div className={styles.row}>
-          <a
-            href="https://m.economictimes.com/termsofuse.cms"
-            className={`${styles.policyTerm} ${styles.withPadding}`}
-          >
+          <a href="https://m.economictimes.com/termsofuse.cms" className={`${styles.policyTerm} ${styles.withPadding}`}>
             Terms of Use &amp; Grievance Redressal Policy
           </a>
           |
@@ -164,8 +159,7 @@ const DynamicFooter: FC = () => {
         </div>
         <div className={styles.row}>
           <div className={styles.copyright}>
-            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All
-            rights reserved. Powered by Indiatimes.
+            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
           </div>
         </div>
       </div>
@@ -179,14 +173,8 @@ const DynamicFooter: FC = () => {
 
     const interLinkingData = store.data?.widgets;
     const interLinkingList = interLinkingData?.map((i, index) => (
-      <div
-        data-attr="interlinking"
-        className={styles.category}
-        key={`${index}_inkl`}
-      >
-        {interLinkingData[index]["data"] && (
-          <h2>{interLinkingData[index].title}</h2>
-        )}
+      <div data-attr="interlinking" className={styles.category} key={`${index}_inkl`}>
+        {interLinkingData[index]["data"] && <h2>{interLinkingData[index].title}</h2>}
 
         <ul className={styles.content}>
           {interLinkingData[index]["data"]?.map((item, key) => {

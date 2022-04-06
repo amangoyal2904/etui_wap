@@ -1,5 +1,8 @@
 {
-  "cSpell.words": ["articleshow", "primearticleshow"],
-  "prettier.requireConfig": true,
-  "prettier.tabWidth": 4
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
