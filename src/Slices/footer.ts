@@ -4,7 +4,9 @@ import { HYDRATE } from "next-redux-wrapper";
 const slice = createSlice({
   name: "footer",
   initialState: {
-    data: [],
+    data: {
+      widgets: []
+    },
     isFetching: false,
     isFetchError: false,
     isFetchSuccess: false
@@ -18,12 +20,12 @@ const slice = createSlice({
     loading: (state) => {
       state.isFetching = true;
       state.isFetchError = false;
-      state.data = [];
+      //state.data = [];
     },
     error: (state) => {
       state.isFetching = false;
       state.isFetchError = true;
-      state.data = [];
+      //state.data = [];
     }
   },
   extraReducers: {
@@ -51,6 +53,7 @@ export const fetchFooter = (subsec) => async (dispatch) => {
     const data = await res.json();
     dispatch(success(data));
   } catch (e) {
-    console.log(e.message);
+    dispatch(error);
+    return console.log(e.message);
   }
 };

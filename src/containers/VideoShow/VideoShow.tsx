@@ -115,7 +115,6 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
       })}
 
       <AppDownloadWidget tpName="videoShow" />
-      <DynamicFooter />
     </>
   );
 };

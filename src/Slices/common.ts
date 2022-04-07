@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { pageType } from "utils/utils";
 import { fetchFooter } from "./footer";
 
 const slice = createSlice({
@@ -8,23 +7,23 @@ const slice = createSlice({
   initialState: {
     data: {
       subsec: {},
-      pageType: "",
-    },
+      pageType: ""
+    }
   },
   reducers: {
     update: (state, action) => {
       state.data = action.payload;
-    },
+    }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       //console.log('HYDRATE', action.payload);
       return {
         ...state,
-        ...action.payload.common,
+        ...action.payload.common
       };
-    },
-  },
+    }
+  }
 });
 
 export default slice.reducer;

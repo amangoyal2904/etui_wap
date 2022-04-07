@@ -117,7 +117,7 @@ const Footer: FC = () => {
     // setMenuStyle(false);
   }
 
-  function toggleMenu(evt, type) {
+  function toggleMenu() {
     // let menuStyle = false;
     // setMenuStyle(menuStyle);
     document.getElementById("root").style.position = "";
@@ -134,7 +134,7 @@ const Footer: FC = () => {
             }`}
           >
             <li
-              onClick={(e) => toggleMenu(e, "home")}
+              onClick={() => toggleMenu()}
               className={`${styles.etHome} ${activeLink == "home" ? styles.active : null}`}
               role="button"
               data-ga-onclick="PWA Bottom Nav#url#Home"
@@ -149,7 +149,7 @@ const Footer: FC = () => {
             <li
               className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : null}`}
               role="button"
-              onClick={(e) => toggleMenu(e, "markets")}
+              onClick={() => toggleMenu()}
               data-ga-onclick="PWA Bottom Nav#url#Markets"
             >
               <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : null}>
@@ -160,7 +160,7 @@ const Footer: FC = () => {
             <li
               className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : null}`}
               role="button"
-              onClick={(e) => toggleMenu(e, "wealth")}
+              onClick={() => toggleMenu()}
               data-ga-onclick="PWA Bottom Nav#url#Wealth"
             >
               <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : null}>

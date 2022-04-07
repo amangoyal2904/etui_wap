@@ -1,9 +1,9 @@
 import styles from "./styles.module.scss";
-import { FC, useState } from "react";
+import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
-import { ET_WAP_URL } from "../../utils/common";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { AppState } from "app/store";
 declare global {
   interface Window {
     __isBrowser__: boolean;
@@ -114,7 +114,7 @@ const DynamicFooter: FC = () => {
         {!isSubscribed && (
           <div className={styles.row}>
             <a
-              onClick={(e) => paymentButtonListener()}
+              onClick={() => paymentButtonListener()}
               data-ga-onclick="Prime Distribution - PWA#Footer#PWA Footer Prime Click"
               rel="noopener"
             >
@@ -167,7 +167,7 @@ const DynamicFooter: FC = () => {
   };
 
   const Interlinking = () => {
-    const store = useSelector((state: any) => {
+    const store = useSelector((state: AppState) => {
       return state.footer;
     });
 

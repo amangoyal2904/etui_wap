@@ -6,7 +6,6 @@ const VideoShow = dynamic(() => import("containers/VideoShow"));
 const Home = dynamic(() => import("containers/Home"));
 import { wrapper } from "app/store";
 import { fetchArticle } from "Slices/article";
-import { useStore } from "react-redux";
 import { pageType } from "utils/utils";
 import { setCommonData } from "Slices/common";
 
@@ -46,7 +45,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        const { parameters, searchResult, seo, common_config } = data;
+        const { seo } = data;
         commonData_store = Object.assign({}, commonData_store, {
           subsec: seo.subsecnames
         });
