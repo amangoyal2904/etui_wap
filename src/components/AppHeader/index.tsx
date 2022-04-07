@@ -27,10 +27,7 @@ const AppHeader: FC = () => {
       <header className={styles.header}>
         <div className={styles.top}>
           <div className={styles.hamber}>
-            <span
-              className={styles.hamberIcon}
-              onClick={() => setIsDrawerOpen(true)}
-            ></span>
+            <span className={styles.hamberIcon} onClick={() => setIsDrawerOpen(true)}></span>
           </div>
           <div className={styles.logo}>
             <Link href="/">
@@ -46,10 +43,7 @@ const AppHeader: FC = () => {
             </Link>
           </div>
           <div className={styles.search}>
-            <span
-              className={styles.searchIcon}
-              onClick={() => setIsSearchOverlayOpen(true)}
-            ></span>
+            <span className={styles.searchIcon} onClick={() => setIsSearchOverlayOpen(true)}></span>
           </div>
         </div>
         <div className={styles.ctas}>
@@ -59,9 +53,7 @@ const AppHeader: FC = () => {
 
         {store.isFetchSuccess && store.isNavBar && <NavBar />}
       </header>
-      {store.isFetchSuccess && (
-        <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
-      )}
+      {store.isFetchSuccess && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />}
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
     </>
   );

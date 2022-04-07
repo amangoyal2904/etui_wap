@@ -1,24 +1,24 @@
 import { NextPage } from "next";
-import { PAGE_TYPE, SiteConfig } from "utils/common";
+//import { PAGE_TYPE, SiteConfig } from "utils/common";
 import { removeBackSlash } from "utils/utils";
-import { SEOProps } from "./types";
-
+import { SEOProps, WebPageSchemaProps, NewsArticleSchemaProps, VideoObjectSchemaProps, BreadCrumbProps } from "./types";
+/*
 const itemList = (schemaType: string) => {
   return schemaType == PAGE_TYPE.articlelist
     ? {
-        itemScope: "itemscope",
-        itemType: "http://schema.org/ItemList"
-      }
+      itemScope: "itemscope",
+      itemType: "http://schema.org/ItemList"
+    }
     : "";
 };
 
 const listItem = (schemaType: string) => {
   return schemaType == PAGE_TYPE.articlelist
     ? {
-        itemProp: "itemListElement",
-        itemScope: "itemscope",
-        itemType: "http://schema.org/ListItem"
-      }
+      itemProp: "itemListElement",
+      itemScope: "itemscope",
+      itemType: "http://schema.org/ListItem"
+    }
     : "";
 };
 
@@ -49,15 +49,15 @@ const metaTag = (name: string, content: string) => {
     contentval.indexOf(".com") > -1
       ? contentval
       : contentval == "websitename"
-      ? SiteConfig.wapsiteregionalname
-      : contentval.substring(0, 110);
+        ? SiteConfig.wapsiteregionalname
+        : contentval.substring(0, 110);
   return name && content ? <meta itemProp={name} content={contentval} /> : null;
 };
 
 const itemProp = (prop) => {
   return { itemProp: prop };
 };
-
+*/
 const getAuthors = (d) => {
   const authors = [];
   try {
@@ -105,8 +105,7 @@ const seoDate = (dateStr: string) => {
     let time = timeInfo[1];
     const period = timeInfo[2];
     if (period == "PM") {
-      time =
-        parseInt(time.split(":")[0]) + 12 + ":" + time.split(":")[1] + ":00";
+      time = parseInt(time.split(":")[0]) + 12 + ":" + time.split(":")[1] + ":00";
     } else {
       time = parseInt(time.split(":")[0]) + ":" + time.split(":")[1] + ":00";
     }
@@ -115,8 +114,168 @@ const seoDate = (dateStr: string) => {
     return "";
   }
 };
+const webPageSchema = (data: WebPageSchemaProps) => {
+  const { name, url, description } = data;
+  const publisherData = data.publisher;
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    name,
+    url,
+    description,
+    publisher: {
+      "@type": publisherData.type,
+      name: publisherData.name,
+      url: publisherData.url,
+      logo: {
+        "@type": publisherData.logo.type,
+        url: publisherData.logo.url
+      }
+    }
+  };
+  return _schema;
+};
+const newsArticleSchema = (data: NewsArticleSchemaProps) => {
+  const {
+    inLanguage,
+    keywords,
+    headline,
+    description,
+    datePublished,
+    dateModified,
+    name,
+    url,
+    mainEntityOfPage,
+    articleSection,
+    articleBody
+  } = data;
+  const publisherData = data.publisher;
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    inLanguage,
+    keywords,
+    headline,
+    description,
+    datePublished,
+    dateModified,
+    name,
+    url,
+    mainEntityOfPage,
+    articleSection,
+    articleBody,
+    image: {
+      "@type": data.image.type,
+      url: data.image.url,
+      height: data.image.height,
+      width: data.image.width
+    },
+    author: {
+      "@type": data.author.type,
+      name: data.author.name
+    },
+    publisher: {
+      "@type": publisherData.type,
+      name: publisherData.name,
+      logo: {
+        "@type": publisherData.logo.type,
+        url: publisherData.logo.url,
+        width: publisherData.logo.width,
+        height: publisherData.logo.height
+      }
+    }
+  };
+  return _schema;
+};
+const organizationSchema = (url: string) => {
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "NewsMediaOrganization",
+    name: "Economic Times",
+    url: "https://economictimes.indiatimes.com/",
+    logo: {
+      "@type": "ImageObject",
+      url,
+      width: 600,
+      height: 60
+    }
+  };
+  return _schema;
+};
+const videoObjectSchema = (data: VideoObjectSchemaProps) => {
+  const {
+    thumbnailUrl,
+    uploadDate,
+    datePublished,
+    dateModified,
+    name,
+    description,
+    keywords,
+    inLanguage,
+    contentUrl,
+    duration
+  } = data;
+  const publisherData = data.publisher;
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "VideoObject",
+    thumbnailUrl,
+    uploadDate,
+    datePublished,
+    dateModified,
+    name,
+    description,
+    keywords,
+    inLanguage,
+    contentUrl,
+    duration,
+    publisher: {
+      "@type": "Organization",
+      name: publisherData.name,
+      logo: {
+        "@type": "ImageObject",
+        url: publisherData.logo.url,
+        width: publisherData.logo.width,
+        height: publisherData.logo.height
+      }
+    },
+    image: {
+      "@type": "ImageObject",
+      url: data.image.url,
+      width: data.image.width,
+      height: data.image.height
+    }
+  };
+  return _schema;
+};
+const breadcrumbSchema = (data: BreadCrumbProps) => {
+  const itemListArr = [];
+  const _data = data;
+  if (Array.isArray(_data)) {
+    _data.forEach((d, index) => {
+      if (d && d.url) {
+        itemListArr.push({
+          "@type": "ListItem",
+          position: `${index + 1}`,
+          name: `${d.title}`,
+          item: {
+            "@id": `${d.url}`
+          }
+        });
+      }
+    });
+  }
+  const schema = {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: itemListArr
+  };
+  return schema;
+};
 
-const Schema: NextPage<SEOProps> = ({ data, page }) => {
+const Schema: NextPage<SEOProps> = ({ data }) => {
+  console.log("schema data", data.seoschema);
+  const pageType = data.page || "";
   const { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};
 
@@ -124,17 +283,12 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
   let primeSchema = {};
 
   const authors = getAuthors(data);
-  const alternativeHeadline = `${
-    data.keywords && data.keywords.substring(0, 110)
-  }`;
-  const headline = `${removeBackSlash(
-    data.title && data.title.substring(0, 110)
-  )}`;
+  const alternativeHeadline = `${data.keywords && data.keywords.substring(0, 110)}`;
+  const headline = `${removeBackSlash(data.title && data.title.substring(0, 110))}`;
   const dateUpdated = seoDate(data.updated ? data.updated : "");
   const datePublished = seoDate(data.date ? data.date : "");
   const keywords = data.keywords ? data.keywords.split(",") : [];
-  const movieSchema =
-    schemaMeta && Object.keys(schemaMeta).length !== 0 ? schemaMeta : "";
+  const movieSchema = schemaMeta && Object.keys(schemaMeta).length !== 0 ? schemaMeta : "";
 
   const schemaData = {
     inLanguage: data.lang,
@@ -226,11 +380,7 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
     if (seoschema && Array.isArray(schema)) {
       schema.push(seoschema);
     }
-  } else if (
-    schemaType == "breadcrumb" &&
-    Array.isArray(data) &&
-    data.length > 0
-  ) {
+  } else if (schemaType == "breadcrumb" && Array.isArray(data) && data.length > 0) {
     const itemListArr = [];
     data.forEach((d, index) => {
       if (d && d.url) {
@@ -251,10 +401,7 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
     };
   } else if (schemaType == "articlelist" || schemaType == "topic") {
     const mapdata =
-      (data.seoListData &&
-        (schemaType == "topic"
-          ? data.seoListData.slice(0, 20)
-          : data.seoListData.slice(0, 10))) ||
+      (data.seoListData && (schemaType == "topic" ? data.seoListData.slice(0, 20) : data.seoListData.slice(0, 10))) ||
       [];
     const itemListArr = mapdata.map((item, index) => {
       // console.log("data", index, item.title, item.url);
@@ -296,19 +443,22 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
     if (schemaType == "topic") {
       const breadcrumbData = (data && data.breadcrumb) || [];
       const itemListArr = [];
-      breadcrumbData.forEach((d, index) => {
-        if (d && d.url) {
-          itemListArr.push({
-            "@type": "ListItem",
-            position: `${index + 1}`,
-            name: `${d.title}`,
-            item: {
-              "@id": `${d.url}`
-            }
-          });
-        }
-      });
-      const hasPartArr = mapdata.map((item, index) => {
+      if (Array.isArray(breadcrumbData)) {
+        breadcrumbData.forEach((d, index) => {
+          if (d && d.url) {
+            itemListArr.push({
+              "@type": "ListItem",
+              position: `${index + 1}`,
+              name: `${d.title}`,
+              item: {
+                "@id": `${d.url}`
+              }
+            });
+          }
+        });
+      }
+
+      const hasPartArr = mapdata.map((item) => {
         return {
           "@type": "NewsArticle",
           headline: item.title,
@@ -363,6 +513,17 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
           }
         );
     }
+  } else if (pageType == "videoshow") {
+    //Array.isArray(data) && data.length > 0
+    const _breadcrumbSchema =
+      Array.isArray(data.breadcrumb) && data.breadcrumb.length > 0 ? breadcrumbSchema(data.breadcrumb) : null;
+    const _logoImgUrl = data.org_img || "";
+    const _webPageSchema = data.seoschema.webPage ? webPageSchema(data.seoschema.webPage) : null;
+    const _newsArticleSchema = data.seoschema.newsArticle ? newsArticleSchema(data.seoschema.newsArticle) : null;
+    const _organizationSchema = _logoImgUrl && _logoImgUrl !== "" ? organizationSchema(_logoImgUrl) : null;
+    const _videoObjectSchema = data.seoschema.videoObject ? videoObjectSchema(data.seoschema.videoObject) : null;
+    schema = [_breadcrumbSchema, _webPageSchema, _newsArticleSchema, _organizationSchema, _videoObjectSchema];
+    //data.seoschema
   }
 
   return (
@@ -375,10 +536,7 @@ const Schema: NextPage<SEOProps> = ({ data, page }) => {
           }}
         />
       )}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
     </>
   );
 };

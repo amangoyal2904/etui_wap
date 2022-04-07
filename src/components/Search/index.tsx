@@ -18,18 +18,10 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
   const getSearchData = (searchValue) => {
     searchValue = searchValue.trim();
     if (searchValue) {
-      const ethomeURL = isDev
-        ? apiConfig.ethome["development"]
-        : apiConfig.ethome["production"];
-      const newsSearchURL = isDev
-        ? apiConfig.newsSearch["development"]
-        : apiConfig.newsSearch["production"];
-      const defSearchURL = isDev
-        ? apiConfig.definitionSearch["development"]
-        : apiConfig.definitionSearch["production"];
-      const reptrSearchURL = isDev
-        ? apiConfig.reporterSearch["development"]
-        : apiConfig.reporterSearch["production"];
+      const ethomeURL = isDev ? apiConfig.ethome["development"] : apiConfig.ethome["production"];
+      const newsSearchURL = isDev ? apiConfig.newsSearch["development"] : apiConfig.newsSearch["production"];
+      const defSearchURL = isDev ? apiConfig.definitionSearch["development"] : apiConfig.definitionSearch["production"];
+      const reptrSearchURL = isDev ? apiConfig.reporterSearch["development"] : apiConfig.reporterSearch["production"];
 
       Promise.all([
         fetch(
@@ -39,9 +31,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
         fetch(`${defSearchURL}?q=${searchValue}`),
         fetch(`${reptrSearchURL}?keyword=${searchValue}`)
       ])
-        .then((responses) =>
-          Promise.all(responses.map((response) => response.json()))
-        )
+        .then((responses) => Promise.all(responses.map((response) => response.json())))
         .then((data) => {
           setSearchResult(data);
         })
@@ -79,11 +69,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
     searchResult.forEach((item) => {
       if (Array.isArray(item) && item.length !== 0) {
         allEmpty = false;
-      } else if (
-        typeof item == "object" &&
-        item !== null &&
-        !Array.isArray(item)
-      ) {
+      } else if (typeof item == "object" && item !== null && !Array.isArray(item)) {
         Object.values(item).forEach((data) => {
           if (Array.isArray(data) && data.length !== 0) {
             allEmpty = false;
@@ -113,8 +99,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
         const redirectURL = res.url;
         if (redirectURL) {
           window.location =
-            redirectURL.indexOf("https://") == -1 &&
-            redirectURL.indexOf("http://") == -1
+            redirectURL.indexOf("https://") == -1 && redirectURL.indexOf("http://") == -1
               ? "https://m.economictimes.com" + redirectURL
               : redirectURL;
         } else {
@@ -179,14 +164,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
             {searchResult.length > 0 &&
               (!checkIfEmptyResults() ? (
                 searchResult.map((data, index) => {
-                  return (
-                    <SearchList
-                      index={index}
-                      key={index}
-                      searchValue={searchKeyword.trim()}
-                      data={data}
-                    />
-                  );
+                  return <SearchList index={index} key={index} searchValue={searchKeyword.trim()} data={data} />;
                 })
               ) : (
                 <li className={styles.lastList}>No results found</li>
