@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
 export default function SocialShare() {
   return (
@@ -11,8 +11,8 @@ export default function SocialShare() {
         <span className={styles.in}></span>
         <span className={styles.email}></span>
         <span className={styles.sms}></span>
-        <span className={styles.bookmark}></span>        
+        <span className={styles.bookmark}></span>
       </div>
     </div>
-  )
+  );
 }

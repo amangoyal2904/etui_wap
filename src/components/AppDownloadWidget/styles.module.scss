@@ -1,62 +1,62 @@
 @import "styles/variables.scss";
 
 .topWrap {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 .wrap {
-    border: 3px solid #ffe9e2;
-    height: 155px;
-    background-image: url(https://img.etimg.com/photo/msid-83719345.cms);
-    background-repeat: no-repeat;
-    background-position: right;
-    .innerWrap {
-        margin-left: 14px;
-    }
-    .innerHead {
-        font-size: 15px;
-        letter-spacing: 0.5px;
-    }
-    .innerText {
-        font-size: 12px;
-        padding-bottom: 4px;
-        display: flex;
-        margin: 3px 0;
-        align-items: center;
-    }
-    .leftTick {
-        width: 13px;
-        color: #fff;
-        display: inline-block;
-        height: 13px;
-        background-color: #ed193b;
-        border-radius: 100%;
-        text-align: center;
-        margin-right: 5px;
-    }
-    .leftTick::after {
-        content: "";
-        display: block;
-        position: relative;
-        border-top: 0;
-        border-left: 0;
-        transform: rotate(45deg);
-        height: 5px;
-        width: 3px;
-        left: 5px;
-        top: 3px;
-        border: 1px solid #fff;
-        border-top: 0;
-        border-left: 0;
-    }
-    .installBtn {
-        padding: 6px 8px 8px;
-        border-radius: 0.9px;
-        border: 0.5px solid #ed193b;
-        background-color: #ed193b;
-        font-size: 11px;
-        font-weight: 800;
-        color: #fff;
-        margin-top: 4px;
-        display: inline-block;
-    }
+  border: 3px solid #ffe9e2;
+  height: 155px;
+  background-image: url(https://img.etimg.com/photo/msid-83719345.cms);
+  background-repeat: no-repeat;
+  background-position: right;
+  .innerWrap {
+    margin-left: 14px;
+  }
+  .innerHead {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  .innerText {
+    font-size: 12px;
+    padding-bottom: 4px;
+    display: flex;
+    margin: 3px 0;
+    align-items: center;
+  }
+  .leftTick {
+    width: 13px;
+    color: #fff;
+    display: inline-block;
+    height: 13px;
+    background-color: #ed193b;
+    border-radius: 100%;
+    text-align: center;
+    margin-right: 5px;
+  }
+  .leftTick::after {
+    content: "";
+    display: block;
+    position: relative;
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(45deg);
+    height: 5px;
+    width: 3px;
+    left: 5px;
+    top: 3px;
+    border: 1px solid #fff;
+    border-top: 0;
+    border-left: 0;
+  }
+  .installBtn {
+    padding: 6px 8px 8px;
+    border-radius: 0.9px;
+    border: 0.5px solid #ed193b;
+    background-color: #ed193b;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 4px;
+    display: inline-block;
+  }
 }

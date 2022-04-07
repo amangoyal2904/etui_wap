@@ -12,13 +12,7 @@ const Footer: FC = () => {
   const utm_campaign = "ETPrimedistribution";
   const utm_medium = "Bottom_Nav";
   const utmPrimeUrl =
-    ET_PRIME_URL +
-    "?utm_source=" +
-    utm_source +
-    "&utm_campaign=" +
-    utm_campaign +
-    "&utm_medium=" +
-    utm_medium;
+    ET_PRIME_URL + "?utm_source=" + utm_source + "&utm_campaign=" + utm_campaign + "&utm_medium=" + utm_medium;
   const pageType = Utility.pageType(router.asPath);
   const [activeLink, setActiveLink] = useState("");
   // const [menuStyle, setMenuStyle] = useState(false);
@@ -41,10 +35,7 @@ const Footer: FC = () => {
         if (fixFooterInterval) {
           clearInterval(fixFooterInterval);
         }
-        if (
-          !footer_banner &&
-          !(pageType === "articleshow" || pageType === "primearticle")
-        ) {
+        if (!footer_banner && !(pageType === "articleshow" || pageType === "primearticle")) {
           fixFooterInterval = setTimeout(() => {
             if (footer) {
               footer.style.bottom = (footerHeight < -25 ? -50 : 0) + "px";
@@ -147,85 +138,53 @@ const Footer: FC = () => {
       {
         <ul
           className={`${styles.footerMenu} ${
-            pageType === "articleshow" || pageType === "primearticle"
-              ? styles.hide
-              : ""
+            pageType === "articleshow" || pageType === "primearticle" ? styles.hide : ""
           }`}
         >
           <li
             onClick={(e) => toggleMenu(e, "home")}
-            className={`${styles.etHome} ${
-              activeLink == "home" ? styles.active : null
-            }`}
+            className={`${styles.etHome} ${activeLink == "home" ? styles.active : null}`}
             role="button"
             ga-data="Home"
           >
             <Link href="/">
               <a className={activeLink == "home" ? styles.active : null}>
-                <p
-                  className={`${styles.icon} ${
-                    activeLink == "home" ? styles.active : null
-                  }`}
-                ></p>
+                <p className={`${styles.icon} ${activeLink == "home" ? styles.active : null}`}></p>
                 <span>Home</span>
               </a>
             </Link>
           </li>
           <li
-            className={`${styles.etMarket} ${
-              activeLink == "markets" ? styles.active : null
-            }`}
+            className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : null}`}
             role="button"
             onClick={(e) => toggleMenu(e, "markets")}
             ga-data="Markets"
           >
-            <a
-              href={ET_MARKET_URL}
-              className={activeLink == "markets" ? styles.active : null}
-            >
-              <p
-                className={`${styles.icon} ${
-                  activeLink == "markets" ? styles.active : null
-                }`}
-              ></p>
+            <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : null}>
+              <p className={`${styles.icon} ${activeLink == "markets" ? styles.active : null}`}></p>
               <span>Markets</span>
             </a>
           </li>
           <li
-            className={`${styles.etWealth} ${
-              activeLink == "wealth" ? styles.active : null
-            }`}
+            className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : null}`}
             role="button"
             onClick={(e) => toggleMenu(e, "wealth")}
             ga-data="Wealth"
           >
-            <a
-              href={ET_WEALTH_URL}
-              className={activeLink == "wealth" ? styles.active : null}
-            >
-              <p
-                className={`${styles.icon} ${
-                  activeLink == "wealth" ? styles.active : null
-                }`}
-              ></p>
+            <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : null}>
+              <p className={`${styles.icon} ${activeLink == "wealth" ? styles.active : null}`}></p>
               <span>Wealth</span>
             </a>
           </li>
           <li
-            className={`${styles.etPrime} ${
-              activeLink == "prime" ? styles.active : null
-            }`}
+            className={`${styles.etPrime} ${activeLink == "prime" ? styles.active : null}`}
             role="button"
             onClick={fireGAEvent}
             ga-data="ET Prime"
           >
             <Link href={utmPrimeUrl}>
               <a>
-                <p
-                  className={`${styles.icon} ${
-                    activeLink == "prime" ? styles.active : null
-                  }`}
-                ></p>
+                <p className={`${styles.icon} ${activeLink == "prime" ? styles.active : null}`}></p>
                 <span>ETPrime</span>
               </a>
             </Link>

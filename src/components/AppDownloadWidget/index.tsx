@@ -22,8 +22,7 @@ const AppDownloadWidget = (props: WidgetData) => {
                 <span className={styles.leftTick}></span>We’re 10X faster on app
               </p>
               <p className={styles.innerText}>
-                <span className={styles.leftTick}></span>Better viewing
-                experience
+                <span className={styles.leftTick}></span>Better viewing experience
               </p>
               <p className={styles.installBtn}>INSTALL ET APP</p>
             </div>

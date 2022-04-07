@@ -15,8 +15,7 @@ const seoData = {
   canonical: "",
   type: "article",
   description: "Page description",
-  image:
-    "https://img.etimg.com/thumb/msid-89883381,width-300,imgsize-48776,,resizemode-4,quality-100/nutella.jpg",
+  image: "https://img.etimg.com/thumb/msid-89883381,width-300,imgsize-48776,,resizemode-4,quality-100/nutella.jpg",
   inLanguage: "en",
   authors: [],
   agency: [],
@@ -62,7 +61,7 @@ const ArticleShow: NextPage<PageProps> = ({ query }) => {
           <a>Back Home</a>
         </Link>
       </div>
-      <SEO data={seoData} page="articleshow" />
+      <SEO data={seoData} />
     </div>
   );
 };

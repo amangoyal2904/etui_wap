@@ -55,31 +55,18 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     const r = data.sec.map((item, i) => {
       return (
         <React.Fragment key={level + "_" + i}>
-          <li
-            className={
-              level === 1 && i > 3 && !isSiblingsOpen[level + "_" + index]
-                ? styles.hidden
-                : ""
-            }
-          >
+          <li className={level === 1 && i > 3 && !isSiblingsOpen[level + "_" + index] ? styles.hidden : ""}>
             {makeLink(item, level, index, i)}
             {level === 1 && item.sec && (
               <span
-                className={
-                  !isSubmenuOpen[level + "_" + index + "_" + i]
-                    ? styles.rDown
-                    : styles.rUp
-                }
+                className={!isSubmenuOpen[level + "_" + index + "_" + i] ? styles.rDown : styles.rUp}
                 onClick={() => showSubmenu(level + "_" + index + "_" + i)}
               ></span>
             )}
             {item.sec && getMenu(item, level + 1, index + "_" + i)}
           </li>
           {level === 1 && i === 4 && !isSiblingsOpen[level + "_" + index] && (
-            <li
-              data-more={item.title}
-              onClick={() => showMore(level + "_" + index)}
-            >
+            <li data-more={item.title} onClick={() => showMore(level + "_" + index)}>
               VIEW MORE FROM {data.title} +
             </li>
           )}
@@ -89,26 +76,13 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     });
 
     return level !== 0 ? (
-      <ul
-        className={
-          level === 2 && !isSubmenuOpen[level - 1 + "_" + index]
-            ? styles.hidden
-            : styles.submenu
-        }
-      >
-        {r}
-      </ul>
+      <ul className={level === 2 && !isSubmenuOpen[level - 1 + "_" + index] ? styles.hidden : styles.submenu}>{r}</ul>
     ) : (
       r
     );
   };
 
-  const makeLink = (
-    data: MenuProps,
-    level: number,
-    iOuter: number | string,
-    iInner: number | string
-  ) => {
+  const makeLink = (data: MenuProps, level: number, iOuter: number | string, iInner: number | string) => {
     if (!(data.shorturl || data.url)) {
       return (
         <>
@@ -119,13 +93,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
 
     return (
       <Link href={data.shorturl ? data.shorturl : data.url}>
-        <a
-          className={
-            isSubmenuOpen[level + "_" + iOuter + "_" + iInner]
-              ? styles.bold
-              : ""
-          }
-        >
+        <a className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
           {data.title} {level === 0 && <span className={styles.rArr}></span>}
         </a>
       </Link>
@@ -133,10 +101,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
   };
 
   return menuData ? (
-    <nav
-      className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`}
-      ref={ref}
-    >
+    <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
       <div className={styles.user}>
         <div className={styles.userName}>
           <div>Welcome</div>
