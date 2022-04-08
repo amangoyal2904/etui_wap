@@ -1,21 +1,25 @@
 import * as Config from "./common";
+
 declare global {
   interface Window {
-    updateGAObserver: any;
+    // ga: (eventType: string, event?: string, category?: string, action?: string, label?: string, dimension?: object) => void;
+    // eslint-disable-next-line
     ga: any;
-    grxEvent: any;
-    grx: any;
-    customDimension: any;
+    grxEvent: (type: string, gaData: object, gaEvent: number) => void;
+    grx: (grxType: string, action: string, cd?: object) => void;
+    gtag: (event: string, action: string, params: object) => void;
+    dataLayer: [];
+    customDimension: object;
   }
 }
 export const pageview = (url) => {
-  // window['gtag']('config', Config.GA.GTM_KEY, {
-  //     page_path: url,
-  // });
+  window["gtag"]("config", Config.GA.GTM_KEY, {
+    page_path: url
+  });
 };
 
 export const event = ({ action, params }) => {
-  // window['gtag']('event', action, params)
+  window["gtag"]("event", action, params);
 };
 
 export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
@@ -64,7 +68,7 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
   }
   function observeNodesClick(nodeArray) {
     nodeArray.forEach((item) => {
-      item.addEventListener("click", (event) => {
+      item.addEventListener("click", () => {
         const trackVal = item.getAttribute("data-ga-onclick").split("#");
         let track2 = trackVal[2];
         track2 = track2 ? track2 : "";
@@ -111,7 +115,17 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
     console.log("error in on click listener data-ga-onclick");
   }
 };
-// tbc
+
+/* export const GTMInit = () => {
+  utils.loadAssets("https://www.googletagmanager.com/gtag/js?id=AW-1012951608", 'js', 'defer', "head", function(){
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){
+        window.dataLayer.push(arguments);
+      }
+      gtag('js', new Date());  
+      gtag('config', Config.GA.GTM_ID);
+  });
+} */
 export const growthRxInit = () => {
   (function (g, r, o, w, t, h, rx) {
     (g[t] =
