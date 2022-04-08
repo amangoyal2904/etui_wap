@@ -5,12 +5,12 @@ import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
-import DynamicFooter from "components/DynamicFooter";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setNavBarStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
+import SEO from "components/SEO";
 interface OtherVidsProps {
   data: {
     duration: string;
@@ -33,6 +33,61 @@ interface VideoShowProps {
   agency: string;
   date: string;
 }
+interface SeoProps {
+  lang: string;
+  title: string;
+  url: string;
+  actualURL: string;
+  canonical: string;
+  type: string; // e.g. article
+  description: string;
+  image: string;
+  inLanguage: string;
+  authors?: string[];
+  agency?: string[];
+  date: string;
+  updated: string;
+  articleSection?: string;
+  story?: string;
+  remove_paywall_schema?: number;
+  behindLogin?: number;
+  hostid: number;
+  langInfo?: { url: string; lang: string }[];
+  ampURL?: string;
+  keywords?: string;
+  news_keywords?: string;
+  noindex?: number;
+  noindexFollow?: number;
+  expiry?: string;
+  sponsored?: number;
+  maxImgPreview?: number;
+  isPrime?: number;
+  subsecnames?: {
+    subsec1?: number;
+    subsecname1?: string;
+    subsec2?: number;
+    subsecname2?: string;
+    subsec3?: number;
+    subsecname3?: string;
+  };
+  schemaType?: string;
+  schemaMeta?: string;
+  seoschema?: {
+    webPage?: object;
+    newsArticle?: object;
+    videoObject?: object;
+  };
+  org_img?: string;
+  org_img_hin?: string;
+  page: string;
+  seoListData?: { url: string; title: string; date: string; img: string }[];
+}
+interface CommonConfigProps {
+  seo?: {
+    org_img?: string;
+    org_img_hin?: string;
+  };
+}
 interface PageProps {
   data: {
     searchResult: [
@@ -42,10 +97,13 @@ interface PageProps {
       },
       OtherVidsProps
     ];
+    seo: SeoProps;
+    common_config: CommonConfigProps;
   };
 }
 
 const VideoShow: NextPage<PageProps> = ({ data }) => {
+  const seoData = { ...data.seo, ...data.common_config.seo };
   // const result:VideoShowProps  = data.searchResult[0].data;
   // const otherVids = data.searchResult.find(
   //   (item) => item.name === 'other_videos'
@@ -81,7 +139,7 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
                   </div>
                 </div>
                 <SocialShare />
-                {/* <SEO data={data.searchResult[1].dta} page='articleshow'/> */}
+                <SEO data={seoData} />
               </div>
               <SeoWidget data={result.relKeywords} title="READ MORE" />
             </>

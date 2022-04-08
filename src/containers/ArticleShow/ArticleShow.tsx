@@ -61,7 +61,7 @@ const ArticleShow: NextPage<PageProps> = ({ query }) => {
           <a>Back Home</a>
         </Link>
       </div>
-      <SEO data={seoData} page="articleshow" />
+      <SEO data={seoData} />
     </div>
   );
 };
