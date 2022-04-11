@@ -2,14 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { createWrapper } from "next-redux-wrapper";
 
-import article from "Slices/article";
+import articleshow from "Slices/article";
+import videoshow from "Slices/videoshow";
 import appHeader from "Slices/appHeader";
 import footer from "Slices/footer";
 import common from "Slices/common";
 
 const reducer = combineReducers({
   common,
-  article,
+  articleshow,
+  videoshow,
   appHeader,
   footer
 });

@@ -4,15 +4,15 @@ import GreyDivider from "components/GreyDivider";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { AppState } from "app/store";
+import { isBrowser } from "utils/utils";
 declare global {
   interface Window {
-    __isBrowser__: boolean;
-    gdprCheck: () => boolean;
     objAuth: {
       planPage: string;
     };
   }
 }
+declare let gdprCheck: () => boolean;
 declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
     // extends React's HTMLAttributes
@@ -28,7 +28,7 @@ const DynamicFooter: FC = () => {
     window.location.href = paymentUrl;
   };
   const showPersonalizedlink = () => {
-    if (typeof window !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
+    if (isBrowser() && typeof gdprCheck !== "undefined" && !gdprCheck()) {
       return (
         <div id="personalized">
           |

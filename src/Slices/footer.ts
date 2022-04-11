@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
+import Service from "network/service";
+import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
   name: "footer",
@@ -30,7 +32,6 @@ const slice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      //console.log("HYDRATE", action.payload);
       return {
         ...state,
         ...action.payload.footer
@@ -43,17 +44,26 @@ export default slice.reducer;
 
 const { success, loading, error } = slice.actions;
 
-export const fetchFooter = (subsec) => async (dispatch) => {
-  try {
-    dispatch(loading);
-    const params = subsec ? `subsec1=${subsec.subsec1}&subsec2=${subsec.subsec2}` : `subsec1=46286967`;
-    const url = `https://economictimes.indiatimes.com/pwa_footer_feed.cms?feedtype=etjson&${params}`;
-    console.log(url);
-    const res = await fetch(url);
-    const data = await res.json();
-    dispatch(success(data));
-  } catch (e) {
-    dispatch(error);
-    return console.log(e.message);
-  }
-};
+export const fetchFooter =
+  ({ subsecnames, page }) =>
+  async (dispatch) => {
+    try {
+      dispatch(loading);
+      const api = APIS_CONFIG.FEED;
+      const extraParams = subsecnames
+        ? {
+            subsec1: subsecnames.subsec1,
+            subsec2: subsecnames.subsec2
+          }
+        : {};
+      const res = await Service.get({
+        api,
+        params: { type: "footer", feedtype: "etjson", ...extraParams, page }
+      });
+      const data = res.data || {};
+      dispatch(success(data));
+    } catch (e) {
+      dispatch(error);
+      return console.log("error in footer SLice", e.message);
+    }
+  };

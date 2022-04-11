@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import styles from "./styles.module.scss";
-import Utility from "../../utils/utils";
+import { pageType } from "../../utils/utils";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { ET_MARKET_URL, ET_WEALTH_URL, ET_PRIME_URL } from "../../utils/common";
@@ -14,7 +14,7 @@ const Footer: FC = () => {
   const utm_medium = "Bottom_Nav";
   const utmPrimeUrl =
     ET_PRIME_URL + "?utm_source=" + utm_source + "&utm_campaign=" + utm_campaign + "&utm_medium=" + utm_medium;
-  const pageType = Utility.pageType(router.asPath);
+  const pageName = pageType(router.asPath);
   const [activeLink, setActiveLink] = useState("");
   // const [menuStyle, setMenuStyle] = useState(false);
 
@@ -32,11 +32,11 @@ const Footer: FC = () => {
         const mainMenu = document.getElementById("mainMenu");
 
         const footer = document.querySelector("footer");
-        const pageType = Utility.pageType(window.location.pathname);
+        const pageName = pageType(window.location.pathname);
         if (fixFooterInterval) {
           clearInterval(fixFooterInterval);
         }
-        if (!footer_banner && !(pageType === "articleshow" || pageType === "primearticle")) {
+        if (!footer_banner && !(pageName === "articleshow" || pageName === "primearticle")) {
           fixFooterInterval = setTimeout(() => {
             if (footer) {
               footer.style.bottom = (footerHeight < -25 ? -50 : 0) + "px";
@@ -130,7 +130,7 @@ const Footer: FC = () => {
         {
           <ul
             className={`${styles.footerMenu} ${
-              pageType === "articleshow" || pageType === "primearticle" ? styles.hide : ""
+              pageName === "articleshow" || pageName === "primearticle" ? styles.hide : ""
             }`}
           >
             <li

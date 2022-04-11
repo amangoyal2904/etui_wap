@@ -274,7 +274,6 @@ const breadcrumbSchema = (data: BreadCrumbProps) => {
 };
 
 const Schema: NextPage<SEOProps> = ({ data }) => {
-  console.log("schema data", data.seoschema);
   const pageType = data.page || "";
   const { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};

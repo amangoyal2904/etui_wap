@@ -6,8 +6,8 @@ const slice = createSlice({
   name: "common",
   initialState: {
     data: {
-      subsec: {},
-      pageType: ""
+      subsecnames: {},
+      page: ""
     }
   },
   reducers: {
@@ -17,7 +17,6 @@ const slice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
-      //console.log('HYDRATE', action.payload);
       return {
         ...state,
         ...action.payload.common
@@ -32,11 +31,15 @@ export default slice.reducer;
 
 const { update } = slice.actions;
 
-export const setCommonData = (data) => async (dispatch) => {
-  try {
-    dispatch(update(data));
-    await dispatch(fetchFooter(data.subsec));
-  } catch (e) {
-    return console.error(e.message);
-  }
-};
+export const setCommonData =
+  ({ page, data }) =>
+  async (dispatch) => {
+    try {
+      const { seo } = data;
+      const { subsecnames } = seo;
+      dispatch(update({ subsecnames, page }));
+      await dispatch(fetchFooter({ subsecnames, page }));
+    } catch (e) {
+      return console.error(e.message);
+    }
+  };

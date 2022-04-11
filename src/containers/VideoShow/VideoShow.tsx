@@ -6,7 +6,7 @@ import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { setNavBarStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
@@ -103,11 +103,6 @@ interface PageProps {
 }
 
 const VideoShow: NextPage<PageProps> = ({ data }) => {
-  const seoData = { ...data.seo, ...data.common_config.seo };
-  // const result:VideoShowProps  = data.searchResult[0].data;
-  // const otherVids = data.searchResult.find(
-  //   (item) => item.name === 'other_videos'
-  // );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
@@ -115,6 +110,7 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
       dispatch(setNavBarStatus(true));
     };
   }, [dispatch]);
+  const seoData = { ...data?.seo, ...data?.common_config?.seo };
   return (
     <>
       <div className={`${styles.mrecContainer} adContainer`}>
@@ -123,9 +119,8 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
       {data?.searchResult.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          console.log(result);
           return (
-            <>
+            <Fragment key={item.name}>
               <div className={styles.videoshow}>
                 <VideoEmbed url={result.iframeUrl} />
 
@@ -139,16 +134,15 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
                   </div>
                 </div>
                 <SocialShare />
-                <SEO data={seoData} />
               </div>
               <SeoWidget data={result.relKeywords} title="READ MORE" />
-            </>
+            </Fragment>
           );
         } else if (item.name === "other_videos") {
           const otherVids = item as OtherVidsProps;
 
           return (
-            <>
+            <Fragment key={item.name}>
               <div className={styles.otherVids}>
                 <h2>{otherVids.title}</h2>
                 <div className={styles.vidsSlider}>
@@ -167,11 +161,11 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
                   </ul>
                 </div>
               </div>
-            </>
+            </Fragment>
           );
         }
       })}
-
+      <SEO data={seoData} />
       <AppDownloadWidget tpName="videoShow" />
     </>
   );
