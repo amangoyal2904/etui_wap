@@ -4,10 +4,12 @@ import { createWrapper } from "next-redux-wrapper";
 
 import article from "Slices/article";
 import appHeader from "Slices/appHeader";
+import loginReducer from "../components/Login/LoginSlice";
 
 const reducer = combineReducers({
   article,
-  appHeader
+  appHeader,
+  userDetails: loginReducer
 });
 const store = configureStore({
   reducer

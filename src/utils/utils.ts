@@ -9,9 +9,7 @@ declare global {
       geolocation: string;
       region_code: string;
     };
-    __APP: {
-      env?: string;
-    };
+    __APP: object;
   }
 }
 

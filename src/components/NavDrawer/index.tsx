@@ -6,6 +6,7 @@ import { MenuProps } from "components/AppHeader/types";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "app/store";
+import Login from "components/Login";
 interface DrawerProps {
   setIsDrawerOpen: (s: boolean) => void;
   isOpen: boolean;
@@ -99,31 +100,24 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
       </Link>
     );
   };
-
+  console.log('login: navdrawer called : menuData', menuData);
   return menuData ? (
-    <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
-      <div className={styles.user}>
-        <div className={styles.userName}>
-          <div>Welcome</div>
-          <div>User</div>
+    <>
+      <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
+        <Login />
+        <div className={styles.menuWrap}>
+          <ul onClick={handleClick}>
+            <li>
+              <Link href={menuData.url}>
+                <a>{menuData.title}</a>
+              </Link>
+            </li>
+            <li className={styles.oneDotBdr}></li>
+            {getMenu(menuData, 0, 0)}
+          </ul>
         </div>
-        <div className={styles.signIn}>
-          <div className={styles.userIcon}></div>
-          <div>Sign In</div>
-        </div>
-      </div>
-      <div className={styles.menuWrap}>
-        <ul onClick={handleClick}>
-          <li>
-            <Link href={menuData.url}>
-              <a>{menuData.title}</a>
-            </Link>
-          </li>
-          <li className={styles.oneDotBdr}></li>
-          {getMenu(menuData, 0, 0)}
-        </ul>
-      </div>
-    </nav>
+      </nav>
+    </>
   ) : null;
 };
 
