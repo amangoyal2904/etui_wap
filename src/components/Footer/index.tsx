@@ -1,10 +1,11 @@
 import { FC, useEffect } from "react";
 import styles from "./styles.module.scss";
-import Utility from "../../utils/utils";
+import { pageType } from "../../utils/utils";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { ET_MARKET_URL, ET_WEALTH_URL, ET_PRIME_URL } from "../../utils/common";
 import { useState } from "react";
+import DynamicFooter from "components/DynamicFooter";
 
 const Footer: FC = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const Footer: FC = () => {
   const utm_medium = "Bottom_Nav";
   const utmPrimeUrl =
     ET_PRIME_URL + "?utm_source=" + utm_source + "&utm_campaign=" + utm_campaign + "&utm_medium=" + utm_medium;
-  const pageType = Utility.pageType(router.asPath);
+  const pageName = pageType(router.asPath);
   const [activeLink, setActiveLink] = useState("");
   // const [menuStyle, setMenuStyle] = useState(false);
 
@@ -31,11 +32,11 @@ const Footer: FC = () => {
         const mainMenu = document.getElementById("mainMenu");
 
         const footer = document.querySelector("footer");
-        const pageType = Utility.pageType(window.location.pathname);
+        const pageName = pageType(window.location.pathname);
         if (fixFooterInterval) {
           clearInterval(fixFooterInterval);
         }
-        if (!footer_banner && !(pageType === "articleshow" || pageType === "primearticle")) {
+        if (!footer_banner && !(pageName === "articleshow" || pageName === "primearticle")) {
           fixFooterInterval = setTimeout(() => {
             if (footer) {
               footer.style.bottom = (footerHeight < -25 ? -50 : 0) + "px";
@@ -116,82 +117,74 @@ const Footer: FC = () => {
     // setMenuStyle(false);
   }
 
-  function toggleMenu(evt, type) {
-    console.log("menuName", type); //tbc
-    const rootElement = document.getElementById("root");
-    fireGAEvent(evt);
-    // const menuStyle = false;
+  function toggleMenu() {
+    // let menuStyle = false;
     // setMenuStyle(menuStyle);
-    rootElement.style.position = "";
+    document.getElementById("root").style.position = "";
     createActiveLink();
   }
 
-  function fireGAEvent(e) {
-    const label = e.currentTarget.getAttribute("ga-data");
-    const category = "PWA Bottom Nav";
-    const action = window.location.href;
-    window.ga(category, action, label);
-  }
-
   return (
-    <footer id="wapFooter" className={styles.wapFooter}>
-      {
-        <ul
-          className={`${styles.footerMenu} ${
-            pageType === "articleshow" || pageType === "primearticle" ? styles.hide : ""
-          }`}
-        >
-          <li
-            onClick={(e) => toggleMenu(e, "home")}
-            className={`${styles.etHome} ${activeLink == "home" ? styles.active : null}`}
-            role="button"
-            ga-data="Home"
+    <>
+      <footer id="wapFooter" className={styles.wapFooter}>
+        {
+          <ul
+            className={`${styles.footerMenu} ${
+              pageName === "articleshow" || pageName === "primearticle" ? styles.hide : ""
+            }`}
           >
-            <Link href="/">
-              <a className={activeLink == "home" ? styles.active : null}>
-                <p className={`${styles.icon} ${activeLink == "home" ? styles.active : null}`}></p>
-                <span>Home</span>
+            <li
+              onClick={() => toggleMenu()}
+              className={`${styles.etHome} ${activeLink == "home" ? styles.active : null}`}
+              role="button"
+              data-ga-onclick="PWA Bottom Nav#url#Home"
+            >
+              <Link href="/">
+                <a className={activeLink == "home" ? styles.active : null}>
+                  <p className={`${styles.icon} ${activeLink == "home" ? styles.active : null}`}></p>
+                  <span>Home</span>
+                </a>
+              </Link>
+            </li>
+            <li
+              className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : null}`}
+              role="button"
+              onClick={() => toggleMenu()}
+              data-ga-onclick="PWA Bottom Nav#url#Markets"
+            >
+              <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : null}>
+                <p className={`${styles.icon} ${activeLink == "markets" ? styles.active : null}`}></p>
+                <span>Markets</span>
               </a>
-            </Link>
-          </li>
-          <li
-            className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : null}`}
-            role="button"
-            onClick={(e) => toggleMenu(e, "markets")}
-            ga-data="Markets"
-          >
-            <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : null}>
-              <p className={`${styles.icon} ${activeLink == "markets" ? styles.active : null}`}></p>
-              <span>Markets</span>
-            </a>
-          </li>
-          <li
-            className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : null}`}
-            role="button"
-            onClick={(e) => toggleMenu(e, "wealth")}
-            ga-data="Wealth"
-          >
-            <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : null}>
-              <p className={`${styles.icon} ${activeLink == "wealth" ? styles.active : null}`}></p>
-              <span>Wealth</span>
-            </a>
-          </li>
-          <li
-            className={`${styles.etPrime} ${activeLink == "prime" ? styles.active : null}`}
-            role="button"
-            onClick={fireGAEvent}
-            ga-data="ET Prime"
-          >
-            <Link href={utmPrimeUrl}>
-              <a>
-                <p className={`${styles.icon} ${activeLink == "prime" ? styles.active : null}`}></p>
-                <span>ETPrime</span>
+            </li>
+            <li
+              className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : null}`}
+              role="button"
+              onClick={() => toggleMenu()}
+              data-ga-onclick="PWA Bottom Nav#url#Wealth"
+            >
+              <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : null}>
+                <p className={`${styles.icon} ${activeLink == "wealth" ? styles.active : null}`}></p>
+                <span>Wealth</span>
               </a>
-            </Link>
-          </li>
-        </ul>
-      }
-    </footer>
+            </li>
+            <li
+              className={`${styles.etPrime} ${activeLink == "prime" ? styles.active : null}`}
+              role="button"
+              data-ga-onclick="PWA Bottom Nav#url#ET Prime"
+            >
+              <Link href={utmPrimeUrl}>
+                <a>
+                  <p className={`${styles.icon} ${activeLink == "prime" ? styles.active : null}`}></p>
+                  <span>ETPrime</span>
+                </a>
+              </Link>
+            </li>
+          </ul>
+        }
+      </footer>
+      <DynamicFooter />
+    </>
   );
 };
 

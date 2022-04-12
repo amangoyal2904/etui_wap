@@ -14,6 +14,19 @@ export const PAGE_TYPE = {
   breadcrumb: "breadcrumb",
   home: "home"
 };
+export const BROWSI_SECTIONS = [
+  "7771250",
+  "107115",
+  "13352306",
+  "837555174",
+  "13357270",
+  "/nri",
+  "/jobs",
+  "/industry",
+  "/personal-finance",
+  "/wealth",
+  "/tech"
+];
 
 export const SiteConfig = {
   wapsitename: "The Economic Times",
@@ -23,20 +36,17 @@ export const SiteConfig = {
   weburl: "https://m.economictimes.com",
   domain: "indiatimes.com",
   purpose: "Business News",
-  image:
-    "https://m.economictimes.com/thumb/msid-65498029,width-640,resizemode-4/et-logo.jpg",
+  image: "https://m.economictimes.com/thumb/msid-65498029,width-640,resizemode-4/et-logo.jpg",
   description:
     "Business News - Read Latest Financial news, Stock/Share Market News, Economy News, Business News on The Economic Times.  Find IPO Analysis, Mutual Funds Trends & Analysis, Gold Rate, Real Estate & more.",
-  keywords:
-    "business news, personal finance, nse, bse, financial news,share market news india,stock market news",
-  title:
-    "Business News Live, Share Market News - Read Latest Finance News, IPO, Mutual Funds News",
+  keywords: "business news, personal finance, nse, bse, financial news,share market news india,stock market news",
+  title: "Business News Live, Share Market News - Read Latest Finance News, IPO, Mutual Funds News",
   publisherLogo: "https://img.etimg.com/photo/msid-76191298/76191298.jpg"
 };
 
 export const GA = {
-  GTM_KEY: 'AW-1012951608',
+  GTM_KEY: "AW-1012951608",
   GTM_ID: "GTM-WV452H7",
   GA_ID: "UA-198011-5",
   GRX_ID: "gc2744074"
-}
+};
