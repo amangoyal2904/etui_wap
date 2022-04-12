@@ -15,7 +15,7 @@ const reducer = combineReducers({
   appHeader,
   footer
 });
-const store = configureStore({
+export const store = configureStore({
   reducer
 });
 const makeStore = () => store;
