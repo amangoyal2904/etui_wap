@@ -5,6 +5,7 @@ import DfpAds from "components/Ad/DfpAds";
 import SEO from "components/SEO";
 interface PageProps {
   query: string | string[];
+  data: object;
 }
 
 const seoData = {
@@ -48,11 +49,11 @@ const seoData = {
   articleSection: "Airlines / Aviation" //fetchImmediateSubsec(seoData.subsecnames),
 };
 
-const ArticleShow: NextPage<PageProps> = ({ query }) => {
+const ArticleShow: NextPage<PageProps> = ({ query, data }) => {
   return (
     <div className={styles.header}>
       <div className={styles.articleshow}>ArticleShow</div>
-      <p>{query}</p>
+      <p>{JSON.stringify(data)}</p>
       <div className={`${styles.hdAdContainer} adContainer`}>
         <DfpAds adInfo={{ key: "atf" }} />
       </div>

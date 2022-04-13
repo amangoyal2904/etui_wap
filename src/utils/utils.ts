@@ -14,7 +14,7 @@ declare global {
     };
   }
 }
-
+export const isBrowser = () => typeof window !== "undefined";
 export const setCookieToSpecificTime = (name, value, time, seconds) => {
   try {
     const domain = document.domain;
@@ -96,44 +96,11 @@ export const pageType = (pathurl) => {
     return "articlelist";
   }
 };
-
+export const getMSID = (url) => url.split(".cms")[0];
 export const encodeQueryData = (data) => {
   const ret = [];
   for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
   return ret.join("&");
-};
-
-export const getApiUrl = (api, param, index, apidomain = "") => {
-  let env = "";
-  if (window.__isBrowser__) {
-    env = window.__APP && window.__APP.env;
-  } else {
-    env = process.env.NODE_ENV.toLowerCase();
-  }
-  let domain = "";
-  if (api.dns) {
-    domain = api.dns[env][index] ? api.dns[env][index] : api.dns[env][0];
-  }
-
-  const path = api.path;
-  if (path.indexOf("request") > -1) {
-    domain = apidomain ? apidomain : domain;
-  }
-  const querystring = encodeQueryData(param);
-  let url = domain + path;
-  if (querystring) {
-    url = `${url}?${querystring}`;
-  }
-  return url;
-};
-
-export const isHostPreprod = () => {
-  return (
-    serverHost.indexOf("3632") > -1 ||
-    serverHost.indexOf("3633") > -1 ||
-    serverHost.indexOf("13120") > -1 ||
-    serverHost.indexOf("35115") > -1
-  );
 };
 
 //Get any parameter value from URL
@@ -224,15 +191,9 @@ export const queryString = (params) =>
     .map((key) => key + "=" + params[key])
     .join("&");
 
-export const isProductionEnv = () => {
-  const isProd = process.env.NODE_ENV.trim() === "production";
-  return isProd;
-};
+export const isProdEnv = () => processEnv === "production";
 
-export const isDevEnv = () => {
-  const isDev = process.env.NODE_ENV.trim() === "development";
-  return isDev;
-};
+export const isDevEnv = () => processEnv === "development";
 
 export const isVisible = (elm) => {
   if (elm) {
@@ -294,23 +255,3 @@ export const removeBackSlash = (val) => {
   val = val && typeof val != "object" ? val.replace(/\\/g, "") : "";
   return val;
 };
-
-const output = {
-  removeBackSlash,
-  isVisible,
-  isDevEnv,
-  isProductionEnv,
-  queryString,
-  processEnv,
-  dateFormat,
-  appendZero,
-  validateEmail,
-  getParameterByName,
-  allowGDPR,
-  getCookie,
-  setCookieToSpecificTime,
-  pageType,
-  mgidGeoCheck
-};
-
-export default output;

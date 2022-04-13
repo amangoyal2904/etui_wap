@@ -4,7 +4,6 @@ import styles from "./Home.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import Colombia from "components/Ad/Colombia";
 import SampleListing from "components/Listing";
-import DynamicFooter from "components/DynamicFooter";
 
 const Home: FC = () => {
   return (
@@ -45,7 +44,6 @@ const Home: FC = () => {
         </Link>
         <SampleListing />
       </div>
-      <DynamicFooter />
     </>
   );
 };

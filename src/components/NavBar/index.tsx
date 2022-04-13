@@ -7,7 +7,6 @@ import { AppState } from "app/store";
 
 const NavBar: FC = () => {
   const store = useSelector((state: AppState) => state.appHeader);
-  console.log("useSelector", store);
   const menuData: MenuProps = store.data.searchResult[0];
 
   return menuData ? (
