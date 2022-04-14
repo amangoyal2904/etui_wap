@@ -11,8 +11,6 @@ describe("Home", () => {
       </Provider>
     );
 
-    const heading = "Home";
-
-    expect(heading).toMatch("Home");
+    expect(screen.getByAltText("logo")).toBeInTheDocument();
   });
 });
