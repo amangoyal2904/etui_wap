@@ -1,4 +1,4 @@
-@import "styles/variables.scss";
+@import "../../styles/variables.scss";
 // .search {
 //   font-family: $Faustina-font-family;
 //   background: rgba(0, 0, 0, 0.85);
@@ -71,7 +71,7 @@
       top: -41px;
       right: 4px;
     }
-    
+
     .searchListAll {
       box-shadow: 0 -1px 24px 0 rgba(0, 0, 0, 0.17);
       background-color: #ffffff;
@@ -116,28 +116,27 @@
   }
 }
 
-.head{
+.head {
   border-bottom: solid 1px #d4d9dc;
   font-weight: 700;
   padding: 8px 10px;
   font-size: 14px;
   margin-bottom: 5px;
- 
-  a{
-      float: right;
+
+  a {
+    float: right;
   }
-  .clr{
-      clear: both;
+  .clr {
+    clear: both;
   }
- 
 }
 
-.list{
+.list {
   padding: 8px 10px;
   border-bottom: dotted 1px #d4d9dc;
   font-size: 14px;
 }
-.lastList{
+.lastList {
   @extend .list;
-  border-bottom-style: solid;    
+  border-bottom-style: solid;
 }

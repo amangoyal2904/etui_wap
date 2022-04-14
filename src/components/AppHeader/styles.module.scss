@@ -1,7 +1,7 @@
-@import "styles/variables.scss";
+@import "../../styles/variables.scss";
 
 .header {
-  background: #f9f9f9;  
+  background: #f9f9f9;
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
   font-family: $Montserrat-font-family;
 
@@ -51,15 +51,15 @@
     font-weight: 600;
     padding-bottom: 12px;
     height: 40px;
-    
+
     span {
       border-radius: 3px;
       border: solid 1px #000000;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
       background-color: #ffffff;
       padding: 6px 29px;
-    } 
-    
+    }
+
     .cta1 {
       border: solid 1px #ed193b;
       color: #ed193b;

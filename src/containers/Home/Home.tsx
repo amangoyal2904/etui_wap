@@ -9,7 +9,9 @@ const Home: FC = () => {
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.root}>Home</div>
+        <div className={styles.root} role="heading">
+          Home
+        </div>
         <div className={`${styles.hdAdContainer} adContainer`}>
           <DfpAds adInfo={{ key: "atf" }} />
         </div>
