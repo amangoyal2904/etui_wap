@@ -1,4 +1,5 @@
 import * as Config from "./common";
+import * as utils from "./utils";
 
 declare global {
   interface Window {
@@ -8,6 +9,8 @@ declare global {
     grxEvent: (type: string, gaData: object, gaEvent: number) => void;
     grx: (grxType: string, action: string, cd?: object) => void;
     gtag: (event: string, action: string, params: object) => void;
+    // eslint-disable-next-line
+    // gtag: any;
     dataLayer: [];
     customDimension: object;
   }
@@ -116,16 +119,6 @@ export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {
   }
 };
 
-/* export const GTMInit = () => {
-  utils.loadAssets("https://www.googletagmanager.com/gtag/js?id=AW-1012951608", 'js', 'defer', "head", function(){
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){
-        window.dataLayer.push(arguments);
-      }
-      gtag('js', new Date());  
-      gtag('config', Config.GA.GTM_ID);
-  });
-} */
 export const growthRxInit = () => {
   (function (g, r, o, w, t, h, rx) {
     (g[t] =
