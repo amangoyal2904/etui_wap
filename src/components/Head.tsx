@@ -152,6 +152,23 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
               `
             }}
           />
+          <Script
+            id="tag-manager"
+            strategy="lazyOnload"
+            src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
+          />
+          <Script
+            id="tag-manager-init"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
+              `
+            }}
+          />
         </>
       )}
     </>

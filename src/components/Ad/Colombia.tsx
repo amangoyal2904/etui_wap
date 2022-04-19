@@ -1,8 +1,8 @@
 import { NextPage } from "next";
-import { pageType, mgidGeoCheck } from "../../utils/utils";
+import { pageType } from "../../utils/utils";
 import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
-import { TEST_ID_CTN_HOME, TEST_COLOMBIA_DFP_HOME, TEST_COLOMBIA_DFP_ARTICLESHOW, BROWSI_SECTIONS } from "utils/common";
+// import { TEST_ID_CTN_HOME, TEST_COLOMBIA_DFP_HOME, TEST_COLOMBIA_DFP_ARTICLESHOW, BROWSI_SECTIONS } from "utils/common";
 import { useEffect } from "react";
 
 interface Props {
@@ -28,7 +28,7 @@ const Colombia: NextPage<Props> = function (props) {
   const divId = `div-clmb-ctn-${id}-${index}${currentMSID ? "-" + currentMSID : ""}`;
   const router = useRouter();
   const crPath = router.pathname;
-  const pageName: string = pageType(crPath);
+  // const pageName: string = pageType(crPath);
 
   function renderColombia() {
     if (window.colombia && !(window.adDivIds.indexOf(divId) > -1)) {
