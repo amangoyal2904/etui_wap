@@ -8,7 +8,7 @@ import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, Fragment, FC } from "react";
 import { useDispatch } from "react-redux";
-import { setNavBarStatus } from "Slices/appHeader";
+import { setNavBarStatus, setCtaStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 interface OtherVidsProps {
@@ -107,8 +107,10 @@ const VideoShow: FC<PageProps> = ({ data }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
+    dispatch(setCtaStatus(false));
     return () => {
       dispatch(setNavBarStatus(true));
+      dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
   const seoData = { ...data?.seo, ...data?.common_config?.seo };
@@ -127,7 +129,7 @@ const VideoShow: FC<PageProps> = ({ data }) => {
 
                 <div className={styles.wrap}>
                   <h1 role="heading">{result.title}</h1>
-                  <div>
+                  <div className={styles.synopsis}>
                     <p>{result.synopsis}</p>
                   </div>
                   <div className={styles.date}>
