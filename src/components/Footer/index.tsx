@@ -128,54 +128,50 @@ const Footer: FC = () => {
     <>
       <footer id="wapFooter" className={styles.wapFooter}>
         {
-          <ul
-            className={`${styles.footerMenu} ${
-              pageName === "articleshow" || pageName === "primearticle" ? styles.hide : ""
-            }`}
-          >
+          <ul className={` ${pageName === "articleshow" || pageName === "primearticle" ? styles.hide : ""}`}>
             <li
               onClick={() => toggleMenu()}
-              className={`${styles.etHome} ${activeLink == "home" ? styles.active : null}`}
+              className={`${styles.etHome} ${activeLink == "home" ? styles.active : ""}`}
               role="button"
               data-ga-onclick="PWA Bottom Nav#url#Home"
             >
               <Link href="/">
-                <a className={activeLink == "home" ? styles.active : null}>
-                  <p className={`${styles.icon} ${activeLink == "home" ? styles.active : null}`}></p>
+                <a className={activeLink == "home" ? styles.active : ""}>
+                  <p className={`${styles.icon} ${activeLink == "home" ? styles.active : ""}`}></p>
                   <span>Home</span>
                 </a>
               </Link>
             </li>
             <li
-              className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : null}`}
+              className={`${styles.etMarket} ${activeLink == "markets" ? styles.active : ""}`}
               role="button"
               onClick={() => toggleMenu()}
               data-ga-onclick="PWA Bottom Nav#url#Markets"
             >
-              <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : null}>
-                <p className={`${styles.icon} ${activeLink == "markets" ? styles.active : null}`}></p>
+              <a href={ET_MARKET_URL} className={activeLink == "markets" ? styles.active : ""}>
+                <p className={`${styles.icon} ${activeLink == "markets" ? styles.active : ""}`}></p>
                 <span>Markets</span>
               </a>
             </li>
             <li
-              className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : null}`}
+              className={`${styles.etWealth} ${activeLink == "wealth" ? styles.active : ""}`}
               role="button"
               onClick={() => toggleMenu()}
               data-ga-onclick="PWA Bottom Nav#url#Wealth"
             >
-              <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : null}>
-                <p className={`${styles.icon} ${activeLink == "wealth" ? styles.active : null}`}></p>
+              <a href={ET_WEALTH_URL} className={activeLink == "wealth" ? styles.active : ""}>
+                <p className={`${styles.icon} ${activeLink == "wealth" ? styles.active : ""}`}></p>
                 <span>Wealth</span>
               </a>
             </li>
             <li
-              className={`${styles.etPrime} ${activeLink == "prime" ? styles.active : null}`}
+              className={`${styles.etPrime} ${activeLink == "prime" ? styles.active : ""}`}
               role="button"
               data-ga-onclick="PWA Bottom Nav#url#ET Prime"
             >
               <Link href={utmPrimeUrl}>
                 <a>
-                  <p className={`${styles.icon} ${activeLink == "prime" ? styles.active : null}`}></p>
+                  <p className={`${styles.icon} ${activeLink == "prime" ? styles.active : ""}`}></p>
                   <span>ETPrime</span>
                 </a>
               </Link>
