@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./ArticleShow.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import SEO from "components/SEO";
+import { FC } from "react";
 interface PageProps {
   query: string | string[];
   data: object;
@@ -49,7 +50,7 @@ const seoData = {
   articleSection: "Airlines / Aviation" //fetchImmediateSubsec(seoData.subsecnames),
 };
 
-const ArticleShow: NextPage<PageProps> = ({ query, data }) => {
+const ArticleShow: FC<PageProps> = ({ query, data }) => {
   return (
     <div className={styles.header}>
       <div className={styles.articleshow}>ArticleShow</div>

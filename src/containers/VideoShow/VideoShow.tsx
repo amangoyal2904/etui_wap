@@ -6,7 +6,7 @@ import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, FC } from "react";
 import { useDispatch } from "react-redux";
 import { setNavBarStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
@@ -32,6 +32,7 @@ interface VideoShowProps {
   synopsis: string;
   agency: string;
   date: string;
+  url: string;
 }
 interface SeoProps {
   lang: string;
@@ -102,7 +103,7 @@ interface PageProps {
   };
 }
 
-const VideoShow: NextPage<PageProps> = ({ data }) => {
+const VideoShow: FC<PageProps> = ({ data }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
@@ -125,7 +126,7 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
                 <VideoEmbed url={result.iframeUrl} />
 
                 <div className={styles.wrap}>
-                  <h1>{result.title}</h1>
+                  <h1 role="heading">{result.title}</h1>
                   <div>
                     <p>{result.synopsis}</p>
                   </div>
@@ -133,7 +134,12 @@ const VideoShow: NextPage<PageProps> = ({ data }) => {
                     {result.agency} | {result.date}
                   </div>
                 </div>
-                <SocialShare />
+                <SocialShare
+                  shareParam={{
+                    shareUrl: result.url,
+                    title: result.title
+                  }}
+                />
               </div>
               <SeoWidget data={result.relKeywords} title="READ MORE" />
             </Fragment>

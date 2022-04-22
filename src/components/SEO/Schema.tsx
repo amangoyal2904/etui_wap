@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { FC } from "react";
 //import { PAGE_TYPE, SiteConfig } from "utils/common";
 import { removeBackSlash } from "utils/utils";
 import { SEOProps, WebPageSchemaProps, NewsArticleSchemaProps, VideoObjectSchemaProps, BreadCrumbProps } from "./types";
@@ -273,7 +273,7 @@ const breadcrumbSchema = (data: BreadCrumbProps) => {
   return schema;
 };
 
-const Schema: NextPage<SEOProps> = ({ data }) => {
+const Schema: FC<SEOProps> = ({ data }) => {
   const pageType = data.page || "";
   const { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};

@@ -1,7 +1,7 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
+import { FC } from "react";
 
 import * as Config from "../utils/common";
 
@@ -9,7 +9,7 @@ interface Props {
   isprimeuser?: number;
 }
 
-const Headers: NextPage<Props> = ({ isprimeuser }) => {
+const Headers: FC<Props> = ({ isprimeuser }) => {
   const router = useRouter();
   const reqData = router.query;
   const isReady = router.isReady;
@@ -175,10 +175,10 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
   );
 };
 
-Headers.getInitialProps = async ({ req }) => {
-  console.log(req);
-  const isprimeuser = req && req.headers && req.headers.primetemplate ? 1 : 0;
-  return { isprimeuser };
-};
+// Headers.getInitialProps = async ({ req }) => {
+//   console.log(req);
+//   const isprimeuser = req && req.headers && req.headers.primetemplate ? 1 : 0;
+//   return { isprimeuser };
+// };
 
 export default Headers;

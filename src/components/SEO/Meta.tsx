@@ -1,14 +1,14 @@
-import { NextPage } from "next";
 import Head from "next/head";
 import { removeBackSlash } from "utils/utils";
 import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
 import { SEOProps } from "./types";
+import { FC } from "react";
 
 /**
  * TODO: append _col_uuid from cookies in android:url
  * <meta property="al:android:url" content={data.actualURL + "?utm_source=test&cid="+_col_uuid} />
  */
-const Meta: NextPage<SEOProps> = ({ data }) => {
+const Meta: FC<SEOProps> = ({ data }) => {
   let meta = null;
   // const data = props.metaData || null;
   const { ampURL, langInfo, hostid } = data;

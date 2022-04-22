@@ -1,9 +1,9 @@
-import { NextPage } from "next";
+import { FC } from "react";
 import Meta from "./Meta";
 import Schema from "./Schema";
 import { SEOProps } from "./types";
 
-const SEO: NextPage<SEOProps> = (props) => {
+const SEO: FC<SEOProps> = (props) => {
   return (
     <>
       <Meta {...props} />
