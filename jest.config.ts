@@ -26,7 +26,21 @@ const config: InitialOptionsTsJest = {
     },
     "./src/components/": {
       branches: 40,
-      statements: 40
+      functions: 30,
+      lines: 50,
+      statements: 50
+    },
+    "./src/containers/": {
+      branches: 20,
+      functions: 30,
+      lines: 50,
+      statements: 50
+    },
+    "./src/Slices/": {
+      branches: 40,
+      functions: 30,
+      lines: 50,
+      statements: 50
     }
   },
   coverageReporters: ["lcov", "text-summary", "text", "html"]
