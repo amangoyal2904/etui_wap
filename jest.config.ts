@@ -13,7 +13,23 @@ const config: InitialOptionsTsJest = {
     "ts-jest": {
       tsconfig: "tsconfig.test.json"
     }
-  }
+  },
+  collectCoverage: true,
+  collectCoverageFrom: ["./src/**/*.ts"],
+  coveragePathIgnorePatterns: ["/node_modules/"],
+  coverageThreshold: {
+    global: {
+      branches: 20,
+      functions: 30,
+      lines: 50,
+      statements: 50
+    },
+    "./src/components/": {
+      branches: 40,
+      statements: 40
+    }
+  },
+  coverageReporters: ["lcov", "text-summary", "text", "html"]
 };
 
 export default config;

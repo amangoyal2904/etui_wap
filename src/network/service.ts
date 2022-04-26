@@ -13,7 +13,8 @@ declare global {
 
 const getApiUrl = (config, index) => {
   const { api = {}, url } = config;
-  const domain = api.dns ? api.dns[processEnv][index] || api.dns[processEnv][0] : "";
+  const env = processEnv === "test" ? "production" : processEnv;
+  const domain = api.dns ? api.dns[env][index] || api.dns[env][0] : "";
   const path = api.path;
   const completeURL = url || domain + path;
   return completeURL;
