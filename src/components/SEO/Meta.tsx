@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { removeBackSlash } from "utils/utils";
 import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
-import { SEOProps } from "./types";
+import { SEOProps } from "types/seo";
 import { FC } from "react";
 
 /**

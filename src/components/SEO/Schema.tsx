@@ -1,7 +1,13 @@
 import { FC } from "react";
 //import { PAGE_TYPE, SiteConfig } from "utils/common";
 import { removeBackSlash } from "utils/utils";
-import { SEOProps, WebPageSchemaProps, NewsArticleSchemaProps, VideoObjectSchemaProps, BreadCrumbProps } from "./types";
+import {
+  SEOProps,
+  WebPageSchemaProps,
+  NewsArticleSchemaProps,
+  VideoObjectSchemaProps,
+  BreadCrumbProps
+} from "types/seo";
 /*
 const itemList = (schemaType: string) => {
   return schemaType == PAGE_TYPE.articlelist
@@ -248,7 +254,7 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
   };
   return _schema;
 };
-const breadcrumbSchema = (data: BreadCrumbProps) => {
+const breadcrumbSchema = (data: BreadCrumbProps[]) => {
   const itemListArr = [];
   const _data = data;
   if (Array.isArray(_data)) {

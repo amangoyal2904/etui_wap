@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./VideoShow.module.scss";
@@ -11,99 +10,9 @@ import { useDispatch } from "react-redux";
 import { setNavBarStatus, setCtaStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
-interface OtherVidsProps {
-  data: {
-    duration: string;
-    img: string;
-    title: string;
-    url: string;
-    views: string;
-  }[];
-  title: string;
-  name: string;
-}
-interface VideoShowProps {
-  relKeywords: {
-    title: string;
-    url: string;
-  }[];
-  iframeUrl: string;
-  title: string;
-  synopsis: string;
-  agency: string;
-  date: string;
-  url: string;
-}
-interface SeoProps {
-  lang: string;
-  title: string;
-  url: string;
-  actualURL: string;
-  canonical: string;
-  type: string; // e.g. article
-  description: string;
-  image: string;
-  inLanguage: string;
-  authors?: string[];
-  agency?: string[];
-  date: string;
-  updated: string;
-  articleSection?: string;
-  story?: string;
-  remove_paywall_schema?: number;
-  behindLogin?: number;
-  hostid: number;
-  langInfo?: { url: string; lang: string }[];
-  ampURL?: string;
-  keywords?: string;
-  news_keywords?: string;
-  noindex?: number;
-  noindexFollow?: number;
-  expiry?: string;
-  sponsored?: number;
-  maxImgPreview?: number;
-  isPrime?: number;
-  subsecnames?: {
-    subsec1?: number;
-    subsecname1?: string;
-    subsec2?: number;
-    subsecname2?: string;
-    subsec3?: number;
-    subsecname3?: string;
-  };
-  schemaType?: string;
-  schemaMeta?: string;
-  seoschema?: {
-    webPage?: object;
-    newsArticle?: object;
-    videoObject?: object;
-  };
-  org_img?: string;
-  org_img_hin?: string;
-  page: string;
-  seoListData?: { url: string; title: string; date: string; img: string }[];
-}
-interface CommonConfigProps {
-  seo?: {
-    org_img?: string;
-    org_img_hin?: string;
-  };
-}
-interface PageProps {
-  data: {
-    searchResult: [
-      {
-        name: string;
-        data: VideoShowProps;
-      },
-      OtherVidsProps
-    ];
-    seo: SeoProps;
-    common_config: CommonConfigProps;
-  };
-}
+import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 
-const VideoShow: FC<PageProps> = ({ data }) => {
+const VideoShow: FC<PageProps> = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
@@ -113,13 +22,13 @@ const VideoShow: FC<PageProps> = ({ data }) => {
       dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
-  const seoData = { ...data?.seo, ...data?.common_config?.seo };
+  const seoData = { ...props?.seo, ...props?.common_config?.seo };
   return (
     <>
       <div className={`${styles.mrecContainer} adContainer`}>
         <DfpAds adInfo={{ key: "mrec3" }} />
       </div>
-      {data?.searchResult.map((item) => {
+      {props?.searchResult.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
           return (
@@ -173,7 +82,7 @@ const VideoShow: FC<PageProps> = ({ data }) => {
           );
         }
       })}
-      <SEO data={seoData} />
+      {/* <SEO data={seoData} /> */}
       <AppDownloadWidget tpName="videoShow" />
     </>
   );

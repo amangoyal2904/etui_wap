@@ -2,7 +2,6 @@ export interface BreadCrumbProps {
   title?: string;
   url?: string;
 }
-[];
 
 export interface SEOProps {
   data: {
@@ -41,6 +40,10 @@ export interface SEOProps {
       subsecname2?: string;
       subsec3?: number;
       subsecname3?: string;
+      subsec4?: number;
+      subsecname4?: string;
+      subsec5?: number;
+      subsecname5?: string;
     };
     schemaType?: string;
     schemaMeta?: string;
@@ -52,7 +55,7 @@ export interface SEOProps {
     org_img?: string;
     org_img_hin?: string;
     page?: string;
-    breadcrumb?: BreadCrumbProps;
+    breadcrumb?: BreadCrumbProps[];
     seoListData?: { url: string; title: string; date: string; img: string }[]; // needed for articlelist and topic
   };
   //page: string;
