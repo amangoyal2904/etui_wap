@@ -115,12 +115,7 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
         <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />
-        <link
-          href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
-          type="text/css"
-          rel="stylesheet"
-          media="all"
-        />
+        <link href="/et_fonts.cms?minify=1&amp;v=6&amp;type=3" type="text/css" rel="stylesheet" media="all" />
         {prefetchDomains}
       </Head>
       <Script src="https://m.economictimes.com/geoapiet/?cb=et"></Script>
