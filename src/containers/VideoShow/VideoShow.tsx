@@ -68,7 +68,15 @@ const VideoShow: FC<PageProps> = (props) => {
                       <li key={"OtherVideo" + index}>
                         <Link href={item.url}>
                           <a>
-                            <Image src={item.img} alt={item.title} width={135} height={100} />
+                            <Image
+                              src={item.img}
+                              alt={item.title}
+                              width={135}
+                              height={100}
+                              placeholder="blur"
+                              blurDataURL="https://img.etimg.com/photo/42031747.cms"
+                              unoptimized
+                            />
                             <p>{item.title}</p>
                             <span className={styles.slideVidIcon}></span>
                           </a>
