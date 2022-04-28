@@ -279,7 +279,8 @@ const breadcrumbSchema = (data: BreadCrumbProps[]) => {
   return schema;
 };
 
-const Schema: FC<SEOProps> = ({ data }) => {
+const Schema = (props: SEOProps) => {
+  const data = props;
   const pageType = data.page || "";
   const { schemaType, behindLogin, isPrime, subsecnames } = data;
   const schemaMeta = data.schemaMeta || {};

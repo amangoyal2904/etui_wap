@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import Link from "next/link";
 import styles from "./ArticleShow.module.scss";
 import DfpAds from "components/Ad/DfpAds";
@@ -63,7 +62,7 @@ const ArticleShow: FC<PageProps> = ({ query, data }) => {
           <a>Back Home</a>
         </Link>
       </div>
-      <SEO data={seoData} />
+      <SEO {...seoData} />
     </div>
   );
 };
