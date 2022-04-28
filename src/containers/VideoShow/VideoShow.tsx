@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Image from "next/image";
 import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
@@ -11,6 +9,9 @@ import { setNavBarStatus, setCtaStatus } from "Slices/appHeader";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
+import BreadCrumb from "components/BreadCrumb";
+import FootListing from "components/FootListing";
+import GreyDivider from "components/GreyDivider";
 
 const VideoShow: FC<PageProps> = (props) => {
   const dispatch = useDispatch();
@@ -57,41 +58,13 @@ const VideoShow: FC<PageProps> = (props) => {
           );
         } else if (item.name === "other_videos") {
           const otherVids = item as OtherVidsProps;
-
-          return (
-            <Fragment key={item.name}>
-              <div className={styles.otherVids}>
-                <h2>{otherVids.title}</h2>
-                <div className={styles.vidsSlider}>
-                  <ul>
-                    {otherVids.data.map((item, index) => (
-                      <li key={"OtherVideo" + index}>
-                        <Link href={item.url}>
-                          <a>
-                            <Image
-                              src={item.img}
-                              alt={item.title}
-                              width={135}
-                              height={100}
-                              placeholder="blur"
-                              blurDataURL="https://img.etimg.com/photo/42031747.cms"
-                              unoptimized
-                            />
-                            <p>{item.title}</p>
-                            <span className={styles.slideVidIcon}></span>
-                          </a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </Fragment>
-          );
+          return <FootListing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
         }
       })}
-      {/* <SEO data={seoData} /> */}
+      <SEO {...seoData} />
+      <GreyDivider />
       <AppDownloadWidget tpName="videoShow" />
+      <BreadCrumb data={seoData.breadcrumb} />
     </>
   );
 };
