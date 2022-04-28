@@ -6,58 +6,39 @@
         "https://vsp1etpwaapi.economictimes.com/",
         "https://etpwaapipre.economictimes.com/"
       ],
-      "staging": [
-        "https://etpwaapipre.economictimes.com/",
-        "https://etpwaapi.economictimes.com/"
-      ],
-      "production": [
-        "https://etpwaapi.economictimes.com/",
-        "https://vsp1etpwaapi.economictimes.com/"
-      ]
+      "staging": ["https://etpwaapipre.economictimes.com/", "https://etpwaapi.economictimes.com/"],
+      "production": ["https://etpwaapi.economictimes.com/", "https://vsp1etpwaapi.economictimes.com/"]
     },
     "path": "request"
   },
+  "FEED": {
+    "dns": {
+      "development": ["https://etdev8243.indiatimes.com/"],
+      "production": ["https://economictimes.indiatimes.com/"]
+    },
+    "path": "reactfeed.cms"
+  },
   "USER_ACTIVITY": {
     "dns": {
-      "development": [
-        "https://etua-stg.economictimes.indiatimes.com/personalization/logdata/et/ua"
-      ],
-      "production": [
-        "https://etusers1.economictimes.com/personalisation/logdata/et/ua"
-      ]
+      "development": ["https://etua-stg.economictimes.indiatimes.com/personalization/logdata/et/ua"],
+      "production": ["https://etusers1.economictimes.com/personalisation/logdata/et/ua"]
     },
     "path": ""
   },
   "ethome": {
-    "development": [
-      "https://etsearch.indiatimes.com/etspeeds/ethome.ep"
-    ],
-    "production": [
-      "https://etsearch.indiatimes.com/etspeeds/ethome.ep"
-    ]
+    "development": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"],
+    "production": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"]
   },
   "definitionSearch": {
-    "development": [
-      "https://spmdev8243.economictimes.com/json_definitionsearch.cms"
-    ],
-    "production": [
-      "https://m.economictimes.com/json_definitionsearch.cms"
-    ]
+    "development": ["https://spmdev8243.economictimes.com/json_definitionsearch.cms"],
+    "production": ["https://m.economictimes.com/json_definitionsearch.cms"]
   },
   "newsSearch": {
-    "development": [
-      "https://spmdev8243.economictimes.com/json_newssearch.cms"
-    ],
-    "production": [
-      "https://m.economictimes.com/json_newssearch.cms"
-    ]
+    "development": ["https://spmdev8243.economictimes.com/json_newssearch.cms"],
+    "production": ["https://m.economictimes.com/json_newssearch.cms"]
   },
   "reporterSearch": {
-    "development": [
-      "https://spmdev8243.economictimes.com/json_reportersearch.cms"
-    ],
-    "production": [
-      "https://m.economictimes.com/json_reportersearch.cms"
-    ]
+    "development": ["https://spmdev8243.economictimes.com/json_reportersearch.cms"],
+    "production": ["https://m.economictimes.com/json_reportersearch.cms"]
   }
 }

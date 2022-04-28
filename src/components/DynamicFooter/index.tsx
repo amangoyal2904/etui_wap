@@ -1,17 +1,18 @@
 import styles from "./styles.module.scss";
 import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
-import { ET_WAP_URL } from "../../utils/common";
-
+import { useSelector } from "react-redux";
+import Link from "next/link";
+import { AppState } from "app/store";
+import { isBrowser } from "utils/utils";
 declare global {
   interface Window {
-    __isBrowser__: boolean;
-    gdprCheck: () => boolean;
     objAuth: {
       planPage: string;
     };
   }
 }
+declare let gdprCheck: () => boolean;
 declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
     // extends React's HTMLAttributes
@@ -27,7 +28,7 @@ const DynamicFooter: FC = () => {
     window.location.href = paymentUrl;
   };
   const showPersonalizedlink = () => {
-    if (typeof window !== "undefined" && window.__isBrowser__ && !window.gdprCheck()) {
+    if (isBrowser() && typeof gdprCheck !== "undefined" && !gdprCheck()) {
       return (
         <div id="personalized">
           |
@@ -86,11 +87,7 @@ const DynamicFooter: FC = () => {
               href="https://www.facebook.com/EconomicTimes"
               title="Facebook"
               target="_blank"
-              onClick={fireGAEvent}
-              data-action="Facebook - Click"
-              data-label="Facebook"
-              data-url="https://www.facebook.com/EconomicTimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#Facebook - Click#Facebook-href"
               rel="noopener nofollow noreferrer"
               className={styles.fbShare}
             ></a>
@@ -99,11 +96,7 @@ const DynamicFooter: FC = () => {
               href="https://www.linkedin.com/company/economictimes"
               target="_blank"
               title="Twitter"
-              onClick={fireGAEvent}
-              data-action="Twitter - Click"
-              data-label="Twitter"
-              data-url="https://www.linkedin.com/company/economictimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#Twitter - Click#Twitter-href"
               rel="noopener nofollow noreferrer"
               className={styles.twShare}
             ></a>
@@ -112,11 +105,7 @@ const DynamicFooter: FC = () => {
               href="https://twitter.com/economictimes"
               target="_blank"
               title="LinkedIn"
-              onClick={fireGAEvent}
-              data-action="LinkedIn - Click"
-              data-label="LinkedIn"
-              data-url="https://twitter.com/economictimes"
-              data-link="PWA Footer Follow us icon Click"
+              data-ga-onclick="PWA Footer Follow us icon Click#LinkedIn - Click#LinkedIn-href"
               rel="noopener nofollow noreferrer"
               className={styles.inShare}
             ></a>
@@ -125,14 +114,8 @@ const DynamicFooter: FC = () => {
         {!isSubscribed && (
           <div className={styles.row}>
             <a
-              onClick={(e) => {
-                fireGAEvent(e);
-                paymentButtonListener();
-              }}
-              data-action="Footer"
-              data-label="PWA Footer Prime Click"
-              data-url=""
-              data-link="Prime Distribution - PWA"
+              onClick={() => paymentButtonListener()}
+              data-ga-onclick="Prime Distribution - PWA#Footer#PWA Footer Prime Click"
               rel="noopener"
             >
               <span className={styles.primeLogo} />
@@ -182,17 +165,36 @@ const DynamicFooter: FC = () => {
       </div>
     );
   };
-  const fireGAEvent = (e) => {
-    const { action, label, url, link } = e.currentTarget.dataset;
-    const category = link;
-    let footerLink = "";
-    if (url.indexOf("https:") == -1) {
-      footerLink = ET_WAP_URL + url;
-    } else {
-      footerLink = url;
-    }
-    const eventLabel = label + "-" + footerLink;
-    window.ga(category, action, eventLabel);
+
+  const Interlinking = () => {
+    const store = useSelector((state: AppState) => {
+      return state.footer;
+    });
+
+    const interLinkingData = store.data?.widgets;
+    const interLinkingList = interLinkingData?.map((i, index) => (
+      <div data-attr="interlinking" className={styles.category} key={`${index}_inkl`}>
+        {interLinkingData[index]["data"] && <h2>{interLinkingData[index].title}</h2>}
+
+        <ul className={styles.content}>
+          {interLinkingData[index]["data"]?.map((item, key) => {
+            return (
+              <li
+                data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
+                key={`${key}_inkd`}
+              >
+                <Link href={item.url}>{item.title}</Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ));
+    return (
+      <>
+        <div className={styles.dynamicCategories}>{interLinkingList}</div>
+      </>
+    );
   };
   return (
     <div id="footer" className={hide_footer ? styles.hide_footer : ""}>
@@ -200,6 +202,7 @@ const DynamicFooter: FC = () => {
       {breadCrumb} */}
       <div className={styles.dynamicContainer}>
         <GreyDivider />
+        {Interlinking()}
         {downloadSection()}
         {_html}
       </div>

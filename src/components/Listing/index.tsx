@@ -8,9 +8,9 @@ const SampleListing: FC = () => {
   const [listData, setListData] = useState([]);
 
   useEffect(() => {
-    const url = APIS_CONFIG.REQUEST;
+    const api = APIS_CONFIG.REQUEST;
     const params = { type: "plist", msid: 2146843 };
-    Service.get(url, params)
+    Service.get({ api, params })
       .then((res) => {
         setListData(res.data?.searchResult?.[0]?.["data"]);
       })

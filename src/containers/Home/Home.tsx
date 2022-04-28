@@ -4,13 +4,14 @@ import styles from "./Home.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import Colombia from "components/Ad/Colombia";
 import SampleListing from "components/Listing";
-import DynamicFooter from "components/DynamicFooter";
 
 const Home: FC = () => {
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.root}>Home</div>
+        <div className={styles.root} role="heading">
+          Home
+        </div>
         <div className={`${styles.hdAdContainer} adContainer`}>
           <DfpAds adInfo={{ key: "atf" }} />
         </div>
@@ -45,7 +46,6 @@ const Home: FC = () => {
         </Link>
         <SampleListing />
       </div>
-      <DynamicFooter />
     </>
   );
 };

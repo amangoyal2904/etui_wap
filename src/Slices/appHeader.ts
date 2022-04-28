@@ -41,11 +41,11 @@ export const { success, loading, error, setNavBarStatus } = slice.actions;
 
 export const fetchMenu = () => async (dispatch) => {
   dispatch(loading);
-  const url = APIS_CONFIG.REQUEST;
+  const api = APIS_CONFIG.REQUEST;
   const params = {
     type: "menu"
   };
-  Service.get(url, params)
+  Service.get({ api, params })
     .then((res) => {
       dispatch(success(res.data));
     })
