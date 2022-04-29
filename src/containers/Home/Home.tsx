@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./Home.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import Colombia from "components/Ad/Colombia";
-import SampleListing from "components/Listing";
+import SampleListing from "components/SampleListing";
 
 const Home = (props) => {
   return (
