@@ -68,35 +68,40 @@ const data: PageProps = {
           duration: "03:25",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/sensex-tanks-600-pts-nifty-below-17200-hindalco-falls-2-hcl-tech-rises-2-post-q4-results/videoshow/90994585.cms",
           img: "https://img.etimg.com/thumb/msid-90994585,width-100,height-75,imgsize-30034/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Buy or Sell: Stock ideas by experts for April 22, 2022",
           duration: "03:52",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/buy-or-sell-stock-ideas-by-experts-for-april-22-2022/videoshow/90993393.cms",
           img: "https://img.etimg.com/thumb/msid-90993393,width-100,height-75,imgsize-8620/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Stocks in focus: Barbeque Nation, HCL Tech, Crisil and more",
           duration: "01:41",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/stocks-in-focus-barbeque-nation-hcl-tech-crisil-and-more/videoshow/90993295.cms",
           img: "https://img.etimg.com/thumb/msid-90993295,width-100,height-75,imgsize-23188/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "RIL rally fuels market bulls; Sensex surges 874 pts; Nifty ends near 17,400",
           duration: "04:00",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/ril-rally-fuels-market-bulls-sensex-surges-874-pts-nifty-ends-near-17400/videoshow/90979554.cms",
           img: "https://img.etimg.com/thumb/msid-90979554,width-100,height-75,imgsize-5546/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Sensex rises over 350 pts, Nifty tops 17,200; RIL hits record high",
           duration: "02:51",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/sensex-rises-over-350-pts-nifty-tops-17200-ril-hits-record-high/videoshow/90971672.cms",
           img: "https://img.etimg.com/thumb/msid-90971672,width-100,height-75,imgsize-15668/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         }
       ]
     }
