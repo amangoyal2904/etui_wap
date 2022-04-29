@@ -7,6 +7,7 @@ export interface OtherVidsProps {
     title: string;
     url: string;
     views: string;
+    type: string;
   }[];
   title: string;
   name: string;
