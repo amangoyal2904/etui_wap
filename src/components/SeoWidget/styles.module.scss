@@ -1,7 +1,8 @@
-@import "styles/variables.scss";
+@import "../../styles/variables.scss";
 
 .widgetContainer {
   font-family: $Montserrat-font-family;
+
   .widget {
     overflow-x: scroll;
     overflow-y: hidden;
@@ -16,6 +17,11 @@
     background-color: #fafafa;
     display: flex;
     align-items: center;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
     .widgetList {
       display: flex;
       list-style: none;

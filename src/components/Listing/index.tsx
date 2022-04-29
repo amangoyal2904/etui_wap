@@ -1,36 +1,50 @@
-import { FC, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { Fragment } from "react";
 import styles from "./styles.module.scss";
-import Service from "network/service";
-import APIS_CONFIG from "network/config.json";
+import { OtherVidsProps } from "types/videoshow";
 
-const SampleListing: FC = () => {
-  const [listData, setListData] = useState([]);
+interface ListProps {
+  type: string;
+  title: string;
+  data: OtherVidsProps;
+}
 
-  useEffect(() => {
-    const api = APIS_CONFIG.REQUEST;
-    const params = { type: "plist", msid: 2146843 };
-    Service.get({ api, params })
-      .then((res) => {
-        setListData(res.data?.searchResult?.[0]?.["data"]);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  }, []);
+export default function Listing({ type, title, data }: ListProps) {
+  const grid = () => {
+    return (
+      <Fragment>
+        <div className={styles.otherVids}>
+          <h2>{title}</h2>
+          <div className={styles.vidsSlider}>
+            <ul>
+              {data.data.map((item, index) => (
+                <li key={type + index}>
+                  <Link href={item.url}>
+                    <a>
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        width={135}
+                        height={100}
+                        placeholder="blur"
+                        blurDataURL="https://img.etimg.com/photo/42031747.cms"
+                        unoptimized
+                      />
+                      <p>{item.title}</p>
+                      {item.type === "videoshow" && <span className={styles.slideVidIcon}></span>}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Fragment>
+    );
+  };
 
-  return (
-    <ul className={styles.list}>
-      {listData &&
-        listData.map((item) => (
-          <li className={styles.list} key={item.msid}>
-            <Link href={item.url.replace("https://m.economictimes.com", "")}>
-              <a>{item.title}</a>
-            </Link>
-          </li>
-        ))}
-    </ul>
-  );
-};
-
-export default SampleListing;
+  if (type === "grid") {
+    return grid();
+  }
+}
