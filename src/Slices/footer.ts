@@ -49,7 +49,7 @@ export const fetchFooter =
   async (dispatch) => {
     try {
       dispatch(loading);
-      const api = APIS_CONFIG.FEED;
+      const api = "https://etdev8243.indiatimes.com/pwa_footer_feed.cms"; //APIS_CONFIG.FEED;
       const extraParams = subsecnames
         ? {
             subsec1: subsecnames.subsec1,
@@ -57,8 +57,8 @@ export const fetchFooter =
           }
         : {};
       const res = await Service.get({
-        api,
-        params: { type: "footer", feedtype: "etjson", ...extraParams, page }
+        url: api,
+        params: { type: "footer", feedtype: "etjson", ...extraParams, pagename: page }
       });
       const data = res.data || {};
       dispatch(success(data));
