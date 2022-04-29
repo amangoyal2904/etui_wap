@@ -9,7 +9,7 @@ declare global {
     objUser: any;
     objInts: any;
     customDimension: object;
-    __app: {
+    __APP: {
       env?: string;
       login?: any;
     };
@@ -25,12 +25,6 @@ const Login = () => {
   const [auth, setAuth] = useState<IUser>({ isLogin: false, userInfo: {} });
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (typeof window.objUser !== "undefined") {
-      window.objUser.afterLoginCall(authCallback);
-    }
-  }, []);
-
   const authCallback = () => {
     const objUser = window.objUser || {};
     console.log("login: authCallback - objUser: ", objUser);
@@ -40,6 +34,11 @@ const Login = () => {
       dispatch(setLoggedOut());
     }
   };
+  useEffect(() => {
+    if (typeof window.objUser !== "undefined") {
+      window.objUser.afterLoginCall(authCallback);
+    }
+  }, []);
 
   const setLogin = (userInfo) => {
     userInfo = userInfo || {};
@@ -75,7 +74,7 @@ const Login = () => {
       });
 
     window.customDimension = { ...window.customDimension, email: userInfo.primaryEmail };
-    window.__app.login = {
+    window.__APP.login = {
       status: true,
       ssoid: userInfo.ssoid,
       email: userInfo.primaryEmail,
@@ -89,7 +88,7 @@ const Login = () => {
       userInfo: {},
       isLogin: false
     });
-    window.__app.login = {
+    window.__APP.login = {
       status: false,
       ssoid: "",
       email: "",

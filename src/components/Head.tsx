@@ -169,6 +169,7 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
               `
             }}
           />
+          <Script src="/assets/js/js_interstitial.js" strategy="beforeInteractive" />
         </>
       )}
     </>
