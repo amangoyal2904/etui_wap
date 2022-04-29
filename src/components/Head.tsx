@@ -74,7 +74,7 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
     <>
       <Head>
         <title>Home Page</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="https://m.economictimes.com/icons/etfavicon.ico" type="image/x-icon" />
         <meta name="generator" content="React" />
         <meta
           name="viewport"
@@ -170,11 +170,5 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
     </>
   );
 };
-
-// Headers.getInitialProps = async ({ req }) => {
-//   console.log(req);
-//   const isprimeuser = req && req.headers && req.headers.primetemplate ? 1 : 0;
-//   return { isprimeuser };
-// };
 
 export default Headers;
