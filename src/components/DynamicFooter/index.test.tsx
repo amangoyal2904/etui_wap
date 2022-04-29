@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import Footer from ".";
+import DynamicFooter from ".";
 import { Provider } from "react-redux";
 import { store } from "app/store";
 import { createMockRouter } from "testUtils/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 
-describe("Footer", () => {
+describe("DynamicFooter", () => {
   it("renders footer link", () => {
     render(
       <RouterContext.Provider value={createMockRouter({})}>
         <Provider store={store}>
-          <Footer />
+          <DynamicFooter />
         </Provider>
       </RouterContext.Provider>
     );
