@@ -1,18 +1,14 @@
 import { render, screen, act, cleanup, fireEvent } from "@testing-library/react";
 import user from "@testing-library/user-event";
-import { shallow, configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
 import { Provider } from "react-redux";
-import { makeStore } from "../../app/store";
 import Login from ".";
-import APIS_CONFIG from "../../Network/Apis";
 import React from "react";
+import APIS_CONFIG from "network/Apis";
+import { store } from "app/store";
 
-configure({ adapter: new Adapter() });
 describe("AddText Component", () => {
   afterEach(cleanup);
   test("renders learn react link", () => {
-    const store = makeStore();
     render(
       <Provider store={store}>
         <Login />
@@ -23,7 +19,6 @@ describe("AddText Component", () => {
   });
 
   it("don't render prime user logo img tag incase of free user", () => {
-    const store = makeStore();
     const { queryByTestId } = render(
       <Provider store={store}>
         <Login />
@@ -36,7 +31,6 @@ describe("AddText Component", () => {
 
   it("redirect on sign in click", async () => {
     await act(async () => {
-      const store = makeStore();
       const { queryByTestId, getByTestId } = render(
         <Provider store={store}>
           <Login />
@@ -62,3 +56,6 @@ describe("AddText Component", () => {
     });
   });
 });
+function makeStore() {
+  throw new Error("Function not implemented.");
+}
