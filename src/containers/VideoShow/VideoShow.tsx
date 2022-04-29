@@ -10,7 +10,7 @@ import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import FootListing from "components/FootListing";
+import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
 
 const VideoShow: FC<PageProps> = (props) => {
@@ -58,7 +58,7 @@ const VideoShow: FC<PageProps> = (props) => {
           );
         } else if (item.name === "other_videos") {
           const otherVids = item as OtherVidsProps;
-          return <FootListing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
+          return <Listing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
         }
       })}
       <SEO {...seoData} />
