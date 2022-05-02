@@ -58,7 +58,7 @@ export const fetchFooter =
         : {};
       const res = await Service.get({
         api,
-        params: { type: "footer", feedtype: "etjson", ...extraParams, page }
+        params: { type: "footermenu", feedtype: "etjson", ...extraParams, page }
       });
       const data = res.data || {};
       dispatch(success(data));
