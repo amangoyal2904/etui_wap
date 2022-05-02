@@ -113,14 +113,13 @@ const DynamicFooter: FC = () => {
         </div>
         {!isSubscribed && (
           <div className={styles.row}>
-            <a
+            <div
               onClick={() => paymentButtonListener()}
               data-ga-onclick="Prime Distribution - PWA#Footer#PWA Footer Prime Click"
-              rel="noopener"
             >
               <span className={styles.primeLogo} />
               <h4>become a member</h4>
-            </a>
+            </div>
           </div>
         )}
         <div className={styles.row}>

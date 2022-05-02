@@ -21,7 +21,7 @@ export default function All({ page }) {
   } else if (page == "articleshow") {
     return <ArticleShow query={all} data={data} />;
   } else if (page == "videoshow") {
-    return <VideoShow data={data} />;
+    return <VideoShow {...data} />;
   } else {
     return <ArticleList query={all} />;
   }

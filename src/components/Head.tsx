@@ -1,7 +1,7 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
+import { FC } from "react";
 
 import * as Config from "../utils/common";
 
@@ -9,7 +9,7 @@ interface Props {
   isprimeuser?: number;
 }
 
-const Headers: NextPage<Props> = ({ isprimeuser }) => {
+const Headers: FC<Props> = ({ isprimeuser }) => {
   const router = useRouter();
   const reqData = router.query;
   const isReady = router.isReady;
@@ -74,7 +74,7 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
     <>
       <Head>
         <title>Home Page</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="https://m.economictimes.com/icons/etfavicon.ico" type="image/x-icon" />
         <meta name="generator" content="React" />
         <meta
           name="viewport"
@@ -114,12 +114,8 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
-        <link
-          href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
-          type="text/css"
-          rel="stylesheet"
-          media="all"
-        />
+        <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />
+        <link href="/et_fonts.cms?minify=1&amp;v=6&amp;type=3" type="text/css" rel="stylesheet" media="all" />
         {prefetchDomains}
       </Head>
       <Script src="https://m.economictimes.com/geoapiet/?cb=et"></Script>
@@ -173,12 +169,6 @@ const Headers: NextPage<Props> = ({ isprimeuser }) => {
       )}
     </>
   );
-};
-
-Headers.getInitialProps = async ({ req }) => {
-  console.log(req);
-  const isprimeuser = req && req.headers && req.headers.primetemplate ? 1 : 0;
-  return { isprimeuser };
 };
 
 export default Headers;

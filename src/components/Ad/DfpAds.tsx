@@ -1,5 +1,4 @@
-import { NextPage } from "next";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 declare global {
   interface Window {
     // eslint-disable-next-line
@@ -26,7 +25,7 @@ interface AdInfoProps {
   };
 }
 
-const DfpAds: NextPage<AdInfoProps> = function ({ adInfo }) {
+const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
   const { key, index = 0 } = adInfo;
 
   let divId = key;

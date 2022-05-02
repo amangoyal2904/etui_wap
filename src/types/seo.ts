@@ -1,61 +1,61 @@
 export interface BreadCrumbProps {
-  title?: string;
+  title: string;
   url?: string;
 }
-[];
 
 export interface SEOProps {
-  data: {
-    lang: string;
-    title: string;
-    url: string;
-    actualURL: string;
-    canonical: string;
-    type: string; // e.g. article
-    description: string;
-    image: string;
-    inLanguage: string;
-    authors?: string[];
-    agency?: string[];
-    date: string;
-    updated: string;
-    articleSection?: string;
-    story?: string;
-    remove_paywall_schema?: number;
-    behindLogin?: number;
-    hostid: number;
-    langInfo?: { url: string; lang: string }[];
-    ampURL?: string;
-    keywords?: string;
-    news_keywords?: string;
-    noindex?: number;
-    noindexFollow?: number;
-    expiry?: string;
-    sponsored?: number;
-    maxImgPreview?: number;
-    isPrime?: number;
-    subsecnames?: {
-      subsec1?: number;
-      subsecname1?: string;
-      subsec2?: number;
-      subsecname2?: string;
-      subsec3?: number;
-      subsecname3?: string;
-    };
-    schemaType?: string;
-    schemaMeta?: string;
-    seoschema?: {
-      webPage?: object;
-      newsArticle?: object;
-      videoObject?: object;
-    };
-    org_img?: string;
-    org_img_hin?: string;
-    page?: string;
-    breadcrumb?: BreadCrumbProps;
-    seoListData?: { url: string; title: string; date: string; img: string }[]; // needed for articlelist and topic
+  lang?: string;
+  title?: string;
+  url?: string;
+  actualURL?: string;
+  canonical?: string;
+  type?: string; // e.g. article
+  description?: string;
+  image?: string;
+  inLanguage?: string;
+  authors?: string[];
+  agency?: string[];
+  date?: string;
+  updated?: string;
+  articleSection?: string;
+  story?: string;
+  remove_paywall_schema?: number;
+  behindLogin?: number;
+  hostid?: number;
+  langInfo?: { url: string; lang: string }[];
+  ampURL?: string;
+  keywords?: string;
+  news_keywords?: string;
+  noindex?: number;
+  noindexFollow?: number;
+  expiry?: string;
+  sponsored?: number;
+  maxImgPreview?: number;
+  isPrime?: number;
+  subsecnames?: {
+    subsec1?: number;
+    subsecname1?: string;
+    subsec2?: number;
+    subsecname2?: string;
+    subsec3?: number;
+    subsecname3?: string;
+    subsec4?: number;
+    subsecname4?: string;
+    subsec5?: number;
+    subsecname5?: string;
   };
-  //page: string;
+  schemaType?: string;
+  schemaMeta?: string;
+  seoschema?: {
+    webPage?: object;
+    newsArticle?: object;
+    videoObject?: object;
+  };
+  org_img?: string;
+  org_img_hin?: string;
+  page?: string;
+  breadcrumb?: BreadCrumbProps[];
+  seoListData?: { url: string; title: string; date: string; img: string }[]; // needed for articlelist and topic
 }
 export interface WebPageSchemaProps {
   name?: string;
