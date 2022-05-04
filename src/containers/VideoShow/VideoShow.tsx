@@ -12,7 +12,6 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-
 const VideoShow: FC<PageProps> = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,7 +48,8 @@ const VideoShow: FC<PageProps> = (props) => {
                 <SocialShare
                   shareParam={{
                     shareUrl: result.url,
-                    title: result.title
+                    title: result.title,
+                    msid: result.msid
                   }}
                 />
               </div>
