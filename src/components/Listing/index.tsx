@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
 import { OtherVidsProps } from "types/videoshow";
+import LazyLoadImg from "../LazyLoad";
 
 interface ListProps {
   type: string;
@@ -22,7 +23,8 @@ export default function Listing({ type, title, data }: ListProps) {
                 <li key={type + index}>
                   <Link href={item.url}>
                     <a>
-                      <Image
+                      <LazyLoadImg large={false} img={item.img} alt={item.title} width={135} height={100} />
+                      {/* <Image
                         src={item.img}
                         alt={item.title}
                         width={135}
@@ -30,7 +32,7 @@ export default function Listing({ type, title, data }: ListProps) {
                         placeholder="blur"
                         blurDataURL="https://img.etimg.com/photo/42031747.cms"
                         unoptimized
-                      />
+                      /> */}
                       <p>{item.title}</p>
                       {item.type === "videoshow" && <span className={styles.slideVidIcon}></span>}
                     </a>
