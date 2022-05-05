@@ -24,15 +24,6 @@ export default function Listing({ type, title, data }: ListProps) {
                   <Link href={item.url}>
                     <a>
                       <LazyLoadImg large={false} img={item.img} alt={item.title} width={135} height={100} />
-                      {/* <Image
-                        src={item.img}
-                        alt={item.title}
-                        width={135}
-                        height={100}
-                        placeholder="blur"
-                        blurDataURL="https://img.etimg.com/photo/42031747.cms"
-                        unoptimized
-                      /> */}
                       <p>{item.title}</p>
                       {item.type === "videoshow" && <span className={styles.slideVidIcon}></span>}
                     </a>
