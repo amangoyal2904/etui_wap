@@ -100,7 +100,6 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
       </Link>
     );
   };
-  console.log('login: navdrawer called : menuData', menuData);
   return menuData ? (
     <>
       <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
