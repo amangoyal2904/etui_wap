@@ -4,7 +4,7 @@
     "dev": "NODE_ENV=development next",
     "build": "next build",
     "start": "NODE_ENV=production next start",
-    "lint": "eslint --fix",
+    "lint": "eslint",
     "type-check": "tsc",
     "test": "NODE_ENV=test jest",
     "winTest": "SET NODE_ENV=test && jest",
