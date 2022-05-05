@@ -26,15 +26,6 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "no-useless-escape": "off",
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        "extendDefaults": true,
-        "types": {
-          "{}": false
-        }
-      }
-    ]
+    "no-useless-escape": "off"
   }
 }

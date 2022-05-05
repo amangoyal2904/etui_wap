@@ -16,7 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   if (typeof window != "undefined" && !window.initalJsCalled) {
     window.initalJsCalled = true;
-    window.objVc = pageProps && pageProps.objVc || {}
+    window.objVc = (pageProps && pageProps.objVc) || {};
     InitialJsOnAppLoad();
   }
   useEffect(() => {
@@ -28,8 +28,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const handleRouteChange = (url) => {
     callJsOnRouteChange(url);
   };
-  console.log('process.env: ', process.env.NODE_ENV)
-  console.log('objVc data pageProps: ', pageProps)
   return (
     <Layout>
       <Component {...pageProps} />
