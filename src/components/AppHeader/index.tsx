@@ -47,14 +47,15 @@ const AppHeader: FC = () => {
             <span className={styles.searchIcon} onClick={() => setIsSearchOverlayOpen(true)}></span>
           </div>
         </div>
-        <div className={styles.ctas}>
-          <span className={styles.cta1}>Super Saver Sale</span>
-          <span className={styles.cta2}>Get App</span>
-        </div>
-
+        {store.isCta && (
+          <div className={styles.ctas}>
+            <span className={styles.cta1}>Super Saver Sale</span>
+            <span className={styles.cta2}>Get App</span>
+          </div>
+        )}
         {store.isFetchSuccess && store.isNavBar && <NavBar />}
       </header>
-      <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
+      {store.isFetchSuccess && isDrawerOpen && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />}
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
     </>
   );

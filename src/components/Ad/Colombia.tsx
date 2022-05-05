@@ -1,9 +1,7 @@
-import { NextPage } from "next";
-import { pageType } from "../../utils/utils";
 import { useRouter } from "next/router";
 import styles from "./styles.module.scss";
 // import { TEST_ID_CTN_HOME, TEST_COLOMBIA_DFP_HOME, TEST_COLOMBIA_DFP_ARTICLESHOW, BROWSI_SECTIONS } from "utils/common";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 
 interface Props {
   index?: number;
@@ -22,7 +20,7 @@ declare global {
   }
 }
 
-const Colombia: NextPage<Props> = function (props) {
+const Colombia: FC<Props> = function (props) {
   const { index, currentMSID, hidelabel } = props;
   const id = props.id;
   const divId = `div-clmb-ctn-${id}-${index}${currentMSID ? "-" + currentMSID : ""}`;

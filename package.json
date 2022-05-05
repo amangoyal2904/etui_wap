@@ -52,7 +52,7 @@
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": [
-      "npx eslint ./ --fix",
+      "npx eslint ./src",
       "pretty-quick --staged",
       "next build ./"
     ]
