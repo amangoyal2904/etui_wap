@@ -27,7 +27,10 @@ const AppHeader: FC = () => {
       <header className={styles.header}>
         <div className={styles.top}>
           <div className={styles.hamber}>
-            <span className={styles.hamberIcon} onClick={() => setIsDrawerOpen(true)}></span>
+            <span
+              className={styles.hamberIcon + " " + styles.commonSprite}
+              onClick={() => setIsDrawerOpen(true)}
+            ></span>
           </div>
           <div className={styles.logo}>
             <Link href="/">
@@ -44,7 +47,10 @@ const AppHeader: FC = () => {
             </Link>
           </div>
           <div className={styles.search}>
-            <span className={styles.searchIcon} onClick={() => setIsSearchOverlayOpen(true)}></span>
+            <span
+              className={styles.searchIcon + " " + styles.commonSprite}
+              onClick={() => setIsSearchOverlayOpen(true)}
+            ></span>
           </div>
         </div>
         {store.isCta && (
