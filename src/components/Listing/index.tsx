@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
 import { OtherVidsProps } from "types/videoshow";
