@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLogin: false,
-  userInfo: {},
+  userInfo: {}
 };
 
 export const loginSlice = createSlice({
@@ -17,8 +17,8 @@ export const loginSlice = createSlice({
     setLoggedOut: (state) => {
       state.isLogin = false;
       state.userInfo = {};
-    },
-  },
+    }
+  }
 });
 
 // Action creators are generated for each case reducer function

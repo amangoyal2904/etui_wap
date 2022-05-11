@@ -104,17 +104,19 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     <>
       <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
         <Login />
-        <div className={styles.menuWrap}>
-          <ul onClick={handleClick}>
-            <li>
-              <Link href={menuData.url}>
-                <a>{menuData.title}</a>
-              </Link>
-            </li>
-            <li className={styles.oneDotBdr}></li>
-            {getMenu(menuData, 0, 0)}
-          </ul>
-        </div>
+        {store.isFetchSuccess && isOpen && (
+          <div className={styles.menuWrap}>
+            <ul onClick={handleClick}>
+              <li>
+                <Link href={menuData.url}>
+                  <a>{menuData.title}</a>
+                </Link>
+              </li>
+              <li className={styles.oneDotBdr}></li>
+              {getMenu(menuData, 0, 0)}
+            </ul>
+          </div>
+        )}
       </nav>
     </>
   ) : null;

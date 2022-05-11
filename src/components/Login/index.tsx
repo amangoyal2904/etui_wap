@@ -1,7 +1,7 @@
 import APIS_CONFIG from "../../network/Apis";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoggedIn, setLoggedOut } from "./LoginSlice";
+import { setLoggedIn, setLoggedOut } from "../../Slices/LoginSlice";
 import styles from "./Login.module.scss";
 
 declare global {

@@ -7,7 +7,7 @@ import videoshow from "Slices/videoshow";
 import appHeader from "Slices/appHeader";
 import footer from "Slices/footer";
 import common from "Slices/common";
-import loginSlice from "components/Login/LoginSlice";
+import loginSlice from "Slices/LoginSlice";
 
 const reducer = combineReducers({
   common,
