@@ -15,10 +15,6 @@ export function InitialJsOnAppLoad(): void {
       ga.gaObserverInit();
     });
     ga.growthRxInit();
-
-    objInts.afterPermissionCall(() => {
-      window.isprimeuser = objInts.permissions.indexOf("subscribed") > -1;
-    });
   } catch (error) {
     console.error("Error in InitialJsOnAppLoad: ", error);
   }

@@ -132,7 +132,7 @@ const Login = () => {
         )}
       </div>
       <div className={styles.signIn}>
-        <div className={styles.userIcon}></div>
+        <div className={`${styles.userIcon} ${styles.commonSprite}`}></div>
         <div onClick={handleLoginToggle} id="loginButton">
           {auth.isLogin ? "Sign out" : "Sign In"}
         </div>

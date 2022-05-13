@@ -109,9 +109,9 @@
   }
   .cSprite {
     display: inline-block;
-    background: url($header-footer-sprite) no-repeat;
+    background: url($common-sprite-path) no-repeat;
     background-position: -96px -25px;
-    background-size: 600%;
+    background-size: 655%;
     display: block;
   }
 }

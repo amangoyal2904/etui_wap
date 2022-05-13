@@ -12,13 +12,34 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     <div className={styles.socialShare}>
       <div className={styles.shareText}>Share this Video</div>
       <div className={styles.socialLinks}>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })} className={styles.wa}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })} className={styles.fb}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "twt" })} className={styles.twt}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "lin" })} className={styles.in}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "email" })} className={styles.email}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })} className={styles.sms}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "bm" })} className={styles.bookmark}></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })}
+          className={`${styles.wa} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })}
+          className={`${styles.fb} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "twt" })}
+          className={`${styles.twt} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "lin" })}
+          className={`${styles.in} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "email" })}
+          className={`${styles.email} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })}
+          className={`${styles.sms} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "bm" })}
+          className={`${styles.bookmark} ${styles.commonSprite}`}
+        ></span>
       </div>
     </div>
   );

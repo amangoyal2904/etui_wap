@@ -60,7 +60,11 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
             {makeLink(item, level, index, i)}
             {level === 1 && item.sec && (
               <span
-                className={!isSubmenuOpen[level + "_" + index + "_" + i] ? styles.rDown : styles.rUp}
+                className={
+                  !isSubmenuOpen[level + "_" + index + "_" + i]
+                    ? styles.rDown + " " + styles.commonSprite
+                    : styles.rUp + " " + styles.commonSprite
+                }
                 onClick={() => showSubmenu(level + "_" + index + "_" + i)}
               ></span>
             )}
@@ -87,7 +91,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     if (!(data.shorturl || data.url)) {
       return (
         <>
-          {data.title} {level === 0 && <span className={styles.rArr}></span>}
+          {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </>
       );
     }
@@ -95,7 +99,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     return (
       <Link href={data.shorturl ? data.shorturl : data.url}>
         <a className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
-          {data.title} {level === 0 && <span className={styles.rArr}></span>}
+          {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </a>
       </Link>
     );

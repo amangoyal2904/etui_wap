@@ -69,7 +69,7 @@ const DynamicFooter: FC = () => {
             target="_blank"
             rel="noopener nofollow noreferrer"
           >
-            <span className={styles.appstoredownload} />
+            <span className={`${styles.appstoredownload} ${styles.commonSprite}`} />
           </a>
 
           <a
@@ -77,7 +77,7 @@ const DynamicFooter: FC = () => {
             target="_blank"
             rel="noopener nofollow noreferrer"
           >
-            <span className={styles.gpdownload} />
+            <span className={`${styles.gpdownload} ${styles.commonSprite}`} />
           </a>
         </div>
         <div className={styles.row} displaytype="GDPR">
@@ -89,7 +89,7 @@ const DynamicFooter: FC = () => {
               target="_blank"
               data-ga-onclick="PWA Footer Follow us icon Click#Facebook - Click#Facebook-href"
               rel="noopener nofollow noreferrer"
-              className={styles.fbShare}
+              className={`${styles.fbShare} ${styles.commonSprite}`}
             ></a>
 
             <a
@@ -98,7 +98,7 @@ const DynamicFooter: FC = () => {
               title="Twitter"
               data-ga-onclick="PWA Footer Follow us icon Click#Twitter - Click#Twitter-href"
               rel="noopener nofollow noreferrer"
-              className={styles.twShare}
+              className={`${styles.twShare} ${styles.commonSprite}`}
             ></a>
 
             <a
@@ -107,7 +107,7 @@ const DynamicFooter: FC = () => {
               title="LinkedIn"
               data-ga-onclick="PWA Footer Follow us icon Click#LinkedIn - Click#LinkedIn-href"
               rel="noopener nofollow noreferrer"
-              className={styles.inShare}
+              className={`${styles.inShare} ${styles.commonSprite}`}
             ></a>
           </div>
         </div>
@@ -117,7 +117,7 @@ const DynamicFooter: FC = () => {
               onClick={() => paymentButtonListener()}
               data-ga-onclick="Prime Distribution - PWA#Footer#PWA Footer Prime Click"
             >
-              <span className={styles.primeLogo} />
+              <span className={`${styles.primeLogo} ${styles.commonSprite}`} />
               <h4>become a member</h4>
             </div>
           </div>
