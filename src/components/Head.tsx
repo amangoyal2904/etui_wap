@@ -165,6 +165,7 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
               `
             }}
           />
+          <Script src="/assets/js/js_interstitial.js" strategy="beforeInteractive" />
         </>
       )}
     </>

@@ -60,7 +60,7 @@ const AppHeader: FC = () => {
         )}
         {store.isFetchSuccess && store.isNavBar && <NavBar />}
       </header>
-      {store.isFetchSuccess && isDrawerOpen && <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />}
+      <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
     </>
   );

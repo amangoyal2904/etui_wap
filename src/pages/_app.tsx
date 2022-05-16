@@ -8,6 +8,7 @@ import { wrapper } from "../app/store";
 declare global {
   interface Window {
     initalJsCalled: boolean;
+    objVc: any;
   }
 }
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -15,6 +16,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   if (typeof window != "undefined" && !window.initalJsCalled) {
     window.initalJsCalled = true;
+    window.objVc = (pageProps && pageProps.objVc) || {};
     InitialJsOnAppLoad();
   }
   useEffect(() => {

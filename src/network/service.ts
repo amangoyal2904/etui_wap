@@ -7,6 +7,7 @@ declare global {
   interface Window {
     __APP: {
       env?: string;
+      login?: any;
     };
   }
 }

@@ -9,9 +9,7 @@ declare global {
       geolocation: string;
       region_code: string;
     };
-    __APP: {
-      env?: string;
-    };
+    env?: string;
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
