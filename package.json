@@ -55,7 +55,7 @@
     "src/**/*.(ts|tsx|js|jsx)": [
       "pretty-quick --staged",
       "npx eslint ./src",
-      "jest ./src",
+      "jest ./src --coverage=false",
       "next build ./"
     ]
   }
