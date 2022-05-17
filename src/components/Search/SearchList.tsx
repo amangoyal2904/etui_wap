@@ -368,7 +368,7 @@ export default function SearchList(props) {
       ) : (
         ""
       )}
-      {index == 3 && data.length ? (
+      {index == 3 && data.length && (
         <>
           <li className={`${styles.head} ${styles.reptr}`}>
             <span className="flt">REPORTERS</span>
@@ -376,7 +376,7 @@ export default function SearchList(props) {
           </li>
           {displayListData("reptr")}
         </>
-      ) : null}
+      )}
     </>
   );
 }

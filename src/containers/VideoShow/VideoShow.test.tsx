@@ -290,7 +290,6 @@ describe("VideoShow Component", () => {
         </Provider>
       </RouterContext.Provider>
     );
-    console.log(screen.getAllByRole("heading"));
     expect(screen.getAllByRole("heading")).toBeTruthy();
   });
 });

@@ -27,7 +27,6 @@ const Login = () => {
 
   const authCallback = () => {
     const objUser = window.objUser || {};
-    console.log("login: authCallback - objUser: ", objUser);
     if (objUser.info && objUser.info.isLogged) {
       setLogin(objUser.info);
     } else {
@@ -43,7 +42,6 @@ const Login = () => {
   const setLogin = (userInfo) => {
     userInfo = userInfo || {};
     const objInts = window.objInts;
-    console.log("Login: -> objInts", objInts);
     dispatch(setLoggedIn(userInfo));
 
     setAuth({
@@ -53,7 +51,6 @@ const Login = () => {
 
     typeof objInts != "undefined" &&
       objInts.afterPermissionCall(() => {
-        console.log("Login: -> afterPermissionCall", objInts.permissions);
         let permissionType = "free";
         if (objInts.permissions.indexOf("subscribed") > -1) {
           permissionType = "subscribed";
@@ -109,7 +106,6 @@ const Login = () => {
       setLogout();
     } else {
       const loginUrl = APIS_CONFIG.login[NODE_ENV];
-      console.log("Login: -> loginUrl", loginUrl);
       window.location.href = `${loginUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
   };
@@ -117,7 +113,6 @@ const Login = () => {
   const isSubscribed: boolean =
     (auth.userInfo && auth.userInfo.permissions && auth.userInfo.permissions.indexOf("subscribed") > -1) || false;
 
-  console.log("login comp called");
   return (
     <div className={styles.user}>
       <div className={styles.userName}>
