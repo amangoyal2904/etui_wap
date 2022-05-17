@@ -7,7 +7,7 @@ interface VideoEmbedProps {
 const VideoEmbed: FC<VideoEmbedProps> = ({ url }) => {
   return (
     <>
-      <div>
+      <div className={styles.vidWrap}>
         <iframe className={styles.style1} src={url} title="Video"></iframe>
       </div>
     </>
