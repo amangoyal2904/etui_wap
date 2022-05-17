@@ -6,8 +6,8 @@
     "start": "NODE_ENV=production next start",
     "lint": "eslint",
     "type-check": "tsc",
-    "test": "NODE_ENV=test jest --collectCoverage",
-    "winTest": "SET NODE_ENV=test && jest --collectCoverage",
+    "test": "NODE_ENV=test jest",
+    "winTest": "SET NODE_ENV=test && jest",
     "winDev": "SET NODE_ENV=development && next",
     "winStart": "SET NODE_ENV=production && next start",
     "prepare": "husky install",
@@ -55,7 +55,7 @@
     "src/**/*.(ts|tsx|js|jsx)": [
       "pretty-quick --staged",
       "npx eslint ./src",
-      "jest --bail --collectCoverage",
+      "jest ./src",
       "next build ./"
     ]
   }
