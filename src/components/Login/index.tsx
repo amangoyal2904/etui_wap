@@ -1,4 +1,4 @@
-import APIS_CONFIG from "../../network/Apis";
+import APIS_CONFIG from "../../network/config.json";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedIn, setLoggedOut } from "../../Slices/login";
@@ -111,7 +111,7 @@ const Login = () => {
     if (auth.login) {
       setLogout();
     } else {
-      const loginUrl = APIS_CONFIG.login[NODE_ENV];
+      const loginUrl = APIS_CONFIG.LOGIN[NODE_ENV];
       window.location.href = `${loginUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
   };

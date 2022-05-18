@@ -31,7 +31,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
       break;
   }
   const storeState = store.getState();
-  const response = await storeState;
+  const response = (await storeState) || {};
 
   return {
     props: {

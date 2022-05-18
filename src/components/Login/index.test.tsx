@@ -3,7 +3,7 @@ import user from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import Login from ".";
 import React from "react";
-import APIS_CONFIG from "network/Apis";
+import APIS_CONFIG from "network/config.json";
 import { store } from "app/store";
 
 describe("AddText Component", () => {
@@ -38,7 +38,7 @@ describe("AddText Component", () => {
       );
       const NODE_ENV = process.env.NODE_ENV || "production";
 
-      const loginBaseUrl = APIS_CONFIG.login[NODE_ENV];
+      const loginBaseUrl = APIS_CONFIG.LOGIN[NODE_ENV];
       const loginUrl = `${loginBaseUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
 
       const signInbutton = screen.getByText("Sign In");

@@ -64,6 +64,6 @@ export const fetchFooter =
       dispatch(success(data));
     } catch (e) {
       dispatch(error);
-      return console.log("error in footer Slice", e);
+      return console.log("error in footer Slice", e.message);
     }
   };
