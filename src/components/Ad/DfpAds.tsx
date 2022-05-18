@@ -64,8 +64,6 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
         if (!(adDivIds.indexOf(divId) > -1)) {
           adDivIds.push(divId);
 
-          // TO DO >> Bring ObjVc on client side too
-
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
           const dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
