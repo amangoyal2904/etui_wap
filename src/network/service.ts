@@ -8,6 +8,7 @@ declare global {
     __APP: {
       env?: string;
       login?: any;
+      processEnv?: string;
     };
   }
 }

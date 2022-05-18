@@ -15,6 +15,14 @@ export function InitialJsOnAppLoad(): void {
       ga.gaObserverInit();
     });
     ga.growthRxInit();
+    window.__APP = {
+      env:
+        location.hostname.indexOf("m.economictimes.com") !== -1 ||
+        location.hostname.indexOf("economictimes.indiatimes.com") !== -1
+          ? "production"
+          : "development",
+      processEnv: process.env.APP_ENV || "production"
+    };
   } catch (error) {
     console.error("Error in InitialJsOnAppLoad: ", error);
   }

@@ -9,10 +9,6 @@ declare global {
     objUser: any;
     objInts: any;
     customDimension: object;
-    __APP: {
-      env?: string;
-      login?: any;
-    };
   }
 }
 
