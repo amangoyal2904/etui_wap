@@ -23,11 +23,12 @@ const VideoShow: FC<PageProps> = (props) => {
       dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
-  const seoData = { ...props?.seo, ...props?.common_config?.seo };
+  const { seo = {}, version_control } = props;
+  const seoData = { ...seo, ...version_control?.seo };
   return (
     <>
       <div className={`${styles.mrecContainer} adContainer`}>
-        <DfpAds adInfo={{ key: "mrec3" }} />
+        <DfpAds adInfo={{ key: "mrec" }} />
       </div>
       {props?.searchResult.map((item) => {
         if (item.name === "videoshow") {

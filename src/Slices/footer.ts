@@ -58,12 +58,12 @@ export const fetchFooter =
         : {};
       const res = await Service.get({
         api,
-        params: { type: "footermenu", feedtype: "etjson", ...extraParams, page }
+        params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
       });
       const data = res.data || {};
       dispatch(success(data));
     } catch (e) {
       dispatch(error);
-      return console.log("error in footer SLice", e.message);
+      return console.log("error in footer Slice", e.message);
     }
   };

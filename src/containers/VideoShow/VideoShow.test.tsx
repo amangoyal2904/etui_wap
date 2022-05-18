@@ -270,7 +270,8 @@ const data: PageProps = {
       }
     ],
     page: "videoshow"
-  }
+  },
+  parameters: {}
 };
 
 jest.mock(

@@ -94,7 +94,7 @@ export const pageType = (pathurl) => {
     return "articlelist";
   }
 };
-export const getMSID = (url) => url.split(".cms")[0];
+export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
 export const encodeQueryData = (data) => {
   const ret = [];
   for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));

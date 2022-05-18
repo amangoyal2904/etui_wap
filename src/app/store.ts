@@ -7,7 +7,7 @@ import videoshow from "Slices/videoshow";
 import appHeader from "Slices/appHeader";
 import footer from "Slices/footer";
 import common from "Slices/common";
-import loginSlice from "Slices/LoginSlice";
+import login from "Slices/login";
 
 const reducer = combineReducers({
   common,
@@ -15,7 +15,7 @@ const reducer = combineReducers({
   videoshow,
   appHeader,
   footer,
-  loginSlice
+  login
 });
 export const store = configureStore({
   reducer
