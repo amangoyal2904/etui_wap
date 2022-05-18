@@ -2,15 +2,8 @@ import APIS_CONFIG from "../../network/config.json";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedIn, setLoggedOut } from "../../Slices/login";
+import { APP_ENV } from "../../utils";
 import styles from "./Login.module.scss";
-
-declare global {
-  interface Window {
-    objUser: any;
-    objInts: any;
-    customDimension: object;
-  }
-}
 
 interface IUser {
   login: boolean;
@@ -103,12 +96,11 @@ const Login = () => {
   };
 
   const handleLoginToggle = (): void => {
-    const NODE_ENV = process.env.NODE_ENV || "production";
     if (auth.login) {
       setLogout();
     } else {
-      const loginUrl = APIS_CONFIG.LOGIN[NODE_ENV];
-      window.location.href = `${loginUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+      window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
   };
   const firstName: string = auth.login ? auth.userInfo && auth.userInfo.firstName : "";

@@ -1,6 +1,6 @@
 import { FC } from "react";
 //import { PAGE_TYPE, SiteConfig } from "utils/common";
-import { removeBackSlash } from "utils/utils";
+import { removeBackSlash } from "utils";
 import {
   SEOProps,
   WebPageSchemaProps,

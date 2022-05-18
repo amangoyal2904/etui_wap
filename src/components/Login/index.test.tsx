@@ -1,6 +1,7 @@
 import { render, screen, act, cleanup, fireEvent } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Provider } from "react-redux";
+import { APP_ENV } from "../../utils";
 import Login from ".";
 import React from "react";
 import APIS_CONFIG from "network/config.json";
@@ -36,10 +37,8 @@ describe("AddText Component", () => {
           <Login />
         </Provider>
       );
-      const NODE_ENV = process.env.NODE_ENV || "production";
-
-      const loginBaseUrl = APIS_CONFIG.LOGIN[NODE_ENV];
-      const loginUrl = `${loginBaseUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      const loginBaseUrl = APIS_CONFIG.LOGIN[APP_ENV];
+      const loginUrl = `${loginBaseUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
 
       const signInbutton = screen.getByText("Sign In");
       const assignMock = jest.fn();

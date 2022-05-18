@@ -1,5 +1,5 @@
 import * as Config from "./common";
-import * as utils from "./utils";
+import * as utils from ".";
 
 declare global {
   interface Window {

@@ -13,7 +13,6 @@ declare global {
     article: string;
     bl: string;
     spcKeyword: string;
-    objVc: any;
   }
 }
 interface AdInfoProps {
