@@ -1,13 +1,18 @@
 import { FC } from "react";
-
+import Link from "next/link";
 interface pageProps {
-  query: string | string[];
+  data: object;
 }
 
-const ArticleList: FC<pageProps> = ({ query }) => {
+const ArticleList: FC<pageProps> = (props) => {
   return (
     <>
-      <div className="root">ArticleList {query}</div>
+      <h1>ArticleList</h1>
+      <div>
+        <Link href="/">
+          <a>Back Home</a>
+        </Link>
+      </div>
     </>
   );
 };

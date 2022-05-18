@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLogin: false,
-  userInfo: {}
+  login: false,
+  userInfo: {},
+  isprimeuser: 0
 };
 
 export const loginSlice = createSlice({
@@ -11,17 +12,20 @@ export const loginSlice = createSlice({
   reducers: {
     setLoggedIn: (state, action) => {
       console.log("setLoggedIn payload:", action);
-      state.isLogin = true;
+      state.login = true;
       state.userInfo = action.payload;
     },
     setLoggedOut: (state) => {
-      state.isLogin = false;
+      state.login = false;
       state.userInfo = {};
+    },
+    setIsPrime: (state, action) => {
+      state.isprimeuser = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setLoggedIn, setLoggedOut } = loginSlice.actions;
+export const { setLoggedIn, setLoggedOut, setIsPrime } = loginSlice.actions;
 
 export default loginSlice.reducer;

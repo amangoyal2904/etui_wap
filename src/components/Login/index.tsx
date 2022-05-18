@@ -1,7 +1,7 @@
 import APIS_CONFIG from "../../network/Apis";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoggedIn, setLoggedOut } from "../../Slices/LoginSlice";
+import { setLoggedIn, setLoggedOut } from "../../Slices/login";
 import styles from "./Login.module.scss";
 
 declare global {
@@ -17,12 +17,12 @@ declare global {
 }
 
 interface IUser {
-  isLogin: boolean;
+  login: boolean;
   userInfo: any;
 }
 
 const Login = () => {
-  const [auth, setAuth] = useState<IUser>({ isLogin: false, userInfo: {} });
+  const [auth, setAuth] = useState<IUser>({ login: false, userInfo: {} });
   const dispatch = useDispatch();
 
   const authCallback = () => {
@@ -42,10 +42,10 @@ const Login = () => {
   const setLogin = (userInfo) => {
     userInfo = userInfo || {};
     const objInts = window.objInts;
-    dispatch(setLoggedIn(userInfo));
+    dispatch(setLoggedIn({ ...userInfo, login: true, permissionStatus: "pending" }));
 
     setAuth({
-      isLogin: true,
+      login: true,
       userInfo
     });
 
@@ -65,9 +65,15 @@ const Login = () => {
         ) {
           permissionType = "can_renew";
         }
-        const userData = { ...userInfo, permissions: objInts.permissions, permissionType };
+        const userData = {
+          ...userInfo,
+          login: true,
+          permissionStatus: "success",
+          permissions: objInts.permissions,
+          permissionType
+        };
         dispatch(setLoggedIn(userData));
-        setAuth({ isLogin: true, userInfo: { ...userInfo, permissions: objInts.permission || [] } });
+        setAuth({ login: true, userInfo: { ...userInfo, permissions: objInts.permission || [] } });
       });
 
     window.customDimension = { ...window.customDimension, email: userInfo.primaryEmail };
@@ -83,7 +89,7 @@ const Login = () => {
     dispatch(setLoggedOut());
     setAuth({
       userInfo: {},
-      isLogin: false
+      login: false
     });
     window.__APP.login = {
       status: false,
@@ -102,14 +108,14 @@ const Login = () => {
 
   const handleLoginToggle = (): void => {
     const NODE_ENV = process.env.NODE_ENV || "production";
-    if (auth.isLogin) {
+    if (auth.login) {
       setLogout();
     } else {
       const loginUrl = APIS_CONFIG.login[NODE_ENV];
       window.location.href = `${loginUrl}${NODE_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
   };
-  const firstName: string = auth.isLogin ? auth.userInfo && auth.userInfo.firstName : "";
+  const firstName: string = auth.login ? auth.userInfo && auth.userInfo.firstName : "";
   const isSubscribed: boolean =
     (auth.userInfo && auth.userInfo.permissions && auth.userInfo.permissions.indexOf("subscribed") > -1) || false;
 
@@ -117,7 +123,7 @@ const Login = () => {
     <div className={styles.user}>
       <div className={styles.userName}>
         {!isSubscribed && <div>Welcome</div>}
-        <div>{auth.isLogin ? firstName : "User"}</div>
+        <div>{auth.login ? firstName : "User"}</div>
         {isSubscribed && (
           <img
             src="https://img.etimg.com/photo/77066493.cms"
@@ -129,7 +135,7 @@ const Login = () => {
       <div className={styles.signIn}>
         <div className={`${styles.userIcon} ${styles.commonSprite}`}></div>
         <div onClick={handleLoginToggle} id="loginButton">
-          {auth.isLogin ? "Sign out" : "Sign In"}
+          {auth.login ? "Sign out" : "Sign In"}
         </div>
       </div>
     </div>
