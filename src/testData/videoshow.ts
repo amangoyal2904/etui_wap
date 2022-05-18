@@ -255,5 +255,5 @@ export const data = {
     page: "videoshow",
     msid: "90200064"
   },
-  common_config: ""
+  version_control: {}
 };

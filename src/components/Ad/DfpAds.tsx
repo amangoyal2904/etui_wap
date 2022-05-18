@@ -13,6 +13,7 @@ declare global {
     article: string;
     bl: string;
     spcKeyword: string;
+    objVc: any;
   }
 }
 interface AdInfoProps {
@@ -55,40 +56,14 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
     const googleTag = window.googletag;
     const { adDivIds } = window;
     const { customDimension, currMsid, customSlot } = adInfo;
-    const objVc = {
-      dfp: {
-        atf: {
-          adSize: "[[320,50]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_ATF"
-        },
-        fbn: {
-          adSize: "[[[320,50]],[[468,60]],[[728,90]]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_FBN"
-        },
-        mrec: {
-          adSize: "[[[300,250],[336,280],[250,250]]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_MTF"
-        },
-        mrec1: {
-          adSize: "[[[300,250],[336,280],[250,250]]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_Mrec1"
-        },
-        mrec2: {
-          adSize: "[[[300,250],[336,280],[250,250]]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_Mrec2"
-        },
-        mrec3: {
-          adSize: "[[[300,250],[336,280],[250,250]]]",
-          adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_PT_Mrec3"
-        }
-      }
-    };
+    const objVc = window.objVc;
 
     if (divId && googleTag) {
       googleTag.cmd.push(() => {
         let slot = undefined;
         if (!(adDivIds.indexOf(divId) > -1)) {
           adDivIds.push(divId);
+
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
           const dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];

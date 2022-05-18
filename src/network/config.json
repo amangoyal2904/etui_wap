@@ -14,9 +14,14 @@
   "FEED": {
     "dns": {
       "development": ["https://etdev8243.indiatimes.com/"],
-      "production": ["https://economictimes.indiatimes.com/"]
+      "production": ["https://etdev8243.indiatimes.com/"]
     },
     "path": "reactfeed"
+  },
+  "LOGIN": {
+    "development": "https://spmdev8243.economictimes.com/login.cms",
+    "test": "https://spmdev8243.economictimes.com/login.cms",
+    "production": "https://m.economictimes.com/login.cms"
   },
   "USER_ACTIVITY": {
     "dns": {
