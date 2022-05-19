@@ -12,7 +12,8 @@ const VideoShow = dynamic(() => import("containers/VideoShow"));
 const Home = dynamic(() => import("containers/Home"));
 import NotFound from "containers/NotFound";
 
-const Container = ({ page, data }) => {
+const Container = (props) => {
+  const { page, data } = props;
   let container = <NotFound {...data} />;
   switch (page) {
     case "home":
@@ -35,6 +36,13 @@ declare global {
   interface Window {
     initalJsCalled: boolean;
     objVc: any;
+    __APP: {
+      env?: string;
+      login?: any;
+    };
+    objUser: any;
+    objInts: any;
+    isprimeuser: number;
   }
 }
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -46,6 +54,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   if (typeof window != "undefined") {
     window.objVc = versionControl || {};
+    window.isprimeuser = isprimeuser;
     if (!window.initalJsCalled) {
       window.initalJsCalled = true;
       InitialJsOnAppLoad();
@@ -62,7 +71,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   };
   return (
     <Layout>
-      <Container page={page} data={data} />
+      <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
     </Layout>
   );
 };

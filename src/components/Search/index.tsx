@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "./styles.module.scss";
-import { isDevEnv } from "utils/utils";
+import { isDevEnv } from "utils";
 import apiConfig from "network/config.json";
 import SearchList from "./SearchList";
 

@@ -1,5 +1,9 @@
 import os from "os";
+import getConfig from "next/config";
 const serverHost = os.hostname() || "";
+
+const { publicRuntimeConfig } = getConfig();
+export const { APP_ENV } = publicRuntimeConfig;
 
 declare global {
   interface Window {

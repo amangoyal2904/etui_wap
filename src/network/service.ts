@@ -1,16 +1,8 @@
-import { encodeQueryData, getParameterByName, processEnv } from "../utils/utils";
+import { encodeQueryData, getParameterByName, processEnv } from "../utils";
 import axios from "axios";
-import { isBrowser } from "utils/utils";
+import { isBrowser } from "utils";
 
 const headerWhiteList = ["X-FORWARDED-FOR", "X-ISBOT", "fullcontent"];
-declare global {
-  interface Window {
-    __APP: {
-      env?: string;
-      login?: any;
-    };
-  }
-}
 
 const getApiUrl = (config, index) => {
   const { api = {}, url, params } = config;

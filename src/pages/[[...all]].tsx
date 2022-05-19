@@ -3,12 +3,13 @@ import { fetchArticle } from "Slices/article";
 import { setCommonData } from "Slices/common";
 import { fetchVideoshow } from "Slices/videoshow";
 import { setIsPrime } from "Slices/login";
-import { pageType, getMSID } from "utils/utils";
+import { pageType, getMSID } from "utils";
 
 const All = ({ page, data }) => null;
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, params, resolvedUrl }) => {
   const isprimeuser = req.headers?.primetemplate ? 1 : 0;
+  // global.isprimeuser = isprimeuser;
   await store.dispatch(setIsPrime({ isprimeuser }));
 
   const { all = [] } = params;
