@@ -12,6 +12,21 @@ const VideoShow = dynamic(() => import("containers/VideoShow"));
 const Home = dynamic(() => import("containers/Home"));
 import NotFound from "containers/NotFound";
 
+declare global {
+  interface Window {
+    initalJsCalled: boolean;
+    objVc: any;
+    __APP: {
+      env?: string;
+      login?: any;
+    };
+    objUser: any;
+    objInts: any;
+    isprimeuser: number;
+    dataLayer: [];
+  }
+}
+
 const Container = (props) => {
   const { page, data } = props;
   let container = <NotFound {...data} />;
@@ -32,19 +47,6 @@ const Container = (props) => {
   return container;
 };
 
-declare global {
-  interface Window {
-    initalJsCalled: boolean;
-    objVc: any;
-    __APP: {
-      env?: string;
-      login?: any;
-    };
-    objUser: any;
-    objInts: any;
-    isprimeuser: number;
-  }
-}
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { response, page, isprimeuser } = pageProps;
   const data = response?.[page]?.data || {};
