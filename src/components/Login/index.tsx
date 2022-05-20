@@ -18,8 +18,6 @@ const Login = () => {
     const objUser = window.objUser || {};
     if (objUser.info && objUser.info.isLogged) {
       setLogin(objUser.info);
-    } else {
-      dispatch(setLoggedOut());
     }
   };
   useEffect(() => {

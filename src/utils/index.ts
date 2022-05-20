@@ -3,7 +3,7 @@ import getConfig from "next/config";
 const serverHost = os.hostname() || "";
 
 const { publicRuntimeConfig } = getConfig();
-export const { APP_ENV } = publicRuntimeConfig;
+export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
 
 declare global {
   interface Window {
