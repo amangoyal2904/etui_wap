@@ -21,9 +21,11 @@ const Login = () => {
     }
   };
   useEffect(() => {
-    if (typeof window.objUser !== "undefined") {
-      window.objUser.afterLoginCall(authCallback);
-    }
+    document.addEventListener("objIntsLoaded", () => {
+      if (typeof window.objUser !== "undefined") {
+        window.objUser.afterLoginCall(authCallback);
+      }
+    });
   }, []);
 
   const setLogin = (userInfo) => {

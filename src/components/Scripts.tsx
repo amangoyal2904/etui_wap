@@ -20,7 +20,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
     <>
       <Script id="main-script">
         {`
-            __APP = {
+            window.__APP = {
                 env: "${APP_ENV}"
             }
             window._log = function(){
@@ -30,7 +30,21 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             }
         `}
       </Script>
-      <Script src="https://m.economictimes.com/geoapiet/?cb=et"></Script>
+      <Script
+        src="https://m.economictimes.com/geoapiet/?cb=et"
+        onLoad={() => {
+          const geoLoaded = new Event("geoLoaded");
+          document.dispatchEvent(geoLoaded);
+        }}
+      />
+      <Script
+        src={jsIntsURL}
+        strategy="afterInteractive"
+        onLoad={() => {
+          const objIntsLoaded = new Event("objIntsLoaded");
+          document.dispatchEvent(objIntsLoaded);
+        }}
+      />
 
       {!reqData.opt && !isprimeuser && isReady && (
         <>
@@ -78,7 +92,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               `
             }}
           />
-          <Script src={jsIntsURL} strategy="afterInteractive" />
         </>
       )}
     </>
