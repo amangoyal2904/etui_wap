@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   login: false,
   userInfo: {},
+  permissions: [],
   isprimeuser: 0
 };
 
@@ -13,7 +14,11 @@ export const loginSlice = createSlice({
     setLoggedIn: (state, action) => {
       console.log("setLoggedIn payload:", action);
       state.login = true;
-      state.userInfo = action.payload;
+      const { login, userInfo, permissions, isprimeuser } = action.payload;
+      state.userInfo = userInfo;
+      state.login = login;
+      state.permissions = permissions;
+      state.isprimeuser = isprimeuser;
     },
     setLoggedOut: (state) => {
       state.login = false;

@@ -50,7 +50,7 @@ const seoData = {
 
 const ArticleShow: FC<PageProps> = (props) => {
   return (
-    <div className={styles.header}>
+    <>
       <div className={styles.articleshow}>ArticleShow</div>
       <p>{JSON.stringify(props)}</p>
       <div className={`${styles.hdAdContainer} adContainer`}>
@@ -62,7 +62,7 @@ const ArticleShow: FC<PageProps> = (props) => {
         </Link>
       </div>
       <SEO {...seoData} />
-    </div>
+    </>
   );
 };
 

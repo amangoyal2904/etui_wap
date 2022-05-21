@@ -14,9 +14,9 @@ export default function Listing({ type, title, data }: ListProps) {
   const grid = () => {
     return (
       <Fragment>
-        <div className={styles.otherVids}>
+        <div className={styles.listing}>
           <h2>{title}</h2>
-          <div className={styles.vidsSlider}>
+          <div className={styles.videoSlider}>
             <ul>
               {data.data.map((item, index) => (
                 <li key={type + index}>
