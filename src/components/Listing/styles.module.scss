@@ -1,11 +1,11 @@
-.otherVids {
+.listing {
   h2 {
-    padding: 0.5rem 0 0 1rem;
+    padding: 0.5rem 0 0 15px;
     font-size: 1.15rem;
     font-weight: 700;
   }
 }
-.vidsSlider {
+.videoSlider {
   overflow-x: scroll;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
@@ -28,10 +28,12 @@
       padding-bottom: 12px;
       white-space: normal;
       vertical-align: top;
+      &:first-child {
+        margin-left: 15px;
+      }
 
       a {
         p {
-          padding: 0 5px;
           font-size: 0.9rem;
           width: 130px;
           line-height: 1.25rem;
