@@ -8,7 +8,7 @@ const VideoEmbed: FC<VideoEmbedProps> = ({ url }) => {
   return (
     <>
       <div>
-        <iframe className={styles.style1} src={url} title="Video"></iframe>
+        <iframe className={styles.videoFrame} src={url} title="Video"></iframe>
       </div>
     </>
   );

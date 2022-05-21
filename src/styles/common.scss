@@ -30,8 +30,7 @@
   text-align: center;
 }
 
-.commonSprite {
-  background: url($common-sprite-path) no-repeat;
-  background-size: 197px 119px;
-  display: inline-block;
+.mainContent {
+  min-height: 450px;
+  margin-top: 10px;
 }

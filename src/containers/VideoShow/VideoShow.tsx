@@ -25,12 +25,9 @@ const VideoShow: FC<PageProps> = (props) => {
   }, [dispatch]);
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
-  return (
-    <>
-      <div className={`${styles.mrecContainer} adContainer`}>
-        <DfpAds adInfo={{ key: "mrec" }} />
-      </div>
-      {props?.searchResult.map((item) => {
+  const VideoContainer = () => {
+    {
+      return props?.searchResult.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
           return (
@@ -61,7 +58,15 @@ const VideoShow: FC<PageProps> = (props) => {
           const otherVids = item as OtherVidsProps;
           return <Listing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
         }
-      })}
+      });
+    }
+  };
+  return (
+    <>
+      <div className={styles.hdAdContainer}>
+        <DfpAds adInfo={{ key: "atf" }} />
+      </div>
+      <div className={styles.mainContent}>{VideoContainer()}</div>
       <SEO {...seoData} />
       <GreyDivider />
       <AppDownloadWidget tpName="videoShow" />

@@ -62,3 +62,10 @@ $h5-font-size: 20px;
 
 $img-loading-path: "https://img.etimg.com/photo/msid-70672355,quality-100.cms";
 $common-sprite-path: "https://img.etimg.com/photo/msid-91438327,quality-100.cms";
+
+/* Caution: Common sprite for components importing variables.scss only */
+.commonSprite {
+  background: url($common-sprite-path) no-repeat;
+  background-size: 197px 119px;
+  display: inline-block;
+}
