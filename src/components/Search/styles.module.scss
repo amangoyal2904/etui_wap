@@ -1,14 +1,5 @@
 @import "../../styles/variables.scss";
-// .search {
-//   font-family: $Faustina-font-family;
-//   background: rgba(0, 0, 0, 0.85);
-//   position: fixed;
-//   width: 100%;
-//   z-index: 2147483647 !important;
-//   display: block;
-//   top: 0;
-//   bottom: 0;
-// }
+@import "../../styles/common.scss";
 
 .srchoverlaydiv {
   font-family: $Faustina-font-family;
@@ -103,16 +94,10 @@
   background-color: #ffffff;
 
   .searchIcon {
-    width: 32px;
-    height: 24px;
-    margin-top: 1px;
-  }
-  .cSprite {
-    display: inline-block;
-    background: url($common-sprite-path) no-repeat;
+    width: 16px;
+    height: 16px;
+    margin-top: 5px;
     background-position: -96px -25px;
-    background-size: 655%;
-    display: block;
   }
 }
 

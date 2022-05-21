@@ -153,7 +153,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
             }}
           />
           <div className={styles.searchBar} onClick={handleSearchClick}>
-            <span className={`${styles.searchIcon} ${styles.cSprite}`}></span>
+            <span className={`${styles.searchIcon} ${styles.commonSprite}`}></span>
           </div>
         </div>
         <div className={styles.srchclose} onClick={() => setIsOpen(false)}>
