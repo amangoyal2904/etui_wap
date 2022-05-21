@@ -77,13 +77,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
   useEffect(() => {
     // event registered on every route change
-    router.events.on("routeChangeComplete", handleRouteChange);
+    router.events.on("routeChangeComplete", callJsOnRouteChange);
     // eslint-disable-next-line
   }, []);
 
-  const handleRouteChange = (url) => {
-    callJsOnRouteChange(url);
-  };
   return (
     <Layout>
       <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />

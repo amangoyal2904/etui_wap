@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 declare global {
   interface Window {
     // eslint-disable-next-line

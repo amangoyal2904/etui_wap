@@ -25,6 +25,7 @@ const VideoShow: FC<PageProps> = (props) => {
   }, [dispatch]);
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
+
   const VideoContainer = () => {
     {
       return props?.searchResult.map((item) => {
@@ -63,7 +64,7 @@ const VideoShow: FC<PageProps> = (props) => {
   };
   return (
     <>
-      <div className={styles.hdAdContainer}>
+      <div className={`${styles.hdAdContainer} adContainer`}>
         <DfpAds adInfo={{ key: "atf" }} />
       </div>
       <div className={styles.mainContent}>{VideoContainer()}</div>

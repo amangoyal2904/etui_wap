@@ -10,7 +10,8 @@ const All = ({ page, data }) => null;
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, params, resolvedUrl }) => {
   const isprimeuser = req.headers?.primetemplate ? 1 : 0;
   // global.isprimeuser = isprimeuser;
-  await store.dispatch(setIsPrime({ isprimeuser }));
+  // Note: commented temporarily to reduce redux dependency
+  // await store.dispatch(setIsPrime({ isprimeuser }));
 
   const { all = [] } = params;
   const lastUrlPart: string = all?.slice(-1).toString();

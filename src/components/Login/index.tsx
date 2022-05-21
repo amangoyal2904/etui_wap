@@ -1,85 +1,80 @@
 import APIS_CONFIG from "../../network/config.json";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setLoggedIn, setLoggedOut } from "../../Slices/login";
+import { setLoggedIn, setLoggedOut, setIsPrime } from "../../Slices/login";
 import { APP_ENV } from "../../utils";
 import styles from "./Login.module.scss";
 
 interface IUser {
-  login: boolean;
-  userInfo: any;
+  firstName?: string;
+  ssoid?: string;
+  primaryEmail?: string;
 }
 
 const Login = () => {
-  const [auth, setAuth] = useState<IUser>({ login: false, userInfo: {} });
+  const [userInfo, setUserInfo] = useState<IUser>({});
+  const [isLogin, setIsLogin] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(0);
   const dispatch = useDispatch();
 
-  const authCallback = () => {
-    const objUser = window.objUser || {};
-    if (objUser.info && objUser.info.isLogged) {
-      setLogin(objUser.info);
+  const loginCallback = () => {
+    const objUser = (window.objUser && window.objUser.info) || {};
+    if (Object.keys(objUser).length) {
+      setUserInfo(objUser);
+      setIsLogin(true);
+      dispatch(
+        setLoggedIn({
+          userInfo: objUser,
+          login: true,
+          permissions: [],
+          isprimeuser: 0
+        })
+      );
+      window.customDimension = { ...window.customDimension, email: objUser.primaryEmail };
+      window.__APP.login = {
+        status: true,
+        ssoid: objUser.ssoid,
+        email: objUser.primaryEmail,
+        firstName: objUser.firstName
+      };
     }
   };
+  const permissionCallback = () => {
+    const permissions = (window.objInts && window.objInts.permissions) || [];
+    const objUser = (window.objUser && window.objUser.info) || {};
+    if (permissions.includes("subscribed")) {
+      // set state
+      setIsSubscribed(1);
+      // set prime status in redux
+      // dispatch(setIsPrime(1));
+      // add isprimeuser class in the body
+      document.body.classList.add("isprimeuser");
+    } else {
+      // remove isprimeuser class from the body
+      document.body.classList.remove("isprimeuser");
+    }
+    dispatch(
+      setLoggedIn({
+        login: true,
+        userInfo: objUser,
+        permissions,
+        isprimeuser: isSubscribed
+      })
+    );
+  };
+
   useEffect(() => {
     document.addEventListener("objIntsLoaded", () => {
       if (typeof window.objUser !== "undefined") {
-        window.objUser.afterLoginCall(authCallback);
+        window.objUser.afterLoginCall(loginCallback);
       }
+      window.objInts.afterPermissionCall(permissionCallback);
     });
   }, []);
 
-  const setLogin = (userInfo) => {
-    userInfo = userInfo || {};
-    const objInts = window.objInts;
-    dispatch(setLoggedIn({ ...userInfo, login: true, permissionStatus: "pending" }));
-
-    setAuth({
-      login: true,
-      userInfo
-    });
-
-    typeof objInts != "undefined" &&
-      objInts.afterPermissionCall(() => {
-        let permissionType = "free";
-        if (objInts.permissions.indexOf("subscribed") > -1) {
-          permissionType = "subscribed";
-        }
-        if (objInts.permissions.indexOf("expired_subscription") > -1) {
-          permissionType = "expired";
-        }
-        if (
-          objInts.permissions.indexOf("subscribed") > -1 &&
-          objInts.permissions.indexOf("cancelled_subscription") > -1 &&
-          objInts.permissions.indexOf("can_buy_subscription") > -1
-        ) {
-          permissionType = "can_renew";
-        }
-        const userData = {
-          ...userInfo,
-          login: true,
-          permissionStatus: "success",
-          permissions: objInts.permissions,
-          permissionType
-        };
-        dispatch(setLoggedIn(userData));
-        setAuth({ login: true, userInfo: { ...userInfo, permissions: objInts.permission || [] } });
-      });
-
-    window.customDimension = { ...window.customDimension, email: userInfo.primaryEmail };
-    window.__APP.login = {
-      status: true,
-      ssoid: userInfo.ssoid,
-      email: userInfo.primaryEmail,
-      firstName: userInfo.firstName
-    };
-  };
-
   const setLogout = (cb = null) => {
     dispatch(setLoggedOut());
-    setAuth({
-      userInfo: {},
-      login: false
-    });
+    setUserInfo({});
     window.__APP.login = {
       status: false,
       ssoid: "",
@@ -96,23 +91,21 @@ const Login = () => {
   };
 
   const handleLoginToggle = (): void => {
-    if (auth.login) {
+    if (isLogin) {
       setLogout();
     } else {
       const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
       window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
   };
-  const firstName: string = auth.login ? auth.userInfo && auth.userInfo.firstName : "";
-  const isSubscribed: boolean =
-    (auth.userInfo && auth.userInfo.permissions && auth.userInfo.permissions.indexOf("subscribed") > -1) || false;
+  const firstName: string = (isLogin && userInfo.firstName) || "User";
 
   return (
     <div className={styles.user}>
       <div className={styles.userName}>
-        {!isSubscribed && <div>Welcome</div>}
-        <div>{auth.login ? firstName : "User"}</div>
-        {isSubscribed && (
+        {isSubscribed == 0 && <div>Welcome</div>}
+        <div>{firstName}</div>
+        {isSubscribed == 1 && (
           <img
             src="https://img.etimg.com/photo/77066493.cms"
             className={styles.primeUserLogo}
@@ -120,11 +113,9 @@ const Login = () => {
           />
         )}
       </div>
-      <div className={styles.signIn}>
+      <div className={styles.signIn} onClick={handleLoginToggle}>
         <div className={`${styles.userIcon} ${styles.commonSprite}`}></div>
-        <div onClick={handleLoginToggle} id="loginButton">
-          {auth.login ? "Sign out" : "Sign In"}
-        </div>
+        <div id="loginButton">{isLogin ? "Sign out" : "Sign In"}</div>
       </div>
     </div>
   );
