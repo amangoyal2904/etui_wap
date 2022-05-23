@@ -20,7 +20,6 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    console.log("chekShare");
     getBookMarkStatus();
   }, []);
 
