@@ -22,6 +22,7 @@ const data: PageProps = {
 
         url: "https://economictimes.indiatimes.com/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/videoshow/90200064.cms",
         iframeUrl: "https://etdev8243.indiatimes.com/videodash.cms?autostart=1&msid=90200064",
+        msid: "",
         views: "",
         relKeywords: [
           {
@@ -270,7 +271,8 @@ const data: PageProps = {
       }
     ],
     page: "videoshow"
-  }
+  },
+  parameters: {}
 };
 
 jest.mock(
@@ -290,7 +292,6 @@ describe("VideoShow Component", () => {
         </Provider>
       </RouterContext.Provider>
     );
-    console.log(screen.getAllByRole("heading"));
     expect(screen.getAllByRole("heading")).toBeTruthy();
   });
 });

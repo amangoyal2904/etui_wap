@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from "react";
 import socialshare from "utils/socialshare";
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "network/config.json";
-import { getCookie } from "utils/utils";
 import Service from "network/service";
+import { getCookie } from "utils";
 
 interface SocialShareProps {
   shareParam: {
@@ -20,6 +20,11 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
+    console.log("chekShare");
+    getBookMarkStatus();
+  }, []);
+
+  const getBookMarkStatus = () => {
     const api = APIS_CONFIG.getSavedNewsStatus["development"];
     const params = {
       "Content-Type": "application/json",
@@ -34,7 +39,8 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       .catch((err) => {
         console.error(err.message);
       });
-  }, []);
+  };
+
   const saveArticle = async (isprime, currentMSID) => {
     const api = APIS_CONFIG.saveNews["development"];
     try {
@@ -69,13 +75,34 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     <div className={styles.socialShare}>
       <div className={styles.shareText}>Share this Video</div>
       <div className={styles.socialLinks}>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })} className={styles.wa}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })} className={styles.fb}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "twt" })} className={styles.twt}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "lin" })} className={styles.in}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "email" })} className={styles.email}></span>
-        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })} className={styles.sms}></span>
-        {/* <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "bm" })} className={styles.bookmark}></span> */}
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })}
+          className={`${styles.wa} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })}
+          className={`${styles.fb} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "twt" })}
+          className={`${styles.twt} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "lin" })}
+          className={`${styles.in} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "email" })}
+          className={`${styles.email} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })}
+          className={`${styles.sms} ${styles.commonSprite}`}
+        ></span>
+        <span
+          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "bm" })}
+          className={`${styles.bookmark} ${styles.commonSprite}`}
+        ></span>
         <span
           onClick={() => {
             saveArticle(0, shareParam.msid);

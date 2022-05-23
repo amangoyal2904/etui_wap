@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
 import { OtherVidsProps } from "types/videoshow";
+import LazyLoadImg from "../LazyLoad";
 
 interface ListProps {
   type: string;
@@ -14,23 +14,15 @@ export default function Listing({ type, title, data }: ListProps) {
   const grid = () => {
     return (
       <Fragment>
-        <div className={styles.otherVids}>
+        <div className={styles.listing}>
           <h2>{title}</h2>
-          <div className={styles.vidsSlider}>
+          <div className={styles.videoSlider}>
             <ul>
               {data.data.map((item, index) => (
                 <li key={type + index}>
                   <Link href={item.url}>
                     <a>
-                      <Image
-                        src={item.img}
-                        alt={item.title}
-                        width={135}
-                        height={100}
-                        placeholder="blur"
-                        blurDataURL="https://img.etimg.com/photo/42031747.cms"
-                        unoptimized
-                      />
+                      <LazyLoadImg large={false} img={item.img} alt={item.title} width={135} height={100} />
                       <p>{item.title}</p>
                       {item.type === "videoshow" && <span className={styles.slideVidIcon}></span>}
                     </a>

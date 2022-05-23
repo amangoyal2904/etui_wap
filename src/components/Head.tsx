@@ -1,19 +1,10 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Script from "next/script";
 import { FC } from "react";
-
-import * as Config from "../utils/common";
 
 interface Props {
   isprimeuser?: number;
 }
-
 const Headers: FC<Props> = ({ isprimeuser }) => {
-  const router = useRouter();
-  const reqData = router.query;
-  const isReady = router.isReady;
-
   const prefetchDomains = !isprimeuser ? (
     <>
       <link rel="dns-prefetch" href="https://cm.g.doubleclick.net" />
@@ -115,58 +106,8 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
         <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />
-        <link href="/et_fonts.cms?minify=1&amp;v=6&amp;type=3" type="text/css" rel="stylesheet" media="all" />
         {prefetchDomains}
       </Head>
-      <Script src="https://m.economictimes.com/geoapiet/?cb=et"></Script>
-      {!reqData.opt && !isprimeuser && isReady && (
-        <>
-          <Script
-            src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-            strategy="lazyOnload"
-            onLoad={() => {
-              const gptLoaded = new Event("gptLoaded");
-              document.dispatchEvent(gptLoaded);
-            }}
-          />
-          {router.asPath.indexOf("skip_ctn=1") == -1 && (
-            <Script src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js" strategy="lazyOnload" />
-          )}
-          <Script
-            id="google-analytics"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-              ga('create', '${Config.GA.GA_ID}', 'auto');
-              ga('send', 'pageview');
-              const gaLoaded = new Event('gaLoaded');
-              document.dispatchEvent(gaLoaded);
-              `
-            }}
-          />
-          <Script
-            id="tag-manager"
-            strategy="lazyOnload"
-            src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
-          />
-          <Script
-            id="tag-manager-init"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
-              `
-            }}
-          />
-        </>
-      )}
     </>
   );
 };

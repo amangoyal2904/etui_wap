@@ -1,4 +1,5 @@
 import { SEOProps } from "./seo";
+import { versionControlProps } from "./versionControl";
 
 export interface OtherVidsProps {
   data: {
@@ -26,12 +27,6 @@ export interface VideoShowProps {
   url: string;
   views: string | number;
 }
-interface CommonConfigProps {
-  seo?: {
-    org_img?: string;
-    org_img_hin?: string;
-  };
-}
 export interface PageProps {
   searchResult: [
     {
@@ -41,5 +36,6 @@ export interface PageProps {
     OtherVidsProps
   ];
   seo: SEOProps;
-  common_config?: CommonConfigProps;
+  version_control?: versionControlProps;
+  parameters: object;
 }

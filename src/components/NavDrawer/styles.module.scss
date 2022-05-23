@@ -37,13 +37,12 @@
       font-weight: 600;
 
       .rArr {
-        background: url($header-footer-sprite);
-        background-position: -163px -29px;
+        background-size: 246px 150px;
+        background-position: -187px -33px;
         background-repeat: no-repeat;
         display: inline-block;
-        height: 19px;
-        width: 15px;
-        background-size: 198px;
+        height: 23px;
+        width: 14px;
         margin-left: 10px;
       }
 
@@ -67,25 +66,19 @@
         }
 
         .rDown {
-          background: url($header-footer-sprite);
-          background-position: -144px -39px;
-          background-repeat: no-repeat;
+          background-position: -135px -40px;
           margin-top: 15px;
-          height: 13px;
-          width: 23px;
-          background-size: 198px;
+          height: 10px;
+          width: 12px;
           float: right;
           margin-left: 10px;
         }
 
         .rUp {
-          background: url($header-footer-sprite);
-          background-position: -144px -23px;
-          background-repeat: no-repeat;
+          background-position: -135px -22px;
           margin-top: 15px;
-          height: 13px;
-          width: 23px;
-          background-size: 198px;
+          height: 7px;
+          width: 12px;
           float: right;
         }
 
@@ -139,13 +132,10 @@
     text-align: center;
 
     .userIcon {
-      background: url($header-footer-sprite);
-      background-position: -231px -35px;
-      background-repeat: no-repeat;
-      height: 27px;
-      width: 35px;
-      background-size: 260px;
-      display: inline-block;
+      background-size: 295px 180px;
+      background-position: -242px -35px;
+      height: 30px;
+      width: 29px;
     }
   }
 }

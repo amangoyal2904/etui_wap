@@ -1,9 +1,5 @@
 import * as ga from "./ga";
-declare global {
-  interface Window {
-    adDivIds: string[];
-  }
-}
+
 export function InitialJsOnAppLoad(): void {
   console.log("InitialJsOnAppLoad called");
   try {

@@ -1,4 +1,4 @@
-import { getParameterByName } from "utils/utils";
+import { getParameterByName } from "utils";
 import styles from "./styles.module.scss";
 
 export default function SearchList(props) {
@@ -368,7 +368,7 @@ export default function SearchList(props) {
       ) : (
         ""
       )}
-      {index == 3 && data.length ? (
+      {index == 3 && data.length && (
         <>
           <li className={`${styles.head} ${styles.reptr}`}>
             <span className="flt">REPORTERS</span>
@@ -376,7 +376,7 @@ export default function SearchList(props) {
           </li>
           {displayListData("reptr")}
         </>
-      ) : null}
+      )}
     </>
   );
 }

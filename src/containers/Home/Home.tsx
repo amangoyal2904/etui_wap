@@ -7,7 +7,7 @@ import SampleListing from "components/SampleListing";
 
 const Home = (props) => {
   return (
-    <div className={styles.header}>
+    <>
       <div className={styles.root} role="heading">
         Home
       </div>
@@ -44,7 +44,7 @@ const Home = (props) => {
         <a>VideoShow</a>
       </Link>
       <SampleListing />
-    </div>
+    </>
   );
 };
 

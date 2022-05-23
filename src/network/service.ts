@@ -1,22 +1,17 @@
-import { encodeQueryData, getParameterByName, processEnv } from "../utils/utils";
+import { encodeQueryData, getParameterByName, APP_ENV } from "../utils";
 import axios from "axios";
-import { isBrowser } from "utils/utils";
+import { isBrowser } from "utils";
 
 const headerWhiteList = ["X-FORWARDED-FOR", "X-ISBOT", "fullcontent"];
-declare global {
-  interface Window {
-    __APP: {
-      env?: string;
-    };
-  }
-}
 
 const getApiUrl = (config, index) => {
-  const { api = {}, url } = config;
-  const env = processEnv === "test" ? "production" : processEnv;
+  const { api = {}, url, params } = config;
+  const { type = "" } = params;
+  const { path } = api;
+  const env = APP_ENV || "production";
   const domain = api.dns ? api.dns[env][index] || api.dns[env][0] : "";
-  const path = api.path;
-  const completeURL = url || domain + path;
+  const urlPath = (type && path == "reactfeed" && `reactfeed_${type}.cms`) || api.path;
+  const completeURL = url || domain + urlPath;
   return completeURL;
 };
 
@@ -28,7 +23,7 @@ export const get = (config) => {
     }
     const instance = axios.create({
       headers: {
-        "Content-Type": "applicagtion/json"
+        "Content-Type": "application/json"
       }
     });
     return instance.get(url, config);

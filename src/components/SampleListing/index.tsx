@@ -15,7 +15,7 @@ const SampleListing: FC = () => {
         setListData(res.data?.searchResult?.[0]?.["data"]);
       })
       .catch((err) => {
-        console.error(err.message);
+        console.error("err", err.message);
       });
   }, []);
 

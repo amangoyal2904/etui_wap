@@ -1,4 +1,16 @@
 {
+  "FEED": {
+    "dns": {
+      "development": ["https://etdev8243.indiatimes.com/"],
+      "production": ["https://economictimes.indiatimes.com/"]
+    },
+    "path": "reactfeed"
+  },
+  "LOGIN": {
+    "development": "https://spmdev8243.economictimes.com/login.cms",
+    "test": "https://spmdev8243.economictimes.com/login.cms",
+    "production": "https://m.economictimes.com/login.cms"
+  },
   "REQUEST": {
     "dns": {
       "development": [
@@ -10,13 +22,6 @@
       "production": ["https://etpwaapi.economictimes.com/", "https://vsp1etpwaapi.economictimes.com/"]
     },
     "path": "request"
-  },
-  "FEED": {
-    "dns": {
-      "development": ["https://etdev8243.indiatimes.com/"],
-      "production": ["https://economictimes.indiatimes.com/"]
-    },
-    "path": "reactfeed.cms"
   },
   "USER_ACTIVITY": {
     "dns": {

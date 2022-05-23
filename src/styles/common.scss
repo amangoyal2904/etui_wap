@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 .hdAdContainer {
   max-width: 100vw;
   overflow: auto;
@@ -26,4 +28,8 @@
 
 .adContainer {
   text-align: center;
+}
+
+.mainContent {
+  min-height: 450px;
 }

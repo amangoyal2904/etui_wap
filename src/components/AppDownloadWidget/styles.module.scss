@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .topWrap {
-  padding: 10px 20px;
+  padding: 10px 15px;
 }
 .wrap {
   border: 3px solid #ffe9e2;
@@ -28,7 +28,7 @@
     color: #fff;
     display: inline-block;
     height: 13px;
-    background-color: #ed193b;
+    background-color: $default-red-color;
     border-radius: 100%;
     text-align: center;
     margin-right: 5px;
@@ -49,14 +49,14 @@
     border-left: 0;
   }
   .installBtn {
-    padding: 6px 8px 8px;
-    border-radius: 0.9px;
-    border: 0.5px solid #ed193b;
-    background-color: #ed193b;
+    padding: 0 8px;
+    border-radius: 1px;
+    background-color: $default-red-color;
     font-size: 11px;
     font-weight: 800;
     color: #fff;
     margin-top: 4px;
     display: inline-block;
+    line-height: 2.4;
   }
 }

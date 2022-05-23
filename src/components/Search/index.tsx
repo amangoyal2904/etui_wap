@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "./styles.module.scss";
-import { isDevEnv } from "utils/utils";
+import { isDevEnv } from "utils";
 import apiConfig from "network/config.json";
 import SearchList from "./SearchList";
 
@@ -153,7 +153,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
             }}
           />
           <div className={styles.searchBar} onClick={handleSearchClick}>
-            <span className={`${styles.searchIcon} ${styles.cSprite}`}></span>
+            <span className={`${styles.searchIcon} ${styles.commonSprite}`}></span>
           </div>
         </div>
         <div className={styles.srchclose} onClick={() => setIsOpen(false)}>

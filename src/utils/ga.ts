@@ -1,5 +1,5 @@
 import * as Config from "./common";
-import * as utils from "./utils";
+import * as utils from ".";
 
 declare global {
   interface Window {
@@ -16,13 +16,14 @@ declare global {
   }
 }
 export const pageview = (url) => {
-  window["gtag"]("config", Config.GA.GTM_KEY, {
-    page_path: url
-  });
+  window["gtag"] &&
+    window["gtag"]("config", Config.GA.GTM_KEY, {
+      page_path: url
+    });
 };
 
 export const event = ({ action, params }) => {
-  window["gtag"]("event", action, params);
+  window["gtag"] && window["gtag"]("event", action, params);
 };
 
 export const gaObserverInit = (newImpressionNodes = [], newClickNodes = []) => {

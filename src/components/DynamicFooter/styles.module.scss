@@ -6,7 +6,7 @@
   color: white;
 
   .dynamicCategories {
-    padding: 20px;
+    padding: 15px;
     .category {
       margin-top: 15px;
       &:first-child {
@@ -57,7 +57,7 @@
   .downloadSection {
     background-color: #1a1a1a;
     color: $white;
-    padding: 0 20px;
+    padding: 0 15px;
     //margin-bottom: 80px;
     padding-bottom: 80px;
 
@@ -81,24 +81,18 @@
       }
 
       .appstoredownload {
-        background: url($header-footer-sprite);
-        background-repeat: no-repeat;
-        background-position: -154px 1px;
-        background-size: 327px;
-        display: inline-block;
-        width: 147px;
-        height: 49px;
+        background-size: 393px 238px;
+        background-position: -172px -0px;
+        width: 161px;
+        height: 40px;
         margin-right: 10px;
       }
 
       .gpdownload {
-        background: url($header-footer-sprite);
-        background-repeat: no-repeat;
-        background-position: -2px -5px;
-        background-size: 334px;
-        display: inline-block;
-        width: 147px;
-        height: 41px;
+        background-size: 393px 238px;
+        background-position: -6px -6px;
+        width: 151px;
+        height: 42px;
         margin-left: 10px;
       }
 
@@ -108,41 +102,32 @@
         a {
           margin: 10px 7px 0 7px;
           display: inline-block;
-          width: 35px;
-          height: 35px;
+          width: 45px;
+          height: 45px;
         }
 
         .fbShare {
-          background: url($header-footer-sprite);
-          background-repeat: no-repeat;
-          background-position: -1px -38px;
-          background-size: 290px;
+          background-size: 393px 238px;
+          background-position: 0px -47px;
         }
 
         .twShare {
-          background: url($header-footer-sprite);
-          background-repeat: no-repeat;
-          background-position: -75px -38px;
-          background-size: 290px;
+          background-size: 393px 238px;
+          background-position: -95px -47px;
         }
 
         .inShare {
-          background: url($header-footer-sprite);
-          background-repeat: no-repeat;
-          background-position: -38px -38px;
-          background-size: 290px;
+          background-size: 393px 238px;
+          background-position: -45px -47px;
         }
       }
 
       .primeLogo {
-        background: url($header-footer-sprite);
-        background-repeat: no-repeat;
-        background-position: 5px -90px;
-        background-size: 252%;
+        background-size: 590px 360px;
+        background-position: 1px -138px;
         display: inline-block;
-        width: 135px;
-        height: 25px;
-        margin-left: 25px;
+        width: 193px;
+        height: 45px;
       }
 
       h4 {

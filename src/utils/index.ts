@@ -1,5 +1,9 @@
 import os from "os";
+import getConfig from "next/config";
 const serverHost = os.hostname() || "";
+
+const { publicRuntimeConfig } = getConfig();
+export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
 
 declare global {
   interface Window {
@@ -9,9 +13,7 @@ declare global {
       geolocation: string;
       region_code: string;
     };
-    __APP: {
-      env?: string;
-    };
+    env?: string;
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
@@ -96,7 +98,7 @@ export const pageType = (pathurl) => {
     return "articlelist";
   }
 };
-export const getMSID = (url) => url.split(".cms")[0];
+export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
 export const encodeQueryData = (data) => {
   const ret = [];
   for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));

@@ -1,15 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development next",
+    "dev": "NODE_ENV=development APP_ENV=development next",
     "build": "next build",
-    "start": "NODE_ENV=production next start",
-    "lint": "eslint --fix",
+    "start": "NODE_ENV=production APP_ENV=development next start",
+    "prod": "NODE_ENV=production APP_ENV=production next start",
+    "lint": "eslint",
     "type-check": "tsc",
     "test": "NODE_ENV=test jest",
     "winTest": "SET NODE_ENV=test && jest",
-    "winDev": "SET NODE_ENV=development && next",
-    "winStart": "SET NODE_ENV=production && next start",
+    "winDev": "SET NODE_ENV=development && SET APP_ENV=development && next",
+    "winStart": "SET NODE_ENV=production && SET APP_ENV=development && next start",
     "prepare": "husky install",
     "check-format": "prettier --check",
     "format": "prettier --write",
@@ -22,6 +23,7 @@
     "next-redux-wrapper": "^7.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-lazyload": "^3.2.0",
     "react-redux": "^7.2.6",
     "sass": "^1.49.7"
   },
@@ -52,8 +54,9 @@
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": [
-      "npx eslint ./ --fix",
       "pretty-quick --staged",
+      "npx eslint ./src",
+      "jest ./src --coverage=false",
       "next build ./"
     ]
   }

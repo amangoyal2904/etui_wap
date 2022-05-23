@@ -1,51 +1,46 @@
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-const ArticleList = dynamic(() => import("containers/ArticleList"));
-const ArticleShow = dynamic(() => import("containers/ArticleShow"));
-const VideoShow = dynamic(() => import("containers/VideoShow"));
-const Home = dynamic(() => import("containers/Home"));
 import { wrapper } from "app/store";
 import { fetchArticle } from "Slices/article";
+import { setCommonData } from "Slices/common";
 import { fetchVideoshow } from "Slices/videoshow";
-import { pageType, getMSID } from "utils/utils";
-import { useStore } from "react-redux";
+import { setIsPrime } from "Slices/login";
+import { pageType, getMSID } from "utils";
 
-export default function All({ page }) {
-  const router = useRouter();
-  const { all } = router.query;
-  const storeState = useStore().getState();
-  const data = storeState?.[page]?.data || {};
+const All = ({ page, data }) => null;
 
-  if (page == "home") {
-    return <Home />;
-  } else if (page == "articleshow") {
-    return <ArticleShow query={all} data={data} />;
-  } else if (page == "videoshow") {
-    return <VideoShow {...data} />;
-  } else {
-    return <ArticleList query={all} />;
-  }
-}
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, params, resolvedUrl }) => {
+  const isprimeuser = req.headers?.primetemplate ? 1 : 0;
+  // global.isprimeuser = isprimeuser;
+  // Note: commented temporarily to reduce redux dependency
+  // await store.dispatch(setIsPrime({ isprimeuser }));
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ params, resolvedUrl }) => {
-  const { all } = params;
-  const lastUrlComponent: string = all?.slice(-1).toString();
-
+  const { all = [] } = params;
+  const lastUrlPart: string = all?.slice(-1).toString();
   const page = pageType(resolvedUrl);
+  const msid = getMSID(lastUrlPart);
 
-  if (page == "home") {
-    console.log("came in home");
-  } else if (page == "articleshow") {
-    await store.dispatch(fetchArticle(getMSID(lastUrlComponent)));
-  } else if (page == "videoshow") {
-    await store.dispatch(fetchVideoshow(getMSID(lastUrlComponent)));
-  } else {
-    console.log("came in articlelist");
+  switch (page) {
+    case "home":
+      // only set common data
+      await store.dispatch(setCommonData({ page: "home", data: {} }));
+      break;
+    case "videoshow":
+      await store.dispatch(fetchVideoshow(msid));
+      break;
+    case "articleshow":
+      await store.dispatch(fetchArticle(msid));
+      break;
+    default:
+      break;
   }
+  const storeState = store.getState();
+  const response = (await storeState) || {};
 
   return {
     props: {
-      page
+      page,
+      response,
+      isprimeuser
     }
   };
 });
+export default All;

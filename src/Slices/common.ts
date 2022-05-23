@@ -7,7 +7,8 @@ const slice = createSlice({
   initialState: {
     data: {
       subsecnames: {},
-      page: ""
+      page: "home",
+      version_control: {}
     }
   },
   reducers: {
@@ -35,11 +36,11 @@ export const setCommonData =
   ({ page, data }) =>
   async (dispatch) => {
     try {
-      const { seo } = data;
-      const { subsecnames } = seo;
-      dispatch(update({ subsecnames, page }));
+      const { seo = {}, version_control = {} } = data || {};
+      const { subsecnames = {} } = seo;
+      dispatch(update({ subsecnames, page, version_control }));
       await dispatch(fetchFooter({ subsecnames, page }));
     } catch (e) {
-      return console.error(e.message);
+      return console.error("error in common Slice", e.message);
     }
   };

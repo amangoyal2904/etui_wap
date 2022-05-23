@@ -6,6 +6,7 @@ import { MenuProps } from "components/AppHeader/types";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "app/store";
+import Login from "components/Login";
 interface DrawerProps {
   setIsDrawerOpen: (s: boolean) => void;
   isOpen: boolean;
@@ -59,7 +60,11 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
             {makeLink(item, level, index, i)}
             {level === 1 && item.sec && (
               <span
-                className={!isSubmenuOpen[level + "_" + index + "_" + i] ? styles.rDown : styles.rUp}
+                className={
+                  !isSubmenuOpen[level + "_" + index + "_" + i]
+                    ? styles.rDown + " " + styles.commonSprite
+                    : styles.rUp + " " + styles.commonSprite
+                }
                 onClick={() => showSubmenu(level + "_" + index + "_" + i)}
               ></span>
             )}
@@ -86,7 +91,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     if (!(data.shorturl || data.url)) {
       return (
         <>
-          {data.title} {level === 0 && <span className={styles.rArr}></span>}
+          {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </>
       );
     }
@@ -94,36 +99,30 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     return (
       <Link href={data.shorturl ? data.shorturl : data.url}>
         <a className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
-          {data.title} {level === 0 && <span className={styles.rArr}></span>}
+          {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </a>
       </Link>
     );
   };
-
   return menuData ? (
-    <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
-      <div className={styles.user}>
-        <div className={styles.userName}>
-          <div>Welcome</div>
-          <div>User</div>
-        </div>
-        <div className={styles.signIn}>
-          <div className={styles.userIcon}></div>
-          <div>Sign In</div>
-        </div>
-      </div>
-      <div className={styles.menuWrap}>
-        <ul onClick={handleClick}>
-          <li>
-            <Link href={menuData.url}>
-              <a>{menuData.title}</a>
-            </Link>
-          </li>
-          <li className={styles.oneDotBdr}></li>
-          {getMenu(menuData, 0, 0)}
-        </ul>
-      </div>
-    </nav>
+    <>
+      <nav className={`${styles.drawer} ${isOpen ? styles.isOpen : ""}`} ref={ref}>
+        <Login />
+        {store.isFetchSuccess && isOpen && (
+          <div className={styles.menuWrap}>
+            <ul onClick={handleClick}>
+              <li>
+                <Link href={menuData.url}>
+                  <a>{menuData.title}</a>
+                </Link>
+              </li>
+              <li className={styles.oneDotBdr}></li>
+              {getMenu(menuData, 0, 0)}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </>
   ) : null;
 };
 
