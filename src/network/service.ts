@@ -1,4 +1,4 @@
-import { encodeQueryData, getParameterByName, processEnv } from "../utils";
+import { encodeQueryData, getParameterByName, APP_ENV } from "../utils";
 import axios from "axios";
 import { isBrowser } from "utils";
 
@@ -8,7 +8,7 @@ const getApiUrl = (config, index) => {
   const { api = {}, url, params } = config;
   const { type = "" } = params;
   const { path } = api;
-  const env = processEnv === "test" ? "production" : processEnv;
+  const env = APP_ENV || "production";
   const domain = api.dns ? api.dns[env][index] || api.dns[env][0] : "";
   const urlPath = (type && path == "reactfeed" && `reactfeed_${type}.cms`) || api.path;
   const completeURL = url || domain + urlPath;
