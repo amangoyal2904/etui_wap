@@ -22,9 +22,9 @@ const VideoShow: FC<PageProps> = (props) => {
       dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
+
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
-
   const VideoContainer = () => {
     {
       return props?.searchResult.map((item) => {
@@ -48,7 +48,8 @@ const VideoShow: FC<PageProps> = (props) => {
                   shareParam={{
                     shareUrl: result.url,
                     title: result.title,
-                    msid: result.msid
+                    msid: result.msid,
+                    hostId: result.hostid
                   }}
                 />
               </div>

@@ -11,12 +11,11 @@ interface SocialShareProps {
     shareUrl: string;
     title: string;
     msid: string;
+    hostId: string;
   };
 }
 
 const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
-  const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
-
   const [isBookmarked, setIsBookmarked] = useState(0);
 
   useEffect(() => {
@@ -24,6 +23,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   }, []);
 
   const getBookMarkStatus = () => {
+    const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
     const api = APIS_CONFIG.getSavedNewsStatus[APP_ENV];
     const params = {
       "Content-Type": "application/json",
@@ -35,12 +35,13 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         setIsBookmarked(1);
       })
       .catch((err) => {
-        console.error(err.message);
+        console.error("Get Book Mark Status Error", err.message);
       });
   };
-
   const saveArticle = async (currentMSID) => {
     const api = APIS_CONFIG.saveNews[APP_ENV];
+    const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
+    const channelId = shareParam.hostId === "364" ? 4 : 0;
     try {
       const res = await Service.post({
         api,
@@ -55,7 +56,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
               msid: currentMSID,
               articletype: "5", //for videoshow only
               action: isBookmarked,
-              channelId: window.isprimeuser ? 1 : 0 // will also depend on host id tba
+              channelId: channelId
             }
           ]
         }

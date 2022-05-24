@@ -14,6 +14,7 @@ export interface OtherVidsProps {
   name: string;
 }
 export interface VideoShowProps {
+  hostid: string;
   msid: string;
   relKeywords: {
     title: string;
