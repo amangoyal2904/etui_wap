@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import { getCookie } from "utils";
+import { APP_ENV } from "../../utils";
 
 interface SocialShareProps {
   shareParam: {
@@ -12,19 +13,18 @@ interface SocialShareProps {
     msid: string;
   };
 }
-const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
 
 const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(0);
 
   useEffect(() => {
     getBookMarkStatus();
   }, []);
 
   const getBookMarkStatus = () => {
-    const api = APIS_CONFIG.getSavedNewsStatus["development"];
+    const api = APIS_CONFIG.getSavedNewsStatus[APP_ENV];
     const params = {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -32,16 +32,15 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     };
     Service.get({ api, params })
       .then((res) => {
-        console.log(res);
-        setIsBookmarked(true);
+        setIsBookmarked(1);
       })
       .catch((err) => {
         console.error(err.message);
       });
   };
 
-  const saveArticle = async (isprime, currentMSID) => {
-    const api = APIS_CONFIG.saveNews["development"];
+  const saveArticle = async (currentMSID) => {
+    const api = APIS_CONFIG.saveNews[APP_ENV];
     try {
       const res = await Service.post({
         api,
@@ -54,16 +53,14 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
             {
               stype: 0,
               msid: currentMSID,
-              articletype: "5",
-              // action: this.props.bookmarkstatus[currentMSID] ? 0 : 1,
-              action: isBookmarked
+              articletype: "5", //for videoshow only
+              action: isBookmarked,
+              channelId: window.isprimeuser ? 1 : 0 // will also depend on host id tba
             }
           ]
         }
       });
-      // if (isprime) {
-      //   param['userSettings'][0]['channelid'] = 1;
-      // }
+
       const data = res.data || {};
     } catch (e) {
       return console.error(e.message);
@@ -104,9 +101,9 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         ></span>
         <span
           onClick={() => {
-            saveArticle(0, shareParam.msid);
+            saveArticle(shareParam.msid);
           }}
-          className={`${styles.bookmark} ${isBookmarked ? styles.bookmarkAdded : ""}`}
+          className={`${styles.bookmark} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
         ></span>
       </div>
     </div>
