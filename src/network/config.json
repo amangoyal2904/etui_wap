@@ -45,5 +45,13 @@
   "reporterSearch": {
     "development": ["https://spmdev8243.economictimes.com/json_reportersearch.cms"],
     "production": ["https://m.economictimes.com/json_reportersearch.cms"]
+  },
+  "saveNews": {
+    "production": "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json",
+    "development": "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+  },
+  "getSavedNewsStatus": {
+    "production": "https://etup.economictimes.indiatimes.com/et/v3/getpref",
+    "development": "https://etusersqc2.economictimes.indiatimes.com/et/v3/getpref"
   }
 }

@@ -12,7 +12,6 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-
 const VideoShow: FC<PageProps> = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,9 +22,9 @@ const VideoShow: FC<PageProps> = (props) => {
       dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
+
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
-
   const VideoContainer = () => {
     {
       return props?.searchResult.map((item) => {
@@ -48,7 +47,9 @@ const VideoShow: FC<PageProps> = (props) => {
                 <SocialShare
                   shareParam={{
                     shareUrl: result.url,
-                    title: result.title
+                    title: result.title,
+                    msid: result.msid,
+                    hostId: result.hostid
                   }}
                 />
               </div>
