@@ -27,7 +27,7 @@ const VideoShow: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo };
   const VideoContainer = () => {
     {
-      return props?.searchResult.map((item) => {
+      return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
           return (
