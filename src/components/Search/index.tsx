@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "./styles.module.scss";
-import { isDevEnv } from "utils";
+import { APP_ENV } from "../../utils";
 import apiConfig from "network/config.json";
 import SearchList from "./SearchList";
 
@@ -12,16 +12,17 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const isDev = isDevEnv();
   let typingTimer = null;
 
   const getSearchData = (searchValue) => {
+    const { SEARCH } = apiConfig;
+    const { ethome, news, definition, reporter } = SEARCH;
     searchValue = searchValue.trim();
     if (searchValue) {
-      const ethomeURL = isDev ? apiConfig.ethome["development"] : apiConfig.ethome["production"];
-      const newsSearchURL = isDev ? apiConfig.newsSearch["development"] : apiConfig.newsSearch["production"];
-      const defSearchURL = isDev ? apiConfig.definitionSearch["development"] : apiConfig.definitionSearch["production"];
-      const reptrSearchURL = isDev ? apiConfig.reporterSearch["development"] : apiConfig.reporterSearch["production"];
+      const ethomeURL = ethome[APP_ENV];
+      const newsSearchURL = news[APP_ENV];
+      const defSearchURL = definition[APP_ENV];
+      const reptrSearchURL = reporter[APP_ENV];
 
       Promise.all([
         fetch(
@@ -89,9 +90,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
   };
 
   const generateRedirectUrl = (keyword, specialKeywords) => {
-    const url = `https://${
-      isDev ? "spmdev8243.indiatimes" : "m.economictimes"
-    }.com/jcms_search.cms?feedtype=json&keywords=${keyword}`;
+    const url = `${apiConfig["DOMAIN"][APP_ENV]}.com/jcms_search.cms?feedtype=json&keywords=${keyword}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -100,7 +99,7 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
         if (redirectURL) {
           window.location =
             redirectURL.indexOf("https://") == -1 && redirectURL.indexOf("http://") == -1
-              ? "https://m.economictimes.com" + redirectURL
+              ? apiConfig["DOMAIN"][APP_ENV] + redirectURL
               : redirectURL;
         } else {
           defaultRedirect(keyword.toLowerCase(), specialKeywords);
