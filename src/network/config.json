@@ -30,6 +30,10 @@
     },
     "path": ""
   },
+  "PERSONALISATION": {
+    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"],
+    "production": ["https://idm.economictimes.com/personalisation/logdata/uuid/resolve"]
+  },
   "ethome": {
     "development": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"],
     "production": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"]

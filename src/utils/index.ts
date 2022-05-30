@@ -27,7 +27,7 @@ export const setCookieToSpecificTime = (name, value, time, seconds) => {
         "=" +
         escape(value) +
         "; expires=" +
-        new Date(new Date().toDateString() + " " + time).toUTCString() +
+        new Date(new Date().getTime() + time * 24 * 60 * 60 * 1000).toUTCString() +
         "; domain=" +
         domain +
         "; path=/;";
@@ -36,14 +36,10 @@ export const setCookieToSpecificTime = (name, value, time, seconds) => {
       //temp cookie
       const exdate = new Date();
       exdate.setSeconds(exdate.getSeconds() + seconds);
-      const c_value =
-        escape(value) +
-        (seconds == null ? "" : "; expires=" + exdate.toUTCString()) +
-        "; domain=" +
-        domain +
-        "; path=/;";
+      const c_value = escape(value) + "; domain=" + domain + "; path=/;";
       cookiestring = name + "=" + c_value;
     }
+
     document.cookie = cookiestring;
   } catch (e) {
     console.log("setCookieToSpecificTime", e);
