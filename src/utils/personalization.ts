@@ -1,17 +1,21 @@
-import Fingerprint2 from "fingerprintjs2";
 import APIS_CONFIG from "network/config.json";
 import service from "network/service";
-import { APP_ENV, getCookie, setCookieToSpecificTime } from "utils";
+import { APP_ENV, setCookieToSpecificTime } from "utils";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 // require("isomorphic-fetch");
 
 const API_SOURCE = 2;
 
 export const generateFpid = (isLogin, cb) => {
-  new Fingerprint2.get((components) => {
-    const values = components.map((component) => component.value);
-    const murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
-    processFingerprint(murmur, isLogin, cb);
-  });
+  // Initialize an agent at application startup.
+  const fpPromise = FingerprintJS.load();
+  (async () => {
+    // Get the visitor identifier when you need it.
+    const fp = await fpPromise;
+    const result = await fp.get();
+    console.log("check fpid", result.visitorId);
+    processFingerprint(result.visitorId, isLogin, cb);
+  })();
 };
 
 export const processFingerprint = (data, isLogin, cb) => {
@@ -56,7 +60,8 @@ const createPeuuid = (cb) => {
   };
   const url = APIS_CONFIG.PERSONALISATION[APP_ENV];
   const headers = {
-    "Content-type": "application/json"
+    "Content-type": "application/json",
+    withCredentials: true
   };
 
   service

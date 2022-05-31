@@ -1,6 +1,5 @@
 import os from "os";
 import getConfig from "next/config";
-const serverHost = os.hostname() || "";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -17,17 +16,18 @@ declare global {
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
-export const setCookieToSpecificTime = (name, value, time, seconds) => {
+
+export const setCookieToSpecificTime = (name, value, days, seconds) => {
   try {
     const domain = document.domain;
     let cookiestring = "";
-    if (name && value && time) {
+    if (name && value && days) {
       cookiestring =
         name +
         "=" +
-        escape(value) +
+        encodeURIComponent(value) +
         "; expires=" +
-        new Date(new Date().getTime() + time * 24 * 60 * 60 * 1000).toUTCString() +
+        new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() +
         "; domain=" +
         domain +
         "; path=/;";
@@ -36,7 +36,7 @@ export const setCookieToSpecificTime = (name, value, time, seconds) => {
       //temp cookie
       const exdate = new Date();
       exdate.setSeconds(exdate.getSeconds() + seconds);
-      const c_value = escape(value) + "; domain=" + domain + "; path=/;";
+      const c_value = encodeURIComponent(value) + "; domain=" + domain + "; path=/;";
       cookiestring = name + "=" + c_value;
     }
 

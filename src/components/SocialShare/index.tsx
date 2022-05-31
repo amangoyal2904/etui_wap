@@ -15,6 +15,7 @@ interface SocialShareProps {
     title: string;
     msid: string;
     hostId: string;
+    type: string;
   };
 }
 
@@ -29,13 +30,12 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       });
     }
     if (store && store.login.login && store.bookmark.bookmarkStatus) {
-      if (store.bookmark.bookmarkData.details[0].status) setIsBookmarked(1);
-      else setIsBookmarked(0);
+      store.bookmark.bookmarkData.details[0].status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
     }
   }, [store.login, store.bookmark]);
 
   //save book mark of current article api
-  const saveArticle = async (currentMSID) => {
+  const saveArticle = async (currentMSID, type) => {
     console.log(store);
     const url = APIS_CONFIG.saveNews[APP_ENV];
     const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
@@ -48,15 +48,14 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     try {
       const res = await Service.post({
         url,
-        headers: { "Content-Type": "application/json", Accept: "application/json", Authorization: "555132946545680" },
-        credentials: "include",
+        headers: { "Content-Type": "application/json", Authorization: Authorization, withCredentials: true },
         payload: {
           source: 0,
           userSettings: [
             {
               stype: 0,
               msid: currentMSID,
-              articletype: "5", //for videoshow only
+              articletype: type,
               action: isBookmarked == 1 ? 0 : 1,
               channelId: channelId
             }
@@ -68,11 +67,12 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       });
       const data = res.data || {};
       if (data && data.status == "success") {
-        // alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
+        alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
+        dispatch(fetchBookmark(shareParam.msid, 5));
       }
     } catch (e) {
-      alert(`Video ${isBookmarked === 1 ? "unsaved" : "saved"} Failed`);
+      alert(e.message);
       return console.error(e.message);
     }
   };
@@ -107,7 +107,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         ></span>
         <span
           onClick={() => {
-            saveArticle(shareParam.msid);
+            saveArticle(shareParam.msid, "5");
           }}
           className={`${styles.bookmark} ${styles.commonSprite} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
         ></span>
