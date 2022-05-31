@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { fetchBookmark } from "Slices/bookmark";
 import { generateFpid } from "utils/personalization";
-import { set } from "immer/dist/internal";
 
 interface SocialShareProps {
   shareParam: {

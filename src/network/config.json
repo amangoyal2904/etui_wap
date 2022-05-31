@@ -1,4 +1,8 @@
 {
+  "DOMAIN": {
+    "development": "https://spmdev8243.economictimes.com",
+    "production": "https://m.economictimes.com"
+  },
   "FEED": {
     "dns": {
       "development": ["https://etdev8243.indiatimes.com/"],
@@ -34,21 +38,23 @@
     "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"],
     "production": ["https://idm.economictimes.com/personalisation/logdata/uuid/resolve"]
   },
-  "ethome": {
-    "development": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"],
-    "production": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"]
-  },
-  "definitionSearch": {
-    "development": ["https://spmdev8243.economictimes.com/json_definitionsearch.cms"],
-    "production": ["https://m.economictimes.com/json_definitionsearch.cms"]
-  },
-  "newsSearch": {
-    "development": ["https://spmdev8243.economictimes.com/json_newssearch.cms"],
-    "production": ["https://m.economictimes.com/json_newssearch.cms"]
-  },
-  "reporterSearch": {
-    "development": ["https://spmdev8243.economictimes.com/json_reportersearch.cms"],
-    "production": ["https://m.economictimes.com/json_reportersearch.cms"]
+  "SEARCH": {
+    "ethome": {
+      "development": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"],
+      "production": ["https://etsearch.indiatimes.com/etspeeds/ethome.ep"]
+    },
+    "definition": {
+      "development": ["https://spmdev8243.economictimes.com/json_definitionsearch.cms"],
+      "production": ["https://m.economictimes.com/json_definitionsearch.cms"]
+    },
+    "news": {
+      "development": ["https://spmdev8243.economictimes.com/json_newssearch.cms"],
+      "production": ["https://m.economictimes.com/json_newssearch.cms"]
+    },
+    "reporter": {
+      "development": ["https://spmdev8243.economictimes.com/json_reportersearch.cms"],
+      "production": ["https://m.economictimes.com/json_reportersearch.cms"]
+    }
   },
   "saveNews": {
     "production": "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json",
