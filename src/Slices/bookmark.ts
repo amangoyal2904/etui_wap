@@ -6,11 +6,15 @@ import { APP_ENV, getCookie } from "utils";
 const slice = createSlice({
   name: "bookmark",
   initialState: {
-    bookmarkData: {}
+    bookmarkData: {
+      details: []
+    },
+    bookmarkStatus: false
   },
   reducers: {
     fetchBookmarkStatus: (state, action) => {
       state.bookmarkData = action.payload;
+      state.bookmarkStatus = true;
     }
   }
 });
@@ -19,13 +23,12 @@ export default slice.reducer;
 
 export const { fetchBookmarkStatus } = slice.actions;
 
-export const fetchBookmark = () => async (dispatch) => {
+export const fetchBookmark = (msid, type) => async (dispatch) => {
   const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
   const url = APIS_CONFIG.getSavedNewsStatus[APP_ENV];
   const params = {
-    stype: 0,
-    pagesize: 100,
-    pageno: 1
+    prefdataval: msid,
+    usersettingsubType: type
   };
   const headers = {
     Accept: "application/json",
@@ -33,7 +36,6 @@ export const fetchBookmark = () => async (dispatch) => {
   };
   Service.get({ url, headers, params })
     .then((res) => {
-      console.log("axios response", res);
       dispatch(fetchBookmarkStatus(res));
     })
     .catch((err) => {

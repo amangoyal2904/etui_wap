@@ -4,11 +4,11 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import { APP_ENV, getCookie } from "../../utils";
-import { success } from "Slices/appHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { fetchBookmark } from "Slices/bookmark";
 import { generateFpid } from "utils/personalization";
+import { set } from "immer/dist/internal";
 
 interface SocialShareProps {
   shareParam: {
@@ -24,28 +24,27 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
   useEffect(() => {
-    // getBookMarkStatus();
-    // generateFpid(store.login.login, null, null, {});
-    generateFpid(
-      true,
-      function (data) {
-        dispatch(fetchBookmark());
-      },
-      null
-    );
-
-    console.log("socialShare", store);
-  }, []);
+    if (store && store.login.login && !store.bookmark.bookmarkStatus) {
+      generateFpid(true, () => {
+        dispatch(fetchBookmark(shareParam.msid, 5));
+      });
+    }
+    if (store && store.login.login && store.bookmark.bookmarkStatus) {
+      if (store.bookmark.bookmarkData.details[0].status) setIsBookmarked(1);
+      else setIsBookmarked(0);
+    }
+  }, [store.login, store.bookmark]);
 
   //save book mark of current article api
   const saveArticle = async (currentMSID) => {
+    console.log(store);
     const url = APIS_CONFIG.saveNews[APP_ENV];
     const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
-    // if (!Authorization) {
-    //   const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
-    //   window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
-    //   return false;
-    // }
+    if (!Authorization) {
+      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+      window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      return false;
+    }
     const channelId = shareParam.hostId === "364" ? 4 : 0;
     try {
       const res = await Service.post({
@@ -59,7 +58,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
               stype: 0,
               msid: currentMSID,
               articletype: "5", //for videoshow only
-              action: isBookmarked,
+              action: isBookmarked == 1 ? 0 : 1,
               channelId: channelId
             }
           ]
@@ -70,10 +69,11 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       });
       const data = res.data || {};
       if (data && data.status == "success") {
-        alert(`Article ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
+        // alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
       }
     } catch (e) {
+      alert(`Video ${isBookmarked === 1 ? "unsaved" : "saved"} Failed`);
       return console.error(e.message);
     }
   };
