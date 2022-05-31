@@ -26,7 +26,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   useEffect(() => {
     if (store && store.login.login && !store.bookmark.bookmarkStatus) {
       generateFpid(true, () => {
-        dispatch(fetchBookmark(shareParam.msid, 5));
+        dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       });
     }
     if (store && store.login.login && store.bookmark.bookmarkStatus) {
@@ -69,7 +69,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       if (data && data.status == "success") {
         alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
-        dispatch(fetchBookmark(shareParam.msid, 5));
+        dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     } catch (e) {
       alert(e.message);
@@ -107,7 +107,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         ></span>
         <span
           onClick={() => {
-            saveArticle(shareParam.msid, "5");
+            saveArticle(shareParam.msid, shareParam.type);
           }}
           className={`${styles.bookmark} ${styles.commonSprite} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
         ></span>
