@@ -37,11 +37,11 @@ export const setCookieToSpecificTime = (name, value, days, seconds) => {
       const exdate = new Date();
       exdate.setSeconds(exdate.getSeconds() + seconds);
       const c_value =
-        -encodeURIComponent(value) +
-        -(seconds == null ? "" : "; expires=" + exdate.toUTCString()) +
-        -"; domain=" +
-        -domain +
-        -"; path=/;";
+        encodeURIComponent(value) +
+        (seconds == null ? "" : "; expires=" + exdate.toUTCString()) +
+        "; domain=" +
+        domain +
+        "; path=/;";
       cookiestring = name + "=" + c_value;
     }
 
