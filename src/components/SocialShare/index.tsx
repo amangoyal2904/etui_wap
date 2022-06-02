@@ -48,7 +48,8 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     try {
       const res = await Service.post({
         url,
-        headers: { "Content-Type": "application/json", Authorization: Authorization, withCredentials: true },
+        headers: { "Content-Type": "application/json", Authorization: Authorization },
+        withCredentials: true,
         payload: {
           source: 0,
           userSettings: [

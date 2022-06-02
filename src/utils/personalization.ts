@@ -36,8 +36,7 @@ export const createPfuuid = (fpid, cb) => {
   };
   const headers = {
     "Content-type": "application/json",
-    Authorization: fpid,
-    withCredentials: true
+    Authorization: fpid
   };
   service
     .get({ url, params, withCredentials: true, headers })
@@ -60,8 +59,7 @@ const createPeuuid = (cb) => {
   };
   const url = APIS_CONFIG.PERSONALISATION[APP_ENV];
   const headers = {
-    "Content-type": "application/json",
-    withCredentials: true
+    "Content-type": "application/json"
   };
 
   service
