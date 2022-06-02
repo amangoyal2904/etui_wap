@@ -38,7 +38,8 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       store.bookmark.bookmarkData.details &&
       store.bookmark.bookmarkData.details.length
     ) {
-      store.bookmark.bookmarkData.details[0]?.status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
+      console.log(store, "updared Store post");
+      store.bookmark.bookmarkData.details[0].status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
     }
   }, [store.login, store.bookmark]);
 
@@ -75,7 +76,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         }
       });
       const data = res.data || {};
-      if (data && data.status == "success") {
+      if (data && data[0].status == "success") {
         alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));

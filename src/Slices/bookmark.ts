@@ -36,7 +36,7 @@ export const fetchBookmark = (msid, type) => async (dispatch) => {
   };
   Service.get({ url, headers, params })
     .then((res) => {
-      dispatch(fetchBookmarkStatus(res));
+      dispatch(fetchBookmarkStatus(res.data));
     })
     .catch((err) => {
       console.error("Get Book Mark Status Error", err.message);
