@@ -29,11 +29,13 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       });
     }
+    console.log(store, "updared Store");
     if (
       store &&
       store.login.login &&
       store.bookmark.bookmarkStatus &&
       store.bookmark.bookmarkData &&
+      store.bookmark.bookmarkData.details &&
       store.bookmark.bookmarkData.details.length
     ) {
       store.bookmark.bookmarkData.details[0]?.status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
