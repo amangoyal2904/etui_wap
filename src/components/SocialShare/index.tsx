@@ -29,9 +29,14 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       });
     }
-    if (store && store.login.login && store.bookmark.bookmarkStatus && store.bookmark.bookmarkData.details.length) {
-      console.log("bookmark api worked", store);
-      store.bookmark.bookmarkData.details[0].status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
+    if (
+      store &&
+      store.login.login &&
+      store.bookmark.bookmarkStatus &&
+      store.bookmark.bookmarkData &&
+      store.bookmark.bookmarkData.details.length
+    ) {
+      store.bookmark.bookmarkData.details[0]?.status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
     }
   }, [store.login, store.bookmark]);
 
