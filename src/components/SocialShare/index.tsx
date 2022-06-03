@@ -6,7 +6,7 @@ import Service from "network/service";
 import { APP_ENV, getCookie } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
-import { fetchBookmark } from "Slices/bookmark";
+import { fetchBookmark, fetchBookmarkDefault } from "Slices/bookmark";
 import { generateFpid } from "utils/personalization";
 
 interface SocialShareProps {
@@ -25,23 +25,30 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const store = useSelector((state: AppState) => state);
   useEffect(() => {
     if (store && store.login.login && !store.bookmark.bookmarkStatus) {
-      generateFpid(true, () => {
+      const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
+      if (!Authorization) {
+        generateFpid(true, () => {
+          dispatch(fetchBookmark(shareParam.msid, shareParam.type));
+        });
+      } else {
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
-      });
+      }
     }
-    console.log(store, "updared Store");
+    console.log(store, "Store");
     if (
-      store &&
-      store.login.login &&
       store.bookmark.bookmarkStatus &&
       store.bookmark.bookmarkData &&
       store.bookmark.bookmarkData.details &&
       store.bookmark.bookmarkData.details.length
     ) {
-      console.log(store, "updared Store post");
+      console.log(store, "updated Store post");
       store.bookmark.bookmarkData.details[0].status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
     }
-  }, [store.login, store.bookmark]);
+    return () => {
+      console.log("cleanup");
+      dispatch(fetchBookmarkDefault());
+    };
+  }, [store.login, shareParam.msid]);
 
   //save book mark of current article api
   const saveArticle = async (currentMSID, type) => {

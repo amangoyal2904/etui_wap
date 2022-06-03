@@ -15,13 +15,19 @@ const slice = createSlice({
     fetchBookmarkStatus: (state, action) => {
       state.bookmarkData = action.payload;
       state.bookmarkStatus = true;
+    },
+    fetchBookmarkDefault: (state) => {
+      state.bookmarkData = {
+        details: []
+      };
+      state.bookmarkStatus = false;
     }
   }
 });
 
 export default slice.reducer;
 
-export const { fetchBookmarkStatus } = slice.actions;
+export const { fetchBookmarkStatus, fetchBookmarkDefault } = slice.actions;
 
 export const fetchBookmark = (msid, type) => async (dispatch) => {
   const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
