@@ -32,6 +32,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
           dispatch(fetchBookmark(shareParam.msid, shareParam.type));
         });
       } else {
+        console.log("fetchBookmarkCall");
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     }
