@@ -24,6 +24,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
   useEffect(() => {
+    console.log("shareparam", shareParam, shareParam.msid);
     if (store && store.login.login && !store.bookmark.bookmarkStatus) {
       const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
       if (!Authorization) {

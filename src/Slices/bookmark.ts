@@ -13,10 +13,12 @@ const slice = createSlice({
   },
   reducers: {
     fetchBookmarkStatus: (state, action) => {
+      console.log("defaultsucceed", state);
       state.bookmarkData = action.payload;
       state.bookmarkStatus = true;
     },
     fetchBookmarkDefault: (state) => {
+      console.log("default", state);
       state.bookmarkData = {
         details: []
       };
@@ -42,6 +44,7 @@ export const fetchBookmark = (msid, type) => async (dispatch) => {
   };
   Service.get({ url, headers, params })
     .then((res) => {
+      console.log("success", res.data);
       dispatch(fetchBookmarkStatus(res.data));
     })
     .catch((err) => {
