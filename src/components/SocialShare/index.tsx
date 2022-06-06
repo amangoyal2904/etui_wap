@@ -37,7 +37,6 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     }
-    console.log(store, "Store");
     if (
       store.bookmark.bookmarkFetchFlag &&
       store.bookmark.bookmarkData &&
@@ -53,7 +52,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         dispatch(fetchBookmarkDefault());
       }
     };
-  }, [store.login, store.bookmark, shareParam.msid]);
+  }, [store.login, store.bookmark.bookmarkData, shareParam.msid]);
 
   //save book mark of current article api
   const saveArticle = async (currentMSID, type) => {
