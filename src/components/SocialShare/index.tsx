@@ -25,7 +25,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const store = useSelector((state: AppState) => state);
   useEffect(() => {
     console.log("shareparam", shareParam, shareParam.msid);
-    if (store && store.login.login && !store.bookmark.bookmarkStatus) {
+    if (store && store.login.login && !store.bookmark.bookmarkFetchFlag) {
       const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
       if (!Authorization) {
         generateFpid(true, () => {
@@ -38,19 +38,19 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
     }
     console.log(store, "Store");
     if (
-      store.bookmark.bookmarkStatus &&
+      store.bookmark.bookmarkFetchFlag &&
       store.bookmark.bookmarkData &&
       store.bookmark.bookmarkData.details &&
       store.bookmark.bookmarkData.details.length
     ) {
       console.log(store, "updated Store post");
-      store.bookmark.bookmarkData.details[0].status == 1 ? setIsBookmarked(1) : setIsBookmarked(0);
+      setIsBookmarked(1);
     }
     return () => {
       console.log("cleanup");
       dispatch(fetchBookmarkDefault());
     };
-  }, [store.login, shareParam.msid]);
+  }, [store.login, store.bookmark, shareParam.msid]);
 
   //save book mark of current article api
   const saveArticle = async (currentMSID, type) => {
@@ -88,7 +88,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       if (data && data[0].status == "success") {
         alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
-        dispatch(fetchBookmark(shareParam.msid, shareParam.type));
+        // dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     } catch (e) {
       alert(e.message);

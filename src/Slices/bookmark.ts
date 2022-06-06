@@ -9,20 +9,20 @@ const slice = createSlice({
     bookmarkData: {
       details: []
     },
-    bookmarkStatus: false
+    bookmarkFetchFlag: false
   },
   reducers: {
     fetchBookmarkStatus: (state, action) => {
       console.log("defaultsucceed", state);
       state.bookmarkData = action.payload;
-      state.bookmarkStatus = true;
+      state.bookmarkFetchFlag = true;
     },
     fetchBookmarkDefault: (state) => {
       console.log("default", state);
       state.bookmarkData = {
         details: []
       };
-      state.bookmarkStatus = false;
+      state.bookmarkFetchFlag = false;
     }
   }
 });
@@ -48,6 +48,7 @@ export const fetchBookmark = (msid, type) => async (dispatch) => {
       dispatch(fetchBookmarkStatus(res.data));
     })
     .catch((err) => {
+      // dispatch(fetchBookmarkStatus(err));
       console.error("Get Book Mark Status Error", err.message);
     });
 };
