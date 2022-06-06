@@ -26,6 +26,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   useEffect(() => {
     console.log("shareparam", shareParam, shareParam.msid);
     if (store && store.login.login && !store.bookmark.bookmarkFetchFlag) {
+      console.log("check123", store.bookmark.bookmarkFetchFlag);
       const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
       if (!Authorization) {
         generateFpid(true, () => {
@@ -47,8 +48,10 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
       setIsBookmarked(1);
     }
     return () => {
-      console.log("cleanup");
-      dispatch(fetchBookmarkDefault());
+      console.log("cleanup", store.bookmark.bookmarkFetchFlag);
+      if (store.bookmark.bookmarkFetchFlag) {
+        dispatch(fetchBookmarkDefault());
+      }
     };
   }, [store.login, store.bookmark, shareParam.msid]);
 
