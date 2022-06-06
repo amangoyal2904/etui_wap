@@ -26,21 +26,17 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
 
   // use effect to fetch and check bookmark status
   useEffect(() => {
-    console.log("fetch effect one", bookmark);
     if (login.login) {
-      console.log("bookmark check", bookmark);
       const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
       if (!Authorization) {
         generateFpid(true, () => {
           dispatch(fetchBookmark(shareParam.msid, shareParam.type));
         });
       } else {
-        console.log("fetchBookmarkCall");
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     }
     return () => {
-      console.log("cleanup", bookmark.bookmarkFetchFlag);
       if (bookmark.bookmarkFetchFlag) {
         dispatch(fetchBookmarkDefault());
       }
@@ -50,9 +46,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
 
   // to update the code and current bookmark state
   useEffect(() => {
-    console.log("bookmark data second effect", bookmark);
     if (bookmark?.bookmarkData?.details?.length) {
-      console.log(bookmark, "updated Store post");
       setIsBookmarked(1);
     }
   }, [bookmark.bookmarkData]);

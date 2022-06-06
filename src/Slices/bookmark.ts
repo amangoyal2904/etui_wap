@@ -13,12 +13,10 @@ const slice = createSlice({
   },
   reducers: {
     fetchBookmarkStatus: (state, action) => {
-      console.log("defaultsucceed", state);
       state.bookmarkData = action.payload;
       state.bookmarkFetchFlag = true;
     },
     fetchBookmarkDefault: (state) => {
-      console.log("default", state);
       state.bookmarkData = {
         details: []
       };
@@ -48,7 +46,6 @@ export const fetchBookmark = (msid, type) => async (dispatch) => {
       dispatch(fetchBookmarkStatus(res.data));
     })
     .catch((err) => {
-      // dispatch(fetchBookmarkStatus(err));
       console.error("Get Book Mark Status Error", err.message);
     });
 };
