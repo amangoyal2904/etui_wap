@@ -22,11 +22,13 @@ interface SocialShareProps {
 const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   const [isBookmarked, setIsBookmarked] = useState(0);
   const dispatch = useDispatch();
-  const store = useSelector((state: AppState) => state);
+  const { login, bookmark } = useSelector((state: AppState) => state);
+
+  // use effect to fetch and check bookmark status
   useEffect(() => {
-    console.log("shareparam", shareParam, shareParam.msid);
-    if (store && store.login.login && !store.bookmark.bookmarkFetchFlag) {
-      console.log("check123", store.bookmark.bookmarkFetchFlag);
+    console.log("fetch effect one", bookmark);
+    if (login.login) {
+      console.log("bookmark check", bookmark);
       const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
       if (!Authorization) {
         generateFpid(true, () => {
@@ -37,26 +39,27 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
         dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     }
-    if (
-      store.bookmark.bookmarkFetchFlag &&
-      store.bookmark.bookmarkData &&
-      store.bookmark.bookmarkData.details &&
-      store.bookmark.bookmarkData.details.length
-    ) {
-      console.log(store, "updated Store post");
-      setIsBookmarked(1);
-    }
     return () => {
-      console.log("cleanup", store.bookmark.bookmarkFetchFlag);
-      if (store.bookmark.bookmarkFetchFlag) {
+      console.log("cleanup", bookmark.bookmarkFetchFlag);
+      if (bookmark.bookmarkFetchFlag) {
         dispatch(fetchBookmarkDefault());
       }
+      setIsBookmarked(0);
     };
-  }, [store.login, store.bookmark.bookmarkData, shareParam.msid]);
+  }, [login, shareParam.msid]);
+
+  // to update the code and current bookmark state
+  useEffect(() => {
+    console.log("bookmark data second effect", bookmark);
+    if (bookmark?.bookmarkData?.details?.length) {
+      console.log(bookmark, "updated Store post");
+      setIsBookmarked(1);
+    }
+  }, [bookmark.bookmarkData]);
 
   //save book mark of current article api
   const saveArticle = async (currentMSID, type) => {
-    console.log(store);
+    console.log(bookmark);
     const url = APIS_CONFIG.saveNews[APP_ENV];
     const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
     if (!Authorization) {
