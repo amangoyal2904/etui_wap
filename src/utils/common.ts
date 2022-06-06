@@ -7,6 +7,7 @@ export const ET_PRIME_URL = "/prime";
 export const ET_MARKET_URL = "https://m.economictimes.com/markets";
 export const ET_NEWS_URL = "/news";
 export const ET_WEALTH_URL = "https://m.economictimes.com/personal-finance";
+export const API_SOURCE_DEVICE = "2"; // for wap applicatiion
 
 export const PAGE_TYPE = {
   articleshow: "articleshow",

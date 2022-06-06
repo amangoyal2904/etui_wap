@@ -1,13 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import socialshare from "utils/socialshare";
 import styles from "./styles.module.scss";
-import APIS_CONFIG from "network/config.json";
-import Service from "network/service";
-import { APP_ENV, getCookie } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "app/store";
-import { fetchBookmark, fetchBookmarkDefault } from "Slices/bookmark";
-import { generateFpid } from "utils/personalization";
+import Bookmark from "components/Bookmark";
 
 interface SocialShareProps {
   shareParam: {
@@ -20,81 +14,6 @@ interface SocialShareProps {
 }
 
 const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
-  const [isBookmarked, setIsBookmarked] = useState(0);
-  const dispatch = useDispatch();
-  const { login, bookmark } = useSelector((state: AppState) => state);
-
-  // use effect to fetch and check bookmark status
-  useEffect(() => {
-    if (login.login) {
-      const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
-      if (!Authorization) {
-        generateFpid(true, () => {
-          dispatch(fetchBookmark(shareParam.msid, shareParam.type));
-        });
-      } else {
-        dispatch(fetchBookmark(shareParam.msid, shareParam.type));
-      }
-    }
-    return () => {
-      if (bookmark.bookmarkFetchFlag) {
-        dispatch(fetchBookmarkDefault());
-      }
-      setIsBookmarked(0);
-    };
-  }, [login, shareParam.msid]);
-
-  // to update the code and current bookmark state
-  useEffect(() => {
-    if (bookmark?.bookmarkData?.details?.length) {
-      setIsBookmarked(1);
-    }
-  }, [bookmark.bookmarkData]);
-
-  //save book mark of current article api
-  const saveArticle = async (currentMSID, type) => {
-    console.log(bookmark);
-    const url = APIS_CONFIG.saveNews[APP_ENV];
-    const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
-    if (!Authorization) {
-      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
-      window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
-      return false;
-    }
-    const channelId = shareParam.hostId === "364" ? 4 : 0;
-    try {
-      const res = await Service.post({
-        url,
-        headers: { "Content-Type": "application/json", Authorization: Authorization },
-        withCredentials: true,
-        payload: {
-          source: 0,
-          userSettings: [
-            {
-              stype: 0,
-              msid: currentMSID,
-              articletype: type,
-              action: isBookmarked == 1 ? 0 : 1,
-              channelId: channelId
-            }
-          ]
-        },
-        params: {
-          type: "bookmark"
-        }
-      });
-      const data = res.data || {};
-      if (data && data[0].status == "success") {
-        alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
-        setIsBookmarked(isBookmarked == 1 ? 0 : 1);
-        // dispatch(fetchBookmark(shareParam.msid, shareParam.type));
-      }
-    } catch (e) {
-      alert(e.message);
-      return console.error(e.message);
-    }
-  };
-
   return (
     <div className={styles.socialShare}>
       <div className={styles.shareText}>Share this Video</div>
@@ -123,12 +42,13 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })}
           className={`${styles.sms} ${styles.commonSprite}`}
         ></span>
-        <span
-          onClick={() => {
-            saveArticle(shareParam.msid, shareParam.type);
+        <Bookmark
+          bookmarkProps={{
+            msid: shareParam.msid,
+            hostId: shareParam.hostId,
+            type: shareParam.type
           }}
-          className={`${styles.bookmark} ${styles.commonSprite} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
-        ></span>
+        ></Bookmark>
       </div>
     </div>
   );

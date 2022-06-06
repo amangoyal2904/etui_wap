@@ -9,18 +9,18 @@ const slice = createSlice({
     bookmarkData: {
       details: []
     },
-    bookmarkFetchFlag: false
+    isFetched: false
   },
   reducers: {
     fetchBookmarkStatus: (state, action) => {
       state.bookmarkData = action.payload;
-      state.bookmarkFetchFlag = true;
+      state.isFetched = true;
     },
     fetchBookmarkDefault: (state) => {
       state.bookmarkData = {
         details: []
       };
-      state.bookmarkFetchFlag = false;
+      state.isFetched = false;
     }
   }
 });
@@ -30,7 +30,7 @@ export default slice.reducer;
 export const { fetchBookmarkStatus, fetchBookmarkDefault } = slice.actions;
 
 export const fetchBookmark = (msid, type) => async (dispatch) => {
-  const Authorization = getCookie("peuuid") != undefined ? getCookie("peuuid") : getCookie("ssoid");
+  const Authorization = typeof getCookie("peuuid") == "string" ? getCookie("peuuid") : getCookie("ssoid");
   const url = APIS_CONFIG.getSavedNewsStatus[APP_ENV];
   const params = {
     prefdataval: msid,
