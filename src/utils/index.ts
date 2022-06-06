@@ -17,7 +17,7 @@ declare global {
 }
 export const isBrowser = () => typeof window !== "undefined";
 
-export const setCookieToSpecificTime = (name, value, days, seconds) => {
+export const setCookieToSpecificTime = (name, value, days, time, seconds) => {
   try {
     const domain = document.domain;
     let cookiestring = "";
@@ -28,6 +28,17 @@ export const setCookieToSpecificTime = (name, value, days, seconds) => {
         encodeURIComponent(value) +
         "; expires=" +
         new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() +
+        "; domain=" +
+        domain +
+        "; path=/;";
+    }
+    if (name && value && time) {
+      cookiestring =
+        name +
+        "=" +
+        encodeURIComponent(value) +
+        "; expires=" +
+        new Date(new Date().toDateString() + " " + time).toUTCString() +
         "; domain=" +
         domain +
         "; path=/;";

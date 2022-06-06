@@ -17,7 +17,7 @@ export const generateFpid = async (cb) => {
 };
 
 export const processFingerprint = (data, cb) => {
-  setCookieToSpecificTime("fpid", data, 365, null);
+  setCookieToSpecificTime("fpid", data, 365, null, null);
   createPeuuid(cb);
   // if (isLogin) {
   // createPeuuid(cb);
@@ -41,7 +41,7 @@ const createPeuuid = (cb) => {
     .then((res) => {
       if (res?.data?.id != 0) {
         const peuuid = res.data.id;
-        setCookieToSpecificTime("peuuid", peuuid, 365, null);
+        setCookieToSpecificTime("peuuid", peuuid, 365, null, null);
         if (typeof cb == "function") {
           cb(peuuid);
         }
