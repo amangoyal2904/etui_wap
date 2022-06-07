@@ -24,7 +24,7 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
   // use effect to fetch and check bookmark status
   useEffect(() => {
     if (login.login) {
-      const Authorization = typeof getCookie("peuuid") == "string" ? getCookie("peuuid") : getCookie("ssoid");
+      const Authorization = getCookie("peuuid");
       if (!Authorization) {
         generateFpid(() => {
           dispatch(fetchBookmark(bookmarkProps.msid, bookmarkProps.type));
@@ -50,7 +50,7 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
   const saveBookmark = async (currentMSID, type) => {
     console.log(bookmark);
     const url = APIS_CONFIG.saveNews[APP_ENV];
-    const Authorization = typeof getCookie("peuuid") == "string" ? getCookie("peuuid") : getCookie("ssoid");
+    const Authorization = getCookie("peuuid");
     if (!Authorization) {
       const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
       window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
