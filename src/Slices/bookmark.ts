@@ -12,9 +12,15 @@ const slice = createSlice({
     isFetched: false
   },
   reducers: {
-    fetchBookmarkStatus: (state, action) => {
+    fetchBookmarkSuccess: (state, action) => {
       state.bookmarkData = action.payload;
       state.isFetched = true;
+    },
+    fetchBookmarkError: (state, action) => {
+      state.bookmarkData = {
+        details: []
+      };
+      state.isFetched = false;
     },
     fetchBookmarkDefault: (state) => {
       state.bookmarkData = {
@@ -27,7 +33,7 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { fetchBookmarkStatus, fetchBookmarkDefault } = slice.actions;
+export const { fetchBookmarkSuccess, fetchBookmarkError, fetchBookmarkDefault } = slice.actions;
 
 export const fetchBookmark = (msid, type) => async (dispatch) => {
   const Authorization = typeof getCookie("peuuid") == "string" ? getCookie("peuuid") : getCookie("ssoid");
@@ -42,10 +48,10 @@ export const fetchBookmark = (msid, type) => async (dispatch) => {
   };
   Service.get({ url, headers, params })
     .then((res) => {
-      console.log("success", res.data);
-      dispatch(fetchBookmarkStatus(res.data));
+      dispatch(fetchBookmarkSuccess(res.data));
     })
     .catch((err) => {
-      console.error("Get Book Mark Status Error", err.message);
+      dispatch(fetchBookmarkError);
+      console.error("Book Mark Status Error", err.message);
     });
 };

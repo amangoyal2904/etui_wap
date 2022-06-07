@@ -23,7 +23,13 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
 
   // use effect to fetch and check bookmark status
   useEffect(() => {
-    if (login.login) {
+    if (
+      !(
+        login.userInfo &&
+        Object.keys(login.userInfo).length === 0 &&
+        Object.getPrototypeOf(login.userInfo) === Object.prototype
+      )
+    ) {
       const Authorization = getCookie("peuuid");
       if (!Authorization) {
         generateFpid(() => {
@@ -48,14 +54,16 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
 
   //save book mark of current article api
   const saveBookmark = async (currentMSID, type) => {
-    console.log(bookmark);
-    const url = APIS_CONFIG.saveNews[APP_ENV];
-    const Authorization = getCookie("peuuid");
-    if (!Authorization) {
+    if (
+      login.userInfo &&
+      Object.keys(login.userInfo).length === 0 &&
+      Object.getPrototypeOf(login.userInfo) === Object.prototype
+    ) {
       const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
       window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
-      return false;
     }
+    const Authorization = getCookie("peuuid");
+    const url = APIS_CONFIG.saveNews[APP_ENV];
     const channelId = bookmarkProps.hostId === "364" ? 4 : 0;
     try {
       const res = await Service.post({
@@ -80,9 +88,7 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
       });
       const data = res.data || {};
       if (data && data[0].status == "success") {
-        alert(`Video is ${isBookmarked === 1 ? "unsaved" : "saved"} successfully`);
         setIsBookmarked(isBookmarked == 1 ? 0 : 1);
-        // dispatch(fetchBookmark(shareParam.msid, shareParam.type));
       }
     } catch (e) {
       return console.error(e.message);
