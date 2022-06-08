@@ -42,7 +42,7 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })}
           className={`${styles.sms} ${styles.commonSprite}`}
         ></span>
-        <Bookmark bookmarkProps={{ ...shareParam }}></Bookmark>
+        <Bookmark {...shareParam}></Bookmark>
       </div>
     </div>
   );

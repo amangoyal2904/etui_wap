@@ -9,15 +9,12 @@ import { generateFpid } from "utils/personalization";
 import styles from "./styles.module.scss";
 
 interface BookmarkProps {
-  bookmarkProps: {
-    msid: string;
-    hostId: string;
-    type: string;
-  };
+  msid: string;
+  hostId: string;
+  type: string;
 }
 
-const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
-  const { msid, hostId, type } = bookmarkProps;
+const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
   const [isBookmarked, setIsBookmarked] = useState(0);
   const dispatch = useDispatch();
   const { login, bookmark } = useSelector((state: AppState) => state);
