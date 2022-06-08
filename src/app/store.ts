@@ -8,6 +8,7 @@ import appHeader from "Slices/appHeader";
 import footer from "Slices/footer";
 import common from "Slices/common";
 import login from "Slices/login";
+import bookmark from "Slices/bookmark";
 
 const reducer = combineReducers({
   common,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   videoshow,
   appHeader,
   footer,
-  login
+  login,
+  bookmark
 });
 export const store = configureStore({
   reducer

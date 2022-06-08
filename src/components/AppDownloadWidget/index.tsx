@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import Link from "next/link";
 
 interface WidgetData {
   tpName: string;
@@ -10,7 +9,7 @@ const AppDownloadWidget = (props: WidgetData) => {
   return (
     <>
       <div className={styles.topWrap}>
-        <Link href={"/" + tpName} passHref>
+        <a href="https://uj2g8.app.goo.gl/?link=https://economictimes.indiatimes.com&amp;apn=com.et.reader.activitiesisi=474766725&amp;ibi=com.til.ETiphone&amp;efr=1">
           <div className={styles.wrap}>
             <div className={styles.innerWrap}>
               <p className={styles.innerHead}>
@@ -27,7 +26,7 @@ const AppDownloadWidget = (props: WidgetData) => {
               <p className={styles.installBtn}>INSTALL ET APP</p>
             </div>
           </div>
-        </Link>
+        </a>
       </div>
     </>
   );

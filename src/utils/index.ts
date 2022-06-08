@@ -1,6 +1,5 @@
 import os from "os";
 import getConfig from "next/config";
-const serverHost = os.hostname() || "";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -17,33 +16,31 @@ declare global {
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
-export const setCookieToSpecificTime = (name, value, time, seconds) => {
+
+export const setCookieToSpecificTime = (name, value, days, time, seconds) => {
   try {
     const domain = document.domain;
     let cookiestring = "";
-    if (name && value && time) {
-      cookiestring =
-        name +
-        "=" +
-        escape(value) +
-        "; expires=" +
-        new Date(new Date().toDateString() + " " + time).toUTCString() +
-        "; domain=" +
-        domain +
-        "; path=/;";
+    if (name && value) {
+      cookiestring = name + "=" + encodeURIComponent(value) + "; expires=";
+      if (days) {
+        cookiestring +=
+          new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() +
+          "; domain=" +
+          domain +
+          "; path=/;";
+      }
+      if (time) {
+        cookiestring +=
+          new Date(new Date().toDateString() + " " + time).toUTCString() + "; domain=" + domain + "; path=/;";
+      }
+      if (seconds) {
+        const exdate = new Date();
+        exdate.setSeconds(exdate.getSeconds() + seconds);
+        cookiestring += exdate.toUTCString() + "; domain=" + domain + "; path=/;";
+      }
     }
-    if (name && value && seconds) {
-      //temp cookie
-      const exdate = new Date();
-      exdate.setSeconds(exdate.getSeconds() + seconds);
-      const c_value =
-        escape(value) +
-        (seconds == null ? "" : "; expires=" + exdate.toUTCString()) +
-        "; domain=" +
-        domain +
-        "; path=/;";
-      cookiestring = name + "=" + c_value;
-    }
+
     document.cookie = cookiestring;
   } catch (e) {
     console.log("setCookieToSpecificTime", e);

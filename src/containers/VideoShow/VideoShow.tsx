@@ -49,7 +49,8 @@ const VideoShow: FC<PageProps> = (props) => {
                     shareUrl: result.url,
                     title: result.title,
                     msid: result.msid,
-                    hostId: result.hostid
+                    hostId: result.hostid,
+                    type: "5"
                   }}
                 />
               </div>
