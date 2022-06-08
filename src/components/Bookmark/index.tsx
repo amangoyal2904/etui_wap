@@ -5,7 +5,7 @@ import { APP_ENV, getCookie } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { fetchBookmark, fetchBookmarkDefault } from "Slices/bookmark";
-import { generateFpid } from "utils/personalization";
+import { createPeuuid } from "utils/personalization";
 import styles from "./styles.module.scss";
 
 interface BookmarkProps {
@@ -24,7 +24,7 @@ const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
     if (!(login.userInfo && Object.keys(login.userInfo).length === 0)) {
       const Authorization = getCookie("peuuid");
       if (!Authorization) {
-        generateFpid(() => {
+        createPeuuid(() => {
           dispatch(fetchBookmark(msid, type));
         });
       } else {

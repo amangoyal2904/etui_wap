@@ -1,34 +1,10 @@
 import APIS_CONFIG from "network/config.json";
 import service from "network/service";
 import { APP_ENV, setCookieToSpecificTime } from "utils";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { API_SOURCE_DEVICE } from "./common";
+// import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
-// const API_SOURCE = 2;
-
-export const generateFpid = async (cb) => {
-  // Initialize an agent at application startup.
-  const fpPromise = FingerprintJS.load();
-  // Get the visitor identifier when you need it.
-  const fp = await fpPromise;
-  const result = await fp.get();
-  console.log("check fpid", result.visitorId);
-  processFingerprint(result.visitorId, cb);
-};
-
-export const processFingerprint = (data, cb) => {
-  setCookieToSpecificTime("fpid", data, 365, null, null);
-  createPeuuid(cb);
-  /*
-  if (isLogin) {
-  createPeuuid(cb);
-  } else {
-    createPfuuid(data, cb);
-  }
-  */
-};
-
-const createPeuuid = (cb) => {
+export const createPeuuid = (cb) => {
   const params = {
     type: 0,
     source: API_SOURCE_DEVICE
@@ -51,6 +27,28 @@ const createPeuuid = (cb) => {
     })
     .catch((e) => console.log("error in createPeuuid", e));
 };
+
+// const API_SOURCE = 2;
+/*
+export const generateFpid = async (cb) => {
+  // Initialize an agent at application startup.
+  const fpPromise = FingerprintJS.load();
+  // Get the visitor identifier when you need it.
+  const fp = await fpPromise;
+  const result = await fp.get();
+  console.log("check fpid", result.visitorId);
+  processFingerprint(result.visitorId, cb);
+};
+
+export const processFingerprint = (data, cb) => {
+  setCookieToSpecificTime("fpid", data, 365, null, null);
+  if (isLogin) {
+  createPeuuid(cb);
+  } else {
+    createPfuuid(data, cb);
+  }
+};
+ */
 
 /*
 export const createPfuuid = (fpid, cb) => {
@@ -79,7 +77,5 @@ export const createPfuuid = (fpid, cb) => {
 */
 
 export default {
-  generateFpid,
-  createPeuuid,
-  processFingerprint
+  createPeuuid
 };
