@@ -17,33 +17,28 @@ interface BookmarkProps {
 }
 
 const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
+  const { msid, hostId, type } = bookmarkProps;
   const [isBookmarked, setIsBookmarked] = useState(0);
   const dispatch = useDispatch();
   const { login, bookmark } = useSelector((state: AppState) => state);
 
   // use effect to fetch and check bookmark status
   useEffect(() => {
-    if (
-      !(
-        login.userInfo &&
-        Object.keys(login.userInfo).length === 0 &&
-        Object.getPrototypeOf(login.userInfo) === Object.prototype
-      )
-    ) {
+    if (!(login.userInfo && Object.keys(login.userInfo).length === 0)) {
       const Authorization = getCookie("peuuid");
       if (!Authorization) {
         generateFpid(() => {
-          dispatch(fetchBookmark(bookmarkProps.msid, bookmarkProps.type));
+          dispatch(fetchBookmark(msid, type));
         });
       } else {
-        dispatch(fetchBookmark(bookmarkProps.msid, bookmarkProps.type));
+        dispatch(fetchBookmark(msid, type));
       }
     }
     return () => {
       dispatch(fetchBookmarkDefault());
       setIsBookmarked(0);
     };
-  }, [login, bookmarkProps.msid]);
+  }, [login, msid]);
 
   // to update the code and current bookmark state
   useEffect(() => {
@@ -54,17 +49,13 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
 
   //save book mark of current article api
   const saveBookmark = async (currentMSID, type) => {
-    if (
-      login.userInfo &&
-      Object.keys(login.userInfo).length === 0 &&
-      Object.getPrototypeOf(login.userInfo) === Object.prototype
-    ) {
+    if (login.userInfo && Object.keys(login.userInfo).length === 0) {
       const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
       window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
     }
     const Authorization = getCookie("peuuid");
     const url = APIS_CONFIG.saveNews[APP_ENV];
-    const channelId = bookmarkProps.hostId === "364" ? 4 : 0;
+    const channelId = hostId === "364" ? 4 : 0;
     try {
       const res = await Service.post({
         url,
@@ -98,7 +89,7 @@ const Bookmark: FC<BookmarkProps> = ({ bookmarkProps }) => {
   return (
     <span
       onClick={() => {
-        saveBookmark(bookmarkProps.msid, bookmarkProps.type);
+        saveBookmark(msid, type);
       }}
       className={`${styles.bookmark} ${styles.commonSprite} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
     ></span>

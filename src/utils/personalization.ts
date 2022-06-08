@@ -19,11 +19,13 @@ export const generateFpid = async (cb) => {
 export const processFingerprint = (data, cb) => {
   setCookieToSpecificTime("fpid", data, 365, null, null);
   createPeuuid(cb);
-  // if (isLogin) {
-  // createPeuuid(cb);
-  // } else {
-  //   createPfuuid(data, cb);
-  // }
+  /*
+  if (isLogin) {
+  createPeuuid(cb);
+  } else {
+    createPfuuid(data, cb);
+  }
+  */
 };
 
 const createPeuuid = (cb) => {
@@ -49,29 +51,32 @@ const createPeuuid = (cb) => {
     })
     .catch((e) => console.log("error in createPeuuid", e));
 };
-// export const createPfuuid = (fpid, cb) => {
-//   const url = APIS_CONFIG.PERSONALISATION[APP_ENV];
-//   const params = {
-//     type: 7,
-//     source: API_SOURCE
-//   };
-//   const headers = {
-//     "Content-type": "application/json",
-//     Authorization: fpid
-//   };
-//   service
-//     .get({ url, params, withCredentials: true, headers })
-//     .then((res) => {
-//       if (res && res.data && res.data.id != 0) {
-//         const pfuuid = res.data.id;
-//         setCookieToSpecificTime("pfuuid", pfuuid, 365, null);
-//         if (typeof cb == "function") {
-//           cb(pfuuid);
-//         }
-//       }
-//     })
-//     .catch((e) => console.log("error in createPfuuid", e));
-// };
+
+/*
+export const createPfuuid = (fpid, cb) => {
+  const url = APIS_CONFIG.PERSONALISATION[APP_ENV];
+  const params = {
+    type: 7,
+    source: API_SOURCE
+  };
+  const headers = {
+    "Content-type": "application/json",
+    Authorization: fpid
+  };
+  service
+    .get({ url, params, withCredentials: true, headers })
+    .then((res) => {
+      if (res && res.data && res.data.id != 0) {
+        const pfuuid = res.data.id;
+        setCookieToSpecificTime("pfuuid", pfuuid, 365, null);
+        if (typeof cb == "function") {
+          cb(pfuuid);
+        }
+      }
+    })
+    .catch((e) => console.log("error in createPfuuid", e));
+};
+*/
 
 export default {
   generateFpid,
