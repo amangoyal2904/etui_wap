@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { getMobileOS } from "utils";
 import { appLinks } from "utils/common";
 import styles from "./styles.module.scss";
@@ -6,21 +6,20 @@ import styles from "./styles.module.scss";
 interface WidgetData {
   tpName: string;
 }
-const AppDownloadWidget = (props: WidgetData) => {
+const AppDownloadWidget: FC<WidgetData> = ({ tpName }) => {
   const handleRedirect = () => {
     let CTA_url = "";
     const os = getMobileOS();
     if (os === "Android") {
-      CTA_url = appLinks["android"] + "&utm_source=pwa_widget_homepage&utm_campaign=pwa_widget_homepage";
+      CTA_url = appLinks["android"] + "&utm_source=pwa_widget_" + tpName + "&utm_campaign=pwa_widget_" + tpName;
     } else if (os === "iOS") {
       CTA_url = appLinks["ios"];
     } else {
-      CTA_url = appLinks["generic"] + "?utm_source=pwa_widget_homepage&utm_medium=pwa_widget_homepage";
+      CTA_url = appLinks["generic"] + "&utm_source=pwa_widget_" + tpName + "&utm_campaign=pwa_widget_" + tpName;
     }
     window.location.href = CTA_url;
   };
 
-  const { tpName } = props;
   return (
     <>
       <div
