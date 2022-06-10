@@ -13,6 +13,8 @@ declare global {
       region_code: string;
     };
     env?: string;
+    opera?: string;
+    MSStream?: string;
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
@@ -209,6 +211,17 @@ export const isVisible = (elm) => {
   } else {
     return false;
   }
+};
+
+export const getMobileOS = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  }
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return "iOS";
+  }
+  return "unknown";
 };
 
 export const mgidGeoCheck = (pos) => {

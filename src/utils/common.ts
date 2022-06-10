@@ -8,6 +8,11 @@ export const ET_MARKET_URL = "https://m.economictimes.com/markets";
 export const ET_NEWS_URL = "/news";
 export const ET_WEALTH_URL = "https://m.economictimes.com/personal-finance";
 export const API_SOURCE_DEVICE = "2"; // for wap applicatiion
+export const appLinks = {
+  android: "https://play.google.com/store/apps/details?id=com.et.reader.activities&utm_medium=PWA",
+  ios: "https://itunes.apple.com/in/app/the-economic-times/id474766725",
+  generic: "https://economictimes.indiatimes.com/mobile"
+};
 
 export const PAGE_TYPE = {
   articleshow: "articleshow",

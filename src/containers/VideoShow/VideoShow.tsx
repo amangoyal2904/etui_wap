@@ -72,7 +72,7 @@ const VideoShow: FC<PageProps> = (props) => {
       <div className={styles.mainContent}>{VideoContainer()}</div>
       <SEO {...seoData} />
       <GreyDivider />
-      <AppDownloadWidget tpName="videoShow" />
+      <AppDownloadWidget tpName="videoshow" />
       <BreadCrumb data={seoData.breadcrumb} />
     </>
   );
