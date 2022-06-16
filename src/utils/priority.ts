@@ -8,7 +8,6 @@ export function InitialJsOnAppLoad(): void {
     document.addEventListener("gaLoaded", () => {
       ga.gaObserverInit();
     });
-    ga.growthRxInit();
   } catch (error) {
     console.error("Error in InitialJsOnAppLoad: ", error);
   }

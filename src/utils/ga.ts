@@ -20,6 +20,8 @@ export const pageview = (url) => {
     window["gtag"]("config", Config.GA.GTM_KEY, {
       page_path: url
     });
+  window.ga("send", "pageview", { ...window["customDimension"], page: window.location.href });
+  grxEvent("page_view", window["customDimension"]);
 };
 
 export const event = ({ action, params }) => {
@@ -142,6 +144,7 @@ export const grxEvent = (type, data, gaEvent = 0) => {
     const grxDimension = data;
     // let localobjVc = objVc || {};
     const localobjVc = {};
+    grxDimension["url"] = grxDimension["url"] || window.location.href;
     if (window.customDimension && localobjVc["growthRxDimension"]) {
       const objDim = localobjVc["growthRxDimension"];
       for (const key in window.customDimension) {
