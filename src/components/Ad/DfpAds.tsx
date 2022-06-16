@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { AND_BEYOND } from "utils/common";
 declare global {
   interface Window {
     // eslint-disable-next-line
@@ -56,6 +57,7 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
     const { adDivIds } = window;
     const { customDimension, currMsid, customSlot } = adInfo;
     const objVc = window.objVc;
+    if (key === "andbeyond") objVc.dfp["andbeyond"] = AND_BEYOND; // temporarily added on client side
 
     if (divId && googleTag) {
       googleTag.cmd.push(() => {
@@ -65,9 +67,10 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
 
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-          const dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
+          let dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
+          dimension = Array.isArray(dimension[0]) ? dimension[0] : dimension;
           const adSlot = customSlot ? customSlot : objVc.dfp[key] && objVc.dfp[key]["adSlot"];
-          slot = googleTag.defineSlot(adSlot, Array.isArray(dimension[0]) ? dimension[0] : dimension, divId);
+          slot = googleTag.defineSlot(adSlot, dimension, divId);
           if (divId == "mh") {
             window.ad_refresh.push(slot);
           }
