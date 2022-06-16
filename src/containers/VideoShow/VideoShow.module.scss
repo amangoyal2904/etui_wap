@@ -1,7 +1,7 @@
 @import "../../styles/common.scss";
 
 .videoshow {
-  background: #ececec;
+  background: #f0f0f0;
   padding-top: 10px;
   .wrap {
     padding: 1rem;
@@ -19,6 +19,9 @@
   }
 
   .synopsis {
-    line-height: 1.7rem;
+    p {
+      font-size: 15px;
+      line-height: 1.5rem;
+    }
   }
 }

@@ -133,8 +133,8 @@ export const growthRxInit = () => {
     h.src = w;
     rx.parentNode.insertBefore(h, rx);
   })(window, document, "script", "https://static.growthrx.in/js/v2/web-sdk.js", "grx");
-  // grx('init', objVc.growthRxId || 'gc2744074');
-  window.grx("init", Config.GA.GRX_ID);
+  window.grx("init", window.objVc.growthRxId || "gc2744074");
+  // window.grx("init", Config.GA.GRX_ID);
 };
 
 export const grxEvent = (type, data, gaEvent = 0) => {

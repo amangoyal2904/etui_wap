@@ -1,3 +1,4 @@
+@import "../../styles/variables.scss";
 .listing {
   h2 {
     padding: 0.5rem 0 0 15px;
@@ -40,13 +41,16 @@
         }
 
         .slideVidIcon {
-          background-image: url(https://img.etimg.com/photo/61785481.cms);
+          background-image: url($common-sprite-path);
           position: absolute;
-          top: 33px;
-          width: 35px;
-          height: 35px;
-          background-size: 100%;
-          left: 50px;
+          top: 30px;
+          width: 42px;
+          height: 42px;
+          left: 45px;
+          display: inline-block;
+          cursor: pointer;
+          background-position: -190px -160px;
+          transform: scale(0.7);
         }
       }
     }
