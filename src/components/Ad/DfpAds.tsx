@@ -49,7 +49,7 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
       };
     }
     //eslint-disable-next-line
-  }, []);
+  }, [adInfo]);
 
   function loadDfpAds() {
     const googleTag = window.googletag;
