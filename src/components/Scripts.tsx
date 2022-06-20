@@ -69,10 +69,18 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
               ga('create', '${Config.GA.GA_ID}', 'auto');
-              ga('send', 'pageview');
+              ga('send', 'pageview', { ...window["customDimension"], page: window.location.href });
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
               `
+            }}
+          />
+          <Script
+            src="https://static.growthrx.in/js/v2/web-sdk.js"
+            strategy="lazyOnload"
+            onLoad={() => {
+              window.grx("init", window.objVc.growthRxId || "gc2744074");
+              window.grx("track", "page_view", { ...window["customDimension"], url: window.location.href });
             }}
           />
           <Script

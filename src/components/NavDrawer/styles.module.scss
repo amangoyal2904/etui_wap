@@ -37,13 +37,14 @@
       font-weight: 600;
 
       .rArr {
-        background-size: 246px 150px;
-        background-position: -187px -33px;
+        background-position: -306px -66px;
         background-repeat: no-repeat;
         display: inline-block;
-        height: 23px;
+        height: 22px;
         width: 14px;
         margin-left: 10px;
+        transform: scale(0.7);
+        vertical-align: middle;
       }
 
       ul {
@@ -96,48 +97,6 @@
 
 .isOpen {
   display: block;
-}
-
-.user {
-  position: sticky;
-  top: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #000000;
-  line-height: 15px;
-  height: 72px;
-  padding: 20px 20px;
-  background-color: #f6f6f6;
-  border: solid 1px #e6e6e6;
-
-  .userName {
-    float: left;
-    line-height: 1.31em;
-    position: relative;
-    bottom: 3px;
-
-    img {
-      margin-top: 4px;
-      width: 55px;
-      display: block;
-    }
-  }
-
-  .signIn {
-    float: right;
-    font-size: 13px;
-    font-weight: normal;
-    position: relative;
-    bottom: 5px;
-    text-align: center;
-
-    .userIcon {
-      background-size: 295px 180px;
-      background-position: -242px -35px;
-      height: 30px;
-      width: 29px;
-    }
-  }
 }
 
 .hidden {

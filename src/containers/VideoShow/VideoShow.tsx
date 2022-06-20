@@ -74,6 +74,9 @@ const VideoShow: FC<PageProps> = (props) => {
       <GreyDivider />
       <AppDownloadWidget tpName="videoshow" />
       <BreadCrumb data={seoData.breadcrumb} />
+      <div className={`${styles.footerAd} adContainer`}>
+        <DfpAds adInfo={{ key: "fbn" }} />
+      </div>
     </>
   );
 };

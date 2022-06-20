@@ -18,6 +18,10 @@
   padding: 20px 20px;
   background-color: #f6f6f6;
   border: solid 1px #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
 
   .userName {
     float: left;
@@ -41,10 +45,10 @@
     text-align: center;
 
     .userIcon {
-      background-size: 295px 180px;
-      background-position: -242px -35px;
-      height: 30px;
-      width: 29px;
+      background-position: -325px -50px;
+      height: 32px;
+      width: 34px;
+      transform: scale(0.7);
     }
   }
 }

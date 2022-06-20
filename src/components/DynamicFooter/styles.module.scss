@@ -76,24 +76,22 @@
       }
 
       .appstore_parent {
-        border-right: 1px solid #343434;
         display: inline-block;
       }
 
       .appstoredownload {
-        background-size: 393px 238px;
         background-position: -172px -0px;
         width: 161px;
         height: 40px;
-        margin-right: 10px;
+        transform: scale(0.9);
       }
 
       .gpdownload {
-        background-size: 393px 238px;
         background-position: -6px -6px;
         width: 151px;
         height: 42px;
         margin-left: 10px;
+        transform: scale(0.9);
       }
 
       .shareIcons {
@@ -123,11 +121,10 @@
       }
 
       .primeLogo {
-        background-size: 590px 360px;
-        background-position: 1px -138px;
+        background-position: 0px -93px;
         display: inline-block;
-        width: 193px;
-        height: 45px;
+        width: 130px;
+        height: 24px;
       }
 
       h4 {

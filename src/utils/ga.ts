@@ -20,6 +20,8 @@ export const pageview = (url) => {
     window["gtag"]("config", Config.GA.GTM_KEY, {
       page_path: url
     });
+  window.ga("send", "pageview", { ...window["customDimension"], page: window.location.href });
+  grxEvent("page_view", window["customDimension"]);
 };
 
 export const event = ({ action, params }) => {
@@ -133,8 +135,8 @@ export const growthRxInit = () => {
     h.src = w;
     rx.parentNode.insertBefore(h, rx);
   })(window, document, "script", "https://static.growthrx.in/js/v2/web-sdk.js", "grx");
-  // grx('init', objVc.growthRxId || 'gc2744074');
-  window.grx("init", Config.GA.GRX_ID);
+  window.grx("init", window.objVc.growthRxId || "gc2744074");
+  // window.grx("init", Config.GA.GRX_ID);
 };
 
 export const grxEvent = (type, data, gaEvent = 0) => {
@@ -142,6 +144,7 @@ export const grxEvent = (type, data, gaEvent = 0) => {
     const grxDimension = data;
     // let localobjVc = objVc || {};
     const localobjVc = {};
+    grxDimension["url"] = grxDimension["url"] || window.location.href;
     if (window.customDimension && localobjVc["growthRxDimension"]) {
       const objDim = localobjVc["growthRxDimension"];
       for (const key in window.customDimension) {
