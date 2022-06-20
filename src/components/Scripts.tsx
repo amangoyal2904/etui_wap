@@ -23,6 +23,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             window.__APP = {
                 env: "${APP_ENV}"
             }
+            window.customDimension = window.customDimension || {}
             window._log = function(){
                 let currDate = new Date().toString().split(" GMT")[0];
                 let args = Array.prototype.slice.call(arguments);
@@ -69,7 +70,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
               ga('create', '${Config.GA.GA_ID}', 'auto');
-              ga('send', 'pageview', { ...window["customDimension"], page: window.location.href });
+              window.customDimension = { ...window["customDimension"], page: window.location.href };
+              ga('send', 'pageview', window.customDimension);
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
               `
@@ -80,7 +82,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy="lazyOnload"
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
-              window.grx("track", "page_view", { ...window["customDimension"], url: window.location.href });
+              window.customDimension = { ...window["customDimension"], url: window.location.href };
+              window.grx("track", "page_view", window.customDimension);
             }}
           />
           <Script

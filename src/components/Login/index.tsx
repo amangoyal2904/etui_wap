@@ -30,18 +30,22 @@ const Login = () => {
           isprimeuser: 0
         })
       );
-      window.customDimension = { ...window.customDimension, email: objUser.primaryEmail };
       window.__APP.login = {
         status: true,
         ssoid: objUser.ssoid,
         email: objUser.primaryEmail,
         firstName: objUser.firstName
       };
+
+      window.customDimension["dimension3"] = "LOGGEDIN";
+      window.customDimension["email"] = objUser.primaryEmail;
+      if (objUser.ssoid) window.customDimension["userId"] = objUser.ssoid;
+    } else {
+      window.customDimension["dimension3"] = "NONLOGGEDIN";
     }
   };
   const permissionCallback = () => {
     const permissions = (window.objInts && window.objInts.permissions) || [];
-    const objUser = (window.objUser && window.objUser.info) || {};
     if (permissions.includes("subscribed")) {
       // set state
       setIsSubscribed(1);
@@ -49,18 +53,11 @@ const Login = () => {
       // dispatch(setIsPrime(1));
       // add isprimeuser class in the body
       document.body.classList.add("isprimeuser");
+      window.customDimension["dimension37"] = "Paid User";
     } else {
       // remove isprimeuser class from the body
       document.body.classList.remove("isprimeuser");
     }
-    dispatch(
-      setLoggedIn({
-        login: true,
-        userInfo: objUser,
-        permissions,
-        isprimeuser: isSubscribed
-      })
-    );
   };
 
   useEffect(() => {
