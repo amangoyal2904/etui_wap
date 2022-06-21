@@ -4,28 +4,21 @@ import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, Fragment, FC } from "react";
-import { useDispatch } from "react-redux";
-import { setNavBarStatus, setCtaStatus } from "Slices/appHeader";
+import { useSelector } from "react-redux";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
+import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
 
 const VideoShow: FC<PageProps> = (props) => {
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setNavBarStatus(false));
-    dispatch(setCtaStatus(false));
-    return () => {
-      dispatch(setNavBarStatus(true));
-      dispatch(setCtaStatus(true));
-    };
-  }, [dispatch]);
+  const loginState = useSelector((state: AppState) => state.login);
+
   useEffect(() => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
@@ -37,10 +30,11 @@ const VideoShow: FC<PageProps> = (props) => {
       return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
+          const skipAd = loginState.isprimeuser ? "&skipad=1" : "&skipad=0";
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>
-                <VideoEmbed url={result.iframeUrl} />
+                <VideoEmbed url={result.iframeUrl + skipAd} />
 
                 <div className={styles.wrap}>
                   <h1 role="heading">{result.title}</h1>
