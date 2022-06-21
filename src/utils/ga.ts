@@ -20,8 +20,11 @@ export const pageview = (url) => {
     window["gtag"]("config", Config.GA.GTM_KEY, {
       page_path: url
     });
-  window.ga("send", "pageview", { ...window["customDimension"], page: window.location.href });
-  grxEvent("page_view", window["customDimension"]);
+  const page = window.location.href;
+  window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
+  // send the page views
+  window.ga("send", "pageview", window.customDimension);
+  grxEvent("page_view", window.customDimension);
 };
 
 export const event = ({ action, params }) => {

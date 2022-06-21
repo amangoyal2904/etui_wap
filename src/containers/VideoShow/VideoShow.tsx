@@ -12,7 +12,11 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
+import { getPageSpecificDimensions } from "utils";
+
 const VideoShow: FC<PageProps> = (props) => {
+  const { seo = {}, version_control } = props;
+  const seoData = { ...seo, ...version_control?.seo };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setNavBarStatus(false));
@@ -22,9 +26,12 @@ const VideoShow: FC<PageProps> = (props) => {
       dispatch(setCtaStatus(true));
     };
   }, [dispatch]);
+  useEffect(() => {
+    // set page specific customDimensions
+    const payload = getPageSpecificDimensions(seo);
+    window.customDimension = { ...window.customDimension, ...payload };
+  }, []);
 
-  const { seo = {}, version_control } = props;
-  const seoData = { ...seo, ...version_control?.seo };
   const VideoContainer = () => {
     {
       return props?.searchResult?.map((item) => {

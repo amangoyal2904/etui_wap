@@ -56,8 +56,7 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
     const googleTag = window.googletag;
     const { adDivIds } = window;
     const { customDimension, currMsid, customSlot } = adInfo;
-    const objVc = window.objVc;
-    if (key === "andbeyond") objVc.dfp["andbeyond"] = AND_BEYOND; // temporarily added on client side
+    const objVc = window.objVc || {};
 
     if (divId && googleTag) {
       googleTag.cmd.push(() => {
