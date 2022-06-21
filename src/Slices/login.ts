@@ -12,7 +12,6 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     setLoggedIn: (state, action) => {
-      console.log("setLoggedIn payload:", action);
       state.login = true;
       const { login, userInfo, permissions, isprimeuser } = action.payload;
       state.userInfo = userInfo;
