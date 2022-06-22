@@ -13,9 +13,10 @@ const AppHeader: FC = () => {
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const store = useSelector((state: AppState) => {
-    return state.appHeader;
-  });
+  const store = useSelector((state: AppState) => state);
+  const { common, appHeader } = store;
+
+  const page = common?.data?.page;
 
   useEffect(() => {
     dispatch(fetchMenu());
@@ -52,13 +53,13 @@ const AppHeader: FC = () => {
             ></span>
           </div>
         </div>
-        {store.isCta && (
+        {page !== "videoshow" && (
           <div className={styles.ctas}>
             <span className={styles.cta1}>Super Saver Sale</span>
             <span className={styles.cta2}>Get App</span>
           </div>
         )}
-        {store.isFetchSuccess && store.isNavBar && <NavBar />}
+        {appHeader.isFetchSuccess && page !== "videoshow" && <NavBar />}
       </header>
       <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
