@@ -17,9 +17,24 @@ const AppHeader: FC = () => {
   const { common, appHeader } = store;
 
   const page = common?.data?.page;
+  let requestIdleCallbackId = 0;
 
   useEffect(() => {
-    dispatch(fetchMenu());
+    if ("requestIdleCallback" in window) {
+      requestIdleCallbackId = window.requestIdleCallback(
+        () => {
+          dispatch(fetchMenu());
+        },
+        { timeout: 2000 }
+      );
+    } else {
+      dispatch(fetchMenu());
+    }
+    return () => {
+      if ("requestIdleCallback" in window) {
+        window.cancelIdleCallback(requestIdleCallbackId);
+      }
+    };
   }, [dispatch]);
 
   return (
@@ -41,7 +56,7 @@ const AppHeader: FC = () => {
                   height={22}
                   id="hLogo"
                   alt="logo"
-                  role="logo"
+                  role="img"
                 />
               </a>
             </Link>

@@ -68,6 +68,7 @@ const DynamicFooter: FC = () => {
             href="http://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
             target="_blank"
             rel="noopener nofollow noreferrer"
+            aria-label="Play Store"
           >
             <span className={`${styles.appstoredownload} ${styles.commonSprite}`} />
           </a>
@@ -76,6 +77,7 @@ const DynamicFooter: FC = () => {
             href="https://play.google.com/store/apps/details?id=com.et.reader.activities"
             target="_blank"
             rel="noopener nofollow noreferrer"
+            aria-label="App Store"
           >
             <span className={`${styles.gpdownload} ${styles.commonSprite}`} />
           </a>
@@ -89,24 +91,27 @@ const DynamicFooter: FC = () => {
               target="_blank"
               data-ga-onclick="PWA Footer Follow us icon Click#Facebook - Click#Facebook-href"
               rel="noopener nofollow noreferrer"
+              aria-label="Facebook"
               className={`${styles.fbShare} ${styles.commonSprite}`}
             ></a>
 
             <a
               href="https://www.linkedin.com/company/economictimes"
               target="_blank"
-              title="Twitter"
-              data-ga-onclick="PWA Footer Follow us icon Click#Twitter - Click#Twitter-href"
+              title="Linkedin"
+              data-ga-onclick="PWA Footer Follow us icon Click#Linkedin - Click#Linkedin-href"
               rel="noopener nofollow noreferrer"
+              aria-label="Linkedin"
               className={`${styles.twShare} ${styles.commonSprite}`}
             ></a>
 
             <a
               href="https://twitter.com/economictimes"
               target="_blank"
-              title="LinkedIn"
-              data-ga-onclick="PWA Footer Follow us icon Click#LinkedIn - Click#LinkedIn-href"
+              title="Twitter"
+              data-ga-onclick="PWA Footer Follow us icon Click#Twitter - Click#Twitter-href"
               rel="noopener nofollow noreferrer"
+              aria-label="Twitter"
               className={`${styles.inShare} ${styles.commonSprite}`}
             ></a>
           </div>

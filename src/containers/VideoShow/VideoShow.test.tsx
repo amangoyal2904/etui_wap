@@ -223,8 +223,7 @@ const data: PageProps = {
         inLanguage: "en",
         keywords:
           "initial public offering of lic, govt defers lic ipo, volatile market situation, life insurance corporation, lic ipo, market situation, russia-ukraine crisis, sebi",
-        contentUrl:
-          "conttent url slike player url https://slike-v.akamaized.net/1x/5n/1x5n3hf99l/d622048c_F20_720p_1600.mp4 ",
+        contentUrl: "https://slike-v.akamaized.net/1x/5n/1x5n3hf99l/d622048c_F20_720p_1600.mp4 ",
         duration: "T01M50S",
         publisher: {
           name: "Economic Times",
