@@ -22,6 +22,8 @@ export const loginSlice = createSlice({
     setLoggedOut: (state) => {
       state.login = false;
       state.userInfo = {};
+      state.permissions = [];
+      state.isprimeuser = 0;
     },
     setIsPrime: (state, action) => {
       state.isprimeuser = action.payload;
