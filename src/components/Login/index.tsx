@@ -50,7 +50,7 @@ const Login = () => {
       // set state
       setIsSubscribed(1);
       // set prime status in redux
-      // dispatch(setIsPrime(1));
+      dispatch(setIsPrime(1));
       // add isprimeuser class in the body
       document.body.classList.add("isprimeuser");
       window.customDimension["dimension37"] = "Paid User";
