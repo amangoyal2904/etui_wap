@@ -30,11 +30,11 @@ const VideoShow: FC<PageProps> = (props) => {
       return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          const skipAd = loginState.isprimeuser ? "&skipad=1" : "&skipad=0";
+          const url = `${result.iframeUrl}&skipad=${loginState.isprimeuser}`;
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>
-                <VideoEmbed url={result.iframeUrl + skipAd} />
+                <VideoEmbed url={url} />
 
                 <div className={styles.wrap}>
                   <h1 role="heading">{result.title}</h1>
