@@ -40,7 +40,7 @@ const AppHeader: FC = () => {
                   height={22}
                   id="hLogo"
                   alt="logo"
-                  role="logo"
+                  role="img"
                 />
               </a>
             </Link>
