@@ -7,6 +7,7 @@ import { FC, useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "app/store";
 import Login from "components/Login";
+import { ET_WAP_URL } from "utils/common";
 interface DrawerProps {
   setIsDrawerOpen: (s: boolean) => void;
   isOpen: boolean;
@@ -88,16 +89,17 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
   };
 
   const makeLink = (data: MenuProps, level: number, iOuter: number | string, iInner: number | string) => {
-    if (!(data.shorturl || data.url)) {
+    let linkURL = data.shorturl || data.url;
+    if (!linkURL) {
       return (
         <>
           {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </>
       );
     }
-
+    linkURL = !linkURL.includes("http") ? ET_WAP_URL + linkURL : linkURL;
     return (
-      <Link href={data.shorturl ? data.shorturl : data.url}>
+      <Link href={linkURL}>
         <a className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
           {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
         </a>
@@ -112,7 +114,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
           <div className={styles.menuWrap}>
             <ul onClick={handleClick}>
               <li>
-                <Link href={menuData.url}>
+                <Link href={ET_WAP_URL}>
                   <a>{menuData.title}</a>
                 </Link>
               </li>
