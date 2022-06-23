@@ -4,6 +4,7 @@ export interface versionControlProps {
     org_img_hin?: string;
   };
   dfp: dfpProps;
+  cpd_wap?: string;
 }
 interface adProps {
   adSlot?: string;
