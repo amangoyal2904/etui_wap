@@ -17,6 +17,7 @@ import { getPageSpecificDimensions } from "utils";
 const VideoShow: FC<PageProps> = (props) => {
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
+  const { cpd_wap = "0" } = version_control;
   const loginState = useSelector((state: AppState) => state.login);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const VideoShow: FC<PageProps> = (props) => {
   return (
     <>
       <div className={styles.mainContent}>
-        <div className={`${styles.hdAdContainer} adContainer`}>
+        <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
           <DfpAds adInfo={{ key: "atf" }} />
         </div>
         {VideoContainer()}

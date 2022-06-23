@@ -1,18 +1,22 @@
-export const data = {
+import { PageProps } from "types/videoshow";
+export const data: PageProps = {
   searchResult: [
     {
       name: "videoshow",
       data: {
         title:
           "Govt defers LIC IPO amid volatile market situation; can launch without seeking fresh Sebi approval till May 12",
-        msid: "90200064",
+
         date: "14 Mar 2022, 02:39 PM IST",
         agency: "Mirror Now",
         synopsis:
           "The government has time till May 12 to launch the initial public offering (IPO) of LIC without filing fresh papers with market regulator Sebi, an official said. The government's sale of about 31.6 crore shares or 5 per cent stake in LIC, which was estimated to fetch around Rs 60,000 crore to the exchequer, was originally planned to be launched in March, but the Russia-Ukraine crisis has derailed the plans as stock markets are highly volatile. ",
-        views: "",
+
         url: "https://economictimes.indiatimes.com/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/videoshow/90200064.cms",
         iframeUrl: "https://etdev8243.indiatimes.com/videodash.cms?autostart=1&msid=90200064",
+        msid: "90200064",
+        hostid: "153",
+        views: "",
         relKeywords: [
           {
             title: "lic ipo",
@@ -58,35 +62,40 @@ export const data = {
           duration: "03:25",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/sensex-tanks-600-pts-nifty-below-17200-hindalco-falls-2-hcl-tech-rises-2-post-q4-results/videoshow/90994585.cms",
           img: "https://img.etimg.com/thumb/msid-90994585,width-100,height-75,imgsize-30034/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Buy or Sell: Stock ideas by experts for April 22, 2022",
           duration: "03:52",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/buy-or-sell-stock-ideas-by-experts-for-april-22-2022/videoshow/90993393.cms",
           img: "https://img.etimg.com/thumb/msid-90993393,width-100,height-75,imgsize-8620/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Stocks in focus: Barbeque Nation, HCL Tech, Crisil and more",
           duration: "01:41",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/stocks-in-focus-barbeque-nation-hcl-tech-crisil-and-more/videoshow/90993295.cms",
           img: "https://img.etimg.com/thumb/msid-90993295,width-100,height-75,imgsize-23188/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "RIL rally fuels market bulls; Sensex surges 874 pts; Nifty ends near 17,400",
           duration: "04:00",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/ril-rally-fuels-market-bulls-sensex-surges-874-pts-nifty-ends-near-17400/videoshow/90979554.cms",
           img: "https://img.etimg.com/thumb/msid-90979554,width-100,height-75,imgsize-5546/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         },
         {
           title: "Sensex rises over 350 pts, Nifty tops 17,200; RIL hits record high",
           duration: "02:51",
           url: "https://economictimes.indiatimes.com/markets/stocks/news/sensex-rises-over-350-pts-nifty-tops-17200-ril-hits-record-high/videoshow/90971672.cms",
           img: "https://img.etimg.com/thumb/msid-90971672,width-100,height-75,imgsize-15668/.jpg",
-          views: ""
+          views: "",
+          type: "videoshow"
         }
       ]
     }
@@ -105,9 +114,9 @@ export const data = {
       "https://economictimes.indiatimes.com/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/videoshow/90200064.cms",
     ampURL:
       "https://m.economictimes.com/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/amp_videoshow/90200064.cms",
-    authors: "ET Online",
-    agency: "Mirror Now",
-    noindex: "",
+    authors: ["ET Online"],
+    agency: ["Mirror Now"],
+    noindex: 0,
     actualURL:
       "https://economictimes.indiatimes.com/markets/stocks/news/govt-defers-lic-ipo-amid-volatile-market-situation-can-launch-without-seeking-fresh-sebi-approval-till-may-12/videoshow/90200064.cms",
     url: "url",
@@ -118,25 +127,25 @@ export const data = {
     updated: "updated",
     articleSection: "articleSection",
     story: "story",
-    remove_paywall_schema: "remove_paywall_schema",
-    behindLogin: "behindLogin",
-    hostid: "153",
-    langInfo: "langInfo",
-    noindexFollow: "",
+    remove_paywall_schema: 0,
+    behindLogin: 0,
+    hostid: 153,
+    langInfo: [{ url: "xyz", lang: "en" }],
+    noindexFollow: 0,
     expiry: "ex",
-    sponsored: "",
-    maxImgPreview: "",
-    isPrime: "",
+    sponsored: 0,
+    maxImgPreview: 1,
+    isPrime: 0,
     subsecnames: {
-      subsec1: "1977021501",
+      subsec1: 1977021501,
       subsecname1: "Markets",
-      subsec2: "2146842",
+      subsec2: 2146842,
       subsecname2: "Stocks",
-      subsec3: "2146843",
+      subsec3: 2146843,
       subsecname3: "News",
-      subsec4: "0",
+      subsec4: 0,
       subsecname4: "",
-      subsec5: "0",
+      subsec5: 0,
       subsecname5: ""
     },
     schemaType: "videoshow",
@@ -245,14 +254,16 @@ export const data = {
           "Govt defers LIC IPO amid volatile market situation; can launch without seeking fresh Sebi approval till May 12"
       }
     ],
-    seoListData: {
-      url: "",
-      title: "",
-      date: "",
-      img: ""
-    },
-    page: "videoshow",
-    msid: "90200064"
+    seoListData: [
+      {
+        url: "",
+        title: "",
+        date: "",
+        img: ""
+      }
+    ],
+    page: "videoshow"
   },
-  version_control: {}
+  parameters: {},
+  version_control: { dfp: {} }
 };

@@ -29,3 +29,6 @@ a {
 .isprimeuser .adContainer {
   display: none;
 }
+.adContainer.expando_1 {
+  min-height: 100px;
+}
