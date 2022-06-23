@@ -3,7 +3,7 @@ import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
-import { useEffect, Fragment, FC } from "react";
+import { useEffect, useState, Fragment, FC } from "react";
 import { useSelector } from "react-redux";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";

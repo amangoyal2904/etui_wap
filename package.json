@@ -59,5 +59,6 @@
       "jest ./src --coverage=false",
       "next build ./"
     ]
-  }
+  },
+  "version": "0.0.1"
 }
