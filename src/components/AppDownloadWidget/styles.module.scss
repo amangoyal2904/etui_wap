@@ -6,11 +6,18 @@
 .wrap {
   border: 3px solid #ffe9e2;
   height: 155px;
-  background-image: url(https://img.etimg.com/photo/msid-83719345.cms);
-  background-repeat: no-repeat;
-  background-position: right;
+  position: relative;
+  overflow: hidden;
   .innerWrap {
     margin-left: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .banner {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
   }
   .innerHead {
     font-size: 15px;
