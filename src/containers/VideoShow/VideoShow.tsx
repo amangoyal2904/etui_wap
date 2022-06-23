@@ -67,16 +67,18 @@ const VideoShow: FC<PageProps> = (props) => {
   };
   return (
     <>
-      <div className={`${styles.hdAdContainer} adContainer`}>
-        <DfpAds adInfo={{ key: "atf" }} />
-      </div>
-      <div className={styles.mainContent}>{VideoContainer()}</div>
-      <SEO {...seoData} />
-      <GreyDivider />
-      <AppDownloadWidget tpName="videoshow" />
-      <BreadCrumb data={seoData.breadcrumb} />
-      <div className={`${styles.footerAd} adContainer`}>
-        <DfpAds adInfo={{ key: "fbn" }} />
+      <div className={styles.mainContent}>
+        <div className={`${styles.hdAdContainer} adContainer`}>
+          <DfpAds adInfo={{ key: "atf" }} />
+        </div>
+        {VideoContainer()}
+        <SEO {...seoData} />
+        <GreyDivider />
+        <AppDownloadWidget tpName="videoshow" />
+        <BreadCrumb data={seoData.breadcrumb} />
+        <div className={`${styles.footerAd} adContainer`}>
+          <DfpAds adInfo={{ key: "fbn" }} />
+        </div>
       </div>
     </>
   );

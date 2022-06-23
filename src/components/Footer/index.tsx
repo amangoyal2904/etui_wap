@@ -6,9 +6,10 @@ import DfpAds from "components/Ad/DfpAds";
 const Footer: FC = () => {
   return (
     <>
-      <footer id="wapFooter" className={styles.wapFooter}></footer>
-      <DynamicFooter />
-      <DfpAds adInfo={{ key: "andbeyond" }} />
+      <footer id="wapFooter" className={styles.wapFooter}>
+        <DynamicFooter />
+        <DfpAds adInfo={{ key: "andbeyond" }} />
+      </footer>
     </>
   );
 };

@@ -65,22 +65,18 @@
         .bold {
           font-weight: 600;
         }
-
-        .rDown {
-          background-position: -135px -40px;
+        span {
           margin-top: 15px;
-          height: 10px;
-          width: 12px;
+          height: 12px;
+          width: 18px;
           float: right;
-          margin-left: 10px;
-        }
-
-        .rUp {
-          background-position: -135px -22px;
-          margin-top: 15px;
-          height: 7px;
-          width: 12px;
-          float: right;
+          transform: scale(0.7);
+          &.rDown {
+            background-position: -273px -82px;
+          }
+          &.rUp {
+            background-position: -273px -45px;
+          }
         }
 
         .submenu {

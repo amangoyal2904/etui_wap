@@ -16,7 +16,6 @@ const Home = dynamic(() => import("containers/Home"));
 
 const progress = new ProgressBar({
   size: 2,
-  color: "#209cee",
   className: "bar-of-progress",
   delay: 10
 });

@@ -28,7 +28,7 @@ export default class ProgressBar {
     const config: ProgressBarConfig = assign(
       {
         size: 2,
-        color: "#29e",
+        color: "#da2337",
         className: "bar-of-progress",
         delay: 80
       },
