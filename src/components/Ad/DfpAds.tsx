@@ -45,6 +45,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
         document.addEventListener("gptLoaded", loadDfpAds);
       }
       return () => {
+        window.adDivIds = [];
         if (typeof window.googletag != "undefined" && window.googletag.apiReady) {
           window.googletag.destroySlots();
         }
