@@ -15,8 +15,9 @@ import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
 
 const VideoShow: FC<PageProps> = (props) => {
-  const { seo = {}, version_control } = props;
+  const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
+  const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const loginState = useSelector((state: AppState) => state.login);
 
@@ -70,7 +71,7 @@ const VideoShow: FC<PageProps> = (props) => {
     <>
       <div className={styles.mainContent}>
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf" }} />
+          <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
         </div>
         {VideoContainer()}
         <SEO {...seoData} />
@@ -78,7 +79,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <AppDownloadWidget tpName="videoshow" />
         <BreadCrumb data={seoData.breadcrumb} />
         <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn" }} />
+          <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
         </div>
       </div>
     </>

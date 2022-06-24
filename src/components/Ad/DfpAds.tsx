@@ -24,9 +24,11 @@ interface AdInfoProps {
     customSlot?: number;
     customDimension?: string;
   };
+  identifier?: string;
 }
 
-const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
+const DfpAds: FC<AdInfoProps> = function (props) {
+  const { adInfo } = props;
   const { key, index = 0 } = adInfo;
 
   let divId = key;
@@ -50,7 +52,7 @@ const DfpAds: FC<AdInfoProps> = function ({ adInfo }) {
       };
     }
     //eslint-disable-next-line
-  }, [adInfo]);
+  }, [props]);
 
   function loadDfpAds() {
     const googleTag = window.googletag;
