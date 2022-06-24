@@ -24,7 +24,7 @@ const VideoShow: FC<PageProps> = (props) => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
-  }, []);
+  }, [props]);
 
   const VideoContainer = () => {
     {
