@@ -59,14 +59,21 @@ const Login = () => {
       document.body.classList.remove("isprimeuser");
     }
   };
-
+  const intsCallback = () => {
+    if (typeof window.objUser !== "undefined") {
+      window.objUser.afterLoginCall(loginCallback);
+    }
+    window.objInts.afterPermissionCall(permissionCallback);
+  };
   useEffect(() => {
-    document.addEventListener("objIntsLoaded", () => {
-      if (typeof window.objUser !== "undefined") {
-        window.objUser.afterLoginCall(loginCallback);
-      }
-      window.objInts.afterPermissionCall(permissionCallback);
-    });
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
+    } else {
+      document.addEventListener("objIntsLoaded", intsCallback);
+    }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
   }, []);
 
   const setLogout = (cb = null) => {
