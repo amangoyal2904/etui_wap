@@ -23,7 +23,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             window.__APP = {
                 env: "${APP_ENV}"
             }
-            window.customDimension = window.customDimension || {}
+            window.customDimension = window.customDimension || {};
+            window.adDivIds = [];
             window._log = function(){
                 let currDate = new Date().toString().split(" GMT")[0];
                 let args = Array.prototype.slice.call(arguments);

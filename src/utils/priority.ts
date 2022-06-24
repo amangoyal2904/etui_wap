@@ -3,8 +3,6 @@ import * as ga from "./ga";
 export function InitialJsOnAppLoad(): void {
   console.log("InitialJsOnAppLoad called");
   try {
-    window["arrPageAds"] = [];
-    window.adDivIds = [];
     document.addEventListener("gaLoaded", () => {
       ga.gaObserverInit();
     });
@@ -15,7 +13,6 @@ export function InitialJsOnAppLoad(): void {
 
 export function callJsOnRouteChange(url?): void {
   console.log("callJsOnRouteChange called");
-  window.adDivIds = [];
   ga.pageview(url);
 }
 
