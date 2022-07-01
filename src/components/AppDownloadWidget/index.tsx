@@ -7,15 +7,7 @@ interface WidgetData {
   tpName: string;
 }
 const handleRedirect = (tpName) => {
-  let CTA_url = "";
-  const os = getMobileOS();
-  if (os === "Android") {
-    CTA_url = appLinks["android"] + "&utm_source=pwa_widget_" + tpName + "&utm_campaign=pwa_widget_" + tpName;
-  } else if (os === "iOS") {
-    CTA_url = appLinks["ios"];
-  } else {
-    CTA_url = appLinks["generic"] + "&utm_source=pwa_widget_" + tpName + "&utm_campaign=pwa_widget_" + tpName;
-  }
+  const CTA_url = appLinks["generic"] + "&utm_source=pwa_widget_" + tpName + "&utm_campaign=pwa_widget_" + tpName;
   window.location.href = CTA_url;
 };
 const AppDownloadWidget: FC<WidgetData> = ({ tpName }) => {

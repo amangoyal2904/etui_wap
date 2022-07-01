@@ -11,7 +11,8 @@ export const API_SOURCE_DEVICE = "2"; // for wap applicatiion
 export const appLinks = {
   android: "https://play.google.com/store/apps/details?id=com.et.reader.activities&utm_medium=PWA",
   ios: "https://itunes.apple.com/in/app/the-economic-times/id474766725",
-  generic: "https://economictimes.indiatimes.com/mobile"
+  generic:
+    "https://uj2g8.app.goo.gl/?link=https://economictimes.indiatimes.com&apn=com.et.reader.activities&isi=474766725&ibi=com.til.ETiphone&efr=1"
 };
 
 export const PAGE_TYPE = {
