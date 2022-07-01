@@ -30,21 +30,25 @@ const AppDownloadWidget: FC<WidgetData> = ({ tpName }) => {
         <div className={styles.wrap}>
           <div className={styles.innerWrap}>
             <p className={styles.innerHead}>
-              Enjoy <b>seamless experience</b>
-              <br />
-              on our App!
+              <b>
+                Our app has got more <br />
+                for you!
+              </b>
             </p>
             <p className={styles.innerText}>
-              <span className={styles.leftTick}></span>We’re 10X faster on app
+              <span className={styles.leftTick}></span>Browse Quick Reads
             </p>
             <p className={styles.innerText}>
-              <span className={styles.leftTick}></span>Better viewing experience
+              <span className={styles.leftTick}></span>Access ET Print Edition
+            </p>
+            <p className={styles.innerText}>
+              <span className={styles.leftTick}></span>Use Night Mode
             </p>
             <p className={styles.installBtn}>INSTALL ET APP</p>
           </div>
           <img
             className={styles.banner}
-            src="https://img.etimg.com/photo/msid-83719345.cms"
+            src="https://img.etimg.com/photo/msid-92587267.cms"
             alt="app download banner"
             loading="lazy"
           />
