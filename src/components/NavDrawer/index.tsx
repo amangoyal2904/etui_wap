@@ -99,11 +99,9 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     }
     linkURL = !linkURL.includes("http") ? ET_WAP_URL + linkURL : linkURL;
     return (
-      <Link href={linkURL}>
-        <a className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
-          {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
-        </a>
-      </Link>
+      <a href={linkURL} className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
+        {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
+      </a>
     );
   };
   return menuData ? (
@@ -114,9 +112,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
           <div className={styles.menuWrap}>
             <ul onClick={handleClick}>
               <li>
-                <Link href={ET_WAP_URL}>
-                  <a>{menuData.title}</a>
-                </Link>
+                <a href={ET_WAP_URL}>{menuData.title}</a>
               </li>
               <li className={styles.oneDotBdr}></li>
               {getMenu(menuData, 0, 0)}
