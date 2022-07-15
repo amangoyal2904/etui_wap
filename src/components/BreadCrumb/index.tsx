@@ -16,9 +16,9 @@ export default function BreadCrumb({ data }: BreadCrumbProps) {
           <Fragment key={i}>
             {item.url ? (
               <span>
-                <Link href={item.url}>
-                  <a itemProp="item">{item.title}</a>
-                </Link>
+                <a href={item.url} itemProp="item">
+                  {item.title}
+                </a>
               </span>
             ) : (
               <>{item.title}</>
