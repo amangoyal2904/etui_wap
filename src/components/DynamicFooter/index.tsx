@@ -187,7 +187,7 @@ const DynamicFooter: FC = () => {
                 data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
                 key={`${key}_inkd`}
               >
-                <Link href={item.url}>{item.title}</Link>
+                <a href={item.url}>{item.title}</a>
               </li>
             );
           })}
