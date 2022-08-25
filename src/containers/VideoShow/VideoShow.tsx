@@ -13,6 +13,7 @@ import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
 import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
+import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props;
@@ -49,7 +50,7 @@ const VideoShow: FC<PageProps> = (props) => {
                 </div>
                 <SocialShare
                   shareParam={{
-                    shareUrl: result.url,
+                    shareUrl: ET_WAP_URL + result.url,
                     title: result.title,
                     msid: result.msid,
                     hostId: result.hostid,
