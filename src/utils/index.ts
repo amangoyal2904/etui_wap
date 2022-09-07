@@ -98,6 +98,8 @@ export const pageType = (pathurl) => {
     return "topic";
   } else if (pathurl.indexOf("/videoshow/") != -1) {
     return "videoshow";
+  } else if (pathurl.indexOf("/videoshownew/") != -1) {
+    return "videoshownew";
   } else {
     return "articlelist";
   }
@@ -184,4 +186,24 @@ export const getPageSpecificDimensions = (seo) => {
     dimension48: msid
   };
   return payload;
+};
+
+export const isNoFollow = (link: string) => {
+  let nofollow = false;
+  try {
+    if (link.indexOf("http://") === 0 || link.indexOf("https://") === 0) {
+      if (
+        link.indexOf("m.economictimes.com") > -1 ||
+        (link.indexOf("economictimes.indiatimes.com") > -1 &&
+          link.indexOf("gujarati.economictimes.indiatimes.com") == -1)
+      ) {
+        nofollow = false;
+      } else {
+        nofollow = true;
+      }
+    }
+  } catch (e) {
+    console.log("isNoFollow:" + e);
+  }
+  return nofollow;
 };

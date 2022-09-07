@@ -1,3 +1,5 @@
+import { grxEvent } from "./ga";
+
 export const socialUrl = {
   fb: "https://www.facebook.com/sharer.php",
   twt: "https://twitter.com/share?",
@@ -19,7 +21,7 @@ export const Share = (evt, shareParam) => {
     let shareTitle = shareParam.title || "";
     let shareUrl = shareParam.shareUrl;
     const type = shareParam.type;
-    fireGAEvent(evt, type);
+    fireGAEvent(evt, type, shareUrl);
     if (type == "wa") {
       shareUrl =
         socialUrl.whatsapp +
@@ -93,13 +95,13 @@ const fireGAEventSocialShare = (network, action, url) => {
       socialAction: action,
       socialTarget: url
     };
-    // ga("send", socialPayload);
-    // grxEvent('socialshare', socialPayload);
+    window.ga("send", socialPayload);
+    grxEvent("socialshare", socialPayload);
   } catch (e) {
     console.log("error in SocialShare::fireGAEventSocialShare::" + e);
   }
 };
-const fireGAEvent = (e, type) => {
+const fireGAEvent = (e, type, shareurl) => {
   try {
     let utm_source = "";
     let network = "";
@@ -128,8 +130,7 @@ const fireGAEvent = (e, type) => {
         utm_source = "";
         network = "";
     }
-    const url =
-      window.location.href + "?utm_source=" + utm_source + "&utm_medium=social&utm_campaign=socialsharebuttons";
+    const url = shareurl + "?utm_source=" + utm_source + "&utm_medium=social&utm_campaign=socialsharebuttons";
     fireGAEventSocialShare(network, "Share", url);
   } catch (e) {
     console.log("error in SocialShare::fireGAEvent::" + e);

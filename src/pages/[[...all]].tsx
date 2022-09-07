@@ -2,6 +2,7 @@ import { wrapper } from "app/store";
 import { fetchArticle } from "Slices/article";
 import { setCommonData } from "Slices/common";
 import { fetchVideoshow } from "Slices/videoshow";
+import { fetchVideoshowNew } from "Slices/videoshowNew";
 import { setIsPrime } from "Slices/login";
 import { pageType, getMSID } from "utils";
 
@@ -25,6 +26,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
       break;
     case "videoshow":
       await store.dispatch(fetchVideoshow(msid));
+      break;
+    case "videoshownew":
+      await store.dispatch(fetchVideoshowNew(msid));
       break;
     case "articleshow":
       await store.dispatch(fetchArticle(msid));

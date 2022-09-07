@@ -48,6 +48,20 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
+      {reqData?.all?.includes("videoshow") && (
+        <>
+          <Script strategy="afterInteractive" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
+          <Script
+            strategy="afterInteractive"
+            src="https://tvid.in/sdk/loader.js"
+            onLoad={() => {
+              const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
+              document.dispatchEvent(objSlikeScriptsLoaded);
+            }}
+          />
+        </>
+      )}
+
       {!reqData.opt && !isprimeuser && isReady && (
         <>
           <Script
