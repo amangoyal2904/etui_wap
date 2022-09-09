@@ -17,8 +17,6 @@ import { dynamicPlayerConfig } from "utils/slike";
 const MAX_SCROLL_VIDS_COUNT = 20;
 
 const VideoShow: FC<PageProps> = (props) => {
-  console.log(props);
-
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
   const nextMsid = result?.nextvideo;
 

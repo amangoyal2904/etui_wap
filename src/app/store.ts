@@ -4,7 +4,7 @@ import { createWrapper } from "next-redux-wrapper";
 
 import articleshow from "Slices/article";
 import videoshow from "Slices/videoshow";
-import videoshowNew from "Slices/videoshowNew";
+import videoshownew from "Slices/videoshowNew";
 import appHeader from "Slices/appHeader";
 import footer from "Slices/footer";
 import common from "Slices/common";
@@ -19,7 +19,7 @@ const reducer = combineReducers({
   footer,
   login,
   bookmark,
-  videoshowNew
+  videoshownew
 });
 export const store = configureStore({
   reducer

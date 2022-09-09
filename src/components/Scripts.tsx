@@ -48,7 +48,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {reqData?.all?.includes("videoshow") && (
+      <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
+      <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
+
+      {reqData?.all?.includes("videoshownew") && (
         <>
           <Script strategy="afterInteractive" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
           <Script
