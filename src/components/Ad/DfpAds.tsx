@@ -55,11 +55,9 @@ const DfpAds: FC<AdInfoProps> = function (props) {
       };
     }
     //eslint-disable-next-line
-  }, [props]);
+  }, [divId]);
 
-  const loadDfpAds = useCallback(() => {
-    console.log({ useCallback: divId });
-
+  const loadDfpAds = () => {
     const googleTag = window.googletag;
     const { adDivIds } = window;
     const { customDimension, currMsid, customSlot } = adInfo;
@@ -115,7 +113,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
         }
       });
     }
-  }, [divId]);
+  };
 
   return <div id={divId}></div>;
 };
