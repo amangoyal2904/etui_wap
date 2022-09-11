@@ -39,6 +39,12 @@ declare global {
   }
 }
 
+interface PageProps {
+  page: string;
+  isprimeuser: number;
+  response: any;
+}
+
 const Container = (props) => {
   const { page, data } = props;
   let container = <NotFound {...data} />;
@@ -60,8 +66,7 @@ const Container = (props) => {
 };
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  // eslint-disable-next-line
-  const { response, page, isprimeuser } = pageProps;
+  const { response, page, isprimeuser }: PageProps = pageProps;
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
 
