@@ -1,16 +1,13 @@
 import styles from "./VideoShow.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, FC, useRef } from "react";
-import { useSelector } from "react-redux";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VidCard from "./VidCard";
-import { useRouter } from "next/router";
 import Loading from "components/Loading";
 import { dynamicPlayerConfig } from "utils/slike";
 
@@ -27,18 +24,14 @@ const VideoShow: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
-  const loginState = useSelector((state: AppState) => state.login);
 
   const nextVideoMsid = useRef(nextMsid);
-
-  const router = useRouter();
-
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
     if (loadMoreRef.current) {
       document.addEventListener("objSlikeScriptsLoaded", () => {
-        window.spl.load(dynamicPlayerConfig, (status, config) => {
+        window.spl.load(dynamicPlayerConfig, (status) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
@@ -92,12 +85,10 @@ const VideoShow: FC<PageProps> = (props) => {
         {articles.map((item, i) => (
           <VidCard index={i} result={item[0].data} key={`vid_${i}`} />
         ))}
-        {/* <SeoWidget data={result.relKeywords} title="READ MORE" /> */}
         <div ref={loadMoreRef} className={styles.center}>
           {isLoading && <Loading />}
         </div>
         <SEO {...seoData} />
-        {/* <GreyDivider /> */}
         <BreadCrumb data={seoData.breadcrumb} />
         <div className={`${styles.footerAd} adContainer`}>
           <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
