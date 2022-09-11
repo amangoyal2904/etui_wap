@@ -28,10 +28,8 @@ interface AdInfoProps {
 }
 
 const DfpAds: FC<AdInfoProps> = function (props) {
-  const { adInfo } = props;
+  const { adInfo, identifier } = props;
   const { key, index = 0 } = adInfo;
-
-  console.log({ props });
 
   let divId = key;
   if (key) {
@@ -55,7 +53,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
       };
     }
     //eslint-disable-next-line
-  }, [divId]);
+  }, [divId, identifier]);
 
   const loadDfpAds = () => {
     const googleTag = window.googletag;
