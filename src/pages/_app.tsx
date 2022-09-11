@@ -60,6 +60,7 @@ const Container = (props) => {
 };
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  // eslint-disable-next-line
   const { response, page, isprimeuser } = pageProps;
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
