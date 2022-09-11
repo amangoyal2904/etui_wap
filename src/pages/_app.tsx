@@ -40,9 +40,9 @@ declare global {
 }
 
 interface PageProps {
-  page: string;
-  isprimeuser: number;
-  response: any;
+  page?: string;
+  isprimeuser?: number;
+  response?: any;
 }
 
 const Container = (props) => {
