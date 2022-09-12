@@ -118,7 +118,7 @@ export function handleAdEvents(player) {
 export const dynamicPlayerConfig = {
   apiKey: "etmweb46324htoi24",
   contEl: "id_",
-  debug: true,
+  debug: false,
   video: {
     id: "",
     playerType: "",
@@ -135,7 +135,7 @@ export const dynamicPlayerConfig = {
   player: {
     msid: "",
     autoPlay: false,
-    adSection: env === "production" ? "default" : "test1",
+    adSection: "default",
     fallbackMute: 0,
     mute: true,
     skipAd: 0,
