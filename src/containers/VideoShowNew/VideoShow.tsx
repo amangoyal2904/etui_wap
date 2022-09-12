@@ -15,9 +15,8 @@ const MAX_SCROLL_VIDS_COUNT = 20;
 
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
-  const nextMsid = result?.nextvideo;
 
-  const [articles, setArticles] = useState([props?.searchResult]);
+  const [videoStories, setVideoStories] = useState([props?.searchResult]);
   const [isLoading, setIsLoading] = useState(false);
 
   const { seo = {}, version_control, parameters } = props;
@@ -25,40 +24,55 @@ const VideoShow: FC<PageProps> = (props) => {
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
 
-  const nextVideoMsid = useRef(nextMsid);
   const loadMoreRef = useRef(null);
+
+  let showLoaderNext = false;
+  if (videoStories.length < MAX_SCROLL_VIDS_COUNT) {
+    showLoaderNext = true;
+  }
 
   useEffect(() => {
     if (loadMoreRef.current) {
+      const options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1]
+      };
+
       document.addEventListener("objSlikeScriptsLoaded", () => {
         window.spl.load(dynamicPlayerConfig, (status) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
-
+            let nextVideoMsid = result.nextvideo;
+            const videoStoryMsids = [];
             const observer = new IntersectionObserver(([entry]) => {
-              if (entry.isIntersecting && nextVideoMsid.current > 0 && articles.length < MAX_SCROLL_VIDS_COUNT) {
+              if (
+                entry.isIntersecting &&
+                nextVideoMsid > 0 &&
+                videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
+                videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
+              ) {
+                videoStoryMsids.push(nextVideoMsid);
                 const api = APIS_CONFIG.FEED;
                 (async () => {
                   try {
                     setIsLoading(true);
                     const res = await Service.get({
                       api,
-                      params: { type: "videoshow", msid: nextVideoMsid.current, platform: "wap", feedtype: "etjson" }
+                      params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
                     });
                     const data = res.data || {};
-                    const result = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                    const nextMsid1 = result.nextvideo;
-                    nextVideoMsid.current = nextMsid1;
-                    articles.push(data?.searchResult);
-                    setArticles(articles);
+                    const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
+                    nextVideoMsid = output.nextvideo;
+                    setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
                     setIsLoading(false);
                   } catch (err) {
                     console.error(err);
                   }
                 })();
               }
-            });
+            }, options);
 
             observer.observe(loadMoreRef.current);
             return () => {
@@ -78,16 +92,18 @@ const VideoShow: FC<PageProps> = (props) => {
 
   return (
     <>
-      <div className={styles.mainContent}>
+      <div className={styles.mainContent} id="vidContainer">
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
           <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
         </div>
-        {articles.map((item, i) => (
+        {videoStories.map((item, i) => (
           <VidCard index={i} result={item[0].data} key={`vid_${i}`} />
         ))}
-        <div ref={loadMoreRef} className={styles.center}>
-          {isLoading && <Loading />}
-        </div>
+        {showLoaderNext && (
+          <div ref={loadMoreRef} className={styles.loadNext}>
+            {isLoading && <Loading />}
+          </div>
+        )}
         <SEO {...seoData} />
         <BreadCrumb data={seoData.breadcrumb} />
         <div className={`${styles.footerAd} adContainer`}>

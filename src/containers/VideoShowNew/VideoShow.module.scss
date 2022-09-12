@@ -36,6 +36,7 @@
   position: relative;
   padding-top: 56.25%;
   overflow: hidden;
+  background: #000;
 
   & > div:first-child {
     position: absolute;
@@ -47,7 +48,9 @@
   }
 }
 
-.center {
+.loadNext {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 500px;
 }
