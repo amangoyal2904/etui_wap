@@ -27,6 +27,7 @@ export interface VideoShowProps {
   date: string;
   url: string;
   views: string | number;
+  nextvideo?: number | string;
 }
 export interface PageProps {
   searchResult: [

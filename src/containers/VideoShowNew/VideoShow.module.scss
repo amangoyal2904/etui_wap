@@ -1,0 +1,56 @@
+@import "../../styles/common.scss";
+
+.videoshow {
+  margin-top: 10px;
+  min-height: 500px;
+  border-bottom: 1px solid #bcbcbc;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  .wrap {
+    padding: 4px 16px 8px 16px;
+
+    .date {
+      color: #666;
+      font-size: 0.95em;
+    }
+  }
+
+  h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.7rem;
+  }
+
+  .synopsis {
+    p {
+      font-size: 15px;
+      line-height: 1.5rem;
+    }
+  }
+
+  .moreLess {
+    color: #238def;
+  }
+}
+
+.vidDiv {
+  position: relative;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: #000;
+
+  & > div:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.loadNext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}

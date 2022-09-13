@@ -20,16 +20,18 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
     <>
       <Script id="main-script">
         {`
-            window.__APP = {
-                env: "${APP_ENV}"
-            }
-            window.customDimension = window.customDimension || {};
-            window.adDivIds = [];
-            window._log = function(){
-                let currDate = new Date().toString().split(" GMT")[0];
-                let args = Array.prototype.slice.call(arguments);
-                console.log(currDate + ' >', args.toString());
-            }
+          window.__APP = {
+              env: "${APP_ENV}"
+          }
+          window.customDimension = window.customDimension || {};
+          window.adDivIds = [];
+          window._log = function(){
+              let currDate = new Date().toString().split(" GMT")[0];
+              let args = Array.prototype.slice.call(arguments);
+              console.log(currDate + ' >', args.toString());
+          }
+          var _comscore = _comscore || [];
+          _comscore.push({ c1: "2", c2: "6036484" });
         `}
       </Script>
       <Script
@@ -48,19 +50,22 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {!reqData.opt && !isprimeuser && isReady && (
+      {reqData?.next && (
         <>
+          <Script strategy="afterInteractive" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
           <Script
-            src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
+            src="https://tvid.in/sdk/loader.js"
             onLoad={() => {
-              const gptLoaded = new Event("gptLoaded");
-              document.dispatchEvent(gptLoaded);
+              const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
+              document.dispatchEvent(objSlikeScriptsLoaded);
             }}
           />
-          {router.asPath.indexOf("skip_ctn=1") == -1 && (
-            <Script src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js" strategy="lazyOnload" />
-          )}
+        </>
+      )}
+
+      {!reqData.opt && isReady && (
+        <>
           <Script
             id="google-analytics"
             strategy="lazyOnload"
@@ -104,6 +109,24 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               `
             }}
           />
+          <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
+          <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
+
+          {!isprimeuser && (
+            <>
+              <Script
+                src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
+                strategy="lazyOnload"
+                onLoad={() => {
+                  const gptLoaded = new Event("gptLoaded");
+                  document.dispatchEvent(gptLoaded);
+                }}
+              />
+              {router.asPath.indexOf("skip_ctn=1") == -1 && (
+                <Script src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js" strategy="lazyOnload" />
+              )}
+            </>
+          )}
         </>
       )}
     </>
