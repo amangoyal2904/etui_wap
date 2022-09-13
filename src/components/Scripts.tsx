@@ -50,7 +50,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {reqData?.all?.includes("videoshownew") && (
+      {reqData?.next && (
         <>
           <Script strategy="afterInteractive" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
           <Script

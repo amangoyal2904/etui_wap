@@ -64,7 +64,7 @@ export default function VideoBox({ result, index }) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            router.push(`${result.url.replace("/videoshow/", "/videoshownew/")}${window.location.search}`, undefined, {
+            router.push(`${result.url}${window.location.search}`, undefined, {
               shallow: true
             });
           }
