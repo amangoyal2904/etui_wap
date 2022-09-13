@@ -163,7 +163,7 @@ const DynamicFooter: FC = () => {
         </div>
         <div className={styles.row}>
           <div className={styles.copyright}>
-            Copyright Â© {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
+            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
           </div>
         </div>
       </div>
