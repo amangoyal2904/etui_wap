@@ -4,6 +4,7 @@ import Headers from "./Head";
 import Scripts from "./Scripts";
 import AppHeader from "./AppHeader";
 import Footer from "components/Footer";
+import PrivacyPolicy from "components/PrivacyPolicy";
 
 const Layout: FC = ({ children }: { children: ReactElement }) => {
   const { props } = children;
@@ -11,6 +12,7 @@ const Layout: FC = ({ children }: { children: ReactElement }) => {
   return (
     <>
       <Headers isprimeuser={isprimeuser} />
+      <PrivacyPolicy />
       <AppHeader />
       <main>{children}</main>
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />

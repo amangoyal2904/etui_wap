@@ -70,13 +70,14 @@ export const getCookie = (name) => {
 // Check if GDPR policy allowed for current location
 export const allowGDPR = () => {
   try {
-    let flag = false;
-    // const ginfo = window["geoinfo"] || {}; tbc
-    const geoinfo = window.geoinfo;
-    if (window.geolocation && window.geolocation != 5 && (window.geolocation != 2 || geoinfo.region_code != "CA")) {
-      flag = true;
+    if (typeof window.geoinfo == "undefined") {
+      return false;
     }
-    return flag;
+    return (
+      window.geoinfo &&
+      window.geoinfo.geolocation != "5" &&
+      (window.geoinfo.geolocation != "2" || window.geoinfo.region_code != "CA")
+    );
   } catch (e) {
     console.log("allowGDPR", e);
   }
@@ -184,4 +185,9 @@ export const getPageSpecificDimensions = (seo) => {
     dimension48: msid
   };
   return payload;
+};
+
+export const isBotAgent = () => {
+  const ua = (navigator && navigator.userAgent && navigator.userAgent.toLowerCase()) || "";
+  return ua.indexOf("bot") != -1 ? 1 : 0;
 };
