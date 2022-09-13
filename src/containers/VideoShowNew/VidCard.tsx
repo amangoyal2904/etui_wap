@@ -24,7 +24,7 @@ export default function VideoBox({ result, index }) {
       "event",
       {
         event_category: "VIDEOSYNOPSIS",
-        event_action: `Click-${isMoreShown ? "Show Less" : "More"}`,
+        event_action: `Click-${isMoreShown ? "Show Less" : "Show More"}`,
         event_label: result.title
       },
       1
