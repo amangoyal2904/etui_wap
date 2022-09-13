@@ -4,7 +4,7 @@ import GreyDivider from "components/GreyDivider";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { AppState } from "app/store";
-import { isBrowser } from "utils";
+import { isBrowser, isNoFollow } from "utils";
 declare global {
   interface Window {
     objAuth: {
@@ -163,7 +163,7 @@ const DynamicFooter: FC = () => {
         </div>
         <div className={styles.row}>
           <div className={styles.copyright}>
-            Copyright © {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
+            Copyright Â© {new Date().getFullYear()} Bennett Coleman & Co. All rights reserved. Powered by Indiatimes.
           </div>
         </div>
       </div>
@@ -182,12 +182,15 @@ const DynamicFooter: FC = () => {
 
         <ul className={styles.content}>
           {interLinkingData[index]["data"]?.map((item, key) => {
+            const noFollow = isNoFollow(item.url) ? { rel: "nofollow" } : {};
             return (
               <li
                 data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
                 key={`${key}_inkd`}
               >
-                <a href={item.url}>{item.title}</a>
+                <a href={item.url} {...noFollow}>
+                  {item.title}
+                </a>
               </li>
             );
           })}

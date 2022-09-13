@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useCallback } from "react";
 import { AND_BEYOND } from "utils/common";
 declare global {
   interface Window {
@@ -28,7 +28,7 @@ interface AdInfoProps {
 }
 
 const DfpAds: FC<AdInfoProps> = function (props) {
-  const { adInfo } = props;
+  const { adInfo, identifier } = props;
   const { key, index = 0 } = adInfo;
 
   let divId = key;
@@ -53,9 +53,9 @@ const DfpAds: FC<AdInfoProps> = function (props) {
       };
     }
     //eslint-disable-next-line
-  }, [props]);
+  }, [divId, identifier]);
 
-  function loadDfpAds() {
+  const loadDfpAds = () => {
     const googleTag = window.googletag;
     const { adDivIds } = window;
     const { customDimension, currMsid, customSlot } = adInfo;
@@ -111,7 +111,8 @@ const DfpAds: FC<AdInfoProps> = function (props) {
         }
       });
     }
-  }
+  };
+
   return <div id={divId}></div>;
 };
 

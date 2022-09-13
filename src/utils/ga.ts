@@ -23,7 +23,7 @@ export const pageview = (url) => {
   const page = window.location.href;
   window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
   // send the page views
-  window.ga("send", "pageview", window.customDimension);
+  window.ga && window.ga("send", "pageview", window.customDimension);
   grxEvent("page_view", window.customDimension);
 };
 
