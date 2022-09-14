@@ -33,8 +33,6 @@ const VideoShow: FC<PageProps> = (props) => {
   }
 
   useEffect(() => {
-    console.log("useEffect vidshow");
-
     if (loadMoreRef.current) {
       const options = {
         root: null,
@@ -43,15 +41,11 @@ const VideoShow: FC<PageProps> = (props) => {
       };
 
       document.addEventListener("objSlikeScriptsLoaded", () => {
-        console.log("vidshow objSlikeScriptsLoaded");
-
         window.spl.load(dynamicPlayerConfig, (status) => {
-          console.log("Vidshow status: ");
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
             let nextVideoMsid = result.nextvideo;
-            console.log("Vidshow observer bound: ");
 
             const observer = new IntersectionObserver(([entry]) => {
               if (
@@ -61,7 +55,6 @@ const VideoShow: FC<PageProps> = (props) => {
                 videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
               ) {
                 videoStoryMsids.push(nextVideoMsid);
-                console.log("called: ", videoStoryMsids.length, videoStories.length);
 
                 const api = APIS_CONFIG.FEED;
                 (async () => {

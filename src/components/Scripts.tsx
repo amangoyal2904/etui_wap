@@ -17,8 +17,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
 
-  console.log("vidshow Scripts component render");
-
   return (
     <>
       <Script id="main-script">
@@ -60,8 +58,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy="afterInteractive"
             src="https://tvid.in/sdk/loader.js"
             onLoad={() => {
-              console.log("vidshow objSlikeScriptsLoaded scripts");
-
               const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
               document.dispatchEvent(objSlikeScriptsLoaded);
             }}

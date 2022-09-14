@@ -90,8 +90,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     // eslint-disable-next-line
   }, []);
 
-  console.log("vidshow _app render");
-
   return (
     <Layout>
       <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
