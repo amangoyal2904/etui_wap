@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
-import { useRouter } from "next/router";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
 import { grxEvent } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
@@ -17,7 +16,6 @@ export default function VideoBox({ result, index }) {
   const [isMoreShown, setIsMoreShown] = useState(false);
 
   const vidBoxRef = useRef(null);
-  const router = useRouter();
 
   const handleClick = () => {
     grxEvent(
@@ -64,9 +62,7 @@ export default function VideoBox({ result, index }) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            router.push(`${result.url}${window.location.search}`, undefined, {
-              shallow: true
-            });
+            window.history.pushState({}, "", `${result.url}${window.location.search}`);
           }
         },
         {
