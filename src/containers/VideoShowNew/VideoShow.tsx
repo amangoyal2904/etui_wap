@@ -54,6 +54,8 @@ const VideoShow: FC<PageProps> = (props) => {
                 videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
               ) {
                 videoStoryMsids.push(nextVideoMsid);
+                console.log("called: ", videoStoryMsids.length, videoStories.length);
+
                 const api = APIS_CONFIG.FEED;
                 (async () => {
                   try {
