@@ -43,7 +43,10 @@ const VideoShow: FC<PageProps> = (props) => {
       };
 
       document.addEventListener("objSlikeScriptsLoaded", () => {
+        console.log("vidshow objSlikeScriptsLoaded");
+
         window.spl.load(dynamicPlayerConfig, (status) => {
+          console.log("Vidshow status: ");
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
