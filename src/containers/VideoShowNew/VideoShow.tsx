@@ -91,7 +91,7 @@ const VideoShow: FC<PageProps> = (props) => {
         });
       });
     }
-  }, []);
+  }, [loadMoreRef]);
 
   useEffect(() => {
     // set page specific customDimensions

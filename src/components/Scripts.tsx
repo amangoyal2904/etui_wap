@@ -16,6 +16,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
+
+  console.log("vidshow Scripts component render");
+
   return (
     <>
       <Script id="main-script">
