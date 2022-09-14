@@ -57,6 +57,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy="afterInteractive"
             src="https://tvid.in/sdk/loader.js"
             onLoad={() => {
+              console.log("vidshow objSlikeScriptsLoaded scripts");
+
               const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
               document.dispatchEvent(objSlikeScriptsLoaded);
             }}
