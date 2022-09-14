@@ -12,6 +12,7 @@ import Loading from "components/Loading";
 import { dynamicPlayerConfig } from "utils/slike";
 
 const MAX_SCROLL_VIDS_COUNT = 20;
+const videoStoryMsids = [];
 
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
@@ -32,6 +33,8 @@ const VideoShow: FC<PageProps> = (props) => {
   }
 
   useEffect(() => {
+    console.log("useEffect vidshow");
+
     if (loadMoreRef.current) {
       const options = {
         root: null,
@@ -45,7 +48,8 @@ const VideoShow: FC<PageProps> = (props) => {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
             let nextVideoMsid = result.nextvideo;
-            const videoStoryMsids = [];
+            console.log("Vidshow observer bound: ");
+
             const observer = new IntersectionObserver(([entry]) => {
               if (
                 entry.isIntersecting &&
