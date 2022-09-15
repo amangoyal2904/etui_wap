@@ -105,6 +105,8 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
+        <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
+        <link rel="dns-prefetch" href="http://tvid.in" />
         <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />
         {prefetchDomains}
       </Head>

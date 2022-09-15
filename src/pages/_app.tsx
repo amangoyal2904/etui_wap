@@ -8,6 +8,7 @@ import { wrapper } from "../app/store";
 import ProgressBar from "components/PageTransition";
 import NotFound from "containers/NotFound";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const ArticleList = dynamic(() => import("containers/ArticleList"));
 const ArticleShow = dynamic(() => import("containers/ArticleShow"));
@@ -91,9 +92,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <Layout>
-      <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
-    </Layout>
+    <>
+      <Head>
+        <link
+          href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
+          type="text/css"
+          rel="stylesheet"
+          media="all"
+        />
+      </Head>
+      <Layout>
+        <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
+      </Layout>
+    </>
   );
 };
 
