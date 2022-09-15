@@ -53,7 +53,7 @@ const PrivacyPolicy = () => {
 
     if (!allowGDPR() && GDPR_notification != 1 && isBotAgent() != 1) {
       setBannerStatus(true);
-      setCookieToSpecificTime("optout", 1, 1, null, null);
+      setCookieToSpecificTime("optout", 1, 365, null, null);
 
       const loginDisable = new Event("loginDisable");
       document.dispatchEvent(loginDisable);
@@ -109,7 +109,7 @@ const PrivacyPolicy = () => {
         data.consent.consents.push(obj);
       }
 
-      setCookieToSpecificTime("optout", 0, 1, null, null);
+      setCookieToSpecificTime("optout", 0, 365, null, null);
     } catch (e) {
       console.log("setData:" + e);
     }
@@ -119,7 +119,7 @@ const PrivacyPolicy = () => {
     event.preventDefault();
 
     postData();
-    setCookieToSpecificTime("et_consent", 1, 1, null, null);
+    setCookieToSpecificTime("et_consent", 1, 365, null, null);
 
     if (ducGa) {
       localStorage.setItem("gdpr_ga_tracking", "accepted");
