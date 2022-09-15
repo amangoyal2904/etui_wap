@@ -43,6 +43,7 @@ const VideoShow: FC<PageProps> = (props) => {
           loadScript("https://tvid.in/sdk/loader.js").then(() => {
             const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
             document.dispatchEvent(objSlikeScriptsLoaded);
+            didUserInteractionStart.current = true;
           });
         },
         (error) => {
