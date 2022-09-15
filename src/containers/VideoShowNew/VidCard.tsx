@@ -13,7 +13,7 @@ declare global {
 }
 
 export default function VideoBox({ result, index }) {
-  const [isMoreShown, setIsMoreShown] = useState(false);
+  const [isMoreShown, setIsMoreShown] = useState(index === 0);
 
   const vidBoxRef = useRef(null);
 

@@ -4,7 +4,7 @@ import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { getPageSpecificDimensions } from "utils";
+import { getPageSpecificDimensions, loadScript } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VidCard from "./VidCard";
@@ -20,6 +20,8 @@ const VideoShow: FC<PageProps> = (props) => {
   const [videoStories, setVideoStories] = useState([props?.searchResult]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const didUserInteractionStart = useRef(false);
+
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
@@ -32,7 +34,41 @@ const VideoShow: FC<PageProps> = (props) => {
     showLoaderNext = true;
   }
 
+  function loadSlikeScripts() {
+    if (!didUserInteractionStart.current) {
+      const promise = loadScript("https://imasdk.googleapis.com/js/sdkloader/ima3.js");
+
+      promise.then(
+        () => {
+          loadScript("https://tvid.in/sdk/loader.js").then(() => {
+            const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
+            document.dispatchEvent(objSlikeScriptsLoaded);
+          });
+        },
+        (error) => {
+          console.error("ima3 sdk failed to load: ", error);
+        }
+      );
+    }
+  }
+
   useEffect(() => {
+    document.addEventListener(
+      "touchstart",
+      () => {
+        loadSlikeScripts();
+      },
+      { once: true }
+    );
+
+    document.addEventListener(
+      "scroll",
+      () => {
+        loadSlikeScripts();
+      },
+      { once: true }
+    );
+
     if (loadMoreRef.current) {
       const options = {
         root: null,

@@ -51,7 +51,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {reqData?.next && (
+      {/* {reqData?.next && (
         <>
           <Script strategy="lazyOnload" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
           <Script
@@ -63,7 +63,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             }}
           />
         </>
-      )}
+      )} */}
 
       {!reqData.opt && isReady && (
         <>
