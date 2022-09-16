@@ -82,7 +82,10 @@ export default function VideoBox({ result, index }) {
 
   return (
     <div className={styles.videoshow} ref={vidBoxRef}>
-      <div className={styles.vidDiv} id={`id_${result.msid}`}></div>
+      <div
+        className={`${styles.vidDiv} ${index === 0 ? styles.firstVidBeforeLoad : ""}`}
+        id={`id_${result.msid}`}
+      ></div>
       <div className={styles.wrap}>
         <h1 role="heading">{result.title}</h1>
         <div className={styles.synopsis}>
