@@ -16,7 +16,7 @@ const Layout: FC = ({ children }: { children: ReactElement }) => {
 
   return (
     <>
-      <Headers isprimeuser={isprimeuser} />
+      <Headers isprimeuser={isprimeuser} reqData={reqData} />
       <AppHeader />
       <main>{children}</main>
       {reqData?.next && (
