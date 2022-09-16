@@ -40,49 +40,49 @@ const VideoShow: FC<PageProps> = (props) => {
         threshold: [0, 0.25, 0.5, 0.75, 1]
       };
 
-      document.addEventListener("objSlikeScriptsLoaded", () => {
-        window.spl.load(dynamicPlayerConfig, (status) => {
-          if (status) {
-            const SlikePlayerReady = new Event("SlikePlayerReady");
-            document.dispatchEvent(SlikePlayerReady);
-            let nextVideoMsid = result.nextvideo;
+      // document.addEventListener("objSlikeScriptsLoaded", () => {
+      window.spl.load(dynamicPlayerConfig, (status) => {
+        if (status) {
+          const SlikePlayerReady = new Event("SlikePlayerReady");
+          document.dispatchEvent(SlikePlayerReady);
+          let nextVideoMsid = result.nextvideo;
 
-            const observer = new IntersectionObserver(([entry]) => {
-              if (
-                entry.isIntersecting &&
-                nextVideoMsid > 0 &&
-                videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
-                videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
-              ) {
-                videoStoryMsids.push(nextVideoMsid);
+          const observer = new IntersectionObserver(([entry]) => {
+            if (
+              entry.isIntersecting &&
+              nextVideoMsid > 0 &&
+              videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
+              videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
+            ) {
+              videoStoryMsids.push(nextVideoMsid);
 
-                const api = APIS_CONFIG.FEED;
-                (async () => {
-                  try {
-                    setIsLoading(true);
-                    const res = await Service.get({
-                      api,
-                      params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
-                    });
-                    const data = res.data || {};
-                    const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                    nextVideoMsid = output.nextvideo;
-                    setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
-                    setIsLoading(false);
-                  } catch (err) {
-                    console.error(err);
-                  }
-                })();
-              }
-            }, options);
+              const api = APIS_CONFIG.FEED;
+              (async () => {
+                try {
+                  setIsLoading(true);
+                  const res = await Service.get({
+                    api,
+                    params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
+                  });
+                  const data = res.data || {};
+                  const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
+                  nextVideoMsid = output.nextvideo;
+                  setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
+                  setIsLoading(false);
+                } catch (err) {
+                  console.error(err);
+                }
+              })();
+            }
+          }, options);
 
-            observer.observe(loadMoreRef.current);
-            return () => {
-              observer.unobserve(loadMoreRef.current);
-            };
-          }
-        });
+          observer.observe(loadMoreRef.current);
+          return () => {
+            observer.unobserve(loadMoreRef.current);
+          };
+        }
       });
+      // });
     }
   }, [loadMoreRef]);
 
