@@ -1,25 +1,7 @@
 @import "../../styles/variables.scss";
-.flt {
-  float: left;
-}
-.flr {
-  float: right;
-}
 .tac {
   text-align: left;
   margin-left: 5px;
-}
-.w20 {
-  width: 20px;
-}
-.w50 {
-  width: 50px;
-}
-.w100 {
-  width: 100px;
-}
-.w200 {
-  width: 200px;
 }
 .du_consent {
   position: fixed;
@@ -30,7 +12,7 @@
   padding: 20px 15px 10px 15px;
   box-sizing: border-box;
   border-bottom: 1px solid #ccc;
-  transition: all 0.9s ease;
+  transition-delay: 2s;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
   .data_use_info {
     color: #333;

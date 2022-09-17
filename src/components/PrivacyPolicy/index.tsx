@@ -29,8 +29,6 @@ const PrivacyPolicy = () => {
   const [popupStatus, setPopupStatus] = useState({ html: "", status: styles.hide });
   const [checkboxStatus, setCheckboxStatus] = useState({ ducGa: false, advertisingAgree: false });
 
-  let accepted = "";
-
   useEffect(() => {
     document.addEventListener("touchstart", touchStartHandler, false);
   }, []);
@@ -87,10 +85,10 @@ const PrivacyPolicy = () => {
         dataPoint: {
           id: 5
         },
-        text: {
+        text: JSON.stringify({
           duc_ga: checkboxStatus.ducGa ? "Analytics and performance Cookies" : "",
           advertising_agree: checkboxStatus.advertisingAgree ? "Targeted and advertising Cookies" : ""
-        }
+        })
       };
 
       if (data.consent && data.consent.consents) {
@@ -121,7 +119,6 @@ const PrivacyPolicy = () => {
     setPopupStatus({ ...popupStatus, status: styles.hide });
     setFormShowHide({ formStatus: styles.hide, successMsg: styles.showBlock });
     setTimeout(() => {
-      accepted = styles.tcAccepted;
       setBannerStatus(false);
     }, 2000);
   };
@@ -131,7 +128,12 @@ const PrivacyPolicy = () => {
       {ccpaRegion ? (
         typeof window.e$ != "undefined" &&
         !window.e$.jStorage.get("et_ccpa_consent") && (
-          <div className={`${styles.du_consent} ${accepted} privacy_block`} key="ccpa_privacy_policy">
+          <div
+            className={`${styles.du_consent} ${
+              formShowHide.formStatus == styles.hide ? styles.tcAccepted : ""
+            } privacy_block`}
+            key="ccpa_privacy_policy"
+          >
             <div className={styles.data_use_info}>
               <div className={styles.ccpaBlock}>
                 <p className={styles.heading}>Welcome to The Economic Times</p>
@@ -152,7 +154,12 @@ const PrivacyPolicy = () => {
           </div>
         )
       ) : (
-        <div className={`${styles.du_consent} ${accepted} privacy_block`} key="gdpr_privacy_policy">
+        <div
+          className={`${styles.du_consent} ${
+            formShowHide.formStatus == styles.hide ? styles.tcAccepted : ""
+          } privacy_block`}
+          key="gdpr_privacy_policy"
+        >
           <div className={styles.data_use_info}>
             <form id="gdpr_form" onSubmit={(e) => submitFormHandler(e)} className={formShowHide.formStatus}>
               <div className={`${styles.du_message} ${styles.tac}`}>
