@@ -63,5 +63,9 @@
   "getSavedNewsStatus": {
     "production": "https://etup.economictimes.indiatimes.com/et/v3/getpref",
     "development": "https://etusersqc2.economictimes.indiatimes.com/et/v3/getpref"
+  },
+  "cookieConsent": {
+    "production": "https://etservices2.indiatimes.com/et/consent",
+    "development": "https://etservices2.indiatimes.com/et/consent"
   }
 }
