@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
-import { grxEvent } from "utils/ga";
+import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
 declare global {
   interface Window {
@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export default function VideoBox({ result, index }) {
+export default function VideoBox({ result, index, didUserInteractionStart }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
 
   const vidBoxRef = useRef(null);
@@ -62,7 +62,9 @@ export default function VideoBox({ result, index }) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            window.history.pushState({}, "", `${result.url}${window.location.search}`);
+            const vidStoryUrl = `${result.url}${window.location.search}`;
+            window.history.pushState({}, "", vidStoryUrl);
+            pageview(vidStoryUrl);
           }
         },
         {
@@ -83,7 +85,7 @@ export default function VideoBox({ result, index }) {
   return (
     <div className={styles.videoshow} ref={vidBoxRef}>
       <div
-        className={`${styles.vidDiv} ${index === 0 ? styles.firstVidBeforeLoad : ""}`}
+        className={`${styles.vidDiv} ${index === 0 && !didUserInteractionStart ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
       ></div>
       <div className={styles.wrap}>

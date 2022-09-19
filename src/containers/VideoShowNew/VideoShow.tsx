@@ -19,8 +19,7 @@ const VideoShow: FC<PageProps> = (props) => {
 
   const [videoStories, setVideoStories] = useState([props?.searchResult]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const didUserInteractionStart = useRef(false);
+  const [didUserInteractionStart, setDidUserInteractionStart] = useState(false);
 
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
@@ -35,7 +34,7 @@ const VideoShow: FC<PageProps> = (props) => {
   }
 
   function loadSlikeScripts() {
-    if (!didUserInteractionStart.current) {
+    if (!didUserInteractionStart) {
       const promise = loadScript("https://imasdk.googleapis.com/js/sdkloader/ima3.js");
 
       promise.then(
@@ -43,7 +42,7 @@ const VideoShow: FC<PageProps> = (props) => {
           loadScript("https://tvid.in/sdk/loader.js").then(() => {
             const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
             document.dispatchEvent(objSlikeScriptsLoaded);
-            didUserInteractionStart.current = true;
+            setDidUserInteractionStart(true);
           });
         },
         (error) => {
@@ -126,7 +125,7 @@ const VideoShow: FC<PageProps> = (props) => {
   useEffect(() => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
-    window.customDimension = { ...window.customDimension, ...payload };
+    window.customDimension = { ...window.customDimension, ...payload, dimension25: "videoshownew" };
   }, [props]);
 
   return (
@@ -136,7 +135,7 @@ const VideoShow: FC<PageProps> = (props) => {
           <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
         </div>
         {videoStories.map((item, i) => (
-          <VidCard index={i} result={item[0].data} key={`vid_${i}`} />
+          <VidCard index={i} result={item[0].data} key={`vid_${i}`} didUserInteractionStart={didUserInteractionStart} />
         ))}
         {showLoaderNext && (
           <div ref={loadMoreRef} className={styles.loadNext}>
