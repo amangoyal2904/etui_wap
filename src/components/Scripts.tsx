@@ -16,6 +16,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
+
   return (
     <>
       <Script id="main-script">
@@ -50,11 +51,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {reqData?.next && (
+      {/* {reqData?.next && (
         <>
-          <Script strategy="afterInteractive" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
+          <Script strategy="lazyOnload" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
           <Script
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             src="https://tvid.in/sdk/loader.js"
             onLoad={() => {
               const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
@@ -62,7 +63,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             }}
           />
         </>
-      )}
+      )} */}
 
       {!reqData.opt && isReady && (
         <>

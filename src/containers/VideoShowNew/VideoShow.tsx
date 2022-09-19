@@ -12,6 +12,7 @@ import Loading from "components/Loading";
 import { dynamicPlayerConfig } from "utils/slike";
 
 const MAX_SCROLL_VIDS_COUNT = 20;
+const videoStoryMsids = [];
 
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
@@ -39,48 +40,49 @@ const VideoShow: FC<PageProps> = (props) => {
         threshold: [0, 0.25, 0.5, 0.75, 1]
       };
 
-      document.addEventListener("objSlikeScriptsLoaded", () => {
-        window.spl.load(dynamicPlayerConfig, (status) => {
-          if (status) {
-            const SlikePlayerReady = new Event("SlikePlayerReady");
-            document.dispatchEvent(SlikePlayerReady);
-            let nextVideoMsid = result.nextvideo;
-            const videoStoryMsids = [];
-            const observer = new IntersectionObserver(([entry]) => {
-              if (
-                entry.isIntersecting &&
-                nextVideoMsid > 0 &&
-                videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
-                videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
-              ) {
-                videoStoryMsids.push(nextVideoMsid);
-                const api = APIS_CONFIG.FEED;
-                (async () => {
-                  try {
-                    setIsLoading(true);
-                    const res = await Service.get({
-                      api,
-                      params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
-                    });
-                    const data = res.data || {};
-                    const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                    nextVideoMsid = output.nextvideo;
-                    setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
-                    setIsLoading(false);
-                  } catch (err) {
-                    console.error(err);
-                  }
-                })();
-              }
-            }, options);
+      // document.addEventListener("objSlikeScriptsLoaded", () => {
+      window.spl.load(dynamicPlayerConfig, (status) => {
+        if (status) {
+          const SlikePlayerReady = new Event("SlikePlayerReady");
+          document.dispatchEvent(SlikePlayerReady);
+          let nextVideoMsid = result.nextvideo;
 
-            observer.observe(loadMoreRef.current);
-            return () => {
-              observer.unobserve(loadMoreRef.current);
-            };
-          }
-        });
+          const observer = new IntersectionObserver(([entry]) => {
+            if (
+              entry.isIntersecting &&
+              nextVideoMsid > 0 &&
+              videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
+              videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
+            ) {
+              videoStoryMsids.push(nextVideoMsid);
+
+              const api = APIS_CONFIG.FEED;
+              (async () => {
+                try {
+                  setIsLoading(true);
+                  const res = await Service.get({
+                    api,
+                    params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
+                  });
+                  const data = res.data || {};
+                  const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
+                  nextVideoMsid = output.nextvideo;
+                  setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
+                  setIsLoading(false);
+                } catch (err) {
+                  console.error(err);
+                }
+              })();
+            }
+          }, options);
+
+          observer.observe(loadMoreRef.current);
+          return () => {
+            observer.unobserve(loadMoreRef.current);
+          };
+        }
       });
+      // });
     }
   }, [loadMoreRef]);
 
