@@ -175,26 +175,29 @@ const DynamicFooter: FC = () => {
       return state.footer;
     });
 
-    const interLinkingData = store.data?.widgets;
+    const interLinkingData = store.data?.widgets || [];
     const interLinkingList = interLinkingData?.map((i, index) => (
       <div data-attr="interlinking" className={styles.category} key={`${index}_inkl`}>
-        {interLinkingData[index]["data"] && <h2>{interLinkingData[index].title}</h2>}
-
-        <ul className={styles.content}>
-          {interLinkingData[index]["data"]?.map((item, key) => {
-            const noFollow = isNoFollow(item.url) ? { rel: "nofollow" } : {};
-            return (
-              <li
-                data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
-                key={`${key}_inkd`}
-              >
-                <a href={item.url} {...noFollow}>
-                  {item.title}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+        {interLinkingData[index]["data"] && Array.isArray(interLinkingData[index]["data"]) && (
+          <>
+            <h2>{interLinkingData[index].title}</h2>
+            <ul className={styles.content}>
+              {interLinkingData[index]["data"]?.map((item, key) => {
+                const noFollow = isNoFollow(item.url) ? { rel: "nofollow" } : {};
+                return (
+                  <li
+                    data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
+                    key={`${key}_inkd`}
+                  >
+                    <a href={item.url} {...noFollow}>
+                      {item.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
       </div>
     ));
     return (
