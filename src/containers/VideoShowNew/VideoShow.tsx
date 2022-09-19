@@ -19,6 +19,7 @@ const VideoShow: FC<PageProps> = (props) => {
 
   const [videoStories, setVideoStories] = useState([props?.searchResult]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadErrMsg, setLoadErrMsg] = useState("");
   const [didUserInteractionStart, setDidUserInteractionStart] = useState(false);
 
   const { seo = {}, version_control, parameters } = props;
@@ -107,6 +108,8 @@ const VideoShow: FC<PageProps> = (props) => {
                     setIsLoading(false);
                   } catch (err) {
                     console.error(err);
+                    setIsLoading(false);
+                    setLoadErrMsg(err.message);
                   }
                 })();
               }
@@ -140,6 +143,7 @@ const VideoShow: FC<PageProps> = (props) => {
         {showLoaderNext && (
           <div ref={loadMoreRef} className={styles.loadNext}>
             {isLoading && <Loading />}
+            {loadErrMsg.length > 0 && loadErrMsg}
           </div>
         )}
         <SEO {...seoData} />
