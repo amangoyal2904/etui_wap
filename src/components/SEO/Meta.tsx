@@ -32,7 +32,7 @@ const Meta = (props: SEOProps) => {
         <meta name="keywords" content={data.keywords} />
         <link
           rel="shortcut icon"
-          href={`https://m.economictimes.com/icons/${hostid && hostid == 317 ? "hindi" : "et"}/favicon.ico`}
+          href={`https://m.economictimes.com/icons/${hostid && hostid == 317 ? "hindi" : "et"}favicon.ico`}
           type="image/x-icon"
         />
         <meta httpEquiv="content-language" content={hostid && hostid == 317 ? "hi" : "en"} />
