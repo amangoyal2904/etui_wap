@@ -12,11 +12,14 @@ declare global {
   }
 }
 
-export default function VideoBox({ result, index, didUserInteractionStart }) {
+export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
+  const videoStoryCardRef = useRef(null);
 
-  const vidBoxRef = useRef(null);
-
+  /**
+   * Fires tracking events.
+   * Toggles video description
+   */
   const handleClick = () => {
     grxEvent(
       "event",
@@ -30,6 +33,10 @@ export default function VideoBox({ result, index, didUserInteractionStart }) {
     setIsMoreShown(!isMoreShown);
   };
 
+  /**
+   * Sets player specific configuration immutably.
+   * Calls player event hooks
+   */
   const setPlayer = () => {
     const playerConfig = JSON.parse(JSON.stringify(dynamicPlayerConfig));
     playerConfig.contEl = "id_" + result.msid;
@@ -48,6 +55,10 @@ export default function VideoBox({ result, index, didUserInteractionStart }) {
   };
 
   useEffect(() => {
+    /**
+     * SlikePlayerReady is dispatched from VideoShow(parent) component.
+     * index > 0 can happen only after slike is fully initialized.
+     */
     if (index === 0) {
       document.addEventListener("SlikePlayerReady", () => {
         setPlayer();
@@ -58,13 +69,21 @@ export default function VideoBox({ result, index, didUserInteractionStart }) {
   }, []);
 
   useEffect(() => {
-    if (vidBoxRef.current) {
+    if (videoStoryCardRef.current) {
+      /**
+       * Observe each video story box using IntersectionObserver.
+       * Observe so as to update URL in the browser address bar whenever a video story is in the viewport.
+       * Fires pageview tracking event once for each video story.
+       */
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             const vidStoryUrl = `${result.url}${window.location.search}`;
             window.history.pushState({}, "", vidStoryUrl);
-            pageview(vidStoryUrl);
+            if (pageViewMsids.indexOf(result.msid) === -1 && index > 0) {
+              pageViewMsids.push(result.msid);
+              pageview(vidStoryUrl);
+            }
           }
         },
         {
@@ -74,18 +93,19 @@ export default function VideoBox({ result, index, didUserInteractionStart }) {
         }
       );
 
-      observer.observe(vidBoxRef.current);
+      observer.observe(videoStoryCardRef.current);
 
       return () => {
-        observer.unobserve(vidBoxRef.current);
+        observer.unobserve(videoStoryCardRef.current);
       };
     }
-  }, [vidBoxRef]);
+  }, [videoStoryCardRef]);
 
+  //=== 'isFirstVidBeforeLoad' variable is to show the video poster image and style on first video while slike sdk is not ready.
   const isFirstVidBeforeLoad = index === 0 && !didUserInteractionStart;
 
   return (
-    <div className={styles.videoshow} ref={vidBoxRef}>
+    <div className={styles.videoshow} ref={videoStoryCardRef}>
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}

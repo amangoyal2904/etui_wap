@@ -7,12 +7,13 @@ import BreadCrumb from "components/BreadCrumb";
 import { getPageSpecificDimensions, loadScript } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
-import VidCard from "./VidCard";
+import VideoStoryCard from "./VideoStoryCard";
 import Loading from "components/Loading";
 import { dynamicPlayerConfig } from "utils/slike";
 
 const MAX_SCROLL_VIDS_COUNT = 20;
-const videoStoryMsids = [];
+const videoStoryMsids = []; // to keep track of the video story already fetched from the server
+const pageViewMsids = []; // to keep track of the video story pageviews fire only once ( inside VideoStoryCard component )
 
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
@@ -34,6 +35,9 @@ const VideoShow: FC<PageProps> = (props) => {
     showLoaderNext = true;
   }
 
+  /**
+   * Loads slike sdks and on successful load, fires custom event objSlikeScriptsLoaded
+   */
   function loadSlikeScripts() {
     if (!didUserInteractionStart) {
       const promise = loadScript("https://imasdk.googleapis.com/js/sdkloader/ima3.js");
@@ -54,6 +58,7 @@ const VideoShow: FC<PageProps> = (props) => {
   }
 
   useEffect(() => {
+    // Below are the two event listeners for loading the slike player scripts on user interaction.
     document.addEventListener(
       "touchstart",
       () => {
@@ -77,6 +82,12 @@ const VideoShow: FC<PageProps> = (props) => {
         threshold: [0, 0.25, 0.5, 0.75, 1]
       };
 
+      /**
+       * Load next videos only if -
+       * 1. Slike sdks are loaded.
+       * 2. Slike is successfully loaded and ready
+       * 3. IntersectionObserver on next video loader finds it in viewport
+       */
       document.addEventListener("objSlikeScriptsLoaded", () => {
         window.spl.load(dynamicPlayerConfig, (status) => {
           if (status) {
@@ -138,7 +149,13 @@ const VideoShow: FC<PageProps> = (props) => {
           <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
         </div>
         {videoStories.map((item, i) => (
-          <VidCard index={i} result={item[0].data} key={`vid_${i}`} didUserInteractionStart={didUserInteractionStart} />
+          <VideoStoryCard
+            index={i}
+            result={item[0].data}
+            key={`vid_${i}`}
+            didUserInteractionStart={didUserInteractionStart}
+            pageViewMsids={pageViewMsids}
+          />
         ))}
         {showLoaderNext && (
           <div ref={loadMoreRef} className={styles.loadNext}>
