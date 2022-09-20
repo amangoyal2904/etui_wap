@@ -40,6 +40,7 @@ const VideoShow: FC<PageProps> = (props) => {
    */
   function loadSlikeScripts() {
     if (!didUserInteractionStart) {
+      setDidUserInteractionStart(true);
       const promise = loadScript("https://imasdk.googleapis.com/js/sdkloader/ima3.js");
 
       promise.then(
@@ -47,7 +48,6 @@ const VideoShow: FC<PageProps> = (props) => {
           loadScript("https://tvid.in/sdk/loader.js").then(() => {
             const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
             document.dispatchEvent(objSlikeScriptsLoaded);
-            setDidUserInteractionStart(true);
           });
         },
         (error) => {
@@ -74,6 +74,11 @@ const VideoShow: FC<PageProps> = (props) => {
       },
       { once: true }
     );
+
+    const didUserVisitHomePage = window.sessionStorage.getItem("didUserVisitHomePage");
+    if (didUserVisitHomePage !== null) {
+      loadSlikeScripts();
+    }
 
     if (loadMoreRef.current) {
       const options = {
