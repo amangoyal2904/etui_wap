@@ -3,8 +3,9 @@ import { FC } from "react";
 
 interface Props {
   isprimeuser?: number;
+  reqData?: any;
 }
-const Headers: FC<Props> = ({ isprimeuser }) => {
+const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
   const prefetchDomains = !isprimeuser ? (
     <>
       <link rel="dns-prefetch" href="https://cm.g.doubleclick.net" />
@@ -105,9 +106,13 @@ const Headers: FC<Props> = ({ isprimeuser }) => {
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
-        <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
-        <link rel="dns-prefetch" href="http://tvid.in" />
-        <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />
+        {reqData?.next && (
+          <>
+            <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
+            <link rel="dns-prefetch" href="http://tvid.in" />
+          </>
+        )}
+        {!reqData?.next && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />}
         {prefetchDomains}
       </Head>
     </>
