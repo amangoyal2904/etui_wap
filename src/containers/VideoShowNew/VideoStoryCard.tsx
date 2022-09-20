@@ -42,7 +42,8 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.contEl = "id_" + result.msid;
     playerConfig.video.id = result.slikeid;
     playerConfig.video.playerType = result.playertype;
-    playerConfig.video.shareUrl = result.url;
+    playerConfig.video.shareUrl = ET_WAP_URL + result.url;
+    playerConfig.video.description_url = ET_WAP_URL + result.url; // no need to modify; added specifically for tracking purpose by Slike team
     playerConfig.video.image = result.img;
     playerConfig.video.title = result.title;
     playerConfig.player.msid = result.msid;
