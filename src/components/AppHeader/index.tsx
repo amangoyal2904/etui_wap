@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 
+const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt"];
+
 const AppHeader: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
@@ -67,13 +70,13 @@ const AppHeader: FC = () => {
             ></span>
           </div>
         </div>
-        {page !== "videoshow" && (
+        {!NO_CTAS.includes(page) && (
           <div className={styles.ctas}>
             <span className={styles.cta1}>Super Saver Sale</span>
             <span className={styles.cta2}>Get App</span>
           </div>
         )}
-        {appHeader.isFetchSuccess && page !== "videoshow" && <NavBar />}
+        {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar />}
       </header>
       <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}

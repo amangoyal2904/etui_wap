@@ -3,6 +3,7 @@ import { fetchArticle } from "Slices/article";
 import { setCommonData } from "Slices/common";
 import { fetchVideoshow } from "Slices/videoshow";
 import { fetchVideoshowNew } from "Slices/videoshowNew";
+import { fetchVideoshowNewAlt } from "Slices/videoshowNewAlt";
 import { setIsPrime } from "Slices/login";
 import { pageType, getMSID } from "utils";
 
@@ -29,6 +30,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
       break;
     case "videoshownew":
       await store.dispatch(fetchVideoshowNew(msid));
+      break;
+    case "videoshownewalt":
+      await store.dispatch(fetchVideoshowNewAlt(msid));
       break;
     case "articleshow":
       await store.dispatch(fetchArticle(msid));

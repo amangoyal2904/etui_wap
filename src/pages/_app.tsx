@@ -8,11 +8,13 @@ import { wrapper } from "../app/store";
 import ProgressBar from "components/PageTransition";
 import NotFound from "containers/NotFound";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const ArticleList = dynamic(() => import("containers/ArticleList"));
 const ArticleShow = dynamic(() => import("containers/ArticleShow"));
 const VideoShow = dynamic(() => import("containers/VideoShow"));
 const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
+const VideoShowNewAlt = dynamic(() => import("containers/VideoShowNewAlt"));
 const Home = dynamic(() => import("containers/Home"));
 
 const progress = new ProgressBar({
@@ -59,6 +61,9 @@ const Container = (props) => {
     case "videoshownew":
       container = <VideoShowNew {...data} />;
       break;
+    case "videoshownewalt":
+      container = <VideoShowNewAlt {...data} />;
+      break;
     case "articleshow":
       container = <ArticleShow {...data} />;
       break;
@@ -71,6 +76,7 @@ const Container = (props) => {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { response, page, isprimeuser }: PageProps = pageProps;
+
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
 
@@ -91,9 +97,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <Layout>
-      <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
-    </Layout>
+    <>
+      <Head>
+        <link
+          href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
+          type="text/css"
+          rel="stylesheet"
+          media="all"
+        />
+      </Head>
+      <Layout>
+        <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
+      </Layout>
+    </>
   );
 };
 

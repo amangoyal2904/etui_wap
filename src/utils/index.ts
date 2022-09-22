@@ -1,4 +1,3 @@
-import os from "os";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
@@ -23,6 +22,18 @@ declare global {
   }
 }
 export const isBrowser = () => typeof window !== "undefined";
+
+export function loadScript(src) {
+  return new Promise(function (resolve, reject) {
+    const script = document.createElement("script");
+    script.src = src;
+
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error(`Script load error for ${src}`));
+
+    document.head.append(script);
+  });
+}
 
 export const setCookieToSpecificTime = (name, value, days, time, seconds) => {
   try {
@@ -99,6 +110,7 @@ export const pageType = (pathurl) => {
     return "topic";
   } else if (pathurl.indexOf("/videoshow/") != -1) {
     if (pathurl.indexOf("next=1") !== -1) return "videoshownew";
+    if (pathurl.indexOf("next=2") !== -1) return "videoshownewalt";
     return "videoshow";
   } else {
     return "articlelist";
