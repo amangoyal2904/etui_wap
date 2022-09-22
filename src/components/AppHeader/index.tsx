@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 
-const NO_CTAS = ["videoshow", "videoshownew"];
-const NO_NAVBAR = ["videoshow", "videoshownew"];
+const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt"];
 
 const AppHeader: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

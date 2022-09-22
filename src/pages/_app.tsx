@@ -72,7 +72,6 @@ const Container = (props) => {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { response, page, isprimeuser }: PageProps = pageProps;
-  console.log({ pageProps });
 
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
