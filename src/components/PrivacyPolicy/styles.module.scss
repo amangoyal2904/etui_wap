@@ -1,0 +1,220 @@
+@import "../../styles/variables.scss";
+.tac {
+  text-align: left;
+  margin-left: 5px;
+}
+.du_consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10000000;
+  background: #fff;
+  padding: 20px 15px 10px 15px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  transition-delay: 2s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  .data_use_info {
+    color: #333;
+    .ccpaBlock {
+      font: 12px $Montserrat-font-family;
+      line-height: 1.42;
+      color: #1b1b1b;
+      .heading {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+    .du_message {
+      p {
+        font-size: 13px;
+        line-height: 1.3;
+        margin-bottom: 5px;
+      }
+      h3 {
+        font-size: 17px;
+        margin: 10px 0;
+      }
+    }
+
+    .du_tabs {
+      margin: 20px auto 0;
+      line-height: 14px;
+      width: 81%;
+      border-top: 2px solid #e6e6e6;
+      padding-top: 10px;
+      position: relative;
+      .dut {
+        display: inline-block;
+        padding-bottom: 10px;
+        vertical-align: initial;
+        margin-right: 10px;
+        font-size: 12px;
+        cursor: pointer;
+        &.active {
+          color: #1a7da3;
+        }
+        & + .dut {
+          margin-left: 15px;
+        }
+      }
+      .du_define {
+        .dud_txt {
+          color: #2b6dad;
+          font-size: 11px;
+          cursor: pointer;
+        }
+        .dud_tooltip {
+          display: none;
+          position: absolute;
+          width: 100%;
+          right: 0;
+          background: #fff;
+          left: 0;
+          box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+          border-radius: 3px;
+          padding: 10px;
+          font-size: 11px;
+          z-index: 1;
+        }
+        &:hover .dud_tooltip {
+          display: block;
+        }
+      }
+    }
+    .du_table_wrap {
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      -webkit-transform: translatez(0);
+      -moz-transform: translatez(0);
+      -ms-transform: translatez(0);
+      -o-transform: translatez(0);
+      transform: translatez(0);
+      /*overflow-x: scroll;*/
+      .du_table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0 auto;
+        border-spacing: unset;
+        white-space: normal;
+        th {
+          line-height: 27px;
+          font-size: 13px;
+          text-align: left;
+          color: #333;
+          background: #f5f5f5;
+          padding: 0 4px;
+        }
+        td {
+          line-height: 16px;
+          font-size: 12px;
+          color: #333;
+          border-bottom: 1px solid #ddd;
+          padding: 5px 4px;
+        }
+        .dur input {
+          vertical-align: middle;
+        }
+      }
+    }
+    .du_tc {
+      font-size: 12px;
+      margin: 10px 0;
+      input {
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+    }
+    .du_submit {
+      background-color: #ec193a;
+      color: #fff;
+      text-transform: uppercase;
+      padding: 5px 25px;
+      font-size: 10px;
+      cursor: pointer;
+      border: 0;
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      border-radius: 0;
+      outline: 0;
+      margin-left: 5px;
+    }
+    .du_err {
+      color: red;
+      font-size: 13px;
+      margin: 10px auto 20px;
+      text-align: center;
+      /*display: none;*/
+    }
+  }
+}
+.show {
+  display: table-row;
+}
+.hide {
+  display: none;
+}
+.showBlock {
+  display: block;
+}
+.tcAccepted {
+  transform: translateY(3000px);
+}
+.du_success {
+  font-size: 16px;
+  margin: 10px auto 20px;
+  text-align: center;
+}
+.du_consent .data_use_info a,
+.tooltip_box a {
+  border-bottom: 1px solid red;
+}
+.info {
+  font-family: "Courier New", Courier, monospace;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #da2337;
+  display: inline-block;
+  line-height: 14px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 11px;
+  font-weight: bold;
+  color: #da2337;
+  margin-left: 7px;
+  cursor: pointer;
+}
+.tooltip_box {
+  font-size: 0.8em;
+  background: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #cccc;
+  word-break: break-word;
+  position: fixed;
+  min-height: 275px;
+  width: 90%;
+  line-height: 18px;
+  z-index: 9;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 5%;
+}
+.tt_close {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  line-height: 18px;
+  font-size: 15px;
+  text-align: center;
+  font-family: Arial;
+}
+form#gdpr_form {
+  margin-left: 5px;
+}
