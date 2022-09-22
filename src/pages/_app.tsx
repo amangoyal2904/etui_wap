@@ -13,6 +13,7 @@ import Head from "next/head";
 const ArticleList = dynamic(() => import("containers/ArticleList"));
 const ArticleShow = dynamic(() => import("containers/ArticleShow"));
 const VideoShow = dynamic(() => import("containers/VideoShow"));
+const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const VideoShowNewAlt = dynamic(() => import("containers/VideoShowNewAlt"));
 const Home = dynamic(() => import("containers/Home"));
 
@@ -56,6 +57,9 @@ const Container = (props) => {
       break;
     case "videoshow":
       container = <VideoShow {...data} />;
+      break;
+    case "videoshownew":
+      container = <VideoShowNew {...data} />;
       break;
     case "videoshownewalt":
       container = <VideoShowNewAlt {...data} />;

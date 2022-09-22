@@ -20,7 +20,7 @@ const Layout: FC = ({ children }: { children: ReactElement }) => {
       <Headers isprimeuser={isprimeuser} reqData={reqData} />
       <AppHeader />
       <main>{children}</main>
-      {reqData?.next && (
+      {reqData?.next === "1" && (
         <Head>
           <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
           <script src="https://tvid.in/sdk/loader.js"></script>
