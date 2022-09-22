@@ -5,7 +5,7 @@ import { setCommonData } from "./common";
 import APIS_CONFIG from "network/config.json";
 
 const slice = createSlice({
-  name: "VideoshowNew",
+  name: "VideoshowNewAlt",
   initialState: {
     data: {},
     isFetching: false,
@@ -43,7 +43,7 @@ export default slice.reducer;
 
 const { videoshowSuccess, videoshowLoading, videoshowError } = slice.actions;
 
-export const fetchVideoshowNew = (videoshowId) => async (dispatch) => {
+export const fetchVideoshowNewAlt = (videoshowId) => async (dispatch) => {
   try {
     dispatch(videoshowLoading);
     const api = APIS_CONFIG.FEED;
@@ -53,7 +53,7 @@ export const fetchVideoshowNew = (videoshowId) => async (dispatch) => {
     });
     const data = res.data || {};
     await dispatch(videoshowSuccess(data));
-    await dispatch(setCommonData({ page: "videoshownew", data }));
+    await dispatch(setCommonData({ page: "videoshownewalt", data }));
   } catch (e) {
     dispatch(videoshowError);
     return console.error(e.message);

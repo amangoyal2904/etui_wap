@@ -109,6 +109,7 @@ export const pageType = (pathurl) => {
     return "topic";
   } else if (pathurl.indexOf("/videoshow/") != -1) {
     if (pathurl.indexOf("next=1") !== -1) return "videoshownew";
+    if (pathurl.indexOf("next=2") !== -1) return "videoshownewalt";
     return "videoshow";
   } else {
     return "articlelist";
