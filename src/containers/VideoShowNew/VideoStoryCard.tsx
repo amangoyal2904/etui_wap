@@ -79,7 +79,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            const vidStoryUrl = `${result.url}${window.location.search}`;
+            const vidStoryUrl = `${result.url.replace("/videoshow/", "/videoshownew/")}${window.location.search}`;
             window.history.pushState({}, "", vidStoryUrl);
             if (pageViewMsids.indexOf(result.msid) === -1 && index > 0) {
               pageViewMsids.push(result.msid);

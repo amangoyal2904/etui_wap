@@ -54,3 +54,20 @@
   align-items: center;
   height: 500px;
 }
+
+.firstVidBeforeLoad {
+  &::after {
+    content: "";
+    background-image: url($common-sprite-path);
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 45px;
+    display: inline-block;
+    cursor: pointer;
+    background-position: -190px -160px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
