@@ -51,20 +51,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
         }}
       />
 
-      {/* {reqData?.next && (
-        <>
-          <Script strategy="lazyOnload" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js" />
-          <Script
-            strategy="lazyOnload"
-            src="https://tvid.in/sdk/loader.js"
-            onLoad={() => {
-              const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
-              document.dispatchEvent(objSlikeScriptsLoaded);
-            }}
-          />
-        </>
-      )} */}
-
       {!reqData.opt && isReady && (
         <>
           <Script
