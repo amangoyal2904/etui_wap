@@ -72,7 +72,7 @@ const VideoShow: FC<PageProps> = (props) => {
     <>
       <div className={styles.mainContent}>
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
+          <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
         </div>
         {VideoContainer()}
         <SEO {...seoData} />
@@ -80,7 +80,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <AppDownloadWidget tpName="videoshow" />
         <BreadCrumb data={seoData.breadcrumb} />
         <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
+          <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
         </div>
       </div>
     </>
