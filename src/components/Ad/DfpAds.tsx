@@ -23,13 +23,14 @@ interface AdInfoProps {
     currMsid?: number;
     customSlot?: number;
     customDimension?: string;
+    subsecnames?: any;
   };
   identifier?: string;
 }
 
 const DfpAds: FC<AdInfoProps> = function (props) {
   const { adInfo, identifier } = props;
-  const { key, index = 0 } = adInfo;
+  const { key, index = 0, subsecnames = {} } = adInfo;
 
   let divId = key;
   if (key) {
@@ -91,6 +92,13 @@ const DfpAds: FC<AdInfoProps> = function (props) {
 
           slot.addService(googleTag.pubads());
           googleTag.pubads().collapseEmptyDivs();
+          if (typeof subsecnames != "undefined") {
+            googleTag
+              .pubads()
+              .setTargeting("SCN", subsecnames.subsecname1 || "")
+              .setTargeting("SubSCN", subsecnames.subsecname2 || "")
+              .setTargeting("LastSubSCN", subsecnames.subsecname3 || "");
+          }
           if (window.extCampaignVal) {
             googleTag.pubads().setTargeting("ref", window.extCampaignVal);
           }
