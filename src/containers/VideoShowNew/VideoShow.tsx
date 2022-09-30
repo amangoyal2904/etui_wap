@@ -59,7 +59,7 @@ const VideoShow: FC<PageProps> = (props) => {
 
   useEffect(() => {
     // Below are the two event listeners for loading the slike player scripts on user interaction.
-    /*document.addEventListener(
+    document.addEventListener(
       "touchstart",
       () => {
         loadSlikeScripts();
@@ -78,7 +78,7 @@ const VideoShow: FC<PageProps> = (props) => {
     const didUserVisitHomePage = window.sessionStorage.getItem("didUserVisitHomePage");
     if (didUserVisitHomePage !== null) {
       loadSlikeScripts();
-    }*/
+    }
 
     if (loadMoreRef.current) {
       const options = {
