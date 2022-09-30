@@ -4,7 +4,7 @@ import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { getPageSpecificDimensions } from "utils";
+import { getPageSpecificDimensions, loadScript } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VideoStoryCard from "./VideoStoryCard";
@@ -35,7 +35,51 @@ const VideoShow: FC<PageProps> = (props) => {
     showLoaderNext = true;
   }
 
+  /**
+   * Loads slike sdks and on successful load, fires custom event objSlikeScriptsLoaded
+   */
+  function loadSlikeScripts() {
+    if (!didUserInteractionStart) {
+      setDidUserInteractionStart(true);
+      const promise = loadScript("https://imasdk.googleapis.com/js/sdkloader/ima3.js");
+
+      promise.then(
+        () => {
+          loadScript("https://tvid.in/sdk/loader.js").then(() => {
+            const objSlikeScriptsLoaded = new Event("objSlikeScriptsLoaded");
+            document.dispatchEvent(objSlikeScriptsLoaded);
+          });
+        },
+        (error) => {
+          console.error("ima3 sdk failed to load: ", error);
+        }
+      );
+    }
+  }
+
   useEffect(() => {
+    // Below are the two event listeners for loading the slike player scripts on user interaction.
+    /*document.addEventListener(
+      "touchstart",
+      () => {
+        loadSlikeScripts();
+      },
+      { once: true }
+    );
+
+    document.addEventListener(
+      "scroll",
+      () => {
+        loadSlikeScripts();
+      },
+      { once: true }
+    );
+
+    const didUserVisitHomePage = window.sessionStorage.getItem("didUserVisitHomePage");
+    if (didUserVisitHomePage !== null) {
+      loadSlikeScripts();
+    }*/
+
     if (loadMoreRef.current) {
       const options = {
         root: null,
