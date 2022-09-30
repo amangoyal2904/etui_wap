@@ -110,6 +110,16 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
+        style={
+          isFirstVidBeforeLoad
+            ? {
+                backgroundImage: `url(${result.img})`,
+                backgroundSize: "contain",
+                backgroundPosition: "center center",
+                backgroundRepeat: "no-repeat"
+              }
+            : {}
+        }
       ></div>
       <div className={styles.wrap}>
         <h1 role="heading">{result.title}</h1>
