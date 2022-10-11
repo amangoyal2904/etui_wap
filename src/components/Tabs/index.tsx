@@ -6,23 +6,23 @@ import { useRouter } from 'next/router'
 
 
 interface ListProps {
-    tabsName?: string[]
-    handleTabClick: Function;
+    tabsName?: string[],
+    handleTabClick:any
 }
-const index = (props: ListProps) => {
+const Index = (props: ListProps) => {
     const { tabsName, handleTabClick } = props;
-    const [activeTab, setactiveTab] = useState('all');
+    const [activeTab, setActiveTab] = useState('all');
     const router = useRouter()
 
     useEffect(() => {
         const { all } = router.query
-        setactiveTab(all[2] ? all[2] : 'all');
+        setActiveTab(all[2] ? all[2] : 'all');
     });
 
     const handleClick = (e) => {
-        let tabName = e.target.getAttribute('data-name');
+        const tabName = e.target.getAttribute('data-name');
         if (activeTab != tabName) {
-            setactiveTab(tabName);
+            setActiveTab(tabName);
             handleTabClick(tabName);
         }
     }
@@ -39,4 +39,4 @@ const index = (props: ListProps) => {
 };
 
 
-export default index;
+export default Index;

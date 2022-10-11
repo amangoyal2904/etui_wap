@@ -34,10 +34,10 @@ const NewsCard = (props: ListProps) => {
     const loadMore = () => {
         setLoadingMoreTopic(true);
         setCurpg(curpg + 1);
-        let reqData = {
+        const reqData = {
             curpg: curpg
         }
-        let params = {
+        const params = {
             query: query,
             type: type
         }
@@ -97,7 +97,7 @@ const NewsCard = (props: ListProps) => {
                     <Tabs tabsName={tabsName} handleTabClick={handleTabClick} />
                     <div className={styles.tabList}>
                         {(isFetching && !loadingMoreTopic)  ? <div className={styles.loading}> <Loading /> </div> :
-                            cardsData.length > 0 ? (cardsData?.slice(4).length > 0 ? cardsData?.slice(4) : cardsData).map((item, index) => renderList(item, index)) :
+                            cardsData?.length > 0 ? (cardsData?.slice(4)?.length > 0 ? cardsData?.slice(4) : cardsData)?.map((item, index) => renderList(item, index)) :
                                 <p className={styles.noData}>No data Found</p>
                         }
                     </div>

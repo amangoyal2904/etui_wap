@@ -1,4 +1,4 @@
-import { ActionCreatorWithoutPayload, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import Service from "network/service";
 import { setCommonData } from "./common";
@@ -51,7 +51,7 @@ export const fetchTopics = (params: string | string[]) => async (dispatch) => {
     const api = APIS_CONFIG.FEED;
     const res = await Service.get({
       api,
-      params: { name: "topic", query: query, platform: "wap", feedtype: "etjson" }
+      params: { name: "topic", query: query, type:`${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
     });
     const data = res.data || {};
     await dispatch(topicsfetchSuccess(data));
@@ -71,7 +71,7 @@ export const fetchCategories = (query: string, type: string) => async (dispatch)
       params: { name: "topic", query: query, type: `${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
     })
     const topicData = res.data || {};
-    let data = topicData.searchResult && topicData.searchResult.find(item => item.name == 'topic');
+    const data = topicData.searchResult && topicData.searchResult.find(item => item.name == 'topic');
     await dispatch(topicsfetchSuccess(data));
     await dispatch(setCommonData({ page: "topic", data }));
   } catch (e) {
@@ -83,16 +83,15 @@ export const fetchMoreTopic = (params) => async (dispatch) => {
   try {
     dispatch(topicsLoading());
     const api = APIS_CONFIG.FEED;
-    let { query, type, reqData, topicData } = params || {};
-    let newsData = topicData && topicData.data;
+    const { query, type, reqData, topicData } = params || {};
     const res = await Service.get({
       api,
       params: { name: "topic", query: query, type: `${type ? type : ""}`, platform: "wap", feedtype: "etjson", curpg: `${reqData?.curpg}` }
     });
     const resData = res.data || {};
-    let topicObj = resData.searchResult && resData.searchResult.find(item => item.name == 'topic');
-    let latestNewsData = topicObj ? topicObj.data : [];
-    let data = { data: [...topicData, ...latestNewsData] };
+    const topicObj = resData.searchResult && resData.searchResult.find(item => item.name == 'topic');
+    const latestNewsData = topicObj ? topicObj.data : [];
+    const data = { data: [...topicData, ...latestNewsData] };
     await dispatch(topicsfetchSuccess(data));
     await dispatch(setCommonData({ page: "topic", data }));
   } catch (e) {
