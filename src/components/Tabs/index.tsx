@@ -12,12 +12,11 @@ interface ListProps {
 const index = (props: ListProps) => {
     const { tabsName, handleTabClick } = props;
     const [activeTab, setactiveTab] = useState('all');
-    const [loadingMoretopic, setLoadingMoretopic] = useState(false);
     const router = useRouter()
 
     useEffect(() => {
         const { all } = router.query
-        setactiveTab(all[2] ? all[2] : activeTab);
+        setactiveTab(all[2] ? all[2] : 'all');
     });
 
     const handleClick = (e) => {
@@ -32,7 +31,7 @@ const index = (props: ListProps) => {
         <div className={styles.tabWidget}>
             <div className={styles.tabs} onClick={handleClick}>
                 {tabsName && tabsName.map(tabName => (
-                    <p className={`${styles.tTab} ${activeTab == `${tabName.toLowerCase()}` ? styles.active : ''}`} data-name={tabName.toLowerCase()} >{tabName}</p>
+                    <p className={`${styles.tTab} ${activeTab == `${tabName.toLowerCase()}` ? styles.active : ''}`} key={tabName} data-name={tabName.toLowerCase()} >{tabName}</p>
                 ))}
             </div>
         </div>

@@ -28,7 +28,7 @@ const Topic: FC<PageProps> = (props) => {
     <>
       <div className={styles.mainContent}>
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf" }} identifier='topic' />
+          <DfpAds adInfo={{ key: "atf" }}/>
         </div>
         <div className={styles.title}>
           Searched For <h1>{query && query.replace(/-/g, " ").toUpperCase()}</h1>{" "}
@@ -36,9 +36,6 @@ const Topic: FC<PageProps> = (props) => {
         {TopicContainer()}
         <SEO {...seoData} />
         {/* <BreadCrumb data={seoData?.breadcrumb} /> */}
-        <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn" }} identifier='topic' />
-        </div>
       </div>
     </>
   );
