@@ -32,3 +32,7 @@ a {
 .adContainer.expando_1 {
   min-height: 100px;
 }
+p{
+  margin: 0px;
+  padding: 0px;
+}
