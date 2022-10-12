@@ -225,6 +225,11 @@ export const data: PageProps = {
             height: "60"
           }
         },
+        potentialAction: {
+          urlTemplate: "",
+          valueRequired: true,
+          valueName: ""
+        },
         image: {
           url: "https://img.etimg.com/thumb/msid-90200064,width-1070,height-580,overlay-etmarkets/photo.jpg",
           width: "1600",
