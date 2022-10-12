@@ -115,7 +115,7 @@ const VideoShow: FC<PageProps> = (props) => {
                     setIsLoading(true);
                     const res = await Service.get({
                       api,
-                      params: { name: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
+                      params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
                     });
                     const data = res.data || {};
                     const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
