@@ -3,6 +3,7 @@ import { fetchArticle } from "Slices/article";
 import { setCommonData } from "Slices/common";
 import { fetchVideoshow } from "Slices/videoshow";
 import { fetchVideoshowNew } from "Slices/videoshowNew";
+import { fetchTopics } from "Slices/topics";
 import { setIsPrime } from "Slices/login";
 import { pageType, getMSID } from "utils";
 
@@ -32,6 +33,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
       break;
     case "articleshow":
       await store.dispatch(fetchArticle(msid));
+      break;
+    case "topic":
+      await store.dispatch(fetchTopics(all));
       break;
     default:
       break;

@@ -15,7 +15,7 @@ const ArticleShow = dynamic(() => import("containers/ArticleShow"));
 const VideoShow = dynamic(() => import("containers/VideoShow"));
 const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const Home = dynamic(() => import("containers/Home"));
-
+const Topic = dynamic(() => import("containers/Topic"));
 const progress = new ProgressBar({
   size: 2,
   className: "bar-of-progress",
@@ -62,6 +62,9 @@ const Container = (props) => {
       break;
     case "articleshow":
       container = <ArticleShow {...data} />;
+      break;
+    case "topic":
+      container = <Topic {...data} />;
       break;
     default:
       container = <ArticleList {...data} />;
