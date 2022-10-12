@@ -9,7 +9,7 @@ const SampleListing: FC = () => {
 
   useEffect(() => {
     const api = APIS_CONFIG.REQUEST;
-    const params = { type: "plist", msid: 2146843 };
+    const params = { name: "plist", msid: 2146843 };
     Service.get({ api, params })
       .then((res) => {
         setListData(res.data?.searchResult?.[0]?.["data"]);

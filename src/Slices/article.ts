@@ -47,7 +47,7 @@ export const fetchArticle = (articleId) => async (dispatch) => {
   try {
     dispatch(articleshowLoading);
     const api = APIS_CONFIG.REQUEST;
-    const res = await Service.get({ api, params: { type: "article", msid: articleId } });
+    const res = await Service.get({ api, params: { name: "article", msid: articleId } });
     const data = res.data || {};
     await dispatch(articleshowSuccess(data));
     await dispatch(setCommonData({ page: "articleshow", data }));
