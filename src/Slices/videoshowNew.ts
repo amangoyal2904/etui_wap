@@ -49,7 +49,7 @@ export const fetchVideoshowNew = (videoshowId) => async (dispatch) => {
     const api = APIS_CONFIG.FEED;
     const res = await Service.get({
       api,
-      params: { name: "videoshow", msid: videoshowId, platform: "wap", feedtype: "etjson" }
+      params: { type: "videoshow", msid: videoshowId, platform: "wap", feedtype: "etjson" }
     });
     const data = res.data || {};
     await dispatch(videoshowSuccess(data));

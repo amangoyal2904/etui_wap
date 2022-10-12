@@ -47,7 +47,7 @@ export const fetchMenu = () => async (dispatch) => {
   dispatch(loading);
   const api = APIS_CONFIG.REQUEST;
   const params = {
-    name: "menu"
+    type: "menu"
   };
   Service.get({ api, params })
     .then((res) => {

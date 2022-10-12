@@ -45,13 +45,13 @@ const { topicsfetchSuccess, topicsLoading, topicsfetchError } = slice.actions;
 
 export const fetchTopics = (params: string | string[]) => async (dispatch) => {
   const query: string = params?.slice(1, 2).toString();
-  const type: string = params?.slice(2, 3).toString() || 'All';
+  const type: string = params?.slice(2, 3).toString() || "All";
   try {
     dispatch(topicsLoading());
     const api = APIS_CONFIG.FEED;
     const res = await Service.get({
       api,
-      params: { name: "topic", query: query, type:`${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
+      params: { type: "topic", query: query, tab: `${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
     });
     const data = res.data || {};
     await dispatch(topicsfetchSuccess(data));
@@ -68,17 +68,17 @@ export const fetchCategories = (query: string, type: string) => async (dispatch)
     const api = APIS_CONFIG.FEED;
     const res = await Service.get({
       api,
-      params: { name: "topic", query: query, type: `${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
-    })
+      params: { type: "topic", query: query, tab: `${type ? type : ""}`, platform: "wap", feedtype: "etjson" }
+    });
     const topicData = res.data || {};
-    const data = topicData.searchResult && topicData.searchResult.find(item => item.name == 'topic');
+    const data = topicData.searchResult && topicData.searchResult.find((item) => item.name == "topic");
     await dispatch(topicsfetchSuccess(data));
     await dispatch(setCommonData({ page: "topic", data }));
   } catch (e) {
     dispatch(topicsfetchError());
     return console.error(e.message);
   }
-}
+};
 export const fetchMoreTopic = (params) => async (dispatch) => {
   try {
     dispatch(topicsLoading());
@@ -86,10 +86,17 @@ export const fetchMoreTopic = (params) => async (dispatch) => {
     const { query, type, reqData, topicData } = params || {};
     const res = await Service.get({
       api,
-      params: { name: "topic", query: query, type: `${type ? type : ""}`, platform: "wap", feedtype: "etjson", curpg: `${reqData?.curpg}` }
+      params: {
+        type: "topic",
+        query: query,
+        tab: `${type ? type : ""}`,
+        platform: "wap",
+        feedtype: "etjson",
+        curpg: `${reqData?.curpg}`
+      }
     });
     const resData = res.data || {};
-    const topicObj = resData.searchResult && resData.searchResult.find(item => item.name == 'topic');
+    const topicObj = resData.searchResult && resData.searchResult.find((item) => item.name == "topic");
     const latestNewsData = topicObj ? topicObj.data : [];
     const data = { data: [...topicData, ...latestNewsData] };
     await dispatch(topicsfetchSuccess(data));
@@ -98,5 +105,4 @@ export const fetchMoreTopic = (params) => async (dispatch) => {
     dispatch(topicsfetchError());
     return console.error(e.message);
   }
-
 };
