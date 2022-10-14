@@ -8,7 +8,6 @@ import Tabs from "../Tabs";
 import { AppState } from "app/store";
 import { fetchMoreTopic, fetchCategories } from "../../Slices/topics";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import Loading from "components/Loading";
 import DfpAds from "components/Ad/DfpAds";
 
@@ -20,20 +19,21 @@ interface ListProps {
   originaldate: boolean;
 }
 const tabsName = ["All", "News", "Videos"];
+let dfp_position = 0;
+let curpg = 1;
 
 const NewsCard = (props: ListProps) => {
   const { data, showSynopsis, query, type }: ListProps = props;
   const { topic } = useSelector((state: AppState) => state);
   const { isFetching } = topic || {};
+  const [tab, setTab] = useState("all");
   const [loadingMoreTopic, setLoadingMoreTopic] = useState<boolean>(false);
-  const [curpg, setCurpg] = useState(1);
   const [cardsData, setCardsData] = useState(data.data);
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const loadMore = () => {
     setLoadingMoreTopic(true);
-    setCurpg(curpg + 1);
+    curpg += 1;
     const reqData = {
       curpg: curpg
     };
@@ -53,16 +53,19 @@ const NewsCard = (props: ListProps) => {
 
   const handleTabClick = (tabName: string) => {
     dispatch(fetchCategories(query, tabName));
-    const tab = tabName != "all" ? tabName : "";
-    router.push(`/topic/${query}`, `/topic/${query}/${tab}`, { shallow: true });
+    setTab(tabName);
+    const tab = tabName != "all" ? `/${tabName}` : "";
+    window.history.pushState({}, "", `/topic/${query}${tab}`);
   };
 
   const renderList = (item, index) => {
     return item.name === "dfp" && item.type.indexOf("mrec") != -1 ? (
-      // this.dfp_position += 1;
-      <div className={`${styles.mrecContainer} adContainer`} key={`mrec_${index}`}>
-        <DfpAds adInfo={{ key: `${item.type}` }} />
-      </div>
+      ((dfp_position += 1),
+      (
+        <div className={`${styles.mrecContainer} adContainer`} key={`mrec_${index}`}>
+          <DfpAds adInfo={{ key: `${item.type}`, index: tab }} identifier={`${dfp_position + item.type}`} />
+        </div>
+      ))
     ) : (
       <li key={index} className={styles.borderedContent}>
         <Link href={item?.url}>
@@ -106,12 +109,11 @@ const NewsCard = (props: ListProps) => {
             index < 4 ? renderList(item, index) : ""
           )}
 
-          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} />
+          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={tab} />
           <div className={styles.tabList}>
             {isFetching && !loadingMoreTopic ? (
               <div className={styles.loading}>
-                {" "}
-                <Loading />{" "}
+                <Loading />
               </div>
             ) : cardsData?.length > 0 ? (
               (cardsData?.slice(4)?.length > 0 ? cardsData?.slice(4) : cardsData)?.map((item, index) =>
