@@ -1,9 +1,10 @@
 import { SEOProps } from "./seo";
 import { versionControlProps } from "./versionControl";
 
-export interface  TopicDataProps {
+export interface TopicDataProps {
   length: number;
   data: {
+    name: string;
     title: string;
     synopsis: string;
     img: string;
@@ -11,9 +12,8 @@ export interface  TopicDataProps {
     url: string;
     type: string;
   }[];
-  name:string;
+  name: string;
   title: string;
-
 }
 export interface PageProps {
   searchResult: [
@@ -22,12 +22,11 @@ export interface PageProps {
       data: TopicDataProps;
     },
     TopicDataProps
-    
   ];
   seo: SEOProps;
   version_control?: versionControlProps;
-  parameters:{
-    query:string;
-    type:string;
-  }
+  parameters: {
+    query: string;
+    tab: string;
+  };
 }
