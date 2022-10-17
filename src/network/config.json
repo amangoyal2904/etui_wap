@@ -5,8 +5,8 @@
   },
   "FEED": {
     "dns": {
-      "development": ["https://etdev8243.indiatimes.com/"],
-      "production": ["https://etdev8243.indiatimes.com/"]
+      "development": ["https://economictimes.indiatimes.com/"],
+      "production": ["https://economictimes.indiatimes.com/"]
     },
     "path": "reactfeed"
   },
