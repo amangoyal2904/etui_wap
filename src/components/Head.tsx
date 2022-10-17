@@ -6,6 +6,8 @@ interface Props {
   reqData?: any;
 }
 const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
+  const isVideoShowNew = reqData?.all?.includes("videoshownew");
+
   const prefetchDomains = !isprimeuser ? (
     <>
       <link rel="dns-prefetch" href="https://cm.g.doubleclick.net" />
@@ -106,13 +108,13 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
-        {reqData?.next && (
+        {isVideoShowNew && (
           <>
             <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
             <link rel="dns-prefetch" href="http://tvid.in" />
           </>
         )}
-        {!reqData?.next && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />}
+        {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />}
         {prefetchDomains}
       </Head>
     </>
