@@ -67,13 +67,13 @@ const VideoShow: FC<PageProps> = (props) => {
       { once: true }
     );
 
-    document.addEventListener(
+    /*document.addEventListener(
       "scroll",
       () => {
         loadSlikeScripts();
       },
       { once: true }
-    );
+    );*/
 
     const didUserVisitHomePage = window.sessionStorage.getItem("didUserVisitHomePage");
     if (didUserVisitHomePage !== null) {
