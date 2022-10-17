@@ -3,7 +3,9 @@ import {
   WebPageSchemaProps,
   NewsArticleSchemaProps,
   VideoObjectSchemaProps,
-  BreadCrumbProps
+  BreadCrumbProps,
+  SearchResultProps,
+  CollectionPageProps
 } from "types/seo";
 
 const webPageSchema = (data: WebPageSchemaProps) => {
@@ -172,22 +174,112 @@ const breadcrumbSchema = (data: BreadCrumbProps[]) => {
     return null;
   }
 };
+const searchResultSchema = (data: SearchResultProps) => {
+  if (!data) return null;
+  const { headline, description, url, mainEntityOfPage } = data;
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "SearchResultsPage",
+    headline,
+    description,
+    url,
+    mainEntityOfPage
+  };
+  return _schema;
+};
+
+const collectionPageSchema = (data: CollectionPageProps, hasPartArr) => {
+  if (!data) return null;
+  const { headline, description, url } = data;
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "CollectionPage",
+    headline,
+    description,
+    url,
+    hasPart: hasPartArr
+  };
+  return _schema;
+};
+const listItemSchema = (seoListData) => {
+  const itemListArr = seoListData.map((item, index) => {
+    return {
+      "@type": "ListItem",
+      position: `${index + 1}`,
+      url: `${item.url}`,
+      name: `${item.title}`
+    };
+  });
+  const _schema = {
+    "@context": "http://schema.org",
+    "@type": "ItemList",
+    itemListElement: itemListArr
+  };
+  return _schema;
+};
 
 const Schema = (props: SEOProps) => {
   const data = props;
-  const { schemaType, page } = data;
+  const { schemaType, page, seoListData } = data;
+  let hasPartArr = [];
 
   let schema: object | string[] = {};
   const seoschema = data.seoschema || {};
 
-  if (schemaType === "videoshow" || page === "videoshow") {
-    const _breadcrumbSchema = breadcrumbSchema(data.breadcrumb);
-    const _webPageSchema = webPageSchema(seoschema.webPage);
-    const _newsArticleSchema = newsArticleSchema(seoschema.newsArticle);
-    const _organizationSchema = organizationSchema(data.org_img);
-    const _videoObjectSchema = videoObjectSchema(seoschema.videoObject);
-    schema = [_breadcrumbSchema, _webPageSchema, _newsArticleSchema, _organizationSchema, _videoObjectSchema];
+  if (schemaType === "topic") {
+    hasPartArr = seoListData?.map((item, index) => {
+      return {
+        "@type": "NewsArticle",
+        headline: item.title,
+        url: `${item.url}`,
+        name: `${item.title}`,
+        mainentityofpage: `${item.url}`,
+        datePublished: item.date,
+        dateModified: item.date,
+        publisher: {
+          "@type": "Organization",
+          name: "ET",
+          logo: {
+            "@type": "ImageObject",
+            url: item.img,
+            width: 600,
+            height: 60
+          }
+        },
+        image: {
+          "@type": "ImageObject",
+          url: item.img,
+          width: 1200,
+          height: 900
+        },
+        author: {
+          "@type": "Thing",
+          name: "Economic Times"
+        }
+      };
+    });
   }
+
+  const _breadcrumbSchema = breadcrumbSchema(data.breadcrumb);
+  const _webPageSchema = webPageSchema(seoschema.webPage);
+  const _newsArticleSchema = newsArticleSchema(seoschema.newsArticle);
+  const _organizationSchema = organizationSchema(data.org_img);
+  const _videoObjectSchema =
+    schemaType === "videoshow" || page === "videoshow" ? videoObjectSchema(seoschema.videoObject) : [];
+  const _searchResultSchema = schemaType === "topic" ? searchResultSchema(seoschema.newsArticle) : [];
+  const _collectionPageSchema = schemaType === "topic" ? collectionPageSchema(seoschema.newsArticle, hasPartArr) : [];
+  const _listItemSchema = schemaType === "topic" ? listItemSchema(seoListData) : [];
+
+  schema = [
+    _breadcrumbSchema,
+    _webPageSchema,
+    _newsArticleSchema,
+    _organizationSchema,
+    _videoObjectSchema,
+    _searchResultSchema,
+    _collectionPageSchema,
+    _listItemSchema
+  ];
 
   return (
     <>
