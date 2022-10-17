@@ -15,7 +15,7 @@ const prepSeoListData = (data) => {
     return i.type !== "colombia" && i.type !== "liveblog" && i.name !== "dfp";
   });
   primaryList?.map((i) => {
-    let data = { ...i };
+    const data = { ...i };
     data.title = removeBackSlash(i.title);
   });
   return primaryList;
@@ -23,8 +23,8 @@ const prepSeoListData = (data) => {
 
 const Topic: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props;
-  let topicListData = (props.searchResult && props.searchResult.find((item) => item.name == "topic")).data || [];
-  let seoListData = prepSeoListData([...topicListData]);
+  const topicListData = (props.searchResult && props.searchResult.find((item) => item.name == "topic")).data || [];
+  const seoListData = prepSeoListData([...topicListData]);
   const seoData = { ...seo, ...version_control?.seo, seoListData };
   const { cpd_wap = "0" } = version_control;
   const { query = "", tab = "" } = parameters || {};

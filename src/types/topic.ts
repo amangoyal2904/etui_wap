@@ -19,7 +19,15 @@ export interface PageProps {
   searchResult: [
     {
       name: string;
-      data: TopicDataProps;
+      data: {
+        name: string;
+        title: string;
+        synopsis: string;
+        img: string;
+        date: string;
+        url: string;
+        type: string;
+      }[];
     },
     TopicDataProps
   ];
