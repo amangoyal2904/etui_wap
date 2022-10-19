@@ -22,7 +22,7 @@ const prepSeoListData = (data) => {
 };
 
 const Topic: FC<PageProps> = (props) => {
-  const { seo = {}, version_control, parameters } = props;
+  const { seo = {}, version_control, parameters } = props || {};
   const topicListData = (props.searchResult && props.searchResult.find((item) => item.name == "topic")).data || [];
   const seoListData = prepSeoListData([...topicListData]);
   const seoData = { ...seo, ...version_control?.seo, seoListData };
@@ -33,16 +33,18 @@ const Topic: FC<PageProps> = (props) => {
     return props?.searchResult?.map((item) => {
       const topicData = item as TopicDataProps;
       return props?.searchResult[0]?.data.length > 0 ? (
-        <NewsCard data={topicData} key={item.name} showSynopsis={true} originaldate={true} query={query} type={tab} />
+        <NewsCard data={topicData} key={item.name} showSynopsis={true} query={query} type={tab} />
       ) : (
-        <p className={styles.noData}>Sorry, there are no results for your search!</p>
+        <p className={styles.noData} key="paragraph">
+          Sorry, there are no results for your search!
+        </p>
       );
     });
   };
 
   return (
     <>
-      <div className={styles.mainContent}>
+      <div className={styles.mainContent} data-testid="topic">
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
           <DfpAds adInfo={{ key: "atf" }} identifier={`topic`} />
         </div>

@@ -45,6 +45,7 @@ const Index = (props: ListProps) => {
               className={`${styles.tTab} ${activeTab == `${tabName.toLowerCase()}` ? styles.active : ""}`}
               key={tabName}
               data-name={tabName.toLowerCase()}
+              data-testid="tabs"
             >
               {tabName}
             </p>

@@ -16,7 +16,6 @@ interface ListProps {
   query: string;
   data: TopicDataProps;
   showSynopsis: boolean;
-  originaldate: boolean;
 }
 const tabsName = ["All", "News", "Videos"];
 let dfp_position = 0;
@@ -72,7 +71,7 @@ const NewsCard = (props: ListProps) => {
           <a>
             <div>
               <div className={styles.newsContent}>
-                <h2>{item.title}</h2>
+                <h2 data-testid="newsCardTitle">{item.title}</h2>
                 <div className={styles.imgWrapper}>
                   <LazyLoadImg
                     clsName={styles.cardImg}
@@ -103,7 +102,7 @@ const NewsCard = (props: ListProps) => {
   };
   return (
     <Fragment>
-      <div className={styles.listing}>
+      <div className={styles.listing} data-testid="NewsCard">
         <ul>
           {(cardsData?.length > 4 ? cardsData : data.data).map((item, index) =>
             index < 4 ? renderList(item, index) : ""
