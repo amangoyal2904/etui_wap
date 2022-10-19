@@ -80,7 +80,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
         ([entry]) => {
           if (entry.isIntersecting) {
             const vidStoryUrl = `${result.url}${window.location.search}`;
-            window.history.pushState({}, "", vidStoryUrl);
+            index > 0 && window.history.pushState({}, "", vidStoryUrl);
             if (pageViewMsids.indexOf(result.msid) === -1 && index > 0) {
               pageViewMsids.push(result.msid);
               pageview(vidStoryUrl);
@@ -107,6 +107,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
 
   return (
     <div className={styles.videoshow} ref={videoStoryCardRef}>
+      {isFirstVidBeforeLoad && <img src={result.img} fetchpriority="high" style={{ display: "none" }} />}
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}

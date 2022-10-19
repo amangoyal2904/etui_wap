@@ -16,6 +16,12 @@ const VideoShow = dynamic(() => import("containers/VideoShow"));
 const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const Home = dynamic(() => import("containers/Home"));
 const Topic = dynamic(() => import("containers/Topic"));
+declare module "react" {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    fetchpriority?: string;
+  }
+}
+
 const progress = new ProgressBar({
   size: 2,
   className: "bar-of-progress",
@@ -103,6 +109,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           type="text/css"
           rel="stylesheet"
           media="all"
+          fetchpriority="low"
         />
       </Head>
       <Layout>
