@@ -137,6 +137,18 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
         height: publisherData.logo.height
       }
     },
+    potentialAction: {
+      "@type": "SeekToAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: data.potentialAction.urlTemplate
+      },
+      "startOffset-input": {
+        "@type": "PropertyValueSpecification",
+        valueRequired: data.potentialAction.valueRequired,
+        valueName: data.potentialAction.valueName
+      }
+    },
     image: {
       "@type": "ImageObject",
       url: data.image.url,

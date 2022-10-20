@@ -123,6 +123,11 @@ export interface VideoObjectSchemaProps {
       height?: string;
     };
   };
+  potentialAction?: {
+    urlTemplate?: string;
+    valueRequired?: boolean;
+    valueName?: string;
+  };
   image?: {
     url?: string;
     width?: string;
