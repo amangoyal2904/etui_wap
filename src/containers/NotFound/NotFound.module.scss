@@ -1,4 +1,28 @@
+@import "../../styles/common.scss";
+.content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.3s ease;
+
+  &:global(.visible) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .notFound {
-  margin: 5em auto;
-  text-align: center;
+  padding: 80px 0 80px 20px;
+  background: white;
+  min-height: 450px;
+  p {
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+  & .title {
+    font-size: $h2-font-size;
+    line-height: $h2-line-height;
+  }
+  a {
+    text-decoration: underline;
+  }
 }

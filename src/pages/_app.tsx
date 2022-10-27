@@ -55,6 +55,7 @@ interface PageProps {
 
 const Container = (props) => {
   const { page, data } = props;
+
   let container = <NotFound {...data} />;
   switch (page) {
     case "home":
@@ -69,8 +70,11 @@ const Container = (props) => {
     case "articleshow":
       container = <ArticleShow {...data} />;
       break;
-    default:
+    case "articlelist":
       container = <ArticleList {...data} />;
+      break;
+    default:
+      container = <NotFound {...data} />;
       break;
   }
   return container;
