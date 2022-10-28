@@ -56,6 +56,9 @@ interface PageProps {
 const Container = (props) => {
   const { page, data } = props;
   let container = <NotFound {...data} />;
+  if (data?.searchResult?.[0].data?.responseStatus == 404) {
+    return container;
+  }
   switch (page) {
     case "home":
       container = <Home {...data} />;
@@ -72,8 +75,11 @@ const Container = (props) => {
     case "topic":
       container = <Topic {...data} />;
       break;
-    default:
+    case "articlelist":
       container = <ArticleList {...data} />;
+      break;
+    default:
+      container = <NotFound {...data} />;
       break;
   }
   return container;
@@ -81,10 +87,9 @@ const Container = (props) => {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { response, page, isprimeuser }: PageProps = pageProps;
-
+  console.log("response ", response);
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
-
   const router = useRouter();
 
   if (typeof window != "undefined") {
