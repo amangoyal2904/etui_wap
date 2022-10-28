@@ -13,6 +13,33 @@ declare global {
 }
 const NotFound: FC<PageProps> = (props) => {
   useEffect(() => {
+    window.objVc = window.objVc || {};
+    window.objVc = {
+      dfp: {
+        atf: {
+          adSlot: "/7176/ET_MWeb/ET_Mweb_ETNow/ET_Mweb_ETNow_ATF",
+          adSize: [
+            [320, 50],
+            [320, 100],
+            [468, 60],
+            [728, 90]
+          ]
+        },
+        andbeyond: {
+          adSlot: "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Andbeyond_1x1",
+          adSize: [[1, 1]]
+        },
+        fbn: {
+          adSlot: "/7176/ET_MWeb/ET_Mweb_ETNow/ET_Mweb_ETNow_FBN",
+          adSize: [
+            [320, 50],
+            [468, 60],
+            [728, 90]
+          ]
+        }
+      }
+    };
+
     typeof window !== "undefined" &&
       window.grxEvent &&
       grxEvent("event", { event_category: "Error Code 404", event_action: "", event_label: window.location.href }, 1);
@@ -49,6 +76,9 @@ const NotFound: FC<PageProps> = (props) => {
         <p>
           Go to <a href={ET_WAP_URL}>EconomicTimes.com</a> Home Page
         </p>
+      </div>
+      <div className={`${styles.footerAd} adContainer`}>
+        <DfpAds adInfo={{ key: "fbn" }} identifier="floatingAd" />
       </div>
     </>
   );
