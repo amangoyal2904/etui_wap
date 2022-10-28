@@ -15,7 +15,7 @@ const NotFound: FC<PageProps> = (props) => {
   useEffect(() => {
     typeof window !== "undefined" &&
       window.grxEvent &&
-      grxEvent("event", { event_category: "User", event_action: "SignOut", event_label: window.location.href }, 1);
+      grxEvent("event", { event_category: "Error Code 404", event_action: "", event_label: window.location.href }, 1);
   }, []);
 
   if (props && props.data && typeof window !== "undefined" && !sessionStorage.getItem("isNotFoundLog")) {
@@ -33,6 +33,7 @@ const NotFound: FC<PageProps> = (props) => {
       }
     });
   }
+
   return (
     <>
       {/* <Head title="Economic Times • Not Found" /> */}
