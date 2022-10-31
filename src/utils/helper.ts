@@ -56,7 +56,13 @@ export const updateDimension = (dimensions = {}, payload = {}) => {
           : location.pathname + location.search
       );
     };
-
+    const objUser = (window.objUser && window.objUser.info) || {};
+    if (Object.keys(objUser).length) {
+      dimensions["dimension3"] = "LOGGEDIN";
+    } else {
+      dimensions["dimension3"] = "NONLOGGEDIN";
+    }
+    window.customDimension = { ...window.customDimension, ...dimensions };
     if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(sendEvent);
     } else {

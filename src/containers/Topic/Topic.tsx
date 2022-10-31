@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { PageProps, TopicDataProps } from "types/topic";
 import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
-import { removeBackSlash } from "../../utils/helper";
+import { removeBackSlash, updateDimension } from "../../utils/helper";
 
 const prepSeoListData = (data) => {
   let primaryList = data || [];
@@ -28,6 +28,9 @@ const Topic: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo, seoListData };
   const { cpd_wap = "0" } = version_control;
   const { query = "", tab = "" } = parameters || {};
+  useEffect(() => {
+    updateDimension();
+  });
 
   const TopicContainer = () => {
     return props?.searchResult?.map((item) => {
