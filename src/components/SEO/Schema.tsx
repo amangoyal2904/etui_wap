@@ -141,7 +141,7 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
       "@type": "SeekToAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: data.potentialAction.urlTemplate
+        urlTemplate: data?.potentialAction?.urlTemplate
       },
       "startOffset-input": {
         "@type": "PropertyValueSpecification",
