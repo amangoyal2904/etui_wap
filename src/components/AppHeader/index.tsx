@@ -8,6 +8,7 @@ import { fetchMenu } from "Slices/appHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
+import { grxEvent } from "utils/ga";
 
 const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt"];
 const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "topic"];
@@ -40,7 +41,28 @@ const AppHeader: FC = () => {
       }
     };
   }, [dispatch]);
-
+  const clickAppDownload = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: "App Download",
+        event_action: "Header App Download",
+        event_label: "click"
+      },
+      1
+    );
+  };
+  const paymentButtonListener = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: "Subscription Flow",
+        event_action: "SYFT",
+        event_label: "ATF - " + location.href
+      },
+      1
+    );
+  };
   return (
     <>
       <header className={styles.header}>
@@ -72,8 +94,12 @@ const AppHeader: FC = () => {
         </div>
         {!NO_CTAS.includes(page) && (
           <div className={styles.ctas}>
-            <span className={styles.cta1}>Super Saver Sale</span>
-            <span className={styles.cta2}>Get App</span>
+            <span className={styles.cta1} onClick={paymentButtonListener}>
+              Super Saver Sale
+            </span>
+            <span className={styles.cta2} onClick={clickAppDownload}>
+              Get App
+            </span>
           </div>
         )}
         {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar />}

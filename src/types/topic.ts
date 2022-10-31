@@ -2,9 +2,9 @@ import { SEOProps } from "./seo";
 import { versionControlProps } from "./versionControl";
 
 export interface TopicDataProps {
-  length: number;
+  length?: number;
   data: {
-    name: string;
+    name?: string;
     title: string;
     synopsis: string;
     img: string;
@@ -13,14 +13,14 @@ export interface TopicDataProps {
     type: string;
   }[];
   name: string;
-  title: string;
+  title?: string;
 }
 export interface PageProps {
   searchResult: [
     {
       name: string;
       data: {
-        name: string;
+        name?: string;
         title: string;
         synopsis: string;
         img: string;
@@ -28,8 +28,8 @@ export interface PageProps {
         url: string;
         type: string;
       }[];
-    },
-    TopicDataProps
+    }
+    // TopicDataProps
   ];
   seo: SEOProps;
   version_control?: versionControlProps;
