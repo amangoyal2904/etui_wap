@@ -10,7 +10,7 @@ export const createGAPageViewPayload = (payload = {}) => {
     let subsStatus = "Free User";
     if (typeof objInts != "undefined") {
       if (localStorage.getItem("et_logintype") != null) {
-        let loginType = localStorage.getItem("et_logintype");
+        const loginType = localStorage.getItem("et_logintype");
         payload["dimension22"] = loginType;
       }
       if (objInts.permissions.indexOf("expired_subscription") > -1) {
