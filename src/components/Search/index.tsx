@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import { APP_ENV } from "../../utils";
 import apiConfig from "network/config.json";
 import SearchList from "./SearchList";
+import { grxEvent } from "utils/ga";
 
 interface SearchProps {
   setIsOpen: (flag: boolean) => void;
@@ -125,7 +126,15 @@ const Search: FC<SearchProps> = ({ setIsOpen }) => {
       /**
        * TODO: Add ga event
        */
-      //GA.event('Search Bar', window.location.href, keyword.toLowerCase());
+      grxEvent(
+        "event",
+        {
+          event_category: "Search Bar",
+          event_action: window.location.href,
+          event_label: keyword.toLowerCase()
+        },
+        1
+      );
       generateRedirectUrl(keyword, specialKeywords);
     } else {
       alert("Enter some text to search");

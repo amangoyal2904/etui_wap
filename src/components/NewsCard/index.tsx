@@ -3,13 +3,14 @@ import { Fragment, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { TopicDataProps } from "types/topic";
 import LazyLoadImg from "../LazyLoad";
-import { removeBackSlash } from "../../utils/helper";
+import { removeBackSlash, updateDimension } from "../../utils/helper";
 import Tabs from "../Tabs";
 import { AppState } from "app/store";
 import { fetchMoreTopic, fetchCategories } from "../../Slices/topics";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "components/Loading";
 import DfpAds from "components/Ad/DfpAds";
+import { grxEvent } from "utils/ga";
 
 interface ListProps {
   type: string;
@@ -55,6 +56,7 @@ const NewsCard = (props: ListProps) => {
     setTab(tabName);
     const tab = tabName != "all" ? `/${tabName}` : "";
     window.history.pushState({}, "", `/topic/${query}${tab}`);
+    updateDimension();
   };
 
   const renderList = (item, index) => {
@@ -68,7 +70,19 @@ const NewsCard = (props: ListProps) => {
     ) : (
       <li key={index} className={styles.borderedContent}>
         <Link href={item?.url}>
-          <a>
+          <a
+            onClick={() =>
+              grxEvent(
+                "event",
+                {
+                  event_category: "PWA Topic click",
+                  event_action: `Top News`,
+                  event_label: item.url
+                },
+                1
+              )
+            }
+          >
             <div>
               <div className={styles.newsContent}>
                 <h2 data-testid="newsCardTitle">{item.title}</h2>
