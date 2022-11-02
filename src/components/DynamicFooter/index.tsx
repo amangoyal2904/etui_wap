@@ -69,6 +69,7 @@ const DynamicFooter: FC = () => {
             target="_blank"
             rel="noopener nofollow noreferrer"
             aria-label="Play Store"
+            data-ga-onclick="Footer Element Clicks#Download ET App#href"
           >
             <span className={`${styles.appstoredownload} ${styles.commonSprite}`} />
           </a>
@@ -78,6 +79,7 @@ const DynamicFooter: FC = () => {
             target="_blank"
             rel="noopener nofollow noreferrer"
             aria-label="App Store"
+            data-ga-onclick="Footer Element Clicks#Download ET App#href"
           >
             <span className={`${styles.gpdownload} ${styles.commonSprite}`} />
           </a>

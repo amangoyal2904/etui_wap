@@ -1,9 +1,5 @@
+import { removeBackSlash } from "utils";
 import { pageview } from "./ga";
-
-export const removeBackSlash = (val) => {
-  val = val && typeof val != "object" ? val.replace(/\\/g, "") : "";
-  return val;
-};
 export const createGAPageViewPayload = (payload = {}) => {
   const objInts = window.objInts;
   try {
@@ -67,9 +63,22 @@ export const updateDimension = (dimensions = {}, payload = {}) => {
       window.objInts.afterPermissionCall(sendEvent);
     } else {
       document.addEventListener("objIntsLoaded", () => {
-        window.objInts.afterPermissionCall(sendEvent);
+        window?.objInts?.afterPermissionCall(sendEvent);
       });
     }
   }
 };
-export default { removeBackSlash };
+
+export const prepSeoListData = (data) => {
+  let primaryList = data || [];
+  primaryList = primaryList.filter((i) => {
+    return i.layoutType && i.layoutType == "break"
+      ? false
+      : i.type !== "colombia" && i.type !== "liveblog" && i.name !== "dfp";
+  });
+  primaryList?.map((i) => {
+    const data = { ...i };
+    data.title = removeBackSlash(i.title);
+  });
+  return primaryList;
+};

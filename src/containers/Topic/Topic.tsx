@@ -4,22 +4,7 @@ import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
-import { removeBackSlash, updateDimension } from "../../utils/helper";
-
-const prepSeoListData = (data) => {
-  let primaryList = data || [];
-  primaryList = primaryList.filter((i) => {
-    if (i.layoutType && i.layoutType == "break") {
-      return false;
-    }
-    return i.type !== "colombia" && i.type !== "liveblog" && i.name !== "dfp";
-  });
-  primaryList?.map((i) => {
-    const data = { ...i };
-    data.title = removeBackSlash(i.title);
-  });
-  return primaryList;
-};
+import { prepSeoListData, updateDimension } from "../../utils/helper";
 
 const Topic: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props || {};
