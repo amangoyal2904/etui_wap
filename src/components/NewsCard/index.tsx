@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { TopicDataProps } from "types/topic";
 import LazyLoadImg from "../LazyLoad";
-import { removeBackSlash, updateDimension } from "../../utils/helper";
+import { updateDimension } from "../../utils/helper";
 import Tabs from "../Tabs";
 import { AppState } from "app/store";
 import { fetchMoreTopic, fetchCategories } from "../../Slices/topics";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "components/Loading";
 import DfpAds from "components/Ad/DfpAds";
 import { grxEvent } from "utils/ga";
+import { removeBackSlash } from "utils";
 
 interface ListProps {
   type: string;
@@ -83,7 +84,7 @@ const NewsCard = (props: ListProps) => {
               )
             }
           >
-            <div>
+            <Fragment>
               <div className={styles.newsContent}>
                 <h2 data-testid="newsCardTitle">{item.title}</h2>
                 <div className={styles.imgWrapper}>
@@ -108,7 +109,7 @@ const NewsCard = (props: ListProps) => {
                 ""
               )}
               {item.date && <p className={styles.timeago}>{item.date}</p>}
-            </div>
+            </Fragment>
           </a>
         </Link>
       </li>

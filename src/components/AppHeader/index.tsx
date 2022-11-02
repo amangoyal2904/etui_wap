@@ -10,7 +10,7 @@ import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 
-const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt"];
+const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt", "topic"];
 const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "topic"];
 
 const AppHeader: FC = () => {
