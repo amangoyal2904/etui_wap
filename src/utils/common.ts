@@ -52,7 +52,8 @@ export const SiteConfig = {
 };
 
 export const GA = {
-  GTM_KEY: "AW-1012951608",
+  // GTM_KEY: "AW-1012951608",
+  GTM_KEY: "GTM-566NCXC",
   GTM_ID: "GTM-WV452H7",
   GA_ID: "UA-198011-5",
   GRX_ID: "gc2744074"
