@@ -4,7 +4,7 @@ import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
-import { prepSeoListData, updateDimension } from "../../utils/helper";
+import { prepSeoListData, updateDimension } from "utils";
 
 const Topic: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props || {};
@@ -13,6 +13,7 @@ const Topic: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo, seoListData };
   const { cpd_wap = "0" } = version_control;
   const { query = "", tab = "" } = parameters || {};
+  const searchQuery = query && query.replace(/-/g, " ").toUpperCase();
   useEffect(() => {
     updateDimension();
   });
@@ -34,15 +35,15 @@ const Topic: FC<PageProps> = (props) => {
     <>
       <div className={styles.mainContent} data-testid="topic">
         <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf" }} identifier={`topic`} />
+          <DfpAds adInfo={{ key: "atf" }} identifier={`atf_${searchQuery}`} />
         </div>
         <div className={styles.title}>
-          Searched For <h1>{query && query.replace(/-/g, " ").toUpperCase()}</h1>{" "}
+          Searched For <h1>{searchQuery}</h1>{" "}
         </div>
         {TopicContainer()}
         <SEO {...seoData} />
         <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn" }} identifier={`topicFbn`} />
+          <DfpAds adInfo={{ key: "fbn" }} identifier={`fbn_${searchQuery}`} />
         </div>
       </div>
     </>
