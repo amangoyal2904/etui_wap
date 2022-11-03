@@ -19,8 +19,6 @@ const AppHeader: FC = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
   const { common, appHeader } = store;
-  console.log("common", common);
-
   const page = common?.data?.page;
   let requestIdleCallbackId = 0;
 
