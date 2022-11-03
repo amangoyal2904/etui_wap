@@ -55,6 +55,7 @@ const Login = () => {
       document.body.classList.add("isprimeuser");
       window.customDimension["dimension37"] = "Paid User";
     } else {
+      window.customDimension["dimension37"] = "Free User";
       // remove isprimeuser class from the body
       document.body.classList.remove("isprimeuser");
     }

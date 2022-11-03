@@ -15,6 +15,7 @@ const ArticleShow = dynamic(() => import("containers/ArticleShow"));
 const VideoShow = dynamic(() => import("containers/VideoShow"));
 const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const Home = dynamic(() => import("containers/Home"));
+const Topic = dynamic(() => import("containers/Topic"));
 
 declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
@@ -76,6 +77,9 @@ const Container = (props) => {
       break;
     case "articlelist":
       container = <ArticleList {...data} />;
+      break;
+    case "topic":
+      container = <Topic {...data} />;
       break;
     default:
       container = <NotFound {...data} />;

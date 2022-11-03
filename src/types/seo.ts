@@ -134,3 +134,15 @@ export interface VideoObjectSchemaProps {
     height?: string;
   };
 }
+export interface SearchResultProps {
+  headline?: string;
+  description?: string;
+  url?: string;
+  mainEntityOfPage?: string;
+}
+export interface CollectionPageProps {
+  headline?: any;
+  url?: any;
+  description?: any;
+  hasPart?: any;
+}

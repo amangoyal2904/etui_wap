@@ -1,3 +1,4 @@
+import { removeBackSlash } from "utils";
 import { grxEvent } from "./ga";
 
 export const socialUrl = {
@@ -10,10 +11,6 @@ export const socialUrl = {
   pinit: "https://pinterest.com/pin/create/link/?url=",
   openerName: "sharer",
   popUpSettings: "toolbar=0,status=0,width=626,height=436"
-};
-export const removeBackSlash = (val) => {
-  val = val && typeof val != "object" ? val.replace(/\\/g, "") : "";
-  return val;
 };
 export const Share = (evt, shareParam) => {
   console.log(shareParam);
