@@ -4,7 +4,8 @@ import { FC, Fragment, useEffect } from "react";
 import { grxEvent } from "utils/ga";
 import DfpAds from "components/Ad/DfpAds";
 interface PageProps {
-  data: object;
+  searchResult: object[];
+  parameters: object;
 }
 declare global {
   interface Window {
@@ -39,19 +40,17 @@ const NotFound: FC<PageProps> = (props) => {
         }
       }
     };
-
-    typeof window !== "undefined" &&
-      window.grxEvent &&
-      grxEvent("event", { event_category: "Error Code 404", event_action: "", event_label: window.location.href }, 1);
-  }, []);
-
-  if (props && props.data && typeof window !== "undefined" && !sessionStorage.getItem("isNotFoundLog")) {
+    document.addEventListener("gaLoaded", () => {
+      window.ga("send", "event", " Error Code 404", "", window.location.href, window.customDimension);
+    });
+  }, [props]);
+  if (props && props.searchResult && typeof window !== "undefined" && !sessionStorage.getItem("isNotFoundLog")) {
     sessionStorage.setItem("isNotFoundLog", "true");
-    window.addEventListener("load", function () {
+    document.addEventListener("objIntsLoaded", function () {
       try {
         const obj = {
           type: "NotFoundError",
-          data: props.data,
+          data: props.searchResult,
           url: window.location.href
         };
         window.saveLogs(obj);

@@ -54,9 +54,14 @@ interface PageProps {
 }
 
 const Container = (props) => {
-  const { page, data } = props;
+  // eslint-disable-next-line prefer-const
+  let { page, data } = props;
   let container = <NotFound {...data} />;
-  if (data?.searchResult?.[0].data?.responseStatus == 404) {
+  console.log("data", data);
+  console.log("page", page);
+
+  if (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) {
+    page = "notFound";
     return container;
   }
   switch (page) {
@@ -84,6 +89,7 @@ const Container = (props) => {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { response, page, isprimeuser }: PageProps = pageProps;
+  console.log("response MyApp", response);
   const data = response?.[page]?.data || {};
   const versionControl = response?.common?.data?.version_control || {};
   const router = useRouter();

@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 
-const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt"];
-const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt"];
+const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt", "notFound"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "notFound"];
 
 const AppHeader: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -19,6 +19,7 @@ const AppHeader: FC = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
   const { common, appHeader } = store;
+  console.log("common", common);
 
   const page = common?.data?.page;
   let requestIdleCallbackId = 0;

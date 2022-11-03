@@ -34,11 +34,16 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
       await store.dispatch(fetchArticle(msid));
       break;
     default:
+      await store.dispatch(setCommonData({ page: "notFound", data: {} }));
       break;
   }
   const storeState = store.getState();
   const response = (await storeState) || {};
+  const data = response?.[page]?.data || {};
 
+  if (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) {
+    await store.dispatch(setCommonData({ page: "notFound", data: {} }));
+  }
   res.setHeader("Cache-Control", `public, s-maxage=${expiryTime}, stale-while-revalidate=${expiryTime * 2}`);
   res.setHeader("Expires", new Date(new Date().getTime() + expiryTime * 1000).toUTCString());
 
