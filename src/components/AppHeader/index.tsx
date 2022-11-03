@@ -10,8 +10,8 @@ import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 
-const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt", "topic"];
-const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "topic"];
+const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt", "notFound", "topic"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "notFound", "topic"];
 
 const AppHeader: FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -20,7 +20,6 @@ const AppHeader: FC = () => {
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
   const { common, appHeader } = store;
-
   const page = common?.data?.page;
   let requestIdleCallbackId = 0;
 

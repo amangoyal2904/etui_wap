@@ -54,9 +54,11 @@ interface PageProps {
 }
 
 const Container = (props) => {
-  const { page, data } = props;
+  // eslint-disable-next-line prefer-const
+  let { page, data } = props;
   let container = <NotFound {...data} />;
-  if (data?.searchResult?.[0].data?.responseStatus == 404) {
+  if (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) {
+    page = "notFound";
     return container;
   }
   switch (page) {
