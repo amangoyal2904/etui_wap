@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "app/store";
 import Login from "components/Login";
 import { ET_WAP_URL } from "utils/common";
+import { grxEvent } from "utils/ga";
 interface DrawerProps {
   setIsDrawerOpen: (s: boolean) => void;
   isOpen: boolean;
@@ -40,7 +41,18 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
       setIsDrawerOpen(false);
     }
   };
-
+  const fireGAEvent = (e) => {
+    const { label, gapath } = e.currentTarget.dataset;
+    grxEvent(
+      "event",
+      {
+        event_category: "PWA LHS Nav",
+        event_action: label + " | " + gapath,
+        event_label: window.location.href
+      },
+      1
+    );
+  };
   const showMore = (i: string) => {
     setIsSiblingsOpen((prev) => {
       return { ...prev, [i]: true };
@@ -99,7 +111,13 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
     }
     linkURL = !linkURL.includes("http") ? ET_WAP_URL + linkURL : linkURL;
     return (
-      <a href={linkURL} className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}>
+      <a
+        href={linkURL}
+        className={isSubmenuOpen[level + "_" + iOuter + "_" + iInner] ? styles.bold : ""}
+        onClick={fireGAEvent}
+        data-label={data.title}
+        data-gapath={linkURL}
+      >
         {data.title} {level === 0 && <span className={`${styles.rArr} ${styles.commonSprite}`}></span>}
       </a>
     );
@@ -112,7 +130,9 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
           <div className={styles.menuWrap}>
             <ul onClick={handleClick}>
               <li>
-                <a href={ET_WAP_URL}>{menuData.title}</a>
+                <a href={ET_WAP_URL} onClick={fireGAEvent} data-label={menuData.title} data-gapath={ET_WAP_URL}>
+                  {menuData.title}
+                </a>
               </li>
               <li className={styles.oneDotBdr}></li>
               {getMenu(menuData, 0, 0)}

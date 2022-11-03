@@ -14,12 +14,13 @@ declare global {
     article: string;
     bl: string;
     spcKeyword: string;
+    adDivIdSlots: any;
   }
 }
 interface AdInfoProps {
   adInfo: {
     key: string;
-    index?: number;
+    index?: number | string;
     currMsid?: number;
     customSlot?: number;
     customDimension?: string;
@@ -40,16 +41,9 @@ const DfpAds: FC<AdInfoProps> = function (props) {
   }
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (window.googletag) {
-        loadDfpAds();
-      } else {
-        document.addEventListener("gptLoaded", loadDfpAds);
-      }
+      window.googletag ? loadDfpAds() : document.addEventListener("gptLoaded", loadDfpAds);
+
       return () => {
-        window.adDivIds = [];
-        if (typeof window.googletag != "undefined" && window.googletag.apiReady) {
-          window.googletag.destroySlots();
-        }
         document.removeEventListener("gptLoaded", loadDfpAds);
       };
     }
@@ -67,18 +61,20 @@ const DfpAds: FC<AdInfoProps> = function (props) {
         let slot = undefined;
         if (!(adDivIds.indexOf(divId) > -1)) {
           adDivIds.push(divId);
-
+          if (!window.adDivIdSlots) {
+            window.adDivIdSlots = {};
+          }
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
           let dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
           dimension = Array.isArray(dimension[0]) ? dimension[0] : dimension;
           const adSlot = customSlot ? customSlot : objVc.dfp[key] && objVc.dfp[key]["adSlot"];
           slot = googleTag.defineSlot(adSlot, dimension, divId);
+          window.adDivIdSlots[divId] = slot;
           if (divId == "mh") {
             window.ad_refresh.push(slot);
           }
         }
-
         if (slot) {
           // default case
           const __auds =
