@@ -277,12 +277,12 @@ const Schema = (props: SEOProps) => {
   const _newsArticleSchema = newsArticleSchema(seoschema.newsArticle);
   const _organizationSchema = organizationSchema(data.org_img);
   const _videoObjectSchema =
-    schemaType === "videoshow" || page === "videoshow" ? videoObjectSchema(seoschema.videoObject) : [];
-  const _searchResultSchema = schemaType === "topic" ? searchResultSchema(seoschema.newsArticle) : [];
-  const _collectionPageSchema = schemaType === "topic" ? collectionPageSchema(seoschema.newsArticle, hasPartArr) : [];
-  const _listItemSchema = schemaType === "topic" ? listItemSchema(seoListData) : [];
+    schemaType === "videoshow" || page === "videoshow" ? videoObjectSchema(seoschema.videoObject) : {};
+  const _searchResultSchema = schemaType === "topic" ? searchResultSchema(seoschema.newsArticle) : {};
+  const _collectionPageSchema = schemaType === "topic" ? collectionPageSchema(seoschema.newsArticle, hasPartArr) : {};
+  const _listItemSchema = schemaType === "topic" ? listItemSchema(seoListData) : {};
 
-  schema = [
+  let schemaData = [
     _breadcrumbSchema,
     _webPageSchema,
     _newsArticleSchema,
@@ -292,6 +292,13 @@ const Schema = (props: SEOProps) => {
     _collectionPageSchema,
     _listItemSchema
   ];
+  schemaData = schemaData.filter((data) => {
+    if (data != undefined && Object.keys(data).length !== 0) {
+      return true;
+    }
+    return false;
+  });
+  schema = schemaData;
 
   return (
     <>
