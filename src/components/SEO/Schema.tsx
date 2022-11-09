@@ -298,7 +298,7 @@ const Schema = (props: SEOProps) => {
     }
     return false;
   });
-  schema = [schemaData];
+  schema = schemaData;
 
   return (
     <>
