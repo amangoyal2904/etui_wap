@@ -48,6 +48,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.video.title = result.title;
     playerConfig.player.msid = result.msid;
     playerConfig.player.autoPlay = index === 0;
+    playerConfig.player.pagetpl = "videoshownew";
 
     const player = new window.SlikePlayer(playerConfig);
 
