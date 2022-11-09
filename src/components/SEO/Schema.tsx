@@ -293,7 +293,7 @@ const Schema = (props: SEOProps) => {
     _listItemSchema
   ];
   schemaData = schemaData.filter((data) => {
-    if (Object.keys(data).length !== 0) {
+    if (data != undefined && Object.keys(data).length !== 0) {
       return true;
     }
     return false;
