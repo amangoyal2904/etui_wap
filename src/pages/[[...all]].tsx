@@ -17,7 +17,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
 
   const { all = [] } = params;
   const lastUrlPart: string = all?.slice(-1).toString();
-  const page = pageType(resolvedUrl);
+  let page = pageType(resolvedUrl);
   const msid = getMSID(lastUrlPart);
 
   switch (page) {
@@ -44,8 +44,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
   const storeState = store.getState();
   const response = (await storeState) || {};
   const data = response?.[page]?.data || {};
-
   if (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) {
+    page = "notFound";
     await store.dispatch(setCommonData({ page: "notFound", data: {} }));
   }
   res.setHeader("Cache-Control", `public, s-maxage=${expiryTime}, stale-while-revalidate=${expiryTime * 2}`);
