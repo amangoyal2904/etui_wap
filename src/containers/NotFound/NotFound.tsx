@@ -37,7 +37,7 @@ const dfpAdSlots = {
     }
   }
 };
-const NotFound: FC<PageProps> = () => {
+const NotFound: FC<PageProps> = (props) => {
   useEffect(() => {
     window.objVc = dfpAdSlots;
     const handleGaLoaded = () => {
@@ -47,7 +47,7 @@ const NotFound: FC<PageProps> = () => {
       try {
         const obj = {
           type: "NotFoundError",
-          data: {},
+          data: props.searchResult,
           url: window.location.href
         };
         window.saveLogs(obj);
@@ -66,7 +66,7 @@ const NotFound: FC<PageProps> = () => {
       document.removeEventListener("gaLoaded", handleGaLoaded);
       document.removeEventListener("objIntsLoaded", handleoObjIntsLoaded);
     };
-  }, []);
+  }, [props]);
 
   return (
     <>
