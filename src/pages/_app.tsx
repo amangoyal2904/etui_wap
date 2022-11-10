@@ -55,12 +55,9 @@ interface PageProps {
 
 const Container = (props) => {
   // eslint-disable-next-line prefer-const
-  let { page, data } = props;
+  const { page, data } = props;
   let container = <NotFound {...data} />;
-  if (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) {
-    page = "notFound";
-    return container;
-  }
+
   switch (page) {
     case "home":
       container = <Home {...data} />;
@@ -74,11 +71,11 @@ const Container = (props) => {
     case "articleshow":
       container = <ArticleShow {...data} />;
       break;
-    case "topic":
-      container = <Topic {...data} />;
-      break;
     case "articlelist":
       container = <ArticleList {...data} />;
+      break;
+    case "topic":
+      container = <Topic {...data} />;
       break;
     default:
       container = <NotFound {...data} />;
