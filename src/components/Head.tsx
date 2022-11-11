@@ -67,7 +67,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
   return (
     <>
       <Head>
-        <title>Home Page</title>
+        <title>Not Found</title>
         <link rel="shortcut icon" href="https://m.economictimes.com/icons/etfavicon.ico" type="image/x-icon" />
         <meta name="generator" content="React" />
         <meta

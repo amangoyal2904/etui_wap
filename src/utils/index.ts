@@ -114,7 +114,7 @@ export const pageType = (pathurl) => {
   } else if (pathurl.indexOf("/videoshownew/") != -1) {
     return "videoshownew";
   } else {
-    return "articlelist";
+    return "notFound";
   }
 };
 export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
