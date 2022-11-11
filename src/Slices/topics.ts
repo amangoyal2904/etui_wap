@@ -44,8 +44,9 @@ export default slice.reducer;
 const { topicsfetchSuccess, topicsLoading, topicsfetchError } = slice.actions;
 
 export const fetchTopics = (params: string | string[]) => async (dispatch) => {
-  const query: string = params?.slice(1, 2).toString();
+  let query: string = params?.slice(1, 2).toString();
   const type: string = params?.slice(2, 3).toString() || "All";
+  query = query.replace(/-/g, "%20");
   try {
     dispatch(topicsLoading());
     const api = APIS_CONFIG.FEED;
@@ -83,6 +84,7 @@ export const fetchMoreTopic = (params) => async (dispatch) => {
   try {
     dispatch(topicsLoading());
     const api = APIS_CONFIG.FEED;
+    params.query = params.query.replace(/-/g, "%20");
     const { query, type, reqData, topicData } = params || {};
     const res = await Service.get({
       api,
