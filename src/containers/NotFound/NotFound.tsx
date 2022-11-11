@@ -57,11 +57,8 @@ const NotFound: FC<PageProps> = (props) => {
     };
 
     document.addEventListener("gaLoaded", handleGaLoaded);
+    document.addEventListener("objIntsLoaded", handleoObjIntsLoaded);
 
-    if (!sessionStorage.getItem("isNotFoundLog")) {
-      sessionStorage.setItem("isNotFoundLog", "true");
-      document.addEventListener("objIntsLoaded", handleoObjIntsLoaded);
-    }
     return () => {
       document.removeEventListener("gaLoaded", handleGaLoaded);
       document.removeEventListener("objIntsLoaded", handleoObjIntsLoaded);
@@ -70,8 +67,7 @@ const NotFound: FC<PageProps> = (props) => {
 
   return (
     <>
-      {/* <Head title="Economic Times • Not Found" /> */}
-      <div className={`${styles.hdAdContainer} adContainer expando_0`}>
+      <div className={`${styles.hdAdContainer} adContainer expando_1`}>
         <DfpAds adInfo={{ key: "atf" }} identifier="NotFoundPage" />
       </div>
       <div className={styles.notFound}>
