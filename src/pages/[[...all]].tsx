@@ -44,10 +44,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
   const storeState = store.getState();
   const response = (await storeState) || {};
   const data = response?.[page]?.data || {};
-  if (
-    (data?.searchResult?.[0].data?.responseStatus && data?.searchResult?.[0].data?.responseStatus != 200) ||
-    data?.error
-  ) {
+  if (data?.error) {
     page = "notFound";
     await store.dispatch(setCommonData({ page: "notFound", data: {} }));
   }
