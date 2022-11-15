@@ -7,7 +7,7 @@ describe("Home", () => {
   it("renders a heading", () => {
     render(
       <Provider store={store}>
-        <AppHeader />
+        <AppHeader page={"videoshow"} />
       </Provider>
     );
 

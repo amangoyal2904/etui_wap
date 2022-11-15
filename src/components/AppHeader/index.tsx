@@ -1,7 +1,6 @@
 import NavDrawer from "components/NavDrawer";
 import NavBar from "components/NavBar";
 import Search from "components/Search";
-import Link from "next/link";
 import { FC, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { fetchMenu } from "Slices/appHeader";
@@ -10,17 +9,16 @@ import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 
-const NO_CTAS = ["videoshow", "videoshownew", "videoshownewalt", "notFound", "topic"];
-const NO_NAVBAR = ["videoshow", "videoshownew", "videoshownewalt", "notFound", "topic"];
+const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic"];
 
-const AppHeader: FC = () => {
+const AppHeader: FC<{ page: string }> = ({ page }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
 
   const dispatch = useDispatch();
   const store = useSelector((state: AppState) => state);
-  const { common, appHeader } = store;
-  const page = common?.data?.page;
+  const { appHeader } = store;
   let requestIdleCallbackId = 0;
 
   useEffect(() => {
@@ -40,6 +38,7 @@ const AppHeader: FC = () => {
       }
     };
   }, [dispatch]);
+
   const clickAppDownload = () => {
     grxEvent(
       "event",
@@ -51,6 +50,7 @@ const AppHeader: FC = () => {
       1
     );
   };
+
   const paymentButtonListener = () => {
     grxEvent(
       "event",
@@ -62,6 +62,7 @@ const AppHeader: FC = () => {
       1
     );
   };
+
   return (
     <>
       <header className={styles.header}>

@@ -2,7 +2,6 @@ import styles from "./styles.module.scss";
 import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
 import { useSelector } from "react-redux";
-import Link from "next/link";
 import { AppState } from "app/store";
 import { isBrowser, isNoFollow } from "utils";
 declare global {
@@ -20,9 +19,8 @@ declare module "react" {
   }
 }
 
-const DynamicFooter: FC = () => {
+const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) => {
   const hide_footer = false;
-  const _html = [];
   const paymentButtonListener = () => {
     const paymentUrl = "";
     window.location.href = paymentUrl;
@@ -54,11 +52,6 @@ const DynamicFooter: FC = () => {
     }
   };
   const downloadSection = (isSubscribed = false) => {
-    /*const subscriptionurl =
-      (typeof window != "undefined" &&
-        window.objAuth &&
-        window.objAuth.planPage) ||
-      "https://prime.economictimes.indiatimes.com/?utm_source=PWA&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution";*/
     return (
       <div className={styles.downloadSection} key="downloadSec">
         <div className={styles.row} displaytype="GDPR">
@@ -173,13 +166,9 @@ const DynamicFooter: FC = () => {
   };
 
   const Interlinking = () => {
-    const store = useSelector((state: AppState) => {
-      return state.footer;
-    });
-
-    const interLinkingData = store.data?.widgets || [];
+    const interLinkingData = dynamicFooterData?.widgets || [];
     const interLinkingList = interLinkingData?.map((i, index) => (
-      <div data-attr="interlinking" className={styles.category} key={`${index}_inkl`}>
+      <div data-attr="interlinking" className={styles.category} key={`inkl_${index}`}>
         {interLinkingData[index]["data"] && Array.isArray(interLinkingData[index]["data"]) && (
           <>
             <h2>{interLinkingData[index].title}</h2>
@@ -202,21 +191,16 @@ const DynamicFooter: FC = () => {
         )}
       </div>
     ));
-    return (
-      <>
-        <div className={styles.dynamicCategories}>{interLinkingList}</div>
-      </>
-    );
+
+    return <div className={styles.dynamicCategories}>{interLinkingList}</div>;
   };
+
   return (
     <div id="footer" className={hide_footer ? styles.hide_footer : ""}>
-      {/* {breadCrumbHeading && <h1 className={styles.breadCrumbHeading}>{ breadCrumbHeading }</h1>}
-      {breadCrumb} */}
       <div className={styles.dynamicContainer}>
         <GreyDivider />
         {Interlinking()}
         {downloadSection()}
-        {_html}
       </div>
     </div>
   );
