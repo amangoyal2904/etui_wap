@@ -55,8 +55,10 @@ interface PageProps {
 }
 
 const Container = (props) => {
+  // eslint-disable-next-line prefer-const
   const { page, data } = props;
   let container = <NotFound {...data} />;
+
   switch (page) {
     case "home":
       container = <Home {...data} />;
