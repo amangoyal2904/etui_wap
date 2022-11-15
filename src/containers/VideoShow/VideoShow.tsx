@@ -61,7 +61,7 @@ const VideoShow: FC<PageProps> = (props) => {
               <SeoWidget data={result.relKeywords} title="READ MORE" />
             </Fragment>
           );
-        } else if (item.name === "other_videos") {
+        } else if (item.name === "other_videos" && Array.isArray(item.data)) {
           const otherVids = item as OtherVidsProps;
           return <Listing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
         }

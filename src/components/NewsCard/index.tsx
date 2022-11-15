@@ -1,17 +1,15 @@
 import Link from "next/link";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import styles from "./styles.module.scss";
 import { TopicDataProps } from "types/topic";
 import LazyLoadImg from "../LazyLoad";
 import Tabs from "../Tabs";
-import { AppState } from "app/store";
-import { fetchMoreTopic, fetchCategories } from "../../Slices/topics";
-import { useDispatch, useSelector } from "react-redux";
 import Loading from "components/Loading";
 import DfpAds from "components/Ad/DfpAds";
 import { grxEvent } from "utils/ga";
 import { removeBackSlash, updateDimension } from "utils";
-
+import Service from "network/service";
+import APIS_CONFIG from "network/config.json";
 interface ListProps {
   type: string;
   query: string;
@@ -24,39 +22,52 @@ let curpg = 1;
 
 const NewsCard = (props: ListProps) => {
   const { data, showSynopsis, query, type }: ListProps = props;
-  const { topic } = useSelector((state: AppState) => state);
-  const { isFetching } = topic || {};
+  const [isFetching, setIsFetching] = useState(false);
   const [tab, setTab] = useState("all");
   const [loadingMoreTopic, setLoadingMoreTopic] = useState<boolean>(false);
   const [cardsData, setCardsData] = useState(data.data);
-  const dispatch = useDispatch();
 
-  const loadMore = () => {
+  const api = APIS_CONFIG.FEED;
+
+  const loadMore = async () => {
     setLoadingMoreTopic(true);
     curpg += 1;
-    const reqData = {
-      curpg: curpg
-    };
-    const params = {
-      query: query,
-      type: type
-    };
-    dispatch(fetchMoreTopic({ ...params, reqData, topicData: cardsData }));
+
+    const res = await Service.get({
+      api,
+      params: {
+        type: "topic",
+        query: query,
+        tab: `${tab ? tab : ""}`,
+        platform: "wap",
+        feedtype: "etjson",
+        curpg: curpg
+      }
+    });
+    setLoadingMoreTopic(false);
+    const resData = res.data || {};
+    const topicObj = resData.searchResult && resData.searchResult.find((item) => item.name == "topic");
+    const latestNewsData = topicObj ? topicObj.data : [];
+    const topicItems = [...cardsData, ...latestNewsData];
+    setCardsData(topicItems);
   };
 
-  useEffect(() => {
-    if (topic?.data?.data?.length) {
-      setCardsData(topic.data.data);
-      setLoadingMoreTopic(false);
-    }
-  }, [topic]);
-
-  const handleTabClick = (tabName: string) => {
-    dispatch(fetchCategories(query, tabName));
+  const handleTabClick = async (tabName: string) => {
     setTab(tabName);
+    curpg = 1; // reset on tab change
     const tab = tabName != "all" ? `/${tabName}` : "";
     window.history.pushState({}, "", `/topic/${query}${tab}`);
     updateDimension();
+
+    setIsFetching(true);
+    const res = await Service.get({
+      api,
+      params: { type: "topic", query: query, tab: `${tabName ? tabName : ""}`, platform: "wap", feedtype: "etjson" }
+    });
+    setIsFetching(false);
+    const topicData = res.data || {};
+    const topicItems = topicData.searchResult && topicData.searchResult.find((item) => item.name == "topic");
+    setCardsData(topicItems.data);
   };
 
   const renderList = (item, index) => {
