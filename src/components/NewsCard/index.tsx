@@ -53,6 +53,12 @@ const NewsCard = (props: ListProps) => {
   };
 
   const handleTabClick = async (tabName: string) => {
+    setTab(tabName);
+    curpg = 1; // reset on tab change
+    const tab = tabName != "all" ? `/${tabName}` : "";
+    window.history.pushState({}, "", `/topic/${query}${tab}`);
+    updateDimension();
+
     setIsFetching(true);
     const res = await Service.get({
       api,
@@ -62,12 +68,6 @@ const NewsCard = (props: ListProps) => {
     const topicData = res.data || {};
     const topicItems = topicData.searchResult && topicData.searchResult.find((item) => item.name == "topic");
     setCardsData(topicItems.data);
-
-    setTab(tabName);
-    curpg = 1; // reset on tab change
-    const tab = tabName != "all" ? `/${tabName}` : "";
-    window.history.pushState({}, "", `/topic/${query}${tab}`);
-    updateDimension();
   };
 
   const renderList = (item, index) => {
