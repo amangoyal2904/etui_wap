@@ -7,7 +7,7 @@ describe("Home", () => {
   beforeEach(() => {
     render(
       <Provider store={store}>
-        <AppHeader />
+        <AppHeader page={"videoshow"} />
       </Provider>
     );
   });
