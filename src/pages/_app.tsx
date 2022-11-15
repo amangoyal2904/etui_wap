@@ -4,14 +4,13 @@ import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
 import Router, { useRouter } from "next/router";
 import { callJsOnRouteChange, InitialJsOnAppLoad } from "../utils/priority";
-import { wrapper } from "../app/store";
 import ProgressBar from "components/PageTransition";
 import NotFound from "containers/NotFound";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { Provider } from "react-redux";
+import { store } from "app/store";
 
-const ArticleList = dynamic(() => import("containers/ArticleList"));
-const ArticleShow = dynamic(() => import("containers/ArticleShow"));
 const VideoShow = dynamic(() => import("containers/VideoShow"));
 const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const Home = dynamic(() => import("containers/Home"));
@@ -52,6 +51,7 @@ interface PageProps {
   page?: string;
   isprimeuser?: number;
   response?: any;
+  dynamicFooterData?: any;
 }
 
 const Container = (props) => {
@@ -67,24 +67,21 @@ const Container = (props) => {
     case "videoshownew":
       container = <VideoShowNew {...data} />;
       break;
-    case "articleshow":
-      container = <ArticleShow {...data} />;
-      break;
     case "topic":
       container = <Topic {...data} />;
       break;
     default:
-      container = <ArticleList {...data} />;
+      container = <NotFound {...data} />;
       break;
   }
   return container;
 };
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-  const { response, page, isprimeuser }: PageProps = pageProps;
+const MyApp = ({ pageProps }: AppProps) => {
+  const { response, page, isprimeuser, dynamicFooterData }: PageProps = pageProps;
 
-  const data = response?.[page]?.data || {};
-  const versionControl = response?.common?.data?.version_control || {};
+  const data = response || {};
+  const versionControl = data?.version_control || {};
 
   const router = useRouter();
 
@@ -96,6 +93,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       InitialJsOnAppLoad();
     }
   }
+
   useEffect(() => {
     // event registered on every route change
     router.events.on("routeChangeComplete", callJsOnRouteChange);
@@ -103,7 +101,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <link
           href="https://m.economictimes.com/et_fonts.cms?minify=1&amp;v=6&amp;type=3"
@@ -113,11 +111,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           fetchpriority="low"
         />
       </Head>
-      <Layout>
+      <Layout page={page} dynamicFooterData={dynamicFooterData}>
         <Container objVc={versionControl} isprimeuser={isprimeuser} page={page} data={data} />
       </Layout>
-    </>
+    </Provider>
   );
 };
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

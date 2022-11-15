@@ -10,7 +10,7 @@ describe("DynamicFooter", () => {
     render(
       <RouterContext.Provider value={createMockRouter({})}>
         <Provider store={store}>
-          <DynamicFooter />
+          <DynamicFooter dynamicFooterData={[]} />
         </Provider>
       </RouterContext.Provider>
     );

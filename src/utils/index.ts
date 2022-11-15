@@ -95,28 +95,38 @@ export const allowGDPR = () => {
   }
 };
 export const pageType = (pathurl) => {
-  if (pathurl == "/" || pathurl == "/index.html") {
-    return "home";
-  } else if (pathurl.indexOf("primearticleshow") != -1) {
-    return "primearticle";
-  } else if (pathurl.indexOf("articleshow") != -1) {
-    return "articleshow";
-  } else if (pathurl.indexOf("primearticlelist") != -1 || /prime\/\w/.test(pathurl)) {
-    return "primearticlelist";
-  } else if (pathurl == "/prime") {
-    return "primehome";
-  } else if (pathurl.indexOf("/et-tech") != -1) {
-    return "techhome";
-  } else if (pathurl.indexOf("/topic/") != -1) {
+  if (pathurl.indexOf("/topic/") != -1) {
     return "topic";
   } else if (pathurl.indexOf("/videoshow/") != -1) {
     return "videoshow";
   } else if (pathurl.indexOf("/videoshownew/") != -1) {
     return "videoshownew";
   } else {
-    return "articlelist";
+    return "notfound";
   }
 };
+
+export const prepareMoreParams = ({ all, page, msid }) => {
+  interface MoreParams {
+    msid?: string | number;
+    query?: string;
+    tab?: string;
+  }
+
+  const moreParams: MoreParams = {};
+
+  if (msid) moreParams.msid = msid;
+
+  if (page === "topic") {
+    const query: string = all?.slice(1, 2).toString();
+    const type: string = all?.slice(2, 3).toString() || "All";
+    moreParams.query = query;
+    moreParams.tab = `${type ? type : ""}`;
+  }
+
+  return moreParams;
+};
+
 export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
 export const encodeQueryData = (data) => {
   const ret = [];

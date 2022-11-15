@@ -6,8 +6,13 @@ import AppHeader from "./AppHeader";
 import Footer from "components/Footer";
 import { useRouter } from "next/router";
 import PrivacyPolicy from "components/PrivacyPolicy";
+interface PageProps {
+  page: string;
+  dynamicFooterData: any;
+  children: ReactElement;
+}
 
-const Layout: FC = ({ children }: { children: ReactElement }) => {
+const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
   const { props } = children;
   const { objVc, isprimeuser } = props;
 
@@ -17,11 +22,11 @@ const Layout: FC = ({ children }: { children: ReactElement }) => {
   return (
     <>
       <Headers isprimeuser={isprimeuser} reqData={reqData} />
-      <AppHeader />
+      <AppHeader page={page} />
       <main>{children}</main>
       <PrivacyPolicy />
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-      <Footer />
+      <Footer dynamicFooterData={dynamicFooterData} />
     </>
   );
 };

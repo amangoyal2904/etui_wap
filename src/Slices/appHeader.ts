@@ -23,12 +23,10 @@ const slice = createSlice({
     loading: (state) => {
       state.isFetching = true;
       state.isFetchError = false;
-      // state.data = [];
     },
     error: (state) => {
       state.isFetching = false;
       state.isFetchError = true;
-      // state.data = [];
     },
     setNavBarStatus: (state, action) => {
       state.isNavBar = action.payload;
