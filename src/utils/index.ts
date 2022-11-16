@@ -118,8 +118,9 @@ export const prepareMoreParams = ({ all, page, msid }) => {
   if (msid) moreParams.msid = msid;
 
   if (page === "topic") {
-    const query: string = all?.slice(1, 2).toString();
+    let query: string = all?.slice(1, 2).toString();
     const type: string = all?.slice(2, 3).toString() || "All";
+    query = query.replace(/-/g, "%20");
     moreParams.query = query;
     moreParams.tab = `${type ? type : ""}`;
   }
