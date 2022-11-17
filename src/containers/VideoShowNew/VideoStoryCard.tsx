@@ -4,6 +4,7 @@ import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
+import Head from "next/head";
 declare global {
   interface Window {
     fromIframeNewVideo: any;
@@ -108,7 +109,10 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
 
   return (
     <div className={styles.videoshow} ref={videoStoryCardRef}>
-      {isFirstVidBeforeLoad && <img src={result.img} fetchpriority="high" style={{ display: "none" }} />}
+      {/* {isFirstVidBeforeLoad && <img src={result.img} fetchpriority="high" style={{ display: "none" }} />} */}
+      <Head>
+        <link rel="preload" as="image" href={result.img}></link>
+      </Head>
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
