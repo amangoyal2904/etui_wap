@@ -23,7 +23,8 @@ let curpg = 1;
 const NewsCard = (props: ListProps) => {
   const { data, showSynopsis, query, type }: ListProps = props;
   const [isFetching, setIsFetching] = useState(false);
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState(type || "all");
+
   const [loadingMoreTopic, setLoadingMoreTopic] = useState<boolean>(false);
   const [cardsData, setCardsData] = useState(data.data);
 
@@ -133,7 +134,7 @@ const NewsCard = (props: ListProps) => {
             index < 4 ? renderList(item, index) : ""
           )}
 
-          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={tab} />
+          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={type} />
           <div className={styles.tabList}>
             {isFetching && !loadingMoreTopic ? (
               <div className={styles.loading}>
