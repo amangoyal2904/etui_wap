@@ -33,7 +33,7 @@ const Meta = (props: SEOProps) => {
     } else if (subsec3 == 92130570) {
       return "CA";
     } else if (subsec3 == 78613995) {
-      return "CA";
+      return "AE";
     }
     return "";
   };
@@ -79,7 +79,9 @@ const Meta = (props: SEOProps) => {
         <meta property="og:type" content={type} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
-        {data && data.page == "videoshow" && <meta content={getRegion(data.subsecnames)} name="geo.region" />}
+        {data && (data.page == "videoshow" || data.page == "videoshownew") && (
+          <meta content={getRegion(data.subsecnames)} name="geo.region" />
+        )}
 
         {data.actualURL && (
           <>
