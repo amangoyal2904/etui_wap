@@ -19,9 +19,4 @@ describe("Home", () => {
   it("App header image has correct link", () => {
     expect(screen.getByRole("link")).toHaveAttribute("href", ET_WAP_URL);
   });
-
-  it("contains CTA (Super Saver Sale and Get App", () => {
-    expect(screen.getByText("Super Saver Sale")).toBeInTheDocument();
-    expect(screen.getByText("Get App")).toBeInTheDocument();
-  });
 });
