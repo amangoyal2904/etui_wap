@@ -1,34 +1,3 @@
-// export const relKeywords =[
-//     {
-//         "title": "lic ipo",
-//         "url": "https://economictimes.indiatimes.com/markets/lic-ipo-details-issue-price-review"
-//     },
-//     {
-//         "title": "sebi",
-//         "url": "https://economictimes.indiatimes.com/topic/sebi"
-//     },
-//     {
-//         "title": "market situation",
-//         "url": "https://economictimes.indiatimes.com/topic/market-situation"
-//     },
-//     {
-//         "title": "volatile market situation",
-//         "url": "https://economictimes.indiatimes.com/topic/volatile-market-situation"
-//     },
-//     {
-//         "title": "govt defers lic ipo",
-//         "url": "https://economictimes.indiatimes.com/topic/govt-defers-lic-ipo"
-//     },
-//     {
-//         "title": "initial public offering of lic",
-//         "url": "https://economictimes.indiatimes.com/topic/initial-public-offering-of-lic"
-//     },
-//     {
-//         "title": "life insurance corporation",
-//         "url": "https://economictimes.indiatimes.com/wealth/insure/lic"
-//     }
-// ]
-
 export const result = {
   title:
     "Govt defers LIC IPO amid volatile market situation; can launch without seeking fresh Sebi approval till May 12",
