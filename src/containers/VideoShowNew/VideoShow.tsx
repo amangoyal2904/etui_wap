@@ -99,42 +99,44 @@ const VideoShow: FC<PageProps> = (props) => {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
             let nextVideoMsid = result.nextvideo;
+            if (nextVideoMsid) {
+              const observer = new IntersectionObserver(([entry]) => {
+                if (
+                  entry.isIntersecting &&
+                  nextVideoMsid > 0 &&
+                  videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
+                  videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
+                ) {
+                  videoStoryMsids.push(nextVideoMsid);
 
-            const observer = new IntersectionObserver(([entry]) => {
-              if (
-                entry.isIntersecting &&
-                nextVideoMsid > 0 &&
-                videoStoryMsids.indexOf(nextVideoMsid) === -1 &&
-                videoStoryMsids.length < MAX_SCROLL_VIDS_COUNT
-              ) {
-                videoStoryMsids.push(nextVideoMsid);
-
-                const api = APIS_CONFIG.FEED;
-                (async () => {
-                  try {
-                    setIsLoading(true);
-                    const res = await Service.get({
-                      api,
-                      params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
-                    });
-                    const data = res.data || {};
-                    const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                    nextVideoMsid = output.nextvideo;
-                    setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
-                    setIsLoading(false);
-                  } catch (err) {
-                    console.error(err);
-                    setIsLoading(false);
-                    setLoadErrMsg(err.message);
-                  }
-                })();
-              }
-            }, options);
-
-            observer.observe(loadMoreRef.current);
-            return () => {
-              observer.unobserve(loadMoreRef.current);
-            };
+                  const api = APIS_CONFIG.FEED;
+                  (async () => {
+                    try {
+                      setIsLoading(true);
+                      const res = await Service.get({
+                        api,
+                        params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
+                      });
+                      const data = res.data || {};
+                      const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
+                      nextVideoMsid = output.nextvideo;
+                      setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
+                      setIsLoading(false);
+                    } catch (err) {
+                      console.error(err);
+                      setIsLoading(false);
+                      setLoadErrMsg(err.message);
+                    }
+                  })();
+                }
+              }, options);
+              observer.observe(loadMoreRef.current);
+              return () => {
+                observer.unobserve(loadMoreRef.current);
+              };
+            } else {
+              loadMoreRef.current.remove();
+            }
           }
         });
       });
