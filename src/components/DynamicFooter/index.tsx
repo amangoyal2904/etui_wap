@@ -174,7 +174,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             <h2>{interLinkingData[index].title}</h2>
             <ul className={styles.content}>
               {interLinkingData[index]["data"]?.map((item, key) => {
-                const noFollow = isNoFollow(item.url) ? { rel: "nofollow" } : {};
+                const noFollow = isNoFollow(item.url) && item.noFollow != "false" ? { rel: "nofollow" } : {};
                 return (
                   <li
                     data-ga-onclick={`PWA Footer Link Click#${item.title}#${interLinkingData[index].title}-${item.url}`}
