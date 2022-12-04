@@ -38,6 +38,3 @@ yarn.lock
 
 #eslint
 .eslintcache
-
-# Partytown
-static/~partytown
