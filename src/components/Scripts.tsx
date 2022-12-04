@@ -81,18 +81,18 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           />
           <Script
             id="tag-manager"
-            strategy="lazyOnload"
+            strategy="worker"
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
           />
           <Script
             id="tag-manager-init"
-            strategy="lazyOnload"
+            type="text/partytown"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
+                window.gtag = function gtag(){window.dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
+                gtag('config', '${Config.GA.GTM_ID}', { send_page_view: false });
               `
             }}
           />
