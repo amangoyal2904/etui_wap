@@ -4,7 +4,7 @@ import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { getPageSpecificDimensions, loadScript } from "utils";
+import { getPageSpecificDimensions, loadScript, wait } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VideoStoryCard from "./VideoStoryCard";
@@ -113,6 +113,10 @@ const VideoShow: FC<PageProps> = (props) => {
                   (async () => {
                     try {
                       setIsLoading(true);
+
+                      // wait for 12 secons for next video
+                      await wait(1200);
+
                       const res = await Service.get({
                         api,
                         params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
