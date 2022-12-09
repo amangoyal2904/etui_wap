@@ -114,8 +114,8 @@ const VideoShow: FC<PageProps> = (props) => {
                     try {
                       setIsLoading(true);
 
-                      // wait for 12 secons for next video
-                      await wait(1200);
+                      // wait for 12 seconds for every next video load start
+                      await wait(12000);
 
                       const res = await Service.get({
                         api,
