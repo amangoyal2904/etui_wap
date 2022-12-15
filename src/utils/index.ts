@@ -183,10 +183,11 @@ export const checkLoggedinStatus = () => {
   }
 };
 export const getPageSpecificDimensions = (seo) => {
-  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow" } = seo;
+  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow", videoAge } = seo;
   const dateArray = updated.split(",");
   const dateString = dateArray[0] || "";
   const timeString = dateArray[1] || "";
+  const seventyTwoHrs = videoAge && videoAge > 3 ? ">72hrs" : "<72hrs";
   const { subsec1, subsecname1, subsecname2, subsecname3 } = subsecnames;
   const sectionsList =
     subsecname1 && subsecname2 && subsecname3
@@ -207,7 +208,8 @@ export const getPageSpecificDimensions = (seo) => {
     dimension26: subsecname1,
     dimension27: sectionsList,
     dimension29: subsec1,
-    dimension48: msid
+    dimension48: msid,
+    dimension34: seventyTwoHrs
   };
   return payload;
 };
