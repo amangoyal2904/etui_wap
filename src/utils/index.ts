@@ -101,6 +101,8 @@ export const pageType = (pathurl) => {
     return "videoshow";
   } else if (pathurl.indexOf("/videoshownew/") != -1) {
     return "videoshownew";
+  } else if (pathurl.indexOf("/quickreads") != -1) {
+    return "quickreads";
   } else {
     return "notfound";
   }
@@ -115,7 +117,7 @@ export const prepareMoreParams = ({ all, page, msid }) => {
 
   const moreParams: MoreParams = {};
 
-  if (msid) moreParams.msid = msid;
+  if (msid && /^[0-9]+$/.test(msid)) moreParams.msid = msid;
 
   if (page === "topic") {
     let query: string = all?.slice(1, 2).toString();

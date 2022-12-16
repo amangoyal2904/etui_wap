@@ -10,8 +10,8 @@ import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 import NImage from "components/Image";
 
-const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic"];
-const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic"];
+const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
 
 const AppHeader: FC<{ page: string }> = ({ page }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
