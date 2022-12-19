@@ -22,6 +22,20 @@ declare global {
     };
   }
 }
+
+interface payLoadType {
+  dimension4: any;
+  dimension8: any;
+  dimension9: any;
+  dimension12: any;
+  dimension13: any;
+  dimension25: any;
+  dimension26: any;
+  dimension27: string;
+  dimension29: any;
+  dimension48: any;
+  dimension34?: string;
+}
 export const isBrowser = () => typeof window !== "undefined";
 
 export function loadScript(src) {
@@ -187,7 +201,6 @@ export const getPageSpecificDimensions = (seo) => {
   const dateArray = updated.split(",");
   const dateString = dateArray[0] || "";
   const timeString = dateArray[1] || "";
-  const seventyTwoHrs = videoAge && videoAge > 3 ? ">72hrs" : "<72hrs";
   const { subsec1, subsecname1, subsecname2, subsecname3 } = subsecnames;
   const sectionsList =
     subsecname1 && subsecname2 && subsecname3
@@ -198,7 +211,7 @@ export const getPageSpecificDimensions = (seo) => {
       ? `/${subsecname1}/`
       : "";
 
-  const payload = {
+  const payload: payLoadType = {
     dimension4: agency,
     dimension8: dateString,
     dimension9: subsecname2,
@@ -208,9 +221,12 @@ export const getPageSpecificDimensions = (seo) => {
     dimension26: subsecname1,
     dimension27: sectionsList,
     dimension29: subsec1,
-    dimension48: msid,
-    dimension34: seventyTwoHrs
+    dimension48: msid
   };
+
+  if (page == "videoshow") {
+    videoAge && (videoAge > 3 ? (payload.dimension34 = ">72hrs") : (payload.dimension34 = "<72hrs"));
+  }
   return payload;
 };
 
