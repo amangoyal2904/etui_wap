@@ -15,6 +15,8 @@ const LoadImage = (props: LoadImageProps) => {
       alt={alt}
       width={width}
       className={clsName}
+      decoding="async"
+      fetchpriority="high"
       onError={(e: any) => {
         e.target.onerror = null;
         e.target.src = imageDataURI;
