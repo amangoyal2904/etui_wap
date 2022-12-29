@@ -10,7 +10,6 @@ import { grxEvent } from "utils/ga";
 import { removeBackSlash, updateDimension } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
-import LoadImage from "components/LoadImage";
 interface ListProps {
   type: string;
   query: string;
@@ -71,7 +70,7 @@ const NewsCard = (props: ListProps) => {
     setCardsData(topicItems.data);
   };
 
-  const renderList = (item, index, atfCheck: boolean) => {
+  const renderList = (item, index) => {
     return item.name === "dfp" && item.type.indexOf("mrec") != -1
       ? ((dfp_position += 1),
         (
@@ -99,18 +98,14 @@ const NewsCard = (props: ListProps) => {
                   <div className={styles.newsContent}>
                     <h2 data-testid="newsCardTitle">{item.title}</h2>
                     <div className={styles.imgWrapper}>
-                      {atfCheck ? (
-                        <LoadImage clsName={styles.cardImg} img={item.img} alt={item.title} width={135} height={100} />
-                      ) : (
-                        <LazyLoadImg
-                          clsName={styles.cardImg}
-                          large={false}
-                          img={item.img}
-                          alt={item.title}
-                          width={135}
-                          height={100}
-                        />
-                      )}
+                      <LazyLoadImg
+                        clsName={styles.cardImg}
+                        large={false}
+                        img={item.img}
+                        alt={item.title}
+                        width={135}
+                        height={100}
+                      />
                       {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
                     </div>
                   </div>
@@ -135,7 +130,7 @@ const NewsCard = (props: ListProps) => {
       <div className={styles.listing} data-testid="NewsCard">
         <ul>
           {(cardsData?.length > 4 ? cardsData : data.data).map((item, index) =>
-            index < 4 ? renderList(item, index, true) : ""
+            index < 4 ? renderList(item, index) : ""
           )}
 
           <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={tab} />
@@ -146,7 +141,7 @@ const NewsCard = (props: ListProps) => {
               </div>
             ) : cardsData?.length > 0 ? (
               (cardsData?.slice(4)?.length > 0 ? cardsData?.slice(4) : cardsData)?.map((item, index) =>
-                renderList(item, index, false)
+                renderList(item, index)
               )
             ) : (
               <p className={styles.noData}>No data Found</p>
