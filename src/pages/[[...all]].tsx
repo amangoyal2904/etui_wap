@@ -3,7 +3,7 @@ import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
 const All = () => null;
-const expiryTime = 10 * 60;
+const expiryTime = 10 * 60 * 6;
 
 export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const isprimeuser = req.headers?.primetemplate ? 1 : 0;
