@@ -146,8 +146,12 @@ const PrivacyPolicy = () => {
                     is coming from in order to improve your browsing experience on our Website. By continuing to use our
                     Website, you consent to the use of these cookies and accept our Privacy terms. If you wish to see
                     more information about how we process your personal data, please read our{" "}
-                    <a href="https://m.economictimes.com/cookiepolicy.cms">Cookie Policy</a> and{" "}
-                    <a href="https://m.economictimes.com/privacypolicy.cms?msid=72342689">Privacy Policy</a>
+                    <a href="https://m.economictimes.com/cookiepolicy.cms">Cookie Policy</a>,{" "}
+                    <a href="https://m.economictimes.com/privacypolicy.cms?msid=72342689">Privacy Policy</a> and{" "}
+                    <a rel="nofollow" href="https://m.economictimes.com/terms-conditions">
+                      Terms of Use
+                    </a>
+                    .
                   </p>
                   <span className={styles.tt_close} onClick={hideCCPA}>
                     x
