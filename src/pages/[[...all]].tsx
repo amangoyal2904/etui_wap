@@ -52,6 +52,8 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   res.setHeader("Cache-Control", `public, s-maxage=${expiryTime}, stale-while-revalidate=${expiryTime * 2}`);
   res.setHeader("Expires", new Date(new Date().getTime() + expiryTime * 1000).toUTCString());
 
+  if (page === "notfound") res.statusCode = "404";
+
   return {
     props: {
       page,

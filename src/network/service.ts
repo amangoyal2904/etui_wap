@@ -9,16 +9,9 @@ const getApiUrl = (config, index) => {
   const { type = "" } = params;
   const { path } = api;
   const env = APP_ENV || "production";
-
-  if (typeof window === "undefined" && api.dns && api.dns[env][1]) {
-    // if server, use origin url
-    index = 1;
-  }
-
   const domain = api.dns ? api.dns[env][index] || api.dns[env][0] : "";
   const urlPath = (type && path == "reactfeed" && `reactfeed_${type}.cms`) || api.path;
   const completeURL = url || domain + urlPath;
-
   return completeURL;
 };
 
