@@ -114,6 +114,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
             <link rel="dns-prefetch" href="http://tvid.in" />
           </>
         )}
+        {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />}
         {prefetchDomains}
         <script
           data-partytown-config
