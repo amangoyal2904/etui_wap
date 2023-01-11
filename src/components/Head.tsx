@@ -115,7 +115,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
           </>
         )}
         {prefetchDomains}
-        <script
+        {/* <script
           data-partytown-config
           dangerouslySetInnerHTML={{
             __html: `
@@ -125,7 +125,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
               };
             `
           }}
-        />
+        /> */}
       </Head>
     </>
   );
