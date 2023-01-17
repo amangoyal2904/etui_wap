@@ -11,6 +11,7 @@ interface Props {
 const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const router = useRouter();
   const reqData = router.query;
+  const isTopicPage = router.asPath.indexOf("/topic/") !== -1;
   const isReady = router.isReady;
 
   const minifyJS = APP_ENV === "development" ? 0 : 1;
@@ -81,21 +82,36 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           />
           <Script
             id="tag-manager"
-            strategy="lazyOnload"
+            strategy={isTopicPage ? "lazyOnload" : "worker"}
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
           />
-          <Script
-            id="tag-manager-init"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
+          {isTopicPage ? (
+            <Script
+              id="tag-manager-init"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
                 gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
               `
-            }}
-          />
+              }}
+            />
+          ) : (
+            <Script
+              id="tag-manager-init"
+              type="text/partytown"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${Config.GA.GTM_ID}', { send_page_view: false });
+              `
+              }}
+            />
+          )}
           <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
           <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
 

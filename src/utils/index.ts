@@ -22,6 +22,20 @@ declare global {
     };
   }
 }
+
+interface payLoadType {
+  dimension4: any;
+  dimension8: any;
+  dimension9: any;
+  dimension12: any;
+  dimension13: any;
+  dimension25: any;
+  dimension26: any;
+  dimension27: string;
+  dimension29: any;
+  dimension48: any;
+  dimension34?: string;
+}
 export const isBrowser = () => typeof window !== "undefined";
 
 export function loadScript(src) {
@@ -101,6 +115,8 @@ export const pageType = (pathurl) => {
     return "videoshow";
   } else if (pathurl.indexOf("/videoshownew/") != -1) {
     return "videoshownew";
+  } else if (pathurl.indexOf("/quickreads") != -1) {
+    return "quickreads";
   } else {
     return "notfound";
   }
@@ -115,7 +131,7 @@ export const prepareMoreParams = ({ all, page, msid }) => {
 
   const moreParams: MoreParams = {};
 
-  if (msid) moreParams.msid = msid;
+  if (msid && /^[0-9]+$/.test(msid)) moreParams.msid = msid;
 
   if (page === "topic") {
     let query: string = all?.slice(1, 2).toString();
@@ -183,7 +199,7 @@ export const checkLoggedinStatus = () => {
   }
 };
 export const getPageSpecificDimensions = (seo) => {
-  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow" } = seo;
+  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow", videoAge } = seo;
   const dateArray = updated.split(",");
   const dateString = dateArray[0] || "";
   const timeString = dateArray[1] || "";
@@ -197,7 +213,7 @@ export const getPageSpecificDimensions = (seo) => {
       ? `/${subsecname1}/`
       : "";
 
-  const payload = {
+  const payload: payLoadType = {
     dimension4: agency,
     dimension8: dateString,
     dimension9: subsecname2,
@@ -209,6 +225,10 @@ export const getPageSpecificDimensions = (seo) => {
     dimension29: subsec1,
     dimension48: msid
   };
+
+  if (page == "videoshow") {
+    videoAge && (videoAge > 3 ? (payload.dimension34 = ">72hrs") : (payload.dimension34 = "<72hrs"));
+  }
   return payload;
 };
 
@@ -318,3 +338,11 @@ export const prepSeoListData = (data) => {
   });
   return primaryList;
 };
+
+export function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("");
+    }, ms);
+  });
+}

@@ -24,8 +24,8 @@ const Meta = (props: SEOProps) => {
   const url = data.url ? data.url : SiteConfig.weburl;
   const alternateUrl = (data.actualURL && data.actualURL.replace(ET_WAP_URL, ET_WEB_URL)) || "";
 
-  const getRegion = (subsecName) => {
-    const { subsec3 = "" } = subsecName;
+  const getRegion = (subsecName: any) => {
+    const { subsec3 = "" } = subsecName || {};
     if (subsec3 == 92130584) {
       return "UK";
     } else if (subsec3 == 89994305) {
@@ -33,7 +33,7 @@ const Meta = (props: SEOProps) => {
     } else if (subsec3 == 92130570) {
       return "CA";
     } else if (subsec3 == 78613995) {
-      return "CA";
+      return "AE";
     }
     return "";
   };
@@ -79,7 +79,9 @@ const Meta = (props: SEOProps) => {
         <meta property="og:type" content={type} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={image} />
-        {data && data.page == "videoshow" && <meta content={getRegion(data.subsecnames)} name="geo.region" />}
+        {data && (data.page == "videoshow" || data.page == "videoshownew") && (
+          <meta content={getRegion(data.subsecnames)} name="geo.region" />
+        )}
 
         {data.actualURL && (
           <>
