@@ -8,11 +8,19 @@ interface Props {
   isprimeuser?: number;
   objVc?: object;
 }
+
+declare global {
+  interface Window {
+    optCheck: boolean;
+  }
+}
+
 const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const router = useRouter();
   const reqData = router.query;
   const isTopicPage = router.asPath.indexOf("/topic/") !== -1;
   const isReady = router.isReady;
+  const optCheck = router.asPath.indexOf("opt=1") != -1;
 
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
@@ -54,6 +62,22 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
       {!reqData.opt && isReady && (
         <>
+          <Script
+            id="domain-set"
+            dangerouslySetInnerHTML={{
+              __html: `try {
+                const hdomain = "economictimes.com";
+                if (document.domain != hdomain) {
+                    if (document.domain.indexOf(hdomain) != -1) {
+                        document.domain = hdomain;
+                    }
+                }
+              } catch (e) {
+                  console.log("error in setDomain", e);
+              }
+              `
+            }}
+          />
           <Script
             id="google-analytics"
             strategy="lazyOnload"
