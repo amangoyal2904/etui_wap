@@ -14,6 +14,7 @@ export const appLinks = {
   generic:
     "https://uj2g8.app.goo.gl/?link=https://economictimes.indiatimes.com&apn=com.et.reader.activities&isi=474766725&ibi=com.til.ETiphone&efr=1"
 };
+export const ET_CUBE_URL = "https://m.economictimes.com/widgets/iframe_cube.cms";
 
 export const PAGE_TYPE = {
   articleshow: "articleshow",
