@@ -64,7 +64,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
               ga('create', '${Config.GA.GA_ID}', 'auto');
-              window.customDimension = { ...window["customDimension"], page: window.location.href };
+              window.customDimension = { ...window["customDimension"], page: window.location.pathname };
               ga('send', 'pageview', window.customDimension);
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
@@ -76,7 +76,13 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy="lazyOnload"
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
-              window.customDimension = { ...window["customDimension"], url: window.location.href };
+              window.customDimension = {
+                ...window["customDimension"],
+                url:
+                  (window.location.pathname + window.location.search).length > 1
+                    ? (window.location.pathname + window.location.search).substr(1)
+                    : window.location.pathname + window.location.search
+              };
               window.grx("track", "page_view", window.customDimension);
             }}
           />
