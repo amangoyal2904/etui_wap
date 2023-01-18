@@ -147,7 +147,10 @@ export const grxEvent = (type, data, gaEvent = 0) => {
     const grxDimension = data;
     // let localobjVc = objVc || {};
     const localobjVc = {};
-    grxDimension["url"] = grxDimension["url"] || window.location.href;
+    grxDimension["url"] =
+      grxDimension["url"] || (location.pathname + location.search).length > 1
+        ? (location.pathname + location.search).substr(1)
+        : location.pathname + location.search;
     if (window.customDimension && localobjVc["growthRxDimension"]) {
       const objDim = localobjVc["growthRxDimension"];
       for (const key in window.customDimension) {
