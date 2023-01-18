@@ -20,7 +20,7 @@ export const pageview = (url) => {
     window["gtag"]("config", Config.GA.GTM_KEY, {
       page_path: url
     });
-  const page = window.location.href;
+  const page = url;
   window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
   // send the page views
   window.ga && window.ga("send", "pageview", window.customDimension);
