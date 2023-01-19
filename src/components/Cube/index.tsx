@@ -8,7 +8,7 @@ const Cube: FC = () => {
   const [ifmSrc, setIfmSrc] = useState("");
 
   const loadCube = () => {
-    //console.log(pageLoaded +"=="+ displayCube +"=="+ document.domain)
+    //console.log("window.optCheck", window.optCheck)
     try {
       if (typeof sessionStorage != "undefined" && !displayCube) {
         const closeCube = sessionStorage.getItem("closeCube");
@@ -26,10 +26,7 @@ const Cube: FC = () => {
   };
 
   const intsCallback = () => {
-    const objVc = window.objVc || {};
-    if (objVc.global_cube_wap && objVc.global_cube_wap == 1) {
-      window.objInts.afterPermissionCall(loadCube);
-    }
+    window.objInts.afterPermissionCall(loadCube);
   };
 
   useEffect(() => {
