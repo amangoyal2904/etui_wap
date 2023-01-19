@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { APP_ENV } from "../utils";
 import * as Config from "../utils/common";
 
@@ -8,6 +8,13 @@ interface Props {
   isprimeuser?: number;
   objVc?: object;
 }
+
+declare global {
+  interface Window {
+    optCheck: boolean;
+  }
+}
+
 const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const router = useRouter();
   const reqData = router.query;
@@ -17,6 +24,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
+
+  useEffect(() => {
+    window.optCheck = router.asPath.indexOf("opt=1") != -1;
+  }, []);
 
   return (
     <>
@@ -54,6 +65,24 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
       {!reqData.opt && isReady && (
         <>
+          {APP_ENV === "development" && (
+            <Script
+              id="domain-set"
+              dangerouslySetInnerHTML={{
+                __html: `try {
+                const hdomain = "economictimes.com";
+                if (document.domain != hdomain) {
+                    if (document.domain.indexOf(hdomain) != -1) {
+                        document.domain = hdomain;
+                    }
+                }
+              } catch (e) {
+                  console.log("error in setDomain", e);
+              }
+              `
+              }}
+            />
+          )}
           <Script
             id="google-analytics"
             strategy="lazyOnload"
