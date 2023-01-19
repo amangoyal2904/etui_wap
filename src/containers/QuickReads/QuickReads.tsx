@@ -6,6 +6,7 @@ import LazyLoadImg from "components/LazyLoad";
 import { useRouter } from "next/router";
 import { getMSID } from "utils";
 import { grxEvent } from "utils/ga";
+import SEO from "components/SEO";
 
 const config = {
   delta: 1, // min distance(px) before a swipe starts. *See Notes*
@@ -20,6 +21,9 @@ const config = {
 const QuickReads: FC<QuickReadsProps> = (props) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isCoachOpen, setIsCoachOpen] = useState(false);
+
+  const { seo = {}, version_control, parameters } = props;
+  const seoData = { ...seo, ...version_control?.seo };
 
   const router = useRouter();
   const slides = props?.searchResult[0]?.data || [];
@@ -61,6 +65,8 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
     slides[currentCardIndex] &&
       slides[currentCardIndex].id &&
       router.push(`/quickreads/${slides[currentCardIndex].id}`, undefined, { shallow: true });
+
+    seoData.title = slides[currentCardIndex].title;
 
     grxEvent(
       "event",
@@ -116,6 +122,7 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
           </div>
         )}
       </div>
+      <SEO {...seoData} />
     </>
   );
 };
