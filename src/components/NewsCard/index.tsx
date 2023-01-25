@@ -152,7 +152,7 @@ const NewsCard = (props: ListProps) => {
           </div>
           {cardsData?.length > 4 && (
             <div className={styles.loadMore} onClick={loadMore}>
-              {isFetching ? "Loading..." : "Load More"}
+              {loadingMoreTopic ? "Loading..." : "Load More"}
             </div>
           )}
         </ul>
