@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { APP_ENV } from "../utils";
 import * as Config from "../utils/common";
 
@@ -8,14 +8,26 @@ interface Props {
   isprimeuser?: number;
   objVc?: object;
 }
+
+declare global {
+  interface Window {
+    optCheck: boolean;
+  }
+}
+
 const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const router = useRouter();
   const reqData = router.query;
+  const isTopicPage = router.asPath.indexOf("/topic/") !== -1;
   const isReady = router.isReady;
 
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
+
+  useEffect(() => {
+    window.optCheck = router.asPath.indexOf("opt=1") != -1;
+  }, []);
 
   return (
     <>
@@ -53,6 +65,24 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
       {!reqData.opt && isReady && (
         <>
+          {APP_ENV === "development" && (
+            <Script
+              id="domain-set"
+              dangerouslySetInnerHTML={{
+                __html: `try {
+                const hdomain = "economictimes.com";
+                if (document.domain != hdomain) {
+                    if (document.domain.indexOf(hdomain) != -1) {
+                        document.domain = hdomain;
+                    }
+                }
+              } catch (e) {
+                  console.log("error in setDomain", e);
+              }
+              `
+              }}
+            />
+          )}
           <Script
             id="google-analytics"
             strategy="lazyOnload"
@@ -81,21 +111,36 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           />
           <Script
             id="tag-manager"
-            strategy="lazyOnload"
+            strategy={isTopicPage ? "lazyOnload" : "worker"}
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
           />
-          <Script
-            id="tag-manager-init"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
+          {isTopicPage ? (
+            <Script
+              id="tag-manager-init"
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
                 gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
               `
-            }}
-          />
+              }}
+            />
+          ) : (
+            <Script
+              id="tag-manager-init"
+              type="text/partytown"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${Config.GA.GTM_ID}', { send_page_view: false });
+              `
+              }}
+            />
+          )}
           <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
           <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
 

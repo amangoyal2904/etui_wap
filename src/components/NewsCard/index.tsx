@@ -97,20 +97,22 @@ const NewsCard = (props: ListProps) => {
                 <Fragment>
                   <div className={styles.newsContent}>
                     <h2 data-testid="newsCardTitle">{item.title}</h2>
-                    <div className={styles.imgWrapper}>
-                      <LazyLoadImg
-                        clsName={styles.cardImg}
-                        large={false}
-                        img={item.img}
-                        alt={item.title}
-                        width={135}
-                        height={100}
-                      />
-                      {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
-                    </div>
+                    {item.img && (
+                      <div className={styles.imgWrapper}>
+                        <LazyLoadImg
+                          clsName={styles.cardImg}
+                          large={false}
+                          img={item.img}
+                          alt={item.title}
+                          width={135}
+                          height={100}
+                        />
+                        {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
+                      </div>
+                    )}
                   </div>
                   {showSynopsis ? (
-                    <p className={`${styles.synopsis}`}>
+                    <p className={styles.synopsis}>
                       {removeBackSlash(item.synopsis).length > 140
                         ? `${removeBackSlash(item.synopsis).slice(0, 140)}...`
                         : removeBackSlash(item.synopsis)}
