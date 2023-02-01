@@ -65,11 +65,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
       {!reqData.opt && isReady && (
         <>
-          {APP_ENV === "development" && (
-            <Script
-              id="domain-set"
-              dangerouslySetInnerHTML={{
-                __html: `try {
+          <Script
+            id="domain-set"
+            dangerouslySetInnerHTML={{
+              __html: `try {
                 const hdomain = "economictimes.com";
                 if (document.domain != hdomain) {
                     if (document.domain.indexOf(hdomain) != -1) {
@@ -80,9 +79,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
                   console.log("error in setDomain", e);
               }
               `
-              }}
-            />
-          )}
+            }}
+          />
           <Script
             id="google-analytics"
             strategy="lazyOnload"
