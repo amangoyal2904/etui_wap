@@ -1,3 +1,11 @@
+import type { NextApiHandler } from "next";
+import { APP_ENV } from "../../utils";
+
+const devTxt = `User-agent: *
+Disallow: /
+`;
+
+const prodTxt = `
 User-agent: *
 Allow: /
 Disallow: /PDAET/
@@ -79,3 +87,11 @@ Sitemap: https://economictimes.indiatimes.com/sitemapxml.cms
 Sitemap: https://economictimes.indiatimes.com/etstatic/sitemaps/etvideo/sitemap-index.xml
 Sitemap: https://economictimes.indiatimes.com/sitemap/today
 Sitemap: https://economictimes.indiatimes.com/sitemap/yesterday
+`;
+
+const handler: NextApiHandler = (request, response) => {
+  const isLive = APP_ENV === "development" ? false : true;
+  response.status(200).send(isLive ? prodTxt : devTxt);
+};
+
+export default handler;
