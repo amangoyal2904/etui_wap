@@ -149,7 +149,7 @@ const NewsCard = (props: ListProps) => {
               <p className={styles.noData}>No data Found</p>
             )}
           </div>
-          {cardsData?.length > 4 && (
+          {cardsData?.slice(4)?.length > 4 && (
             <div className={styles.loadMore} onClick={loadMore}>
               {loadingMoreTopic ? "Loading..." : "Load More"}
             </div>
