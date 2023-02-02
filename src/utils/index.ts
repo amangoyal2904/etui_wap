@@ -94,12 +94,24 @@ export const allowGDPR = () => {
     console.log("allowGDPR", e);
   }
 };
-export const pageType = (pathurl) => {
-  if (pathurl.indexOf("/topic/") != -1) {
+const checkTopicUrl = (url, all) => {
+  const query: string = url.split("/")[2] || all?.slice(1, 2).toString();
+  const type: string = all?.slice(2, 3).toString();
+  if (url.indexOf(`/topic/${query}${type ? `/${type}` : ""}`) != -1 && !(all.length > 3)) {
+    return true;
+  }
+};
+const checkCorrectUrl = (url, msid, page) => {
+  if (!isNaN(msid) && url.indexOf(`/${page}/${msid}.cms`) != -1) {
+    return true;
+  }
+};
+export const pageType = (pathurl, msid, all) => {
+  if (pathurl.indexOf("/topic/") != -1 && checkTopicUrl(pathurl, all)) {
     return "topic";
-  } else if (pathurl.indexOf("/videoshow/") != -1) {
+  } else if (pathurl.indexOf("/videoshow/") != -1 && checkCorrectUrl(pathurl, msid, "videoshow")) {
     return "videoshow";
-  } else if (pathurl.indexOf("/videoshownew/") != -1) {
+  } else if (pathurl.indexOf("/videoshownew/") != -1 && checkCorrectUrl(pathurl, msid, "videoshownew")) {
     return "videoshownew";
   } else {
     return "notfound";
