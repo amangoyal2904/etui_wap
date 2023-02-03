@@ -4,7 +4,7 @@ import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
-import { prepSeoListData, updateDimension } from "utils";
+import { prepSeoListData } from "utils";
 
 const Topic: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props || {};
@@ -14,9 +14,6 @@ const Topic: FC<PageProps> = (props) => {
   const { cpd_wap = "0" } = version_control;
   const { query = "", tab = "" } = parameters || {};
   const searchQuery = query && query.replace(/-/g, " ").toUpperCase();
-  useEffect(() => {
-    updateDimension();
-  });
 
   const TopicContainer = () => {
     return props?.searchResult?.map((item) => {
