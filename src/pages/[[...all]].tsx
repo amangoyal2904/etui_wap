@@ -9,14 +9,15 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const isprimeuser = req.headers?.primetemplate ? 1 : 0;
   const { all = [] } = params;
   const lastUrlPart: string = all?.slice(-1).toString();
-  let page = pageType(resolvedUrl);
+  const msid = getMSID(lastUrlPart);
+
+  let page = pageType(resolvedUrl, msid, all);
   const api = APIS_CONFIG.FEED;
 
   let extraParams = {},
     response: any = {};
 
   if (page !== "notfound") {
-    const msid = getMSID(lastUrlPart);
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====
