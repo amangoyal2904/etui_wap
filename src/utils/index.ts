@@ -97,11 +97,11 @@ export const allowGDPR = () => {
 const checkTopicUrl = (url, all) => {
   const query: string = url.split("/")[2] || all?.slice(1, 2).toString();
   const type: string = all?.slice(2, 3).toString();
-  let correctType = false;
-  if (["all", "news", "videos"].includes(type.toLowerCase()) || !type) {
-    correctType = true;
-  }
-  if (url.indexOf(`/topic/${query}${type ? `/${type}` : ""}`) != -1 && !(all.length > 3) && correctType) {
+  if (
+    url.indexOf(`/topic/${query}${type ? `/${type}` : ""}`) != -1 &&
+    !(all.length > 3) &&
+    (["all", "news", "videos"].includes(type.toLowerCase()) || !type)
+  ) {
     return true;
   }
 };
