@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { FC, useEffect } from "react";
-import { APP_ENV } from "../utils";
+import { APP_ENV, updateDimension } from "../utils";
 import * as Config from "../utils/common";
 
 interface Props {
@@ -27,6 +27,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
+    updateDimension();
   }, []);
 
   return (
@@ -91,8 +92,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
               ga('create', '${Config.GA.GA_ID}', 'auto');
-              window.customDimension = { ...window["customDimension"], page: window.location.pathname };
-              ga('send', 'pageview', window.customDimension);
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
               `
