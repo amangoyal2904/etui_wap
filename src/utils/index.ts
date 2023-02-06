@@ -123,6 +123,7 @@ export const prepareMoreParams = ({ all, page, msid }) => {
     query = query.replace(/-/g, "%20");
     moreParams.query = query;
     moreParams.tab = `${type ? type : ""}`;
+    delete moreParams.msid;
   }
 
   return moreParams;
