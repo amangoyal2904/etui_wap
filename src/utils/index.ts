@@ -111,6 +111,11 @@ export const allowGDPR = () => {
 const checkTopicUrl = (url, all) => {
   const query: string = url.split("/")[2] || all?.slice(1, 2).toString();
   const type: string = all?.slice(2, 3).toString();
+  /*
+    -> checking exact topic url format topic/query/tab
+    -> for topic case correct url only have topic, query, and tabs
+    -> tabs only can have all, news and videos and not should be undefined or null
+  */
   if (
     url.indexOf(`/topic/${query}${type ? `/${type}` : ""}`) != -1 &&
     !(all.length > 3) &&
@@ -118,11 +123,13 @@ const checkTopicUrl = (url, all) => {
   ) {
     return true;
   }
+  return false;
 };
 const checkCorrectUrl = (url, msid, page) => {
   if (!isNaN(msid) && url.indexOf(`/${page}/${msid}.cms`) != -1) {
     return true;
   }
+  return false;
 };
 export const pageType = (pathurl, msid, all) => {
   if (pathurl.indexOf("/topic/") != -1 && checkTopicUrl(pathurl, all)) {
