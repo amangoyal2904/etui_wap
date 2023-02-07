@@ -48,7 +48,32 @@ const Cube: FC = () => {
   }, []);
 
   return (
-    <>{pageLoaded && displayCube && <iframe className={styles.cube} src={ifmSrc} id="cubeFrame" loading="lazy" />}</>
+    <>
+      {pageLoaded && displayCube && (
+        <iframe
+          className={styles.cube}
+          src={ifmSrc}
+          onLoad={() => {
+            try {
+              const cubeIframeElm = document.getElementById("cubeFrame") as HTMLIFrameElement;
+              if (cubeIframeElm && cubeIframeElm.contentWindow) {
+                cubeIframeElm.contentWindow.postMessage(
+                  {
+                    message: "parent_location",
+                    type: location.search
+                  },
+                  "*"
+                );
+              }
+            } catch (e) {
+              console.log("Cube Iframe Load Issue: ", e);
+            }
+          }}
+          id="cubeFrame"
+          loading="lazy"
+        />
+      )}
+    </>
   );
 };
 
