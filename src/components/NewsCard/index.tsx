@@ -23,7 +23,7 @@ let curpg = 1;
 const NewsCard = (props: ListProps) => {
   const { data, showSynopsis, query, type }: ListProps = props;
   const [isFetching, setIsFetching] = useState(false);
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState(type || "all");
   const [loadingMoreTopic, setLoadingMoreTopic] = useState<boolean>(false);
   const [cardsData, setCardsData] = useState(data.data);
 
@@ -97,20 +97,22 @@ const NewsCard = (props: ListProps) => {
                 <Fragment>
                   <div className={styles.newsContent}>
                     <h2 data-testid="newsCardTitle">{item.title}</h2>
-                    <div className={styles.imgWrapper}>
-                      <LazyLoadImg
-                        clsName={styles.cardImg}
-                        large={false}
-                        img={item.img}
-                        alt={item.title}
-                        width={135}
-                        height={100}
-                      />
-                      {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
-                    </div>
+                    {item.img && (
+                      <div className={styles.imgWrapper}>
+                        <LazyLoadImg
+                          clsName={styles.cardImg}
+                          large={false}
+                          img={item.img}
+                          alt={item.title}
+                          width={135}
+                          height={100}
+                        />
+                        {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
+                      </div>
+                    )}
                   </div>
                   {showSynopsis ? (
-                    <p className={`${styles.synopsis}`}>
+                    <p className={styles.synopsis}>
                       {removeBackSlash(item.synopsis).length > 140
                         ? `${removeBackSlash(item.synopsis).slice(0, 140)}...`
                         : removeBackSlash(item.synopsis)}
@@ -133,7 +135,7 @@ const NewsCard = (props: ListProps) => {
             index < 4 ? renderList(item, index) : ""
           )}
 
-          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={tab} />
+          <Tabs tabsName={tabsName} handleTabClick={handleTabClick} urlActiveTab={type} />
           <div className={styles.tabList}>
             {isFetching && !loadingMoreTopic ? (
               <div className={styles.loading}>
@@ -147,9 +149,9 @@ const NewsCard = (props: ListProps) => {
               <p className={styles.noData}>No data Found</p>
             )}
           </div>
-          {cardsData?.length > 4 && (
+          {cardsData?.slice(4)?.length > 4 && (
             <div className={styles.loadMore} onClick={loadMore}>
-              {isFetching ? "Loading..." : "Load More"}
+              {loadingMoreTopic ? "Loading..." : "Load More"}
             </div>
           )}
         </ul>

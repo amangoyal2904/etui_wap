@@ -98,16 +98,25 @@ const DfpAds: FC<AdInfoProps> = function (props) {
           if (window.extCampaignVal) {
             googleTag.pubads().setTargeting("ref", window.extCampaignVal);
           }
-          googleTag
-            .pubads()
-            .setTargeting("sg", __auds)
-            .setTargeting("HDL", _hdl)
-            .setTargeting("ARC1", _arc1)
-            .setTargeting("Hyp1", _hyp1)
-            .setTargeting("article", _article)
-            .setTargeting("BL", _bl + "")
-            .setTargeting("Keyword", _keyword)
-            .setTargeting("ArticleID", currMsid);
+          // googleTag
+          //   .pubads()
+          //   .setTargeting("sg", __auds)
+          //   .setTargeting("HDL", _hdl)
+          //   .setTargeting("ARC1", _arc1)
+          //   .setTargeting("Hyp1", _hyp1)
+          //   .setTargeting("article", _article)
+          //   .setTargeting("BL", _bl + "")
+          //   .setTargeting("Keyword", _keyword)
+          //   .setTargeting("ArticleID", currMsid);
+
+          !!__auds && googleTag.pubads().setTargeting("sg", __auds);
+          !!_hdl && googleTag.pubads().setTargeting("HDL", _hdl);
+          !!_arc1 && googleTag.pubads().setTargeting("ARC1", _arc1);
+          !!_hyp1 && googleTag.pubads().setTargeting("Hyp1", _hyp1);
+          !!_article && googleTag.pubads().setTargeting("article", _article);
+          !!_bl && googleTag.pubads().setTargeting("BL", _bl + "");
+          !!_keyword && googleTag.pubads().setTargeting("Keyword", _keyword);
+          !!currMsid && googleTag.pubads().setTargeting("ArticleID", currMsid);
 
           googleTag.pubads().enableSingleRequest();
           googleTag.enableServices();

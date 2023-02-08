@@ -1,3 +1,67 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-VariableFont_wght.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-stretch: 75% 125%;
+}
+
+@font-face {
+  font-family: "Faustina";
+  src: url("/fonts/Faustina-VariableFont_wght.woff2") format("woff2-variations");
+  font-weight: 300 800;
+  font-style: normal;
+}
+
+/* 
+@font-face {
+  font-family: "Faustina";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/faustina-v6-latin-regular.woff");
+}
+
+@font-face {
+  font-family: "Faustina";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/faustina-v6-latin-500.woff");
+}
+
+@font-face {
+  font-family: "Faustina";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/faustina-v6-latin-700.woff");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/montserrat-v14-latin-regular.woff");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/montserrat-v14-latin-500.woff");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/montserrat-v14-latin-700.woff"); 
+}*/
+
 html,
 body {
   padding: 0;

@@ -38,14 +38,15 @@ const Index = (props: ListProps) => {
 
   return (
     <div className={styles.tabWidget}>
-      <div className={styles.tabs} onClick={handleClick}>
+      <div className={styles.tabs}>
         {tabsName &&
           tabsName.map((tabName) => (
             <p
-              className={`${styles.tTab} ${activeTab == `${tabName.toLowerCase()}` ? styles.active : ""}`}
+              className={`${styles.tTab} ${activeTab.toLowerCase() == `${tabName.toLowerCase()}` ? styles.active : ""}`}
               key={tabName}
               data-name={tabName.toLowerCase()}
               data-testid="tabs"
+              onClick={handleClick}
             >
               {tabName}
             </p>
