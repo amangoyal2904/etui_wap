@@ -120,7 +120,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
       >
-        {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} />}
+        {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} fetchpriority="high" />}
       </div>
       <div className={styles.wrap}>
         <h1 role="heading">{result.title}</h1>
