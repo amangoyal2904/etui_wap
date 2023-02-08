@@ -14,8 +14,7 @@ const Cube: FC = () => {
         const closeCube = sessionStorage.getItem("closeCube");
         const isSubscribed = window.objInts.permissions.indexOf("subscribed") > -1;
         if (closeCube != "1" && !window.optCheck && window.objInts.adType !== "adfree" && !isSubscribed) {
-          //setIfmSrc(window.objVc.global_cube_wap_url ? window.objVc.global_cube_wap_url : ET_CUBE_URL);
-          setIfmSrc("https://spmdev8243.economictimes.com/iframe_cube.cms");
+          setIfmSrc(window?.objVc?.global_cube_wap_url ? window?.objVc?.global_cube_wap_url : ET_CUBE_URL);
           setDisplayCube(true);
         } else {
           setDisplayCube(false);

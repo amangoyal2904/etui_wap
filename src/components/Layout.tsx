@@ -26,7 +26,7 @@ const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
       <main>{children}</main>
       <PrivacyPolicy />
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-      {page !== "quickreads" && <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />}
+      {page !== "quickreads" && <Footer dynamicFooterData={dynamicFooterData} />}
     </>
   );
 };

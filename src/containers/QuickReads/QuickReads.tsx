@@ -28,6 +28,8 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
   const router = useRouter();
   const slides = props?.searchResult[0]?.data || [];
 
+  seoData.title = slides[currentCardIndex].title + " - The Economic Times";
+
   const handlers = useSwipeable({
     onSwipedUp: () => {
       currentCardIndex + 1 < slides.length && setCurrentCardIndex(currentCardIndex + 1);
@@ -66,8 +68,6 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
       slides[currentCardIndex].id &&
       router.push(`/quickreads/${slides[currentCardIndex].id}`, undefined, { shallow: true });
 
-    seoData.title = slides[currentCardIndex].title;
-
     grxEvent(
       "event",
       {
@@ -84,7 +84,21 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
       <div className={styles.mainContent}>
         <div className={styles.slideWrapper} {...handlers}>
           {slides.length > 0 && (
-            <a className={styles.slide} href={slides[currentCardIndex].url}>
+            <a
+              className={styles.slide}
+              href={slides[currentCardIndex].url}
+              onClick={() =>
+                grxEvent(
+                  "event",
+                  {
+                    event_category: "PWA Widget Quick Reads",
+                    event_action: "Clicks",
+                    event_label: `${slides[currentCardIndex].url}`
+                  },
+                  1
+                )
+              }
+            >
               <LazyLoadImg img={slides[currentCardIndex].img} width="800" height="600" />
               <div className={styles.txt}>
                 <h2>{slides[currentCardIndex].title}</h2>
