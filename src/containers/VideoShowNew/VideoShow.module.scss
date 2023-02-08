@@ -38,6 +38,14 @@
   overflow: hidden;
   background: #000;
 
+  .video_thumb {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transform: translate(-50%, 0);
+    left: 50%;
+  }
+
   & > div:first-child {
     position: absolute;
     top: 0;

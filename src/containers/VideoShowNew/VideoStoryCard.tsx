@@ -109,24 +109,17 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
 
   return (
     <div className={styles.videoshow} ref={videoStoryCardRef}>
-      {/* {isFirstVidBeforeLoad && <img src={result.img} fetchpriority="high" style={{ display: "none" }} />} */}
-      <Head>
-        <link rel="preload" as="image" href={result.img}></link>
-      </Head>
+      {isFirstVidBeforeLoad && (
+        <Head>
+          <link rel="preload" as="image" fetchpriority="high" href={result.img}></link>
+        </Head>
+      )}
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
-        style={
-          isFirstVidBeforeLoad
-            ? {
-                backgroundImage: `url(${result.img})`,
-                backgroundSize: "contain",
-                backgroundPosition: "center center",
-                backgroundRepeat: "no-repeat"
-              }
-            : {}
-        }
-      ></div>
+      >
+        {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} />}
+      </div>
       <div className={styles.wrap}>
         <h1 role="heading">{result.title}</h1>
         <div className={styles.synopsis}>
