@@ -4,6 +4,8 @@ import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
+import { useSelector } from "react-redux";
+import { AppState } from "app/store";
 declare global {
   interface Window {
     fromIframeNewVideo: any;
@@ -15,7 +17,7 @@ declare global {
 export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
-
+  const loginState = useSelector((state: AppState) => state.login);
   /**
    * Fires tracking events.
    * Toggles video description
@@ -49,7 +51,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.player.msid = result.msid;
     playerConfig.player.autoPlay = index === 0;
     playerConfig.player.pagetpl = "videoshownew";
-
+    playerConfig.player.skipAd = loginState.isprimeuser;
     const player = new window.SlikePlayer(playerConfig);
 
     handleAdEvents(player);
