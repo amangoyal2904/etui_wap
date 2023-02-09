@@ -71,7 +71,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     } else {
       setPlayer();
     }
-  }, []);
+  }, [loginState]);
 
   useEffect(() => {
     if (videoStoryCardRef.current) {

@@ -16,12 +16,15 @@ import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
+  const [isPrimeUser, setIsPrimeUser] = useState(0);
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const loginState = useSelector((state: AppState) => state.login);
-
+  useEffect(() => {
+    setIsPrimeUser(loginState.isprimeuser);
+  }, [loginState]);
   useEffect(() => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
@@ -33,7 +36,7 @@ const VideoShow: FC<PageProps> = (props) => {
       return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          const url = `${result.iframeUrl}&skipad=${loginState.isprimeuser}`;
+          const url = `${result.iframeUrl}&skipad=${isPrimeUser}`;
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>
