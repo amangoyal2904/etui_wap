@@ -111,11 +111,11 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
 
   return (
     <div className={styles.videoshow} ref={videoStoryCardRef}>
-      {isFirstVidBeforeLoad && (
+      {/* {isFirstVidBeforeLoad && (
         <Head>
           <link rel="preload" as="image" fetchpriority="high" href={result.img}></link>
         </Head>
-      )}
+      )} */}
       <div
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
