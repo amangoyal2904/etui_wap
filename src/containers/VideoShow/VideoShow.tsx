@@ -21,10 +21,23 @@ const VideoShow: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
-  const loginState = useSelector((state: AppState) => state.login);
+
+  const intsCallback = () => {
+    window.objInts.afterPermissionCall(() => {
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+    });
+  };
   useEffect(() => {
-    setIsPrimeUser(loginState.isprimeuser);
-  }, [loginState]);
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
+    } else {
+      document.addEventListener("objIntsLoaded", intsCallback);
+    }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
+  }, []);
+
   useEffect(() => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
