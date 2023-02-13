@@ -42,6 +42,16 @@ const Cube: FC = () => {
       }, 1000);
     });
 
+    window.addEventListener(
+      "message",
+      (e) => {
+        if (typeof e.data == "object" && e.data.message == "cube iframe close") {
+          document.getElementById("cubeFrame").remove();
+        }
+      },
+      false
+    );
+
     return () => {
       document.removeEventListener("objIntsLoaded", intsCallback);
     };
