@@ -14,7 +14,7 @@ const Cube: FC = () => {
         const closeCube = sessionStorage.getItem("closeCube");
         const isSubscribed = window.objInts.permissions.indexOf("subscribed") > -1;
         if (closeCube != "1" && !window.optCheck && window.objInts.adType !== "adfree" && !isSubscribed) {
-          setIfmSrc(window?.objVc?.global_cube_wap_url ? window?.objVc?.global_cube_wap_url : ET_CUBE_URL);
+          setIfmSrc(window.objVc.global_cube_wap_url ? window.objVc.global_cube_wap_url : ET_CUBE_URL);
           setDisplayCube(true);
         } else {
           setDisplayCube(false);
@@ -41,6 +41,16 @@ const Cube: FC = () => {
         setPageLoaded(true);
       }, 1000);
     });
+
+    window.addEventListener(
+      "message",
+      (e) => {
+        if (typeof e.data == "object" && e.data.message == "cube iframe close") {
+          document.getElementById("cubeFrame").remove();
+        }
+      },
+      false
+    );
 
     return () => {
       document.removeEventListener("objIntsLoaded", intsCallback);
