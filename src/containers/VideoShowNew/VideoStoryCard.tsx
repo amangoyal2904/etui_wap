@@ -16,7 +16,6 @@ declare global {
 export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
-
   /**
    * Fires tracking events.
    * Toggles video description
@@ -38,7 +37,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
    * Sets player specific configuration immutably.
    * Calls player event hooks
    */
-  const setPlayer = () => {
+  const setPlayer = (isPrimeUser) => {
     const playerConfig = JSON.parse(JSON.stringify(dynamicPlayerConfig));
     playerConfig.contEl = "id_" + result.msid;
     playerConfig.video.id = result.slikeid;
@@ -50,26 +49,60 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.player.msid = result.msid;
     playerConfig.player.autoPlay = index === 0;
     playerConfig.player.pagetpl = "videoshownew";
-
+    playerConfig.player.skipAd = isPrimeUser;
     const player = new window.SlikePlayer(playerConfig);
 
     handleAdEvents(player);
     handlePlayerEvents(player);
   };
-
+  const intsCallback = () => {
+    window.objInts.afterPermissionCall(() => {
+      if (window.objInts.permissions.indexOf("subscribed") > -1) {
+        /**
+         * SlikePlayerReady is dispatched from VideoShow(parent) component.
+         * index > 0 can happen only after slike is fully initialized.
+         */
+        if (index === 0) {
+          document.addEventListener("SlikePlayerReady", () => {
+            setPlayer(1);
+          });
+        } else {
+          setPlayer(1);
+        }
+      } else {
+        if (index === 0) {
+          document.addEventListener("SlikePlayerReady", () => {
+            setPlayer(0);
+          });
+        } else {
+          setPlayer(0);
+        }
+      }
+    });
+  };
   useEffect(() => {
-    /**
-     * SlikePlayerReady is dispatched from VideoShow(parent) component.
-     * index > 0 can happen only after slike is fully initialized.
-     */
-    if (index === 0) {
-      document.addEventListener("SlikePlayerReady", () => {
-        setPlayer();
-      });
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
     } else {
-      setPlayer();
+      document.addEventListener("objIntsLoaded", intsCallback);
     }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
   }, []);
+  // useEffect(() => {
+  //   /**
+  //    * SlikePlayerReady is dispatched from VideoShow(parent) component.
+  //    * index > 0 can happen only after slike is fully initialized.
+  //    */
+  //   if (index === 0) {
+  //     document.addEventListener("SlikePlayerReady", () => {
+  //       setPlayer();
+  //     });
+  //   } else {
+  //     setPlayer();
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (videoStoryCardRef.current) {
