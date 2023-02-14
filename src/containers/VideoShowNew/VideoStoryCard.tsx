@@ -4,9 +4,6 @@ import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
-import { useSelector } from "react-redux";
-import { AppState } from "app/store";
-import Head from "next/head";
 declare global {
   interface Window {
     fromIframeNewVideo: any;
@@ -15,26 +12,9 @@ declare global {
   }
 }
 
-export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
+export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids, isPrimeUser }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
   const videoStoryCardRef = useRef(null);
-
-  const intsCallback = () => {
-    window.objInts.afterPermissionCall(() => {
-      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
-    });
-  };
-  useEffect(() => {
-    if (typeof window.objInts !== "undefined") {
-      intsCallback();
-    } else {
-      document.addEventListener("objIntsLoaded", intsCallback);
-    }
-    return () => {
-      document.removeEventListener("objIntsLoaded", intsCallback);
-    };
-  }, []);
   /**
    * Fires tracking events.
    * Toggles video description
@@ -68,6 +48,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.player.msid = result.msid;
     playerConfig.player.autoPlay = index === 0;
     playerConfig.player.pagetpl = "videoshownew";
+    console.log("isPrimeUser", isPrimeUser);
     playerConfig.player.skipAd = isPrimeUser;
     const player = new window.SlikePlayer(playerConfig);
 
