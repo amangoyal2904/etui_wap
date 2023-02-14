@@ -22,7 +22,6 @@ const VideoShow: FC<PageProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadErrMsg, setLoadErrMsg] = useState("");
   const [didUserInteractionStart, setDidUserInteractionStart] = useState(false);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
 
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
@@ -58,20 +57,7 @@ const VideoShow: FC<PageProps> = (props) => {
     }
   }
 
-  const intsCallback = () => {
-    window.objInts.afterPermissionCall(() => {
-      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
-    });
-    console.log("isPrime", isPrimeUser);
-  };
-
   useEffect(() => {
-    if (typeof window.objInts !== "undefined") {
-      intsCallback();
-    } else {
-      document.addEventListener("objIntsLoaded", intsCallback);
-    }
-
     // Below are the two event listeners for loading the slike player scripts on user interaction.
     document.addEventListener(
       "touchstart",
@@ -155,9 +141,6 @@ const VideoShow: FC<PageProps> = (props) => {
         });
       });
     }
-    return () => {
-      document.removeEventListener("objIntsLoaded", intsCallback);
-    };
   }, [loadMoreRef]);
 
   useEffect(() => {
@@ -179,7 +162,6 @@ const VideoShow: FC<PageProps> = (props) => {
             key={`vid_${i}`}
             didUserInteractionStart={didUserInteractionStart}
             pageViewMsids={pageViewMsids}
-            isPrimeUser={isPrimeUser}
           />
         ))}
         {showLoaderNext && (

@@ -12,8 +12,9 @@ declare global {
   }
 }
 
-export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids, isPrimeUser }) {
+export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
+  const [isPrimeUser, setIsPrimeUser] = useState(0);
   const videoStoryCardRef = useRef(null);
   /**
    * Fires tracking events.
@@ -55,7 +56,22 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     handleAdEvents(player);
     handlePlayerEvents(player);
   };
-
+  const intsCallback = () => {
+    window.objInts.afterPermissionCall(() => {
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+    });
+    console.log("isPrime", isPrimeUser);
+  };
+  useEffect(() => {
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
+    } else {
+      document.addEventListener("objIntsLoaded", intsCallback);
+    }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
+  }, []);
   useEffect(() => {
     /**
      * SlikePlayerReady is dispatched from VideoShow(parent) component.
