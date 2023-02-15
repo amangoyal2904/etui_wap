@@ -158,20 +158,20 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy={isTopicPage ? "lazyOnload" : "worker"}
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
           />
-          {isTopicPage ? (
-            <Script
-              id="tag-manager-init"
-              strategy="lazyOnload"
-              dangerouslySetInnerHTML={{
-                __html: `
+          {/* {isTopicPage ? ( */}
+          <Script
+            id="tag-manager-init"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
                 gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
               `
-              }}
-            />
-          ) : (
+            }}
+          />
+          {/* ) : (
             <Script
               id="tag-manager-init"
               type="text/partytown"
@@ -184,7 +184,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               `
               }}
             />
-          )}
+          )} */}
           <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
           <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
 
