@@ -115,7 +115,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         )}
         {/* {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />} */}
         {prefetchDomains}
-        <script
+        {/* <script
           data-partytown-config
           dangerouslySetInnerHTML={{
             __html: `
@@ -125,7 +125,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
               };
             `
           }}
-        />
+        /> */}
       </Head>
     </>
   );

@@ -4,14 +4,12 @@ import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, Fragment, FC } from "react";
-import { useSelector } from "react-redux";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
