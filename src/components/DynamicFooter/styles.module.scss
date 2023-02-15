@@ -27,15 +27,14 @@
           margin-bottom: 0.3em;
           font-weight: normal;
           position: relative;
-          padding-right: 20px;
+          margin-right: 20px;
           &::after {
             border-left: 1px solid;
             margin: 0 0.5em;
             content: "";
             position: absolute;
-            right: 1px;
-            top: 4px;
-            bottom: 2px;
+            top: 7px;
+            bottom: 5px;
           }
           &:first-child {
             padding-left: 0;
@@ -48,6 +47,8 @@
           a {
             font-size: 0.875em;
             color: white;
+            display: inline-block;
+            padding: 5px 6px 5px 0;
           }
         }
       }

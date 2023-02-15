@@ -4,23 +4,37 @@ import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, Fragment, FC } from "react";
-import { useSelector } from "react-redux";
 import AppDownloadWidget from "components/AppDownloadWidget";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-import { AppState } from "app/store";
 import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
+  const [isPrimeUser, setIsPrimeUser] = useState(0);
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
-  const loginState = useSelector((state: AppState) => state.login);
+
+  const intsCallback = () => {
+    window.objInts.afterPermissionCall(() => {
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+    });
+  };
+  useEffect(() => {
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
+    } else {
+      document.addEventListener("objIntsLoaded", intsCallback);
+    }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
+  }, []);
 
   useEffect(() => {
     // set page specific customDimensions
@@ -33,7 +47,7 @@ const VideoShow: FC<PageProps> = (props) => {
       return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          const url = `${result.iframeUrl}&skipad=${loginState.isprimeuser}`;
+          const url = `${result.iframeUrl}&skipad=${isPrimeUser}`;
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>

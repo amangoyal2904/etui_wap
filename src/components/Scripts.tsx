@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { APP_ENV } from "../utils";
 import * as Config from "../utils/common";
 
@@ -8,6 +8,13 @@ interface Props {
   isprimeuser?: number;
   objVc?: object;
 }
+
+declare global {
+  interface Window {
+    optCheck: boolean;
+  }
+}
+
 const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const router = useRouter();
   const reqData = router.query;
@@ -17,6 +24,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints.cms?v=${objVc["js_interstitial"]}&minify=${minifyJS}`;
+
+  useEffect(() => {
+    window.optCheck = router.asPath.indexOf("opt=1") != -1;
+  }, []);
 
   return (
     <>
@@ -36,13 +47,59 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           _comscore.push({ c1: "2", c2: "6036484" });
         `}
       </Script>
-      <Script
+      <Script id="geoinfo-call">
+        {`
+        function getGeoInfo() {    
+            var value = "", info = {};               
+            var name = "geoinfo=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                value = c.substring(name.length, c.length);
+              }
+            }
+
+            if(value) {
+              var comps = value.split(',').map(function(item) { return item.trim(); });                                              
+              var map = {'CC': 'CountryCode', 'RC': 'region_code', 'CT': 'city', 'CO': 'Continent', 'GL': 'geolocation'}
+              for(var i=0; i<comps.length; i++) {
+                var compSplit = comps[i].split(':');
+                info[map[compSplit[0]]] = compSplit[1];
+              }
+            }
+
+            return info;
+          }
+
+          var geoinfo = getGeoInfo();
+
+          if(geoinfo && !geoinfo.CountryCode) {
+            var script= document.createElement('script');
+            script.type= 'text/javascript';
+            script.src= 'https://m.economictimes.com/geoapiet/?cb=et';
+            script.onload = function() {
+              const geoLoaded = new Event("geoLoaded");
+              document.dispatchEvent(geoLoaded);
+            };
+            document.head.appendChild(script);
+          } else {
+            const geoLoaded = new Event("geoLoaded");
+            document.dispatchEvent(geoLoaded);
+          }
+        `}
+      </Script>
+      {/* <Script
         src="https://m.economictimes.com/geoapiet/?cb=et"
         onLoad={() => {
           const geoLoaded = new Event("geoLoaded");
           document.dispatchEvent(geoLoaded);
         }}
-      />
+      /> */}
       <Script
         src={jsIntsURL}
         strategy="afterInteractive"
@@ -54,6 +111,22 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
       {!reqData.opt && isReady && (
         <>
+          <Script
+            id="domain-set"
+            dangerouslySetInnerHTML={{
+              __html: `try {
+                const hdomain = "economictimes.com";
+                if (document.domain != hdomain) {
+                    if (document.domain.indexOf(hdomain) != -1) {
+                        document.domain = hdomain;
+                    }
+                }
+              } catch (e) {
+                  console.log("error in setDomain", e);
+              }
+              `
+            }}
+          />
           <Script
             id="google-analytics"
             strategy="lazyOnload"

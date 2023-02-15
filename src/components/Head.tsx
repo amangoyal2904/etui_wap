@@ -84,7 +84,6 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         <link rel="dns-prefetch" href="https://jsso.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://img.etimg.com/" />
         <link rel="dns-prefetch" href="https://js.etimg.com/" />
-        <link rel="dns-prefetch" href="https://geoapiet.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://etpwaapi.economictimes.com/" />
         <link rel="dns-prefetch" href="https://static.growthrx.in/" />
         <link rel="dns-prefetch" href="https://etusers.economictimes.indiatimes.com/" />
@@ -114,6 +113,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
             <link rel="dns-prefetch" href="http://tvid.in" />
           </>
         )}
+        {/* {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />} */}
         {prefetchDomains}
         {/* <script
           data-partytown-config
