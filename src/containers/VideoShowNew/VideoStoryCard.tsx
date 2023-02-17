@@ -150,7 +150,13 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
         className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
         id={`id_${result.msid}`}
       >
-        {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} fetchpriority="high" />}
+        {/* {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} fetchpriority="high" />} */}
+        {isFirstVidBeforeLoad && (
+          <iframe
+            srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;"  />`}
+            className={styles.video_thumb}
+          />
+        )}
       </div>
       <div className={styles.wrap}>
         <h1 role="heading">{result.title}</h1>
