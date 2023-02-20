@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
-import NImage from "components/Image";
 
 const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
 const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
@@ -76,14 +75,7 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
           </div>
           <div className={styles.logo}>
             <a href={ET_WAP_URL}>
-              <NImage
-                width={277}
-                height={30}
-                noResize={true}
-                msid={74651805}
-                img="https://img.etimg.com/photo/msid-74651805,quality-100.cms"
-                alt="logo"
-              />
+              <img width={277} height={30} src="https://img.etimg.com/photo/msid-74651805,quality-100.cms" alt="logo" />
             </a>
           </div>
           <div className={styles.search}>
