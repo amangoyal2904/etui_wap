@@ -149,6 +149,17 @@ const VideoShow: FC<PageProps> = (props) => {
     window.customDimension = { ...window.customDimension, ...payload, dimension25: "videoshownew" };
   }, [props]);
 
+  useEffect(() => {
+    fetch(`https://reco.slike.in/similar/result.json?sid=1xr87mi9gk&msid=${msid}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
+
   return (
     <>
       <div className={styles.mainContent} id="vidContainer">
