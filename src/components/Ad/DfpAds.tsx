@@ -1,5 +1,5 @@
 import { FC, useState, useEffect, useCallback } from "react";
-import { AND_BEYOND } from "utils/common";
+import { useRouter } from "next/router";
 declare global {
   interface Window {
     // eslint-disable-next-line
@@ -32,6 +32,8 @@ interface AdInfoProps {
 const DfpAds: FC<AdInfoProps> = function (props) {
   const { adInfo, identifier } = props;
   const { key, index = 0, subsecnames = {} } = adInfo;
+  const router = useRouter();
+  const isTopicPage = router.asPath.indexOf("/topic/") !== -1;
 
   let divId = key;
   if (key) {
@@ -118,7 +120,19 @@ const DfpAds: FC<AdInfoProps> = function (props) {
           !!_keyword && googleTag.pubads().setTargeting("Keyword", _keyword);
           !!currMsid && googleTag.pubads().setTargeting("ArticleID", currMsid);
 
-          googleTag.pubads().enableSingleRequest();
+          if (isTopicPage) {
+            googleTag.pubads().enableLazyLoad({
+              // Fetch slots within 5 viewports.
+              fetchMarginPercent: 0,
+              // Render slots within 2 viewports.
+              renderMarginPercent: 0,
+              // Double the above values on mobile, where viewports are smaller
+              // and users tend to scroll faster.
+              mobileScaling: 2.0
+            });
+          } else {
+            googleTag.pubads().enableSingleRequest();
+          }
           googleTag.enableServices();
           googleTag.display(divId);
         }
