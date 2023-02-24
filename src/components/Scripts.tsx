@@ -27,7 +27,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
-    updateDimension();
+    //updateDimension();
   }, []);
 
   return (
@@ -134,6 +134,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
               window.customDimension = { ...window["customDimension"], url: window.location.href };
               window.grx("track", "page_view", window.customDimension);
+              updateDimension();
             }}
           />
           <Script

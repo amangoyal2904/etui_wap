@@ -149,42 +149,45 @@ export const growthRxInit = () => {
 };
 
 export const grxEvent = (type, data, gaEvent = 0) => {
-  if (window.grx && data) {
-    console.log("type-----", type, data);
-    const grxDimension = data;
-    const localobjVc = window.objVc || {};
-    // const localobjVc = {};
-    grxDimension["url"] = grxDimension["url"] || window.location.href;
-    if (window.customDimension && localobjVc["growthRxDimension"]) {
-      const objDim = localobjVc["growthRxDimension"];
-      for (const key in window.customDimension) {
-        const dimId = "d" + key.substr(9, key.length);
-        if (objDim[dimId] && [key] && typeof window.customDimension[key] !== "undefined") {
-          grxDimension[objDim[dimId]] = window.customDimension[key];
-        } else if ([key] && typeof window.customDimension[key] !== "undefined") {
-          grxDimension[key] = window.customDimension[key];
+  try {
+    if (window.grx && data) {
+      const grxDimension = data;
+      const localobjVc = window.objVc || {};
+      // const localobjVc = {};
+      grxDimension["url"] = grxDimension["url"] || window.location.href;
+      if (window.customDimension && localobjVc["growthRxDimension"]) {
+        const objDim = localobjVc["growthRxDimension"];
+        for (const key in window.customDimension) {
+          const dimId = "d" + key.substr(9, key.length);
+          if (objDim[dimId] && [key] && typeof window.customDimension[key] !== "undefined") {
+            grxDimension[objDim[dimId]] = window.customDimension[key];
+          } else if ([key] && typeof window.customDimension[key] !== "undefined") {
+            grxDimension[key] = window.customDimension[key];
+          }
         }
       }
-    }
-    /* if (typeof e$ != "undefined" && e$.jStorage) {
-          var objProf = e$.jStorage.get('et_subscription_profile');
-          if(objProf) {
-              for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
-          }
-      } */
-    window.grx("track", type, grxDimension);
-    if (gaEvent && window.ga && type == "event") {
-      window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
-    }
+      /* if (typeof e$ != "undefined" && e$.jStorage) {
+            var objProf = e$.jStorage.get('et_subscription_profile');
+            if(objProf) {
+                for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
+            }
+        } */
+      window.grx("track", type, grxDimension);
+      if (gaEvent && window.ga && type == "event") {
+        window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
+      }
 
-    if (type == "event") {
-      const gtmEventDimension = { ...grxDimension, event: "et_push_event" };
-      window.dataLayer.push(gtmEventDimension);
-    }
+      if (type == "event") {
+        const gtmEventDimension = { ...grxDimension, event: "et_push_event" };
+        window.dataLayer.push(gtmEventDimension);
+      }
 
-    if (type == "page_view") {
-      const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
-      window.dataLayer.push(gtmEventDimension);
+      if (type == "page_view") {
+        const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
+        window.dataLayer.push(gtmEventDimension);
+      }
     }
+  } catch (e) {
+    console.log("grxEvent error: ", e);
   }
 };
