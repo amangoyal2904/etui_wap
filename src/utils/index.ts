@@ -321,31 +321,35 @@ export const createGAPageViewPayload = (payload = {}) => {
   }
 };
 export const updateDimension = (dimensions = {}, payload = {}) => {
-  if (typeof window !== "undefined") {
-    const sendEvent = () => {
-      dimensions["dimension20"] = "PWA";
+  try {
+    if (typeof window !== "undefined") {
+      const sendEvent = () => {
+        dimensions["dimension20"] = "PWA";
+        window.customDimension = { ...window.customDimension, ...dimensions };
+        createGAPageViewPayload(payload);
+        pageview(
+          (location.pathname + location.search).length > 1
+            ? (location.pathname + location.search).substr(1)
+            : location.pathname + location.search
+        );
+      };
+      const objUser = (window.objUser && window.objUser.info) || {};
+      if (Object.keys(objUser).length) {
+        dimensions["dimension3"] = "LOGGEDIN";
+      } else {
+        dimensions["dimension3"] = "NONLOGGEDIN";
+      }
       window.customDimension = { ...window.customDimension, ...dimensions };
-      createGAPageViewPayload(payload);
-      pageview(
-        (location.pathname + location.search).length > 1
-          ? (location.pathname + location.search).substr(1)
-          : location.pathname + location.search
-      );
-    };
-    const objUser = (window.objUser && window.objUser.info) || {};
-    if (Object.keys(objUser).length) {
-      dimensions["dimension3"] = "LOGGEDIN";
-    } else {
-      dimensions["dimension3"] = "NONLOGGEDIN";
+      if (typeof window.objInts !== "undefined") {
+        window.objInts.afterPermissionCall(sendEvent);
+      } else {
+        document.addEventListener("objIntsLoaded", () => {
+          window?.objInts?.afterPermissionCall(sendEvent);
+        });
+      }
     }
-    window.customDimension = { ...window.customDimension, ...dimensions };
-    if (typeof window.objInts !== "undefined") {
-      window.objInts.afterPermissionCall(sendEvent);
-    } else {
-      document.addEventListener("objIntsLoaded", () => {
-        window?.objInts?.afterPermissionCall(sendEvent);
-      });
-    }
+  } catch (e) {
+    console.log("updateDimension error: ", e);
   }
 };
 

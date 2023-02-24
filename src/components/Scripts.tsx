@@ -132,14 +132,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             strategy="lazyOnload"
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
-              window.customDimension = {
-                ...window["customDimension"],
-                url:
-                  (window.location.pathname + window.location.search).length > 1
-                    ? (window.location.pathname + window.location.search).substr(1)
-                    : window.location.pathname + window.location.search
-              };
-              window.grx("track", "page_view", window.customDimension);
+              window.customDimension = { ...window["customDimension"], url: window.location.href };
+              //window.grx("track", "page_view", window.customDimension);
+              //grxEvent("page_view", window.customDimension);
+              updateDimension();
             }}
           />
           <Script

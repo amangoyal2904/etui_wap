@@ -43,7 +43,7 @@ declare global {
     objUser: any;
     objInts: any;
     isprimeuser: number;
-    dataLayer: [];
+    dataLayer: [push: object];
   }
 }
 
