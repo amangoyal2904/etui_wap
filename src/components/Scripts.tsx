@@ -133,9 +133,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
               window.customDimension = { ...window["customDimension"], url: window.location.href };
-              //window.grx("track", "page_view", window.customDimension);
-              //grxEvent("page_view", window.customDimension);
-              updateDimension();
+              window.grx("track", "page_view", window.customDimension);
             }}
           />
           <Script
