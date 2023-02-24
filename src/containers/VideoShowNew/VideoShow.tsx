@@ -14,6 +14,7 @@ import { dynamicPlayerConfig } from "utils/slike";
 const MAX_SCROLL_VIDS_COUNT = 20;
 const videoStoryMsids = []; // to keep track of the video story already fetched from the server
 const pageViewMsids = []; // to keep track of the video story pageviews fire only once ( inside VideoStoryCard component )
+const recosMsids = []; // to keep track of the slide reco api msids
 
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
@@ -123,7 +124,10 @@ const VideoShow: FC<PageProps> = (props) => {
                       });
                       const data = res.data || {};
                       const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                      nextVideoMsid = output.nextvideo;
+                      console.log({ nextVideoMsid, recosMsids });
+                      nextVideoMsid = recosMsids.length > 0 ? recosMsids.shift() : output.nextvideo;
+                      console.log({ nextVideoMsid, recosMsids });
+
                       setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
                       setIsLoading(false);
                     } catch (err) {
@@ -152,6 +156,28 @@ const VideoShow: FC<PageProps> = (props) => {
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload, dimension25: "videoshownew" };
   }, [props]);
+
+  useEffect(() => {
+    const vidStory = videoStories?.slice(-1)[0]?.find((item) => item.name == "videoshow")?.data as VideoShowProps;
+    console.log({ videoStories, vidStory });
+
+    if (vidStory && recosMsids.length === 0) {
+      console.log("recos called");
+
+      fetch(`https://reco.slike.in/similar/result.json?sid=${vidStory.slikeid}&msid=${vidStory.msid}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && Array.isArray(data) && data.length > 0) {
+            data.forEach((item) => {
+              recosMsids.push(item.msid);
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }, [videoStories]);
 
   return (
     <>
