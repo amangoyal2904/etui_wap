@@ -16,16 +16,21 @@ declare global {
     gtmEventDimension: object;
   }
 }
-export const pageview = (url) => {
-  window["gtag"] &&
-    window["gtag"]("config", Config.GA.GTM_KEY, {
-      page_path: url
-    });
-  const page = window.location.href;
-  window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
-  // send the page views
-  window.ga && window.ga("send", "pageview", window.customDimension);
-  grxEvent("page_view", window.customDimension);
+export const pageview = (url, params = {}) => {
+  try {
+    window["gtag"] &&
+      window["gtag"]("config", Config.GA.GTM_KEY, {
+        page_path: url
+      });
+    const page = window.location.href;
+    window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
+    const payload = { ...params, ...window.customDimension };
+    // send the page views
+    window.ga && window.ga("send", "pageview", payload);
+    grxEvent("page_view", params);
+  } catch (e) {
+    console.log("pageview error: ", e);
+  }
 };
 
 export const event = ({ action, params }) => {
