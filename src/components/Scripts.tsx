@@ -3,6 +3,7 @@ import Script from "next/script";
 import { FC, useEffect } from "react";
 import { APP_ENV } from "../utils";
 import * as Config from "../utils/common";
+import { updateDimension } from "utils/index";
 
 interface Props {
   isprimeuser?: number;
@@ -150,7 +151,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
               window.customDimension = { ...window["customDimension"], url: window.location.href };
-              window.grx("track", "page_view", window.customDimension);
+              //window.grx("track", "page_view", window.customDimension);
+              //grxEvent("page_view", window.customDimension);
+              updateDimension();
             }}
           />
           <Script

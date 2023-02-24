@@ -306,6 +306,7 @@ export const updateDimension = (dimensions = {}, payload = {}) => {
       dimensions["dimension20"] = "PWA";
       window.customDimension = { ...window.customDimension, ...dimensions };
       createGAPageViewPayload(payload);
+      console.log("updateDimension");
       pageview(
         (location.pathname + location.search).length > 1
           ? (location.pathname + location.search).substr(1)

@@ -11,8 +11,9 @@ declare global {
     gtag: (event: string, action: string, params: object) => void;
     // eslint-disable-next-line
     // gtag: any;
-    dataLayer: [];
+    dataLayer: [push: object];
     customDimension: object;
+    gtmEventDimension: object;
   }
 }
 export const pageview = (url) => {
@@ -144,9 +145,10 @@ export const growthRxInit = () => {
 
 export const grxEvent = (type, data, gaEvent = 0) => {
   if (window.grx && data) {
+    console.log("type-----", type, data);
     const grxDimension = data;
-    // let localobjVc = objVc || {};
-    const localobjVc = {};
+    const localobjVc = window.objVc || {};
+    // const localobjVc = {};
     grxDimension["url"] = grxDimension["url"] || window.location.href;
     if (window.customDimension && localobjVc["growthRxDimension"]) {
       const objDim = localobjVc["growthRxDimension"];
@@ -168,6 +170,16 @@ export const grxEvent = (type, data, gaEvent = 0) => {
     window.grx("track", type, grxDimension);
     if (gaEvent && window.ga && type == "event") {
       window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
+    }
+
+    if (type == "event") {
+      const gtmEventDimension = { ...grxDimension, event: "et_push_event" };
+      window.dataLayer.push(gtmEventDimension);
+    }
+
+    if (type == "page_view") {
+      const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
+      window.dataLayer.push(gtmEventDimension);
     }
   }
 };

@@ -14,9 +14,9 @@ const Topic: FC<PageProps> = (props) => {
   const { cpd_wap = "0" } = version_control;
   const { query = "", tab = "" } = parameters || {};
   const searchQuery = query && query.replace(/-/g, " ").toUpperCase();
-  useEffect(() => {
-    updateDimension();
-  });
+  // useEffect(() => {
+  //   updateDimension();
+  // });
 
   const TopicContainer = () => {
     return props?.searchResult?.map((item) => {
