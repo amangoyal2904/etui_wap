@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='-r @newrelic/next' NODE_ENV=development APP_ENV=development next",
+    "dev": "NODE_ENV=development APP_ENV=development next",
     "build": "next build",
     "start": "NODE_OPTIONS='-r @newrelic/next' NODE_ENV=production APP_ENV=development next start",
     "prod": "NODE_OPTIONS='-r @newrelic/next' NODE_ENV=production APP_ENV=production next start",
