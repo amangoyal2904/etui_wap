@@ -39,11 +39,15 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   }
 
   //==== gets dyanmic footer data =====
-  const footerMenu = await Service.get({
-    api,
-    params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
-  });
-  const dynamicFooterData = footerMenu.data || {};
+  let dynamicFooterData = {};
+
+  if (page !== "quickreads") {
+    const footerMenu = await Service.get({
+      api,
+      params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
+    });
+    dynamicFooterData = footerMenu.data || {};
+  }
 
   //==== sets response headers =====
   res.setHeader(
