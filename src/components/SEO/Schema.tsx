@@ -110,7 +110,7 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
     description,
     keywords,
     inLanguage,
-    contentUrl,
+    contenturl,
     duration
   } = data;
   const publisherData = data.publisher;
@@ -125,7 +125,7 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
     description,
     keywords,
     inLanguage,
-    contentUrl,
+    contenturl,
     duration,
     publisher: {
       "@type": "Organization",

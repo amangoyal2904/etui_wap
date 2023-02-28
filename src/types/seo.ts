@@ -113,7 +113,7 @@ export interface VideoObjectSchemaProps {
   description?: string;
   keywords?: string;
   inLanguage?: string;
-  contentUrl?: string;
+  contenturl?: string;
   duration?: string;
   publisher?: {
     name?: string;
