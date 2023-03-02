@@ -42,13 +42,48 @@ const Cube: FC = () => {
       }, 1000);
     });
 
+    window.addEventListener(
+      "message",
+      (e) => {
+        if (typeof e.data == "object" && e.data.message == "cube iframe close") {
+          document.getElementById("cubeFrame").remove();
+        }
+      },
+      false
+    );
+
     return () => {
       document.removeEventListener("objIntsLoaded", intsCallback);
     };
   }, []);
 
   return (
-    <>{pageLoaded && displayCube && <iframe className={styles.cube} src={ifmSrc} id="cubeFrame" loading="lazy" />}</>
+    <>
+      {pageLoaded && displayCube && (
+        <iframe
+          className={styles.cube}
+          src={ifmSrc}
+          onLoad={() => {
+            try {
+              const cubeIframeElm = document.getElementById("cubeFrame") as HTMLIFrameElement;
+              if (cubeIframeElm && cubeIframeElm.contentWindow) {
+                cubeIframeElm.contentWindow.postMessage(
+                  {
+                    message: "parent_location",
+                    type: location.search
+                  },
+                  "*"
+                );
+              }
+            } catch (e) {
+              console.log("Cube Iframe Load Issue: ", e);
+            }
+          }}
+          id="cubeFrame"
+          loading="lazy"
+        />
+      )}
+    </>
   );
 };
 
