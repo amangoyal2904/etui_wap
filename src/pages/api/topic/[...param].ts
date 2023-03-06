@@ -29,23 +29,7 @@ const someAsyncOperation = (param) => {
         searchTerms: [param[0]],
         hostid: [153],
         rows: 30,
-        typeid: getTypeArr(param),
-        fields: [
-          "msid",
-          "title",
-          "hostid",
-          "seopath",
-          "mData_*",
-          "mtmdesc",
-          "effectivedate",
-          "contenttypeid",
-          "contentsubtypeid",
-          "synopsis",
-          "hasThumb",
-          "photodatalength",
-          "primeCategoryId",
-          "updateDate"
-        ]
+        typeid: getTypeArr(param)
       },
       params: {}
     });
