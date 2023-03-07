@@ -136,7 +136,7 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
           </div>
         )}
       </div>
-      <SEO {...seoData} />
+      <SEO {...seoData} seoListData={slides} />
     </>
   );
 };
