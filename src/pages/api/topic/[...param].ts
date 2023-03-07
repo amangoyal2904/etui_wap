@@ -23,7 +23,7 @@ const getTypeArr = (param) => {
 const fetchApiData = async (query, tab = "all") => {
   try {
     const url = APIS_CONFIG.knowledgesearch[APP_ENV];
-    console.log("fresh hit topic api");
+    // console.log("fresh hit topic api");
     const result = await Service.post({
       url,
       payload: {
@@ -37,7 +37,7 @@ const fetchApiData = async (query, tab = "all") => {
 
     return result.data;
   } catch (e) {
-    console.log("Err someAsyncOperation: ", e);
+    console.log("Err fetchApiData: ", e);
   }
 };
 
@@ -179,15 +179,11 @@ const seoDetails = (response, query, tab = "") => {
 };
 
 export const pageJSON = async (param, callType = "Func") => {
-  console.log("===================================");
-  console.log("param---", param);
-  console.log("===================================");
   try {
     const query = callType == "Func" ? param.slice(1, 2).toString().replace(/-/g, " ") : param[0];
     const tab = callType == "Func" ? param.slice(2, 3).toString() : param[1];
-    //const result = await someAsyncOperation(query, tab);
     const cacheKey = ETCache.prepareKey(`knowledgesearch_topic_${query}_${tab}`);
-    const result = await ETCache.checkCache(cacheKey, fetchApiData.bind(null, query, tab), 100);
+    const result = await ETCache.checkCache(cacheKey, fetchApiData.bind(null, query, tab), 14400);
     let data = {
       header: {
         et: String
@@ -260,7 +256,7 @@ export default async function handler(req, res, query = null) {
     //res.status(200).json({ data })
     res.status(200).json(await pageJSON(param, "Api"));
   } catch (err) {
-    console.log("errr---", err);
+    // console.log("errr---", err);
     res.status(500).json({ error: "failed to fetch data" });
   }
 }

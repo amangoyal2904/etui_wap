@@ -19,5 +19,5 @@ const fetchApiData = async () => {
 export const version_control = async () => {
   //const result = await apiHit();
   const cacheKey = ETCache.prepareKey("etnext_version_control");
-  return ETCache.checkCache(cacheKey, fetchApiData, 100);
+  return ETCache.checkCache(cacheKey, fetchApiData, 3600);
 };

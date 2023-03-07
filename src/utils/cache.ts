@@ -4,6 +4,12 @@ import os from "os";
 
 const hostname = os.hostname();
 
+interface RedisConfig {
+  host?: string;
+  port?: number;
+  password?: string;
+}
+
 // const { DH_NOT_SUITABLE_GENERATOR } = require("constants");
 // const { Z_DEFAULT_STRATEGY } = require("zlib");
 // const { resolveCname } = require("dns");
@@ -21,16 +27,20 @@ const redisConfig = {
 
 let ETCache = {};
 
-const redisConfig = {
-  host: "172.29.112.117",
-  port: 6379,
-  password: "Ap89e7629cPRd"
-};
-// pre Production
+let redisConfig: RedisConfig = {};
+// Pre-production
 if (isPreprod || isLocal) {
-  redisConfig.host = "172.29.112.95";
-  redisConfig.port = 6379;
-  redisConfig.password = "sAp62fbe6sT";
+  redisConfig = {
+    host: "127.0.0.1",
+    port: 6379
+  };
+} else if (isProd) {
+  // Production
+  redisConfig = {
+    host: "172.29.112.117",
+    port: 6379,
+    password: "Ap89e7629cPRd"
+  };
 }
 
 const client = createClient(redisConfig);
@@ -96,23 +106,13 @@ const checkCache = async (key, fetchApiData, ttl = 1000) => {
   const getCacheData = await get(cacheKey);
   if (!redisIsActive()) client.connect();
   if (getCacheData) {
-    console.log("cached data");
+    // console.log("Cached", cacheKey)
     return JSON.parse(getCacheData);
   } else {
-    console.log("fresh hit");
     const result = await fetchApiData();
-    //console.log("result----", result.data)
     await set(cacheKey, result, 600);
     return result;
   }
 };
 
-export default ETCache = {
-  client,
-  prepareKey,
-  get,
-  set,
-  redisIsActive,
-  del,
-  checkCache
-};
+export default ETCache = { client, prepareKey, get, set, redisIsActive, del, checkCache };

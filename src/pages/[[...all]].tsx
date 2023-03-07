@@ -18,10 +18,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   let extraParams = {},
     response: any = {};
 
-  console.log("===================================");
-  console.log("req.query---", params);
-  console.log("===================================");
-
   // if(page == "topic"){
   //   response = await pageJSON(all)
   //   const { subsecnames = {} } = response.seo;
@@ -36,10 +32,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   if (page !== "notfound") {
     const moreParams = prepareMoreParams({ all, page, msid });
 
-    console.log("===================================");
-    console.log("req.moreParams---", moreParams);
-    console.log("===================================");
-
     //==== gets page data =====
     const apiType = page === "videoshownew" ? "videoshow" : page;
 
@@ -51,10 +43,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
       }));
     response = apiType == "topic" ? await pageJSON(all) : result.data;
     const { subsecnames = {} } = response.seo;
-
-    console.log("===================================");
-    console.log("response---", response);
-    console.log("===================================");
 
     extraParams = subsecnames
       ? {
