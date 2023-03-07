@@ -280,8 +280,7 @@ const Schema = (props: SEOProps) => {
     schemaType === "videoshow" || page === "videoshow" ? videoObjectSchema(seoschema.videoObject) : {};
   const _searchResultSchema = schemaType === "topic" ? searchResultSchema(seoschema.newsArticle) : {};
   const _collectionPageSchema = schemaType === "topic" ? collectionPageSchema(seoschema.newsArticle, hasPartArr) : {};
-  const _listItemSchema = schemaType === "topic" ? listItemSchema(seoListData) : {};
-
+  const _listItemSchema = schemaType === "topic" || schemaType === "quickread" ? listItemSchema(seoListData) : {};
   let schemaData = [
     _breadcrumbSchema,
     _webPageSchema,
@@ -298,6 +297,30 @@ const Schema = (props: SEOProps) => {
     }
     return false;
   });
+  if (schemaType === "quickread") {
+    schemaData.push(
+      {
+        "@context": "https://schema.org",
+        "@type": "ViewAction",
+        target: [
+          {
+            "@type": "EntryPoint",
+            urlTemplate: "android-app://com.et.reader.activities/etandroidapp/articlelist/60000487"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ViewAction",
+        target: [
+          {
+            "@type": "EntryPoint",
+            urlTemplate: "ios-app://474766725/etapp/articlelist/60000487"
+          }
+        ]
+      }
+    );
+  }
   schema = schemaData;
 
   return (
