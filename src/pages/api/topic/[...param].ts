@@ -1,11 +1,12 @@
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 import { APP_ENV, getArticleType, getMSUrl, unixToDate } from "../../../utils";
-import { version_control } from "../../../page_api/version_control";
+import { version_control } from "../../../apiUtils/version_control";
+import ETCache from "../../../utils/cache";
 
 const getTypeArr = (param) => {
   try {
-    const tab = typeof param[1] != "undefined" ? param[1].toLowerCase() : "";
+    const tab = typeof param[1] != "undefined" ? param[1].toLowerCase() : "all";
 
     switch (tab) {
       case "videos":
@@ -19,20 +20,22 @@ const getTypeArr = (param) => {
     console.log("Err getTypeArr: ", e);
   }
 };
-const someAsyncOperation = (param) => {
+const fetchApiData = async (query, tab = "all") => {
   try {
     const url = APIS_CONFIG.knowledgesearch[APP_ENV];
-
-    return Service.post({
+    console.log("fresh hit topic api");
+    const result = await Service.post({
       url,
       payload: {
-        searchTerms: [param[0]],
+        searchTerms: [query],
         hostid: [153],
         rows: 30,
-        typeid: getTypeArr(param)
+        typeid: getTypeArr(tab)
       },
       params: {}
     });
+
+    return result.data;
   } catch (e) {
     console.log("Err someAsyncOperation: ", e);
   }
@@ -74,15 +77,17 @@ const searchResult = (response) => {
   }
 };
 
-const seoDetails = (response, param) => {
+const seoDetails = (response, query, tab = "") => {
   try {
-    const title = `${param[0]}: Latest News &amp; Videos, Photos about ${param[0]} | The Economic Times`,
-      description = `${param[0]} Latest Breaking News, Pictures, Videos, and Special Reports from The Economic Times. ${param[0]} Blogs, Comments and Archive News on Economictimes.com`,
-      canonical = `https://economictimes.indiatimes.com/topic/${param[0].replace(/\W+/g, "-").toLowerCase()}`,
+    const title = `${query}: Latest News &amp; Videos, Photos about ${query} | The Economic Times`,
+      description = `${query} Latest Breaking News, Pictures, Videos, and Special Reports from The Economic Times. ${query} Blogs, Comments and Archive News on Economictimes.com`,
+      canonical = `https://economictimes.indiatimes.com/topic/${query.replace(/\W+/g, "-").toLowerCase()}${
+        tab ? "/" + tab.toLowerCase() : ""
+      }`,
       authors = response[0]?.author ? response[0].author : response[0]?.agency ? response[0].agency : "ET Online",
       agency = response[0]?.agency ? response[0].agency : "ET Online",
       image = `https://img.etimg.com/thumb/msid-65498029,width-672,resizemode-4/et-logo.jpg`,
-      keywords = `${param[0].toLowerCase()}, ${param[0].toLowerCase()} news, ${param[0].toLowerCase()} updates, ${param[0].toLowerCase()} latest news, ${param[0].toLowerCase()} image, ${param[0].toLowerCase()} video`;
+      keywords = `${query.toLowerCase()}, ${query.toLowerCase()} news, ${query.toLowerCase()} updates, ${query.toLowerCase()} latest news, ${query.toLowerCase()} image, ${query.toLowerCase()} video`;
 
     return {
       lang: response[0]?.hostid.indexOf("317") !== -1 ? "HIN" : "EN",
@@ -105,7 +110,7 @@ const seoDetails = (response, param) => {
       hostid: response[0].hostid[0],
       langInfo: "",
       noindexFollow: "",
-      expiry: response[0].expirydate,
+      expiry: response[0].expirydate || "",
       sponsored: "",
       maxImgPreview: "",
       subsecnames: "",
@@ -173,29 +178,76 @@ const seoDetails = (response, param) => {
   }
 };
 
-export const pageJSON = async (param) => {
+export const pageJSON = async (param, callType = "Func") => {
+  console.log("===================================");
+  console.log("param---", param);
+  console.log("===================================");
   try {
-    const result = await someAsyncOperation(param);
+    const query = callType == "Func" ? param.slice(1, 2).toString().replace(/-/g, " ") : param[0];
+    const tab = callType == "Func" ? param.slice(2, 3).toString() : param[1];
+    //const result = await someAsyncOperation(query, tab);
+    const cacheKey = ETCache.prepareKey(`knowledgesearch_topic_${query}_${tab}`);
+    const result = await ETCache.checkCache(cacheKey, fetchApiData.bind(null, query, tab), 100);
     let data = {
       header: {
         et: String
       },
       response: Object
     };
-    data = result.data;
+    data = result;
 
+    const versionControl = await version_control();
+    versionControl.dfp = {
+      andbeyond: {
+        adSlot: "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Andbeyond_1x1",
+        adSize: [[1, 1]]
+      },
+      atf: {
+        adSlot: "/7176/ET_MWeb/ET_Mweb_Articlelist/ET_Mweb_AL_PT_ATF",
+        adSize: [
+          [320, 50],
+          [320, 100],
+          [468, 60],
+          [728, 90]
+        ]
+      },
+      fbn: {
+        adSlot: "/7176/ET_MWeb/ET_Mweb_Articlelist/ET_Mweb_AL_PT_FBN",
+        adSize: [
+          [320, 50],
+          [468, 60],
+          [728, 90]
+        ]
+      },
+      mrec: {
+        adSlot: "/7176/ET_MWeb/ET_Mweb_Articlelist/ET_Mweb_AL_Mrec",
+        adSize: [
+          [300, 250],
+          [336, 280],
+          [250, 250]
+        ]
+      },
+      mrec1: {
+        adSlot: "/7176/ET_MWeb/ET_Mweb_Articlelist/ET_Mweb_AL_Mrec1",
+        adSize: [
+          [300, 250],
+          [336, 280],
+          [250, 250]
+        ]
+      }
+    };
     return {
       parameters: {
         et: data.header.et,
         curpg: "1",
         platform: "wap",
-        query: param[0],
+        query: query,
         type: "topic",
-        ...(typeof param[1] !== "undefined" && { tab: param[1] })
+        ...(typeof tab !== "undefined" && { tab: tab })
       },
       searchResult: [searchResult(data.response)],
-      version_control: {},
-      seo: seoDetails(data.response, param)
+      version_control: versionControl,
+      seo: seoDetails(data.response, query, tab)
     };
   } catch (e) {
     console.log("Err pageJSON: ", e);
@@ -206,7 +258,7 @@ export default async function handler(req, res, query = null) {
   try {
     const { param } = query || req.query;
     //res.status(200).json({ data })
-    res.status(200).json(await pageJSON(param));
+    res.status(200).json(await pageJSON(param, "Api"));
   } catch (err) {
     console.log("errr---", err);
     res.status(500).json({ error: "failed to fetch data" });

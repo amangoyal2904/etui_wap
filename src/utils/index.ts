@@ -4,6 +4,11 @@ import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
+export const oldFile = {
+  lifeSpan: 60 * 60 * 1, // file not accessed in life span will be deleted
+  frequency: 60 * 10 // recursive check to delete old file
+};
+export const cacheDirectory = "cache";
 
 declare global {
   interface Window {
@@ -538,4 +543,93 @@ export const unixToDate = (unixTimestamp) => {
   } catch (e) {
     console.log("Err unixToDate: ", e);
   }
+};
+
+export const getKeyData = (data) => {
+  const obj = {};
+  try {
+    for (const key in data) {
+      if (data && data[key] && data[key]["@react"]) {
+        const keyData = data[key]["#text"] || data[key]["data"] || "";
+        if (keyData) {
+          obj[key] = keyData;
+        } else if (typeof data[key] == "object") {
+          const val = getKeyData(data[key]);
+          if (val && Object.keys(val).length) {
+            obj[key] = val;
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log("error in getKeyData");
+  }
+  return obj;
+};
+
+const addZero = (num) => {
+  return num >= 10 ? num : "0" + num;
+};
+
+export const nowDate = () => {
+  const dt = new Date(),
+    now =
+      dt.getFullYear() +
+      "-" +
+      addZero(dt.getMonth() + 1) +
+      "-" +
+      addZero(dt.getDate()) +
+      " " +
+      addZero(dt.getHours()) +
+      ":" +
+      addZero(dt.getMinutes()) +
+      ":" +
+      addZero(dt.getSeconds());
+  return now || dt;
+};
+
+const moveArrayPosition = function (arr, item, to) {
+  const itemIndex = arr.indexOf(item);
+  arr.splice(to, 0, arr.splice(itemIndex, 1)[0]);
+};
+
+export const getCacheKey = (obj) => {
+  let cacheKey = "";
+  let keys = [];
+  const ignoreKeys = ["title", "ttl", "layout", "gridType", "url"];
+  try {
+    // prepare default keys
+    if (obj.type) {
+      if (obj.type == "priority" || obj.type == "hierarchy" || obj.type == "latest" || obj.type == "getdata") {
+        obj.contenttype = obj.contenttype || "ALL";
+        obj.hostid = obj.hostid || "153";
+        obj.top = obj.top || "10";
+        obj.curpg = obj.curpg || "1";
+        obj.level = obj.level || "one";
+        obj.parent = obj.parent || "0";
+      } else if (obj.type == "nav") {
+        obj.mode = obj.mode || "medium";
+        obj.hostid = obj.hostid || "153";
+      }
+      // sort keys
+      keys = Object.keys(obj).sort().reverse();
+      // move type to the first
+      moveArrayPosition(keys, "type", 0);
+      if (obj.hostid) {
+        moveArrayPosition(keys, "hostid", 1);
+      }
+    }
+    // to do - cater non type keys too
+    // prepare final key string
+    if (keys.length) {
+      keys.forEach(function (key, i) {
+        const separator = i == 1 ? "_" : i < keys.length - 1 ? "-" : "";
+        if (ignoreKeys.indexOf(key) == -1) cacheKey += obj[key] + separator;
+      });
+    }
+  } catch (e) {
+    console.log("error in getCacheKey", e);
+    cacheKey = "cache-key";
+  }
+  return cacheKey;
 };
