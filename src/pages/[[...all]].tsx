@@ -1,6 +1,7 @@
 import { pageType, getMSID, prepareMoreParams } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
+import { pageJSON } from "./api/topic/[...param]";
 
 const All = () => null;
 const expiryTime = 10 * 60 * 6 * 4; // seconds
@@ -17,17 +18,32 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   let extraParams = {},
     response: any = {};
 
+  // if(page == "topic"){
+  //   response = await pageJSON(all)
+  //   const { subsecnames = {} } = response.seo;
+  //   extraParams = subsecnames
+  //     ? {
+  //         subsec1: subsecnames.subsec1,
+  //         subsec2: subsecnames.subsec2
+  //       }
+  //     : {};
+  //     console.log("response---123", response.searchResult[0].data)
+  // } else
   if (page !== "notfound") {
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====
     const apiType = page === "videoshownew" ? "videoshow" : page;
-    const result = await Service.get({
-      api,
-      params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
-    });
-    response = result.data;
+
+    const result =
+      apiType != "topic" &&
+      (await Service.get({
+        api,
+        params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
+      }));
+    response = apiType == "topic" ? await pageJSON(all) : result.data;
     const { subsecnames = {} } = response.seo;
+
     extraParams = subsecnames
       ? {
           subsec1: subsecnames.subsec1,
