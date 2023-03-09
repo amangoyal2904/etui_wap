@@ -280,7 +280,12 @@ const Schema = (props: SEOProps) => {
     schemaType === "videoshow" || page === "videoshow" ? videoObjectSchema(seoschema.videoObject) : {};
   const _searchResultSchema = schemaType === "topic" ? searchResultSchema(seoschema.newsArticle) : {};
   const _collectionPageSchema = schemaType === "topic" ? collectionPageSchema(seoschema.newsArticle, hasPartArr) : {};
-  const _listItemSchema = schemaType === "topic" || schemaType === "quickread" ? listItemSchema(seoListData) : {};
+  let _listItemSchema = {};
+  if (schemaType === "topic") {
+    _listItemSchema = listItemSchema(seoListData);
+  } else if (schemaType === "quickread") {
+    _listItemSchema = listItemSchema(seoListData.slice(0, 10));
+  }
   let schemaData = [
     _breadcrumbSchema,
     _webPageSchema,
