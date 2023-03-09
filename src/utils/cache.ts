@@ -25,14 +25,13 @@ const redisConfig = {
 }
 */
 
-let ETCache = {};
-
 let redisConfig: RedisConfig = {};
 // Pre-production
 if (isPreprod || isLocal) {
   redisConfig = {
-    host: "127.0.0.1",
-    port: 6379
+    host: "172.29.112.95",
+    port: 6379,
+    password: "sAp62fbe6sT"
   };
 } else if (isProd) {
   // Production
@@ -101,18 +100,19 @@ const del = (key) => {
   }
 };
 
-const checkCache = async (key, fetchApiData, ttl = 1000) => {
+const ETCache = async (key, fetchApiData, ttl = 1000, isCacheBrust = false) => {
   const cacheKey = prepareKey(key);
   const getCacheData = await get(cacheKey);
   if (!redisIsActive()) client.connect();
-  if (getCacheData) {
-    // console.log("Cached", cacheKey)
+  if (getCacheData && !isCacheBrust) {
+    //console.log("Cached", cacheKey)
     return JSON.parse(getCacheData);
   } else {
+    //console.log("Fresh hit");
     const result = await fetchApiData();
-    await set(cacheKey, result, 600);
+    await set(cacheKey, result, ttl);
     return result;
   }
 };
 
-export default ETCache = { client, prepareKey, get, set, redisIsActive, del, checkCache };
+export default ETCache;
