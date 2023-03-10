@@ -7,13 +7,16 @@ const hostname = os.hostname();
 interface RedisConfig {
   host?: string;
   port?: number;
+  auth?: string;
   password?: string;
 }
 
 // const { DH_NOT_SUITABLE_GENERATOR } = require("constants");
 // const { Z_DEFAULT_STRATEGY } = require("zlib");
 // const { resolveCname } = require("dns");
-const isLocal = hostname.indexOf(".local") !== -1;
+const isLocal =
+  hostname.indexOf(".local") !== -1 ||
+  (process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() == "development");
 const isPreprod = hostname.indexOf("13121") !== -1 || hostname.indexOf("35116") !== -1;
 const isProd = (!isPreprod && process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() == "production") || 0; // "production" ? "production" : "dev";
 // console.log('appMode', appMode);
@@ -31,16 +34,18 @@ if (isPreprod || isLocal) {
   redisConfig = {
     host: "172.29.112.95",
     port: 6379,
-    password: "sAp62fbe6sT"
+    auth: "sAp62fbe6sT"
   };
 } else if (isProd) {
   // Production
   redisConfig = {
     host: "172.29.112.117",
     port: 6379,
-    password: "Ap89e7629cPRd"
+    auth: "Ap89e7629cPRd"
   };
 }
+
+//console.log("redisConfig--", redisConfig, hostname)
 
 const client = createClient(redisConfig);
 
