@@ -7,7 +7,6 @@ const hostname = os.hostname();
 interface RedisConfig {
   host?: string;
   port?: number;
-  auth?: string;
   password?: string;
 }
 
@@ -34,20 +33,26 @@ if (isPreprod || isLocal) {
   redisConfig = {
     host: "172.29.112.95",
     port: 6379,
-    auth: "sAp62fbe6sT"
+    password: "sAp62fbe6sT"
   };
 } else if (isProd) {
   // Production
   redisConfig = {
     host: "172.29.112.117",
     port: 6379,
-    auth: "Ap89e7629cPRd"
+    password: "Ap89e7629cPRd"
   };
 }
 
 //console.log("redisConfig--", redisConfig, hostname)
 
-const client = createClient(redisConfig);
+const client = createClient({
+  socket: {
+    host: redisConfig.host,
+    port: redisConfig.port
+  },
+  password: redisConfig.password
+});
 
 let redisStatus = 0;
 client.on("error", function (err) {
@@ -115,6 +120,7 @@ const ETCache = async (key, fetchApiData, ttl = 1000, isCacheBrust = false) => {
   } else {
     //console.log("Fresh hit");
     const result = await fetchApiData();
+    if (getCacheData) del(cacheKey);
     await set(cacheKey, result, ttl);
     return result;
   }
