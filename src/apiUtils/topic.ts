@@ -205,7 +205,7 @@ const seoDetails = (response, query, tab = "") => {
 export const topicJSON = async ({ param, isCacheBrust, callType }) => {
   try {
     const query = callType == "Func" ? param.slice(1, 2).toString().replace(/-/g, " ") : param[0];
-    const tab = callType == "Func" ? param.slice(2, 3).toString() : param[1];
+    const tab = callType == "Func" ? param.slice(2, 3).toString() : param[1] ? param[1] : "";
     const cacheKey = `knowledgesearch_topic_${query}_${tab}`;
     const result: ApiResponse = await ETCache(cacheKey, fetchApiData.bind(null, query, tab), 14400, isCacheBrust);
 
