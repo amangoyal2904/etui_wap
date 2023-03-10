@@ -10,7 +10,8 @@ const fetchApiData = async () => {
     url,
     payload: {},
     params: {
-      feedtype: "etjson"
+      feedtype: "etjson",
+      ref: "pwaapi"
     }
   });
 
