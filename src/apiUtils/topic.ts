@@ -23,6 +23,7 @@ interface VersionControl {
 interface ApiResponse {
   header?: {
     et: string;
+    potime: number;
   };
   response?: any; // Define the response object shape here
 }
@@ -86,7 +87,7 @@ const searchResult = (response) => {
         title: title,
         url: getUrl,
         type: getArticleType(getUrl),
-        date: unixToDate(effectivedate) || null,
+        date: unixToDate(effectivedate) || "",
         synopsis,
         ...(hasThumb == 1 && { img: `https://img.etimg.com/thumb/msid-${msid},width-200,height-150/${seopath}.jpg` })
       });
@@ -250,11 +251,13 @@ export const topicJSON = async ({ param, isCacheBrust, callType }) => {
     };
     return {
       parameters: {
-        et: result.header.et,
+        et: unixToDate(result.header.et),
+        potime: result.header.potime,
         curpg: "1",
         platform: "wap",
         query: query,
         type: "topic",
+        isCacheBrust,
         ...(typeof tab !== "undefined" && { tab: tab })
       },
       searchResult: [searchResult(result.response)],
