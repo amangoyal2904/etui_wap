@@ -21,17 +21,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   let extraParams = {},
     response: any = {};
 
-  // if(page == "topic"){
-  //   response = await pageJSON(all)
-  //   const { subsecnames = {} } = response.seo;
-  //   extraParams = subsecnames
-  //     ? {
-  //         subsec1: subsecnames.subsec1,
-  //         subsec2: subsecnames.subsec2
-  //       }
-  //     : {};
-  //     console.log("response---123", response.searchResult[0].data)
-  // } else
   if (page !== "notfound") {
     const moreParams = prepareMoreParams({ all, page, msid });
 

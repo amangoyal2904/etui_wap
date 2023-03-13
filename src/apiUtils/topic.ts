@@ -30,8 +30,8 @@ interface ApiResponse {
 
 const getTypeArr = (param) => {
   try {
-    const tab = typeof param[1] != "undefined" ? param[1].toLowerCase() : "all";
-
+    const tab = param?.toLowerCase() ?? "all";
+    // Returns an array of content type IDs based on the tab parameter value
     switch (tab) {
       case "videos":
         return [1024];
@@ -44,17 +44,23 @@ const getTypeArr = (param) => {
     console.log("Err getTypeArr: ", e);
   }
 };
+
+/**
+ *fetchApiData - This function fetches the data by calling a POST api
+ *param query - The search query string
+ *param tab - The tab value. Defaults to "all" if not provided
+ *returns {Promise} - Returns a promise with the result data from the api
+ */
 const fetchApiData = async (query, tab = "all") => {
   try {
     const url = APIS_CONFIG.knowledgesearch[APP_ENV];
-    //console.log("fresh hit topic api");
     const result = await Service.post({
       url,
       payload: {
         searchTerms: [query],
         hostid: [153],
         rows: 30,
-        typeid: getTypeArr(tab)
+        typeid: getTypeArr(tab) ?? []
       },
       params: {}
     });
@@ -66,8 +72,9 @@ const fetchApiData = async (query, tab = "all") => {
 };
 
 const searchResult = (response) => {
+  const resultData = [];
+
   try {
-    const resultData = [];
     for (let i = 0; i < response.length; i++) {
       const { title, synopsis, hasThumb, effectivedate, seopath, msid } = response[i];
 
@@ -87,18 +94,18 @@ const searchResult = (response) => {
         title: title,
         url: getUrl,
         type: getArticleType(getUrl),
-        date: unixToDate(effectivedate) || "",
+        date: unixToDate(effectivedate) ?? "",
         synopsis,
         ...(hasThumb == 1 && { img: `https://img.etimg.com/thumb/msid-${msid},width-200,height-150/${seopath}.jpg` })
       });
     }
-    return {
-      name: "topic",
-      data: resultData
-    };
   } catch (e) {
-    console.log("Err searchResult: ", e);
+    console.log("searchResult Error: ", e);
   }
+  return {
+    name: "topic",
+    data: resultData
+  };
 };
 
 const seoDetails = (response, query, tab = "") => {
@@ -114,7 +121,7 @@ const seoDetails = (response, query, tab = "") => {
       keywords = `${query.toLowerCase()}, ${query.toLowerCase()} news, ${query.toLowerCase()} updates, ${query.toLowerCase()} latest news, ${query.toLowerCase()} image, ${query.toLowerCase()} video`;
 
     return {
-      lang: response[0]?.hostid.indexOf("317") !== -1 ? "HIN" : "EN",
+      lang: response[0]?.hostid?.indexOf("317") !== -1 ? "HIN" : "EN",
       title,
       keywords: keywords,
       news_keywords: "",
@@ -128,13 +135,13 @@ const seoDetails = (response, query, tab = "") => {
       type: "topic",
       image,
       inLanguage: "en",
-      date: response[0].effectivedate || "",
-      updated: response[0].effectivedate || "",
-      articleSection: response[0].parenttitle || "",
-      hostid: response[0].hostid[0],
+      date: response[0]?.effectivedate ?? "",
+      updated: response[0]?.effectivedate ?? "",
+      articleSection: response[0]?.parenttitle ?? "",
+      hostid: response[0]?.hostid[0] ?? 153,
       langInfo: "",
       noindexFollow: "",
-      expiry: response[0].expirydate || "",
+      expiry: response[0]?.expirydate ?? "",
       sponsored: "",
       maxImgPreview: "",
       subsecnames: "",
@@ -158,9 +165,9 @@ const seoDetails = (response, query, tab = "") => {
         newsArticle: {
           inLanguage: "en",
           keywords: "",
-          headline: response[0]?.title,
+          headline: response[0]?.title ?? "",
           description,
-          name: response[0]?.title,
+          name: response[0]?.title ?? "",
           url: canonical,
           mainEntityOfPage: canonical,
           articleSection: "",
@@ -193,7 +200,7 @@ const seoDetails = (response, query, tab = "") => {
           url: "https://economictimes.indiatimes.com/"
         },
         {
-          title: response[0]?.title
+          title: response[0]?.title ?? ""
         }
       ]
     };
@@ -251,8 +258,8 @@ export const topicJSON = async ({ param, isCacheBrust, callType }) => {
     };
     return {
       parameters: {
-        et: unixToDate(result.header.et),
-        potime: result.header.potime,
+        et: result?.header?.et ? unixToDate(result?.header?.et) : "",
+        potime: result?.header?.potime ?? "",
         curpg: "1",
         platform: "wap",
         query: query,
@@ -260,7 +267,7 @@ export const topicJSON = async ({ param, isCacheBrust, callType }) => {
         isCacheBrust,
         ...(typeof tab !== "undefined" && { tab: tab })
       },
-      searchResult: [searchResult(result.response)],
+      searchResult: result?.response ? [searchResult(result.response)] : [],
       version_control: versionControl,
       seo: seoDetails(result.response, query, tab)
     };

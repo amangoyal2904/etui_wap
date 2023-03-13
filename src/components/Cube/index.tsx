@@ -11,8 +11,8 @@ const Cube: FC = (): JSX.Element => {
     try {
       if (typeof sessionStorage !== "undefined" && !displayCube) {
         const closeCube = sessionStorage.getItem("closeCube");
-        const isSubscribed = window.objInts.permissions.indexOf("subscribed") > -1;
-        if (closeCube !== "1" && !window.optCheck && window.objInts.adType !== "adfree" && !isSubscribed) {
+        const isSubscribed = window?.objInts?.permissions.indexOf("subscribed") > -1;
+        if (closeCube !== "1" && !window?.optCheck && window?.objInts?.adType !== "adfree" && !isSubscribed) {
           setIfmSrc(window?.objVc?.global_cube_wap_url ? window?.objVc?.global_cube_wap_url : ET_CUBE_URL);
           setDisplayCube(true);
         } else {
@@ -25,7 +25,7 @@ const Cube: FC = (): JSX.Element => {
   };
 
   const intsCallback = (): void => {
-    window.objInts.afterPermissionCall(loadCube);
+    window?.objInts?.afterPermissionCall(loadCube);
   };
 
   useEffect(() => {
