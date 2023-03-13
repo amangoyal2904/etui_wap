@@ -76,7 +76,7 @@ const searchResult = (response) => {
 
   try {
     for (let i = 0; i < response.length; i++) {
-      const { title, synopsis, hasThumb, effectivedate, seopath, msid } = response[i];
+      const { title, synopsis, hasThumb, effectivedate, seopath, msid, contenttypeid, category } = response[i];
 
       const getUrl = getMSUrl(response[i]);
       if (i == 3) {
@@ -91,7 +91,7 @@ const searchResult = (response) => {
         });
       }
       resultData.push({
-        title: title,
+        title: contenttypeid == 3 && category ? category : title,
         url: getUrl,
         type: getArticleType(getUrl),
         date: unixToDate(effectivedate) ?? "",

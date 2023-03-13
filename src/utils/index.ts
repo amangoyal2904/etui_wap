@@ -473,28 +473,28 @@ export const getType = (data) => {
           // Panache people - 77284788
           type = data.parentid == 77284788 ? "profileshow" : "definition";
         }
-      } else {
-        const url = data.ploverridelink || data.overridelink || data.hoverridelink || "";
-        if (url) {
-          type = getArticleType(url);
+      }
+    } else {
+      const url = data.ploverridelink || data.overridelink || data.hoverridelink || "";
+      if (url) {
+        type = getArticleType(url);
+      }
+      if (data.contenttypeid == 2) {
+        type == "articleshow";
+      } else if (data.contenttypeid == 3 || data.contenttypeid == 8) {
+        type = "slideshow";
+        if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
+          type = "webstory";
         }
-        if (data.contenttypeid == 2) {
-          type == "articleshow";
-        } else if (data.contenttypeid == 3 || data.contenttypeid == 8) {
-          type = "slideshow";
-          if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
-            type = "webstory";
-          }
-        } else if (data.contenttypeid == 38 && data.contentsubtypeid == 2) {
-          type = "podcast";
-          // eslint-disable-next-line no-dupe-else-if
-        } else if (data.contenttypeid == 2 && data.contentsubtypeid == 7) {
-          type = "profileshow";
-        } else if (data.contenttypeid == 38) {
-          type = "videoshow";
-        } else if (data.contenttypeid == 42) {
-          type = "liveblog";
-        }
+      } else if (data.contenttypeid == 38 && data.contentsubtypeid == 2) {
+        type = "podcast";
+        // eslint-disable-next-line no-dupe-else-if
+      } else if (data.contenttypeid == 2 && data.contentsubtypeid == 7) {
+        type = "profileshow";
+      } else if (data.contenttypeid == 38) {
+        type = "videoshow";
+      } else if (data.contenttypeid == 42) {
+        type = "liveblog";
       }
     }
     return type;
@@ -524,17 +524,6 @@ export const getMSUrl = (data) => {
     const overrideURL = data.ploverridelink || data.overridelink || data.hoverridelink || "";
     url = data.msid && data.hostid.indexOf("153") == -1 ? "" : overrideURL;
     if (!url) {
-      /*if(type == "slideshow"){
-          const isWebstory = metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1;
-          if(!isWebstory){
-            let  {children }  = item;
-            children = children || [];
-            let childObj = children.filter(v => v && v.cmstype == "IMAGES")[0];
-            if(childObj && childObj.msid){
-              msid = childObj.msid;
-            }
-          }
-        }*/
       url = ET_WAP_URL + "/" + seopath + "/" + type + "/" + data.msid + ".cms";
     }
     url = url.indexOf("/topic/") > -1 ? url.replace(/[, ]/gi, "-").toLowerCase() : url;
