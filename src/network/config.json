@@ -67,5 +67,13 @@
   "cookieConsent": {
     "production": "https://etservices2.indiatimes.com/et/consent",
     "development": "https://etservices2.indiatimes.com/et/consent"
+  },
+  "knowledgesearch": {
+    "production": "http://etjcmssolr.indiatimes.com/TOISearchWs/search/knowledgesearch",
+    "development": "http://jcmssolr.indiatimes.com/TOISearchWs/search/knowledgesearch"
+  },
+  "version_control": {
+    "production": "https://economictimes.indiatimes.com/version_control.cms",
+    "development": "https://etdev8243.indiatimes.com/version_control.cms"
   }
 }
