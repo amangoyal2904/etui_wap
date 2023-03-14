@@ -69,7 +69,7 @@
     "development": "https://etservices2.indiatimes.com/et/consent"
   },
   "knowledgesearch": {
-    "production": "http://jcmssolr.indiatimes.com/TOISearchWs/search/knowledgesearch",
+    "production": "http://etjcmssolr.indiatimes.com/TOISearchWs/search/knowledgesearch",
     "development": "http://jcmssolr.indiatimes.com/TOISearchWs/search/knowledgesearch"
   },
   "version_control": {
