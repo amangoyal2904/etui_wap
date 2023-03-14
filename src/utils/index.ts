@@ -1,5 +1,6 @@
 import getConfig from "next/config";
 import { pageview } from "./ga";
+import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -343,4 +344,230 @@ export const prepSeoListData = (data) => {
     data.title = removeBackSlash(i.title);
   });
   return primaryList;
+};
+
+export const getArticleType = (url) => {
+  try {
+    let a,
+      b,
+      c = "";
+    let type = "";
+    if (typeof url == "string") {
+      a = url.split(".cms")[0];
+      b = a.split("/");
+      c = b[b.length - 2];
+      switch (c) {
+        case "articleshow":
+          type = "articleshow";
+          break;
+        case "slideshow":
+        case "photostory":
+          type = "slideshow";
+          break;
+        case "primearticleshow":
+          type = "primearticleshow";
+          break;
+        case "videoshow":
+          type = "videoshow";
+          break;
+        case "liveblog":
+          type = "liveblog";
+          break;
+        case "podcast":
+          type = "podcast";
+          break;
+      }
+      if (
+        url.indexOf(ET_WEB_URL) > -1 &&
+        (type == "articleshow" || type == "articlelist" || type == "primearticleshow")
+      ) {
+        type = "";
+      }
+    }
+
+    return type;
+  } catch (e) {
+    console.log("Err getArticleType: ", e);
+  }
+};
+
+export const getType = (data) => {
+  try {
+    const metainfo = data.metainfo || {};
+    let type = "articleshow";
+    if (data.mstype) {
+      if (data.mstype == "8" || data.mstype == "3") {
+        type = "slideshow";
+      } else if (data.msType == "38" && data.mssubtype == "2") {
+        type = "podcast";
+      } else if (data.mstype == "38") {
+        type = "videoshow";
+      } else if (data.mstype == "42") {
+        type = "liveblog";
+      }
+    } else if (data.cmstype) {
+      if (data.hostid && data.primeid) {
+        if (data.cmstype == "ARTICLE") {
+          if (data.hostid.indexOf(318) !== -1) {
+            if (data.primeid == "200") {
+              type = "freereads";
+            } else {
+              type = "primearticleshow";
+            }
+          } else if (data.primeid == "100") {
+            type = "premium";
+          } else {
+            type == "articleshow";
+          }
+        } else if (
+          data.cmstype == "SLIDESHOW" ||
+          data.cmstype == "IMAGES" ||
+          data.cmstype == "PHOTOGALLERYSLIDESHOWSECTION"
+        ) {
+          type = "slideshow";
+          if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
+            type = "webstory";
+          }
+        } else if (data.cmstype == "VIDEO" || data.cmstype == "MEDIAVIDEO") {
+          type = "videoshow";
+        } else if (data.cmstype == "MEDIAAUDIO") {
+          type = "podcast";
+        } else if (data.cmstype == "LIVEBLOG") {
+          type = "liveblog";
+        } else if (data.cmstype == "DEFINITION") {
+          // Panache people - 77284788
+          type = data.parentid == 77284788 ? "profileshow" : "definition";
+        }
+      }
+    } else {
+      const url = data.ploverridelink || data.overridelink || data.hoverridelink || "";
+      if (url) {
+        type = getArticleType(url);
+      }
+      if (data.contenttypeid == 2) {
+        type == "articleshow";
+      } else if (data.contenttypeid == 3 || data.contenttypeid == 8) {
+        type = "slideshow";
+        if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
+          type = "webstory";
+        }
+      } else if (data.contenttypeid == 38 && data.contentsubtypeid == 2) {
+        type = "podcast";
+        // eslint-disable-next-line no-dupe-else-if
+      } else if (data.contenttypeid == 2 && data.contentsubtypeid == 7) {
+        type = "profileshow";
+      } else if (data.contenttypeid == 38) {
+        type = "videoshow";
+      } else if (data.contenttypeid == 42) {
+        type = "liveblog";
+      }
+    }
+    return type;
+  } catch (e) {
+    console.log("Err getType: ", e);
+  }
+};
+
+export const getMSUrl = (data) => {
+  try {
+    // const { metainfo, original, agency, msid } = data;
+    let url = "";
+    let type = getType(data);
+    if (type == "webstory") {
+      type = "slideshow";
+    }
+    if (type == "premium") {
+      type = "articleshow";
+    } else if (type == "freereads") {
+      type = "primearticleshow";
+    }
+    let seopath = data.seopath || data.seolocation || "";
+    if (data && data.hostid && data.hostid.indexOf("318") != -1) {
+      seopath = seopath.replace("news/", "prime/");
+    }
+
+    const overrideURL = data.ploverridelink || data.overridelink || data.hoverridelink || "";
+    url = data.msid && data.hostid.indexOf("153") == -1 ? "" : overrideURL;
+    if (!url) {
+      url = ET_WAP_URL + "/" + seopath + "/" + type + "/" + data.msid + ".cms";
+    }
+    url = url.indexOf("/topic/") > -1 ? url.replace(/[, ]/gi, "-").toLowerCase() : url;
+    if (url.indexOf("liveblog") > -1) {
+      url = url.replace(ET_WAP_URL, ET_WEB_URL);
+    } else if (url && url.indexOf("http") == -1) {
+      url = url.indexOf("/") == 0 ? url : "/" + url;
+      url = ET_WAP_URL + url;
+    }
+    /*const customUTM = metainfo && metainfo.RealEstateProjectName && metainfo.RealEstateProjectName.value || "";
+    utm = utm || customUTM || "";
+    if(customUTM){
+      utm = url.indexOf("?") != -1 ? "&" + utm : "?" + utm;
+    }
+    url = utm ? url + utm : url;*/
+    return url;
+  } catch (error) {
+    console.log("error in getURL", error);
+  }
+};
+
+export const unixToDate = (unixTimestamp) => {
+  try {
+    const date = new Date(unixTimestamp);
+    const formattedDate = date.toLocaleString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "Asia/Kolkata"
+    });
+
+    return `${formattedDate} IST`;
+  } catch (e) {
+    console.log("Err unixToDate: ", e);
+  }
+};
+
+export const getKeyData = (data) => {
+  const obj = {};
+  try {
+    for (const key in data) {
+      if (data && data[key] && data[key]["@react"]) {
+        const keyData = data[key]["#text"] || data[key]["data"] || "";
+        if (keyData) {
+          obj[key] = keyData;
+        } else if (typeof data[key] == "object") {
+          const val = getKeyData(data[key]);
+          if (val && Object.keys(val).length) {
+            obj[key] = val;
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log("error in getKeyData");
+  }
+  return obj;
+};
+
+const addZero = (num) => {
+  return num >= 10 ? num : "0" + num;
+};
+
+export const nowDate = () => {
+  const dt = new Date(),
+    now =
+      dt.getFullYear() +
+      "-" +
+      addZero(dt.getMonth() + 1) +
+      "-" +
+      addZero(dt.getDate()) +
+      " " +
+      addZero(dt.getHours()) +
+      ":" +
+      addZero(dt.getMinutes()) +
+      ":" +
+      addZero(dt.getSeconds());
+  return now || dt;
 };
