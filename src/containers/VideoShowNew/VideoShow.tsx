@@ -124,9 +124,8 @@ const VideoShow: FC<PageProps> = (props) => {
                       });
                       const data = res.data || {};
                       const output = data?.searchResult?.find((item) => item.name === "videoshow")?.data || {};
-                      console.log({ nextVideoMsid, recosMsids });
+
                       nextVideoMsid = recosMsids.length > 0 ? recosMsids.shift() : output.nextvideo;
-                      console.log({ nextVideoMsid, recosMsids });
 
                       setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
                       setIsLoading(false);
@@ -159,11 +158,8 @@ const VideoShow: FC<PageProps> = (props) => {
 
   useEffect(() => {
     const vidStory = videoStories?.slice(-1)[0]?.find((item) => item.name == "videoshow")?.data as VideoShowProps;
-    console.log({ videoStories, vidStory });
 
     if (vidStory && recosMsids.length === 0) {
-      console.log("recos called");
-
       fetch(`https://reco.slike.in/similar/result.json?sid=${vidStory.slikeid}&msid=${vidStory.msid}`)
         .then((response) => response.json())
         .then((data) => {

@@ -1,7 +1,6 @@
 import getConfig from "next/config";
 import { pageview } from "./ga";
-import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
-
+import { ET_WAP_URL, ET_WEB_URL } from "utils/common";
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
 
