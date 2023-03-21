@@ -17,7 +17,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   let extraParams = {},
     response: any = {};
 
-  if (page !== "notfound") {
+  if (!["notfound", "etshorts"].includes(page)) {
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====
@@ -57,6 +57,8 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   res.setHeader("Expires", new Date(new Date().getTime() + expiryTime * 1000).toUTCString());
 
   if (page === "notfound") res.statusCode = "404";
+
+  console.log({ page });
 
   return {
     props: {
