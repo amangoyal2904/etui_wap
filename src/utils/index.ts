@@ -345,15 +345,12 @@ export const prepSeoListData = (data) => {
   return primaryList;
 };
 
-export const topicRedirection = (all) => {
+export const redirectTopicIfInvalidQuery = (all) => {
   const query: string = all?.slice(1, 2).toString();
-  let validQuery = true;
-  const allowedChar = /^[A-Za-z0-9. &-]*$/;
-  for (let i = 0; i < query.length; i++) {
-    if (!allowedChar.test(query[i]) || query.split(" ").length > 11) {
-      validQuery = false;
-      break;
-    }
+  let isValidQuery = true;
+  const allowedChar = /^[A-Za-z0-9. &-]+$/;
+  if (!allowedChar.test(query) || query.split(" ").length > 11) {
+    isValidQuery = false;
   }
-  return validQuery;
+  return isValidQuery;
 };
