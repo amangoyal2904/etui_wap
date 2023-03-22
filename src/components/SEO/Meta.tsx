@@ -63,14 +63,16 @@ const Meta = (props: SEOProps) => {
         ) : null}
         {langInfo && Array.isArray(langInfo) && langInfo.length ? (
           langInfo.map((item, index) => <link rel="alternate" key={index} hrefLang={item.lang} href={item.url} />)
-        ) : (
+        ) : data.noindex != 1 ? (
           <link rel="alternate" href={alternateUrl} />
+        ) : (
+          ""
         )}
         {data.expiry && <meta name="expires" content={data.expiry} />}
         {data.sponsored && <meta property="cr:sponsored" />}
         {data.maxImgPreview && <meta name="robots" content="max-image-preview:large" />}
 
-        <link href={canonical} rel="canonical" />
+        {data.noindex != 1 ? <link href={canonical} rel="canonical" /> : ""}
         <meta name="props" content="yes" />
         {modified && <meta httpEquiv="Last-Modified" content={modified} />}
         <meta name="google-site-verification" content="5jF2vNhBpP6iJYYbQwvUv-2WPh3B7O16SpPtd1m3EsM" />
