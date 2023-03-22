@@ -52,12 +52,12 @@ const Meta = (props: SEOProps) => {
         <meta httpEquiv="content-language" content={hostid && hostid == 317 ? "hi" : "en"} />
         {data.news_keywords && <meta name="news_keywords" content={data.news_keywords} />}
         <meta name="description" content={removeBackSlash(data.description)} />
-        {data.noindex == 1 && data.type == "topic" ? (
+        {data.noindex == 1 ? (
           <meta content="noindex, nofollow" name="robots" />
         ) : (
           ampURL && <link rel="amphtml" href={ampURL} />
         )}
-        {data.noindex == 1 && data.type == "topic" ? <meta name="googlebot" content="noindex,nofollow" /> : ""}
+        {data.noindex == 1 ? <meta name="googlebot" content="noindex,nofollow" /> : ""}
         {data && data.noindexFollow && data.noindexFollow == 1 ? (
           <meta content="noindex, follow" name="robots" />
         ) : null}
