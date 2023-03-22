@@ -1,4 +1,4 @@
-import { pageType, getMSID, prepareMoreParams } from "utils";
+import { pageType, getMSID, prepareMoreParams, topicRedirection } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
@@ -16,6 +16,15 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
   let extraParams = {},
     response: any = {};
+  const validQuery = topicRedirection(all);
+  if (!validQuery) {
+    return {
+      redirect: {
+        destination: "/topic/home",
+        permanent: true
+      }
+    };
+  }
 
   if (page !== "notfound") {
     const moreParams = prepareMoreParams({ all, page, msid });

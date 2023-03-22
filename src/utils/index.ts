@@ -600,3 +600,15 @@ export const nowDate = () => {
       addZero(dt.getSeconds());
   return now || dt;
 };
+export const topicRedirection = (all) => {
+  const query: string = all?.slice(1, 2).toString();
+  let validQuery = true;
+  const allowedChar = /^[A-Za-z0-9. &-]*$/;
+  for (let i = 0; i < query.length; i++) {
+    if (!allowedChar.test(query[i]) || query.split(" ").length > 11) {
+      validQuery = false;
+      break;
+    }
+  }
+  return validQuery;
+};
