@@ -52,18 +52,18 @@ const Meta = (props: SEOProps) => {
         <meta httpEquiv="content-language" content={hostid && hostid == 317 ? "hi" : "en"} />
         {data.news_keywords && <meta name="news_keywords" content={data.news_keywords} />}
         <meta name="description" content={removeBackSlash(data.description)} />
-        {data.noindex == 1 ? (
+        {data.noindex == 1 && data.type == "topic" ? (
           <meta content="noindex, nofollow" name="robots" />
         ) : (
           ampURL && <link rel="amphtml" href={ampURL} />
         )}
-        {data.noindex == 1 ? <meta name="googlebot" content="noindex,nofollow" /> : ""}
+        {data.noindex == 1 && data.type == "topic" ? <meta name="googlebot" content="noindex,nofollow" /> : ""}
         {data && data.noindexFollow && data.noindexFollow == 1 ? (
           <meta content="noindex, follow" name="robots" />
         ) : null}
         {langInfo && Array.isArray(langInfo) && langInfo.length ? (
           langInfo.map((item, index) => <link rel="alternate" key={index} hrefLang={item.lang} href={item.url} />)
-        ) : data.noindex != 1 ? (
+        ) : data.noindex != 1 || data.type != "topic" ? (
           <link rel="alternate" href={alternateUrl} />
         ) : (
           ""
@@ -72,7 +72,7 @@ const Meta = (props: SEOProps) => {
         {data.sponsored && <meta property="cr:sponsored" />}
         {data.maxImgPreview && <meta name="robots" content="max-image-preview:large" />}
 
-        {data.noindex != 1 ? <link href={canonical} rel="canonical" /> : ""}
+        {data.noindex != 1 || data.type != "topic" ? <link href={canonical} rel="canonical" /> : ""}
         <meta name="props" content="yes" />
         {modified && <meta httpEquiv="Last-Modified" content={modified} />}
         <meta name="google-site-verification" content="5jF2vNhBpP6iJYYbQwvUv-2WPh3B7O16SpPtd1m3EsM" />
