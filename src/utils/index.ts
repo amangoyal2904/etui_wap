@@ -344,3 +344,17 @@ export const prepSeoListData = (data) => {
   });
   return primaryList;
 };
+/**
+ * it will check for query if its valid or not
+ * @param all
+ * @returns true or false
+ */
+export const shouldRedirectTopic = (all) => {
+  const query: string = all?.slice(1, 2).toString();
+  let isValidQuery = true;
+  const allowedChar = /^[A-Za-z0-9. &-]+$/;
+  if (!allowedChar.test(query) || query.split(" ").length > 11) {
+    isValidQuery = false;
+  }
+  return isValidQuery;
+};
