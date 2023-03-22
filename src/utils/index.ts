@@ -344,8 +344,12 @@ export const prepSeoListData = (data) => {
   });
   return primaryList;
 };
-
-export const redirectTopicIfInvalidQuery = (all) => {
+/**
+ * it will check for query if its valid or not
+ * @param all
+ * @returns true or false
+ */
+export const shouldRedirectTopic = (all) => {
   const query: string = all?.slice(1, 2).toString();
   let isValidQuery = true;
   const allowedChar = /^[A-Za-z0-9. &-]+$/;

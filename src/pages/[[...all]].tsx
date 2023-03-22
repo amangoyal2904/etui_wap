@@ -1,4 +1,4 @@
-import { pageType, getMSID, prepareMoreParams, redirectTopicIfInvalidQuery } from "utils";
+import { pageType, getMSID, prepareMoreParams, shouldRedirectTopic } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
@@ -16,7 +16,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
   let extraParams = {},
     response: any = {};
-  const isValidQuery = redirectTopicIfInvalidQuery(all);
+  const isValidQuery = shouldRedirectTopic(all);
   if (!isValidQuery) {
     return {
       redirect: {
