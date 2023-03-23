@@ -16,14 +16,17 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
   let extraParams = {},
     response: any = {};
-  const isValidQuery = shouldRedirectTopic(all);
-  if (!isValidQuery) {
-    return {
-      redirect: {
-        destination: "/topic/home",
-        statusCode: 301
-      }
-    };
+
+  if (page === "topic") {
+    const isValidQuery = shouldRedirectTopic(all);
+    if (!isValidQuery) {
+      return {
+        redirect: {
+          destination: "/topic/home",
+          statusCode: 301
+        }
+      };
+    }
   }
 
   if (page !== "notfound") {
