@@ -99,7 +99,13 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
                 )
               }
             >
-              <LazyLoadImg img={slides[currentCardIndex].img} width="800" height="600" />
+              <img
+                src={slides[currentCardIndex].img}
+                fetchpriority="high"
+                width="800"
+                height="600"
+                alt={slides[currentCardIndex].title}
+              />
               <div className={styles.txt}>
                 <h2>{slides[currentCardIndex].title}</h2>
                 <p>{slides[currentCardIndex].syn}</p>
