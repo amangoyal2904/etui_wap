@@ -66,7 +66,12 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
   };
 
   const getMenu = (data: MenuProps, level: number, index: number | string) => {
-    const r = data.sec.map((item, i) => {
+    let secDetails = data.sec;
+    if (!Array.isArray(secDetails)) {
+      secDetails = [secDetails];
+    }
+
+    const r = secDetails.map((item, i) => {
       return (
         <React.Fragment key={level + "_" + i}>
           <li className={level === 1 && i > 3 && !isSiblingsOpen[level + "_" + index] ? styles.hidden : ""}>
