@@ -526,18 +526,51 @@ export const getMSUrl = (data) => {
 
 export const unixToDate = (unixTimestamp) => {
   try {
+    // Create a new Date object based on the Unix timestamp
     const date = new Date(unixTimestamp);
-    const formattedDate = date.toLocaleString("en-US", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-      timeZone: "Asia/Kolkata"
-    });
 
-    return `${formattedDate} IST`;
+    // Define an array of month abbreviations
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    // Get the day, month, and year from the Date object
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    // Get the hours and minutes from the Date object
+    let hours = date.getHours();
+    let minutes: any = date.getMinutes();
+
+    // Determine whether it's AM or PM
+    const amOrPm = hours < 12 ? "AM" : "PM";
+
+    // Convert to 12-hour format
+    if (hours > 12) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+
+    // Add leading zeros to minutes if necessary
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+
+    // Get the timezone offset from UTC in minutes
+    const timezoneOffset = date.getTimezoneOffset();
+
+    // Convert the timezone offset to hours and minutes
+    const timezoneOffsetHours = Math.abs(Math.floor(timezoneOffset / 60));
+    const timezoneOffsetMinutes = Math.abs(timezoneOffset % 60);
+
+    // Determine whether the timezone offset is ahead or behind UTC
+    const timezoneOffsetSign = timezoneOffset > 0 ? "-" : "+";
+
+    // Create the formatted date string
+    const dateString = `${day} ${month}, ${year}, ${hours}.${minutes} ${amOrPm} IST`;
+
+    // Return the formatted date string
+    return dateString;
   } catch (e) {
     console.log("Err unixToDate: ", e);
   }
