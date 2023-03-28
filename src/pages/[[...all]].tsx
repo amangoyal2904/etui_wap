@@ -29,7 +29,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
     }
   }
 
-  if (!["notfound", "etshorts"].includes(page)) {
+  if (!["notfound", "shortsVideos"].includes(page)) {
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====

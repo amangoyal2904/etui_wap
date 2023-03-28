@@ -15,7 +15,7 @@ const VideoShowNew = dynamic(() => import("containers/VideoShowNew"));
 const Home = dynamic(() => import("containers/Home"));
 const Topic = dynamic(() => import("containers/Topic"));
 const QuickReads = dynamic(() => import("containers/QuickReads"));
-const ETShorts = dynamic(() => import("containers/ETShorts"));
+const ShortsVideos = dynamic(() => import("containers/ShortsVideos"));
 
 declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
@@ -76,8 +76,8 @@ const Container = (props) => {
     case "quickreads":
       container = <QuickReads {...data} />;
       break;
-    case "etshorts":
-      container = <ETShorts {...data} />;
+    case "shortsVideos":
+      container = <ShortsVideos {...data} />;
       break;
     default:
       container = <NotFound {...data} />;
