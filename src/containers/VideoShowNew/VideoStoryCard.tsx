@@ -49,6 +49,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.player.autoPlay = index === 0;
     playerConfig.player.pagetpl = "videoshownew";
     playerConfig.player.skipAd = isPrimeUser;
+    playerConfig.player.isPrime = isPrimeUser == 1;
     const player = new window.SlikePlayer(playerConfig);
 
     handleAdEvents(player);
