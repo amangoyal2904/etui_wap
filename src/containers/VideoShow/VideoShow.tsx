@@ -47,7 +47,7 @@ const VideoShow: FC<PageProps> = (props) => {
       return props?.searchResult?.map((item) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
-          const url = `${result.iframeUrl}&skipad=${isPrimeUser}`;
+          const url = `${result.iframeUrl}&skipad=${isPrimeUser}&primeuser=${isPrimeUser}`;
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>
