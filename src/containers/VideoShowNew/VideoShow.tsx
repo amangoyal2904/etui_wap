@@ -160,7 +160,8 @@ const VideoShow: FC<PageProps> = (props) => {
         .then((response) => response.json())
         .then((data) => {
           if (data && Array.isArray(data) && data.length > 0) {
-            data.forEach((item) => {
+            const data3 = data.slice(0, 3);
+            data3.forEach((item) => {
               recosMsids.push(item.msid);
             });
           }
