@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { FC, useEffect } from "react";
-import { APP_ENV } from "../utils";
+import { APP_ENV, updateDimension } from "../utils";
 import * as Config from "../utils/common";
 
 interface Props {
@@ -27,6 +27,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
+    //updateDimension();
   }, []);
 
   return (
@@ -135,6 +136,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
               window.customDimension = { ...window["customDimension"], url: window.location.href };
               window.grx("track", "page_view", window.customDimension);
+              updateDimension();
             }}
           />
           <Script
