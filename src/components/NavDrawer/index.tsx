@@ -90,7 +90,7 @@ const NavDrawer: FC<DrawerProps> = ({ setIsDrawerOpen, isOpen }) => {
           </li>
           {level === 1 && i === 4 && !isSiblingsOpen[level + "_" + index] && (
             <li data-more={item.title} onClick={() => showMore(level + "_" + index)}>
-              VIEW MORE FROM {data.title} +
+              VIEW MORE +
             </li>
           )}
           {level === 0 && <li className={styles.oneDotBdr}></li>}
