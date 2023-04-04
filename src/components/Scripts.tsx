@@ -141,7 +141,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           />
           <Script
             id="tag-manager"
-            strategy={isTopicPage ? "lazyOnload" : "worker"}
+            strategy="lazyOnload"
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
           />
           {/* {isTopicPage ? ( */}
