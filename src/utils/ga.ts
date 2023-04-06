@@ -12,12 +12,14 @@ declare global {
     // eslint-disable-next-line
     // gtag: any;
     dataLayer: [push: object];
-    customDimension: object;
+    customDimension: any;
     gtmEventDimension: object;
   }
 }
 export const pageview = (url, params = {}) => {
   try {
+    setDimension120();
+
     window["gtag"] &&
       window["gtag"]("config", Config.GA.GTM_KEY, {
         page_path: url
@@ -32,6 +34,22 @@ export const pageview = (url, params = {}) => {
     console.log("pageview error: ", e);
   }
 };
+
+function setDimension120() {
+  const utmDimension = window.sessionStorage && sessionStorage.getItem("utm_params_dim"),
+    utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search),
+    utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source"),
+    utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium"),
+    utmCamp_dim = utmParams_dim.get && utmParams_dim.get("utm_campaign"),
+    utmParams_dim120 = utmSource_dim + " / " + utmMedium_dim + " / " + utmCamp_dim;
+
+  if (utmSource_dim) {
+    window.customDimension.dimension120 = utmParams_dim120;
+    sessionStorage.setItem("utm_params_dim", utmParams_dim120);
+  } else if (utmDimension) {
+    window.customDimension.dimension120 = utmDimension;
+  }
+}
 
 export const event = ({ action, params }) => {
   window["gtag"] && window["gtag"]("event", action, params);
