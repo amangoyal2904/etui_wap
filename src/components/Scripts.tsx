@@ -123,7 +123,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
               ga('create', '${Config.GA.GA_ID}', 'auto');
               window.customDimension = { ...window["customDimension"], page: window.location.href };
-              ga('send', 'pageview', window.customDimension);
+              // ga('send', 'pageview', window.customDimension);
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
               `
@@ -135,7 +135,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             onLoad={() => {
               window.grx("init", window.objVc.growthRxId || "gc2744074");
               window.customDimension = { ...window["customDimension"], url: window.location.href };
-              window.grx("track", "page_view", window.customDimension);
+              // window.grx("track", "page_view", window.customDimension);
               updateDimension();
             }}
           />
