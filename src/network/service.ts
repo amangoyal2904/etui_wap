@@ -24,10 +24,17 @@ const AUTH: AuthConfig = {
   defaultSecretKey: "Vcb+kdRDHGyvSgnHUwXsGKFVbBQ=",
   expiry: 12 * 60 * 60 * 1000 // 12 hours
 };
+
 const getURL = (): string => {
   const stg = APP_ENV == "development" ? "stg" : "";
   return `https://${stg}${AUTH.url}`;
 };
+
+const isJCMSDomain = (url) => {
+  const domainArr = ["jcmssolr.indiatimes.com", "cloudservices.indiatimes.com"];
+  return domainArr.some((domain) => url.includes(domain));
+};
+
 const getEncodedSecretKey = async (dateString: string, AUTH: AuthConfig): Promise<string> => {
   let encodedSecretKey = "";
   try {
@@ -41,6 +48,7 @@ const getEncodedSecretKey = async (dateString: string, AUTH: AuthConfig): Promis
   }
   return encodedSecretKey;
 };
+
 const fetchJCMSAuthToken = async (cb: (error: Error | null, response?: JCMSAuthToken) => void): Promise<void> => {
   try {
     const currentDate = new Date().toDateString();
@@ -82,6 +90,50 @@ const fetchJCMSAuthToken = async (cb: (error: Error | null, response?: JCMSAuthT
   }
 };
 
+const getJCMSAuthToken = async (config) => {
+  const url = getApiUrl(config, 0);
+  if (isJCMSDomain(url)) {
+    // Multi tenancy validation
+    // To Do: Server restart, refetching auth logic
+    const jcmsAuth = global.jcmsAuth || {};
+    const currentTime = Date.now();
+    const isTokenExpired = currentTime > (jcmsAuth.timestamp || currentTime) + AUTH.expiry;
+    if (!jcmsAuth.timestamp || isTokenExpired) {
+      await fetchJCMSAuthToken(
+        (
+          err,
+          authResponse = {
+            createdAt: 0,
+            success: false
+          }
+        ) => {
+          if (err) {
+            saveLogs({
+              type: "jcms auth token error",
+              data: JSON.stringify(err),
+              jcmsAuth: JSON.stringify(jcmsAuth),
+              request: JSON.stringify(config)
+            });
+          } else {
+            // set auth token globally
+            global["jcmsAuth"] = {
+              ...authResponse,
+              timestamp: authResponse.createdAt || currentTime
+            };
+          }
+        }
+      );
+    }
+    return {
+      "tenant-id": AUTH.tenentId,
+      "access-key": (global.jcmsAuth && global.jcmsAuth["accessToken"]) || AUTH.defaultSecretKey,
+      "env-type": APP_ENV == "production" ? "prod" : "dev"
+    };
+  } else {
+    return {};
+  }
+};
+
 const getApiUrl = (config, index) => {
   const { api = {}, url, params } = config;
   const { type = "" } = params;
@@ -116,51 +168,14 @@ export const get = (config) => {
   }
 };
 
-const isJCMSDomain = (url) => {
-  return url.indexOf("jcmssolr") != -1 || url.indexOf("cloudservices") != -1;
-};
-
-export const post = (config) => {
+export const post = async (config) => {
   const { payload } = config;
   const url = getApiUrl(config, 0);
-
-  if (isJCMSDomain(url)) {
-    // Multi tenancy validation
-    // To Do: Server restart, refetching auth logic
-    const jcmsAuth = global.jcmsAuth || {};
-    const currentTime = Date.now();
-    const isTokenExpired = currentTime > (jcmsAuth.timestamp || currentTime) + AUTH.expiry;
-    if (!jcmsAuth.timestamp || isTokenExpired) {
-      fetchJCMSAuthToken(
-        (
-          err,
-          authResponse = {
-            createdAt: 0,
-            success: false
-          }
-        ) => {
-          if (err) {
-            saveLogs({
-              type: "jcms auth token error",
-              data: JSON.stringify(err),
-              jcmsAuth: JSON.stringify(jcmsAuth),
-              request: JSON.stringify(config)
-            });
-          } else {
-            // set auth token globally
-            global["jcmsAuth"] = {
-              ...authResponse,
-              timestamp: authResponse.createdAt || currentTime
-            };
-          }
-        }
-      );
-    }
+  const JCMSAuthHeader = await getJCMSAuthToken(config);
+  if (Object.keys(JCMSAuthHeader).length > 0) {
     config.headers = {
       ...config.headers,
-      "tenant-id": AUTH.tenentId,
-      "access-key": (global.jcmsAuth && global.jcmsAuth["accessToken"]) || AUTH.defaultSecretKey,
-      "env-type": APP_ENV == "production" ? "prod" : "dev"
+      ...JCMSAuthHeader
     };
   }
 
