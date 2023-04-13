@@ -128,9 +128,9 @@ const ETCache = async (key, fetchApiData, ttl = 1000, isCacheBrust = false) => {
   if (!redisIsActive()) {
     client.connect(); // Connect to Redis.
   }
-
+  //console.log("cacheData", isCacheBrust)
   // If there is cached data for this key and we're not forcibly busting the cache, return the parsed data.
-  if (cacheData && !isCacheBrust) {
+  if (cacheData && Object.keys(cacheData).length > 0 && !isCacheBrust) {
     return JSON.parse(cacheData);
   } else {
     // If there is no cached data (or we're forcibly busting the cache), fetch the data from the API.

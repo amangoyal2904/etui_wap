@@ -18,7 +18,6 @@ const fetchApiData = async () => {
       ref: "pwaapi"
     }
   });
-
   // Extract the relevant data from the API response and return it.
   return getKeyData(result.data);
 };

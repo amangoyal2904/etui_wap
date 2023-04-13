@@ -1,6 +1,6 @@
 import Service from "../network/service";
 import APIS_CONFIG from "../network/config.json";
-import { APP_ENV, getArticleType, getMSUrl, unixToDate } from "../utils";
+import { APP_ENV, getArticleType, getMSUrl, unixToDate, countWords } from "../utils";
 import { version_control } from "./version_control";
 import ETCache from "../utils/cache";
 
@@ -64,7 +64,6 @@ const fetchApiData = async (query, tab = "all") => {
       },
       params: {}
     });
-
     return result.data;
   } catch (e) {
     console.log("Err fetchApiData: ", e);
@@ -108,17 +107,26 @@ const searchResult = (response) => {
   };
 };
 
+const isNoIndex = (response, query) => {
+  const validStringPattern = /^[A-Za-z0-9 \-]*$/,
+    validString = validStringPattern.test(query) ? 1 : 0,
+    wordCount = countWords(query),
+    process_topic = validString == 1 && wordCount < 11 ? 1 : 0;
+  return process_topic != 1 || response.length < 5 ? 1 : 0;
+};
+
 const seoDetails = (response, query, tab = "") => {
   try {
-    const title = `${query}: Latest News &amp; Videos, Photos about ${query} | The Economic Times`,
-      description = `${query} Latest Breaking News, Pictures, Videos, and Special Reports from The Economic Times. ${query} Blogs, Comments and Archive News on Economictimes.com`,
+    const topicWithSpace = query.replace(/-/g, " ").toLowerCase(),
+      title = `${topicWithSpace}: Latest News &amp; Videos, Photos about ${topicWithSpace} | The Economic Times - Page 1`,
+      description = `${topicWithSpace} Latest Breaking News, Pictures, Videos, and Special Reports from The Economic Times. ${topicWithSpace} Blogs, Comments and Archive News on Economictimes.com`,
       canonical = `https://economictimes.indiatimes.com/topic/${query.replace(/\W+/g, "-").toLowerCase()}${
         tab ? "/" + tab.toLowerCase() : ""
       }`,
       authors = response[0]?.author ? response[0].author : response[0]?.agency ? response[0].agency : "ET Online",
       agency = response[0]?.agency ? response[0].agency : "ET Online",
       image = `https://img.etimg.com/thumb/msid-65498029,width-672,resizemode-4/et-logo.jpg`,
-      keywords = `${query.toLowerCase()}, ${query.toLowerCase()} news, ${query.toLowerCase()} updates, ${query.toLowerCase()} latest news, ${query.toLowerCase()} image, ${query.toLowerCase()} video`;
+      keywords = `${topicWithSpace}, ${topicWithSpace} news, ${topicWithSpace} updates, ${topicWithSpace} latest news, ${topicWithSpace} image, ${topicWithSpace} video`;
 
     return {
       lang: response[0]?.hostid?.indexOf("317") !== -1 ? "HIN" : "EN",
@@ -129,19 +137,19 @@ const seoDetails = (response, query, tab = "") => {
       canonical,
       authors,
       agency,
-      noindex: "",
+      noindex: isNoIndex(response, topicWithSpace),
       actualURL: canonical,
       url: canonical,
       type: "topic",
       image,
       inLanguage: "en",
-      date: response[0]?.effectivedate ?? "",
-      updated: response[0]?.effectivedate ?? "",
+      date: unixToDate(response[0]?.effectivedate) ?? "",
+      updated: unixToDate(response[0]?.effectivedate) ?? "",
       articleSection: response[0]?.parenttitle ?? "",
       hostid: response[0]?.hostid[0] ?? 153,
       langInfo: "",
       noindexFollow: "",
-      expiry: response[0]?.expirydate ?? "",
+      expiry: unixToDate(response[0]?.expirydate) ?? "",
       sponsored: "",
       maxImgPreview: "",
       subsecnames: "",
@@ -174,7 +182,7 @@ const seoDetails = (response, query, tab = "") => {
           articleBody: description,
           image: {
             type: "ImageObject",
-            url: "https://img.etimg.com/thumb/msid-Rahul gandhi,width-1070,height-580,overlay-economictimes/photo.jpg",
+            url: image,
             height: "900",
             width: "1600"
           },

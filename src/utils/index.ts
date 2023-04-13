@@ -1,6 +1,7 @@
 import getConfig from "next/config";
 import { pageview } from "./ga";
 import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
+import { networkInterfaces } from "os";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -617,4 +618,53 @@ export const nowDate = () => {
       ":" +
       addZero(dt.getSeconds());
   return now || dt;
+};
+
+const getIPAddress = () => {
+  const interfaces = networkInterfaces();
+  for (const devName in interfaces) {
+    const iface = interfaces[devName];
+
+    for (let i = 0; i < iface.length; i++) {
+      const alias = iface[i];
+      if (alias.family === "IPv4" && alias.address !== "127.0.0.1" && !alias.internal) return alias.address;
+    }
+  }
+  return "0.0.0.0";
+};
+
+export const saveLogs = (data = {}) => {
+  try {
+    data["vmip"] = getIPAddress();
+    const logData =
+      "logdata=" + JSON.stringify({ mode: APP_ENV == "development" ? "modeDev" : "modeLive", channel: "WapApi", data });
+
+    fetch("https://etx.indiatimes.com/log?et=mobile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: logData
+    });
+  } catch (error) {
+    console.log("error in saveLogs", error);
+  }
+};
+
+export const countWords = (str) => {
+  // Remove leading/trailing spaces
+  str = str.trim();
+
+  // If the string is empty, return 0
+  if (str === "") {
+    return 0;
+  }
+
+  // Split the string by spaces
+  const words = [...str.split(" ")];
+
+  // Count the number of non-empty words
+  const wordCount = words.filter((word) => word !== "").length;
+
+  return wordCount;
 };
