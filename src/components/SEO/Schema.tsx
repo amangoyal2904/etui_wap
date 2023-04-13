@@ -13,7 +13,7 @@ const webPageSchema = (data: WebPageSchemaProps) => {
   const { name, url, description } = data;
   const publisherData = data.publisher;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "WebPage",
     name,
     url,
@@ -47,7 +47,7 @@ const newsArticleSchema = (data: NewsArticleSchemaProps) => {
   } = data;
   const publisherData = data.publisher;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "NewsArticle",
     inLanguage,
     keywords,
@@ -86,7 +86,7 @@ const newsArticleSchema = (data: NewsArticleSchemaProps) => {
 const organizationSchema = (url: string) => {
   if (!url) return null;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "NewsMediaOrganization",
     name: "Economic Times",
     url: "https://economictimes.indiatimes.com/",
@@ -115,7 +115,7 @@ const videoObjectSchema = (data: VideoObjectSchemaProps) => {
   } = data;
   const publisherData = data.publisher;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "VideoObject",
     thumbnailUrl,
     uploadDate,
@@ -177,7 +177,7 @@ const breadcrumbSchema = (data: BreadCrumbProps[]) => {
       });
     }
     const schema = {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: itemListArr
     };
@@ -190,7 +190,7 @@ const searchResultSchema = (data: SearchResultProps) => {
   if (!data) return null;
   const { headline, description, url, mainEntityOfPage } = data;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "SearchResultsPage",
     headline,
     description,
@@ -204,7 +204,7 @@ const collectionPageSchema = (data: CollectionPageProps, hasPartArr) => {
   if (!data) return null;
   const { headline, description, url } = data;
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "CollectionPage",
     headline,
     description,
@@ -223,7 +223,7 @@ const listItemSchema = (seoListData) => {
     };
   });
   const _schema = {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: itemListArr
   };

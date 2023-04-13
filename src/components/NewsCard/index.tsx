@@ -24,6 +24,7 @@ const NewsCard = (props: ListProps) => {
   const { data, showSynopsis, query, type }: ListProps = props;
   const [isFetching, setIsFetching] = useState(false);
   const [tab, setTab] = useState(type || "all");
+
   const [loadingMoreTopic, setLoadingMoreTopic] = useState<boolean>(false);
   const [cardsData, setCardsData] = useState(data.data);
 

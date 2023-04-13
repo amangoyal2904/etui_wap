@@ -4,7 +4,6 @@ import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL } from "utils/common";
-import Head from "next/head";
 declare global {
   interface Window {
     fromIframeNewVideo: any;
