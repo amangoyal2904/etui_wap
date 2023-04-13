@@ -2,18 +2,17 @@ import { FC, useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { ET_CUBE_URL } from "../../utils/common";
 
-const Cube: FC = () => {
-  const [displayCube, setDisplayCube] = useState(false);
-  const [pageLoaded, setPageLoaded] = useState(false);
-  const [ifmSrc, setIfmSrc] = useState("");
+const Cube: FC = (): JSX.Element => {
+  const [displayCube, setDisplayCube] = useState<boolean>(false);
+  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
+  const [ifmSrc, setIfmSrc] = useState<string>("");
 
-  const loadCube = () => {
-    //console.log("window.optCheck", window.optCheck)
+  const loadCube = (): void => {
     try {
-      if (typeof sessionStorage != "undefined" && !displayCube) {
+      if (typeof sessionStorage !== "undefined" && !displayCube) {
         const closeCube = sessionStorage.getItem("closeCube");
-        const isSubscribed = window.objInts.permissions.indexOf("subscribed") > -1;
-        if (closeCube != "1" && !window.optCheck && window.objInts.adType !== "adfree" && !isSubscribed) {
+        const isSubscribed = window?.objInts?.permissions.indexOf("subscribed") > -1;
+        if (closeCube !== "1" && !window?.optCheck && window?.objInts?.adType !== "adfree" && !isSubscribed) {
           setIfmSrc(window?.objVc?.global_cube_wap_url ? window?.objVc?.global_cube_wap_url : ET_CUBE_URL);
           setDisplayCube(true);
         } else {
@@ -25,8 +24,8 @@ const Cube: FC = () => {
     }
   };
 
-  const intsCallback = () => {
-    window.objInts.afterPermissionCall(loadCube);
+  const intsCallback = (): void => {
+    window?.objInts?.afterPermissionCall(loadCube);
   };
 
   useEffect(() => {
