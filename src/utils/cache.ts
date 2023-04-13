@@ -1,6 +1,7 @@
 import { createClient } from "redis";
 import { nowDate } from "./index";
 import os from "os";
+import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 const hostname = os.hostname();
 
@@ -79,7 +80,7 @@ const prepareKey = (txt = "", prefix = "api") => {
 
 const get = async (key) => {
   if (redisIsActive()) {
-    return await client.get(key);
+    return JSON.parse(await client.get(key));
   }
 
   return null;
@@ -108,11 +109,11 @@ const set = async (key, value, ttl = 300) => {
 };
 
 // The `del` function deletes a Redis key-value pair for a given key.
-const del = (key) => {
+const del = async (key) => {
   // Check if the Redis connection is active.
   if (redisIsActive()) {
     // If the Redis connection is active, delete the key-value pair using the Redis client.
-    client.del(key);
+    await client.del(key);
   }
 };
 
@@ -121,17 +122,18 @@ const ETCache = async (key, fetchApiData, ttl = 1000, isCacheBrust = false) => {
   // Prepare the cache key (in this case, we assume it's a simple string).
   const cacheKey = prepareKey(key);
 
+  // Check if Redis connection is active. If not, connect to it.
+  if (!redisIsActive()) {
+    await client.connect(); // Connect to Redis.
+  }
+
   // Check if there is already cached data for this key. If so, return the cached data (as parsed JSON).
   const cacheData = await get(cacheKey);
 
-  // Check if Redis connection is active. If not, connect to it.
-  if (!redisIsActive()) {
-    client.connect(); // Connect to Redis.
-  }
-  //console.log("cacheData", isCacheBrust)
+  //console.log("cacheData", Object.keys(cacheData).length)
   // If there is cached data for this key and we're not forcibly busting the cache, return the parsed data.
-  if (cacheData && Object.keys(cacheData).length > 0 && !isCacheBrust) {
-    return JSON.parse(cacheData);
+  if (cacheData != null && Object.keys(cacheData).length > 0 && !isCacheBrust) {
+    return cacheData;
   } else {
     // If there is no cached data (or we're forcibly busting the cache), fetch the data from the API.
     const result = await fetchApiData();
