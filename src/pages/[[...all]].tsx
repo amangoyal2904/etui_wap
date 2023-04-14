@@ -1,8 +1,6 @@
 import { pageType, getMSID, prepareMoreParams, shouldRedirectTopic } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
-import { topicJSON } from "../apiUtils/topic";
-import ETCache from "../utils/cache";
 
 const All = () => null;
 const expiryTime = 10 * 60 * 6 * 4; // seconds
@@ -12,8 +10,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const { all = [] } = params;
   const lastUrlPart: string = all?.slice(-1).toString();
   const msid = getMSID(lastUrlPart);
-  const isCacheBrust =
-    (resolvedUrl && resolvedUrl.indexOf("upcache=2") != -1) || resolvedUrl.indexOf("upcache=3") != -1;
 
   let page = pageType(resolvedUrl, msid, all);
   const api = APIS_CONFIG.FEED;
@@ -38,15 +34,11 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
     //==== gets page data =====
     const apiType = page === "videoshownew" ? "videoshow" : page;
-
-    const result =
-      apiType != "topic" &&
-      (await Service.get({
-        api,
-        params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
-      }));
-
-    response = apiType == "topic" ? await topicJSON({ param: all, isCacheBrust, callType: "Func" }) : result.data;
+    const result = await Service.get({
+      api,
+      params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
+    });
+    response = result.data;
     const { subsecnames = {} } = response.seo;
     extraParams = subsecnames
       ? {
@@ -62,18 +54,11 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   let dynamicFooterData = {};
 
   if (page !== "quickreads") {
-    const footerApiHit = async () => {
-      const footerMenu = await Service.get({
-        api,
-        params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
-      });
-
-      return footerMenu.data;
-    };
-    const cacheKey = "etnext_topic_footer_menu";
-    const footerData =
-      page == "topic" ? await ETCache(cacheKey, footerApiHit, 3600, isCacheBrust) : await footerApiHit();
-    dynamicFooterData = footerData || {};
+    const footerMenu = await Service.get({
+      api,
+      params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
+    });
+    dynamicFooterData = footerMenu.data || {};
   }
 
   //==== sets response headers =====
