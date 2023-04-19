@@ -9,7 +9,6 @@ export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_E
 declare global {
   interface Window {
     geolocation: number;
-    customDimension: any;
     geoinfo: {
       CountryCode: string;
       geolocation: string;
