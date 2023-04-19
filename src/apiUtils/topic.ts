@@ -1,7 +1,7 @@
 import Service from "../network/service";
 import APIS_CONFIG from "../network/config.json";
 import { APP_ENV, getArticleType, getMSUrl, unixToDate, countWords } from "../utils";
-import { version_control } from "./ version_control";
+import { version_control } from "./version_control";
 import ETCache from "../utils/cache";
 
 interface AdSlot {
