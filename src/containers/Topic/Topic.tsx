@@ -12,11 +12,11 @@ const Topic: FC<PageProps> = (props) => {
   const seoListData = prepSeoListData([...topicListData]);
   const seoData = { ...seo, ...version_control?.seo, seoListData };
   const { cpd_wap = "0" } = version_control;
-  const { query = "", tab = "" } = parameters || {};
+  let { query = "", tab = "" } = parameters || {};
   const searchQuery = query && query.replace(/-/g, " ").toUpperCase();
-  // useEffect(() => {
-  //   updateDimension();
-  // });
+if(typeof window != 'undefined' ){
+    query = window.location.pathname.split("/")[2];
+}
 
   const TopicContainer = () => {
     return props?.searchResult?.map((item) => {
