@@ -17,11 +17,18 @@ function getIPAddress() {
   }
   return "0.0.0.0";
 }
+
+let agentEnabled = false;
+if(getIPAddress() == '172.29.13.246') {
+  agentEnabled = true;
+}
+
 exports.config = {
   /**
    * Array of application names.
    */
   app_name: ["ET_Mobile_NEXT"],
+  agent_enabled: agentEnabled,
   /**
    * Your New Relic license key.
    */
