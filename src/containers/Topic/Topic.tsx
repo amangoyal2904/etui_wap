@@ -12,11 +12,12 @@ const Topic: FC<PageProps> = (props) => {
   const seoListData = prepSeoListData([...topicListData]);
   const seoData = { ...seo, ...version_control?.seo, seoListData };
   const { cpd_wap = "0" } = version_control;
-  let { query = "", tab = "" } = parameters || {};
+  let { query = "" } = parameters || {};
+  const { tab = "" } = parameters || {};
   const searchQuery = query && query.replace(/-/g, " ").toUpperCase();
-if(typeof window != 'undefined' ){
+  if (typeof window != "undefined") {
     query = window.location.pathname.split("/")[2];
-}
+  }
 
   const TopicContainer = () => {
     return props?.searchResult?.map((item) => {
