@@ -21,6 +21,7 @@ const config = {
 const QuickReads: FC<QuickReadsProps> = (props) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isCoachOpen, setIsCoachOpen] = useState(false);
+  const [showBlocker, setShowBlocker] = useState(false);
 
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
@@ -32,13 +33,25 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
-      currentCardIndex + 1 < slides.length && setCurrentCardIndex(currentCardIndex + 1);
+      !showBlocker && currentCardIndex + 1 < slides.length && setCurrentCardIndex(currentCardIndex + 1);
     },
     onSwipedDown: () => {
       currentCardIndex > 0 && setCurrentCardIndex(currentCardIndex - 1);
     },
     ...config
   });
+
+  function fireAppDownloadGA() {
+    grxEvent(
+      "event",
+      {
+        event_category: "PWA_QuickReads",
+        event_action: "Click",
+        event_label: slides[currentCardIndex].url
+      },
+      1
+    );
+  }
 
   useEffect(() => {
     const msid = getMSID(window.location.pathname.split("/").pop());
@@ -77,6 +90,22 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
       },
       1
     );
+
+    // show blocker if non-prime and card index is greater than 5
+    if (window.isprimeuser != 1 && currentCardIndex > 4) {
+      grxEvent(
+        "event",
+        {
+          event_category: "PWA_QuickReads",
+          event_action: "Impression",
+          event_label: slides[currentCardIndex].url
+        },
+        1
+      );
+      setShowBlocker(true);
+    } else {
+      showBlocker && setShowBlocker(false);
+    }
   }, [currentCardIndex]);
 
   return (
@@ -139,6 +168,25 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
                 </li>
               </ul>
             </div>
+          </div>
+        )}
+
+        {showBlocker && (
+          <div className={styles.lockOverlay}>
+            <div>
+              <img src="https://img.etimg.com/photo/msid-99783860,quality-100.cms" />
+            </div>
+            <p>
+              Unlock Complete <br />
+              access to Quick Reads
+            </p>
+            <a
+              href="https://htp3y.app.goo.gl/?link=https://m.economictimes.com/print_edition?type%3D15access&apn=com.et.reader.activities&isi=474766725&ibi=com.til.ETiphone&ius=etapp&efr=1&amv=400&utm_medium=pwa_quickreads&utm_source=pwa_quickreads&utm_campaign=pwa_quickreads"
+              className={styles.lockCta}
+              onClick={fireAppDownloadGA}
+            >
+              Download App Now
+            </a>
           </div>
         )}
       </div>
