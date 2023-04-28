@@ -29,6 +29,9 @@ exports.config = {
    */
   app_name: ["ET_Mobile_NEXT"],
   agent_enabled: agentEnabled,
+  distributed_tracing: {
+    enabled: false
+  },
   /**
    * Your New Relic license key.
    */
