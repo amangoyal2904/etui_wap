@@ -176,9 +176,7 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
             <div>
               <img src="https://img.etimg.com/photo/msid-99783860,quality-100.cms" />
             </div>
-            <p>
-              Read more short stories with <br />a better experience now.
-            </p>
+            <p>Read more short stories with a better experience now.</p>
             <a
               href="https://htp3y.app.goo.gl/?link=https://m.economictimes.com/print_edition?type%3D15access&apn=com.et.reader.activities&isi=474766725&ibi=com.til.ETiphone&ius=etapp&efr=1&amv=400&utm_medium=pwa_quickreads&utm_source=pwa_quickreads&utm_campaign=pwa_quickreads"
               className={styles.lockCta}
