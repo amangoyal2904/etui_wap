@@ -27,7 +27,36 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
 
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
-    //updateDimension();
+
+    document.addEventListener(
+      "grxLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
+
+    document.addEventListener(
+      "gaLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
+
+    document.addEventListener(
+      "gtmLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
   }, []);
 
   return (
@@ -129,20 +158,51 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               `
             }}
           />
+
           <Script
+            id="growthrx-analytics"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
+               (function (g, r, o, w, t, h, rx) {
+                    g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
+                    }, g[t].l = 1 * new Date();
+                    g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
+                    h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
+                })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
+                grx('init', window.objVc.growthRxId || 'gc2744074');
+                window.customDimension = { ...window["customDimension"], url: window.location.href };
+                //grx('track', 'page_view', {url: window.location.href});
+                const grxLoaded = new Event('grxLoaded');
+                document.dispatchEvent(grxLoaded);                
+              `
+            }}
+          />
+
+          {/* <Script
             src="https://static.growthrx.in/js/v2/web-sdk.js"
             strategy="lazyOnload"
             onLoad={() => {
-              window.grx("init", window.objVc.growthRxId || "gc2744074");
-              window.customDimension = { ...window["customDimension"], url: window.location.href };
-              // window.grx("track", "page_view", window.customDimension);
-              updateDimension();
+              try{
+                window.grx("init", window.objVc.growthRxId || "gc2744074");
+                window.customDimension = { ...window["customDimension"], url: window.location.href };
+                // window.grx("track", "page_view", window.customDimension);
+                updateDimension();
+              } catch(e) {
+                updateDimension();
+              }
+              
             }}
           />
+           */}
           <Script
             id="tag-manager"
             strategy="lazyOnload"
             src={`https://www.googletagmanager.com/gtag/js?id=${Config.GA.GTM_KEY}`}
+            onLoad={() => {
+              const gtmLoaded = new Event("gtmLoaded");
+              document.dispatchEvent(gtmLoaded);
+            }}
           />
           {/* {isTopicPage ? ( */}
           <Script
