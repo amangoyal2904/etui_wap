@@ -75,8 +75,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           }
           var _comscore = _comscore || [];
           _comscore.push({ c1: "2", c2: "6036484" });
+
+          var isAdBlockerActive = true;
         `}
       </Script>
+      <Script src={`/assets/js/ad_frame.js`} />
       <Script id="geoinfo-call">
         {`
         function getGeoInfo() {    
