@@ -9,6 +9,7 @@ declare global {
     fromIframeNewVideo: any;
     SlikePlayer: any;
     spl: any;
+    isAdBlockerActive: boolean;
   }
 }
 
@@ -50,6 +51,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
     playerConfig.player.pagetpl = "videoshownew";
     playerConfig.player.skipAd = isPrimeUser;
     playerConfig.player.isPrime = isPrimeUser == 1;
+    playerConfig.player.useradblocker = window.isAdBlockerActive;
     const player = new window.SlikePlayer(playerConfig);
 
     handleAdEvents(player);

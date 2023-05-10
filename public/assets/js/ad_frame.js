@@ -1,0 +1,1 @@
+isAdBlockerActive=false;
