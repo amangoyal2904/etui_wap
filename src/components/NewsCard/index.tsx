@@ -58,11 +58,11 @@ const NewsCard = (props: ListProps) => {
     const tab = tabName != "all" ? `/${tabName}` : "";
     window.history.pushState({}, "", `/topic/${query}${tab}`);
     updateDimension();
-
+    const Query = query.replace(/-/g, "%20");
     setIsFetching(true);
     const res = await Service.get({
       api,
-      params: { type: "topic", query: query, tab: `${tabName ? tabName : ""}`, platform: "wap", feedtype: "etjson" }
+      params: { type: "topic", query: Query, tab: `${tabName ? tabName : ""}`, platform: "wap", feedtype: "etjson" }
     });
     setIsFetching(false);
     const topicData = res.data || {};
