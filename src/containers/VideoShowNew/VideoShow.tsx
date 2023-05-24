@@ -9,17 +9,25 @@ import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VideoStoryCard from "./VideoStoryCard";
 import Loading from "components/Loading";
-import { dynamicPlayerConfig } from "utils/slike";
+import { dynamicPlayerConfig, setGetPlayerConfig } from "utils/slike";
+import { getSubsecString } from "utils/common";
 
 const MAX_SCROLL_VIDS_COUNT = 20;
 const videoStoryMsids = []; // to keep track of the video story already fetched from the server
 const pageViewMsids = []; // to keep track of the video story pageviews fire only once ( inside VideoStoryCard component )
 const recosMsids = []; // to keep track of the slide reco api msids
 
+declare global {
+  interface Window {
+    isprimeuser: number;
+  }
+}
+
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
+  const subsecNames = props?.seo?.subsecnames;
 
-  const [videoStories, setVideoStories] = useState([props?.searchResult]);
+  const [videoStories, setVideoStories] = useState([props]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadErrMsg, setLoadErrMsg] = useState("");
   const [didUserInteractionStart, setDidUserInteractionStart] = useState(false);
@@ -68,14 +76,6 @@ const VideoShow: FC<PageProps> = (props) => {
       { once: true }
     );
 
-    /*document.addEventListener(
-      "scroll",
-      () => {
-        loadSlikeScripts();
-      },
-      { once: true }
-    );*/
-
     const didUserVisitHomePage = window.sessionStorage.getItem("didUserVisitHomePage");
     if (didUserVisitHomePage !== null) {
       loadSlikeScripts();
@@ -95,7 +95,17 @@ const VideoShow: FC<PageProps> = (props) => {
        * 3. IntersectionObserver on next video loader finds it in viewport
        */
       document.addEventListener("objSlikeScriptsLoaded", () => {
-        window.spl.load(dynamicPlayerConfig, (status) => {
+        const subSecs = getSubsecString(subsecNames);
+        const playerConfig = setGetPlayerConfig({
+          dynamicPlayerConfig,
+          result,
+          autoPlay: true,
+          pageTpl: "videoshownew",
+          isPrimeUser: window.isprimeuser,
+          subSecs
+        });
+
+        window.spl.load(playerConfig, (status) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
@@ -127,7 +137,7 @@ const VideoShow: FC<PageProps> = (props) => {
 
                       nextVideoMsid = recosMsids.length > 0 ? recosMsids.shift() : output.nextvideo;
 
-                      setVideoStories((prevVideoStories) => [...prevVideoStories, data?.searchResult]);
+                      setVideoStories((prevVideoStories) => [...prevVideoStories, data]);
                       setIsLoading(false);
                     } catch (err) {
                       console.error(err);
@@ -157,7 +167,8 @@ const VideoShow: FC<PageProps> = (props) => {
   }, [props]);
 
   useEffect(() => {
-    const vidStory = videoStories?.slice(-1)[0]?.find((item) => item.name == "videoshow")?.data as VideoShowProps;
+    const vidStory = videoStories?.slice(-1)[0]?.searchResult?.find((item) => item.name == "videoshow")
+      ?.data as VideoShowProps;
 
     if (vidStory && recosMsids.length === 0) {
       fetch(`https://reco.slike.in/similar/result.json?sid=${vidStory.slikeid}&msid=${vidStory.msid}`)
@@ -185,7 +196,8 @@ const VideoShow: FC<PageProps> = (props) => {
         {videoStories.map((item, i) => (
           <VideoStoryCard
             index={i}
-            result={item[0].data}
+            result={item?.searchResult[0]?.data}
+            subsecNames={item?.seo?.subsecnames}
             key={`vid_${i}`}
             didUserInteractionStart={didUserInteractionStart}
             pageViewMsids={pageViewMsids}
