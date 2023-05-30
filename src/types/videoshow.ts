@@ -25,6 +25,7 @@ export interface VideoShowProps {
   title: string;
   synopsis: string;
   agency: string;
+  authors: any;
   date: string;
   url: string;
   views: string | number;
