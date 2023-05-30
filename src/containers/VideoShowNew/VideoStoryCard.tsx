@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents, setGetPlayerConfig } from "utils/slike";
@@ -16,6 +16,23 @@ declare global {
 export default function VideoStoryCard({ result, subsecNames, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
+
+  function getAuthors(authors) {
+    if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
+    return (
+      <span>
+        By{" "}
+        {authors?.map((author, i) => {
+          return (
+            <Fragment key={`author_${i}`}>
+              {author.url ? <a href={author.url}>{author.title}</a> : author.title},
+            </Fragment>
+          );
+        })}
+      </span>
+    );
+  }
+
   /**
    * Fires tracking events.
    * Toggles video description
@@ -158,7 +175,7 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
           }
         </div>
         <div className={styles.date}>
-          {result.agency} | {result.date}
+          {getAuthors(result.authors)} {result.agency} | {result.date}
         </div>
       </div>
       <SocialShare
