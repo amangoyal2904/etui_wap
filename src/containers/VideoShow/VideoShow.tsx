@@ -20,6 +20,22 @@ const VideoShow: FC<PageProps> = (props) => {
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
 
+  function getAuthors(authors) {
+    if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
+    return (
+      <span>
+        By{" "}
+        {authors?.map((author, i) => {
+          return (
+            <Fragment key={`author_${i}`}>
+              {author.url ? <a href={author.url}>{author.title}</a> : author.title},
+            </Fragment>
+          );
+        })}
+      </span>
+    );
+  }
+
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
@@ -48,6 +64,7 @@ const VideoShow: FC<PageProps> = (props) => {
         if (item.name === "videoshow") {
           const result = item.data as VideoShowProps;
           const url = `${result.iframeUrl}&skipad=${isPrimeUser}&primeuser=${isPrimeUser}`;
+
           return (
             <Fragment key={item.name}>
               <div className={styles.videoshow}>
@@ -59,7 +76,7 @@ const VideoShow: FC<PageProps> = (props) => {
                     <p>{result.synopsis}</p>
                   </div>
                   <div className={styles.date}>
-                    {result.agency} | {result.date}
+                    {getAuthors(result.authors)} {result.agency} | {result.date}
                   </div>
                 </div>
                 <SocialShare
