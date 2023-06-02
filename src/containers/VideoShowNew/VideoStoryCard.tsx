@@ -9,6 +9,7 @@ declare global {
     fromIframeNewVideo: any;
     SlikePlayer: any;
     spl: any;
+    slikePlayer: any;
   }
 }
 
@@ -65,7 +66,9 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
       subSecs
     });
 
+    window.slikePlayer = window.slikePlayer || {};
     const player = new window.SlikePlayer(playerConfig);
+    window.slikePlayer[index] = player;
 
     handleAdEvents(player);
     handlePlayerEvents(player);
