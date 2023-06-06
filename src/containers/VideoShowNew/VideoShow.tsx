@@ -26,6 +26,7 @@ declare global {
 const VideoShow: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
   const subsecNames = props?.seo?.subsecnames;
+  const hideAds = result.hideAds == 1;
 
   const [videoStories, setVideoStories] = useState([props]);
   const [isLoading, setIsLoading] = useState(false);
@@ -102,7 +103,8 @@ const VideoShow: FC<PageProps> = (props) => {
           autoPlay: true,
           pageTpl: "videoshownew",
           isPrimeUser: window.isprimeuser,
-          subSecs
+          subSecs,
+          hideAds: window.isprimeuser || hideAds
         });
 
         window.spl.load(playerConfig, (status) => {
@@ -190,9 +192,11 @@ const VideoShow: FC<PageProps> = (props) => {
   return (
     <>
       <div className={styles.mainContent} id="vidContainer">
-        <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
-        </div>
+        {!hideAds && (
+          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+            <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
+          </div>
+        )}
         {videoStories.map((item, i) => (
           <VideoStoryCard
             index={i}
@@ -211,9 +215,11 @@ const VideoShow: FC<PageProps> = (props) => {
         )}
         <SEO {...seoData} />
         <BreadCrumb data={seoData.breadcrumb} />
-        <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
-        </div>
+        {!hideAds && (
+          <div className={`${styles.footerAd} adContainer`}>
+            <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
+          </div>
+        )}
       </div>
     </>
   );
