@@ -161,7 +161,7 @@ export const dynamicPlayerConfig = {
   gaId: "UA-198011-5"
 };
 
-export function setGetPlayerConfig({ dynamicPlayerConfig, result, autoPlay, pageTpl, isPrimeUser, subSecs }) {
+export function setGetPlayerConfig({ dynamicPlayerConfig, result, autoPlay, pageTpl, isPrimeUser, subSecs, hideAds }) {
   const playerConfig = JSON.parse(JSON.stringify(dynamicPlayerConfig));
   playerConfig.contEl = "id_" + result.msid;
   playerConfig.video.id = result.slikeid;
@@ -173,7 +173,7 @@ export function setGetPlayerConfig({ dynamicPlayerConfig, result, autoPlay, page
   playerConfig.player.msid = result.msid;
   playerConfig.player.autoPlay = autoPlay;
   playerConfig.player.pagetpl = pageTpl;
-  playerConfig.player.skipAd = isPrimeUser;
+  playerConfig.player.skipAd = hideAds;
   playerConfig.player.isPrime = Boolean(isPrimeUser);
   playerConfig.player.pageSection = subSecs;
 

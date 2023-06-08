@@ -15,6 +15,7 @@ declare global {
 export default function VideoStoryCard({ result, subsecNames, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
+  const hideAds = result.hideAds == 1;
 
   function getAuthors(authors) {
     if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
@@ -62,7 +63,8 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
       autoPlay,
       pageTpl: "videoshownew",
       isPrimeUser,
-      subSecs
+      subSecs,
+      hideAds: isPrimeUser || hideAds
     });
 
     const player = new window.SlikePlayer(playerConfig);
