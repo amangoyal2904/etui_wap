@@ -102,7 +102,7 @@ const VideoShow: FC<PageProps> = (props) => {
           isDeferredPreRoll = false;
         if (subsecNames.subsec1 == 13352306) {
           // industry
-          adSection = "Industry";
+          adSection = "industry";
           isDeferredPreRoll = true;
         }
 
