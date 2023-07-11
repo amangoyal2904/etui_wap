@@ -11,21 +11,45 @@ declare global {
     gtag: (event: string, action: string, params: object) => void;
     // eslint-disable-next-line
     // gtag: any;
-    dataLayer: [];
-    customDimension: object;
+    dataLayer: [push: object];
+    customDimension: any;
+    gtmEventDimension: object;
   }
 }
-export const pageview = (url) => {
-  window["gtag"] &&
-    window["gtag"]("config", Config.GA.GTM_KEY, {
-      page_path: url
-    });
-  const page = window.location.href;
-  window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
-  // send the page views
-  window.ga && window.ga("send", "pageview", window.customDimension);
-  grxEvent("page_view", window.customDimension);
+export const pageview = (url, params = {}) => {
+  try {
+    setDimension120();
+
+    window["gtag"] &&
+      window["gtag"]("config", Config.GA.GTM_KEY, {
+        page_path: url
+      });
+    const page = window.location.href;
+    window.customDimension = { ...window.customDimension, url: page, page, hitType: "pageview" };
+    const payload = { ...params, ...window.customDimension };
+    // send the page views
+    window.ga && window.ga("send", "pageview", payload);
+    grxEvent("page_view", params);
+  } catch (e) {
+    console.log("pageview error: ", e);
+  }
 };
+
+function setDimension120() {
+  const utmDimension = window.sessionStorage && sessionStorage.getItem("utm_params_dim"),
+    utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search),
+    utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source"),
+    utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium"),
+    utmCamp_dim = utmParams_dim.get && utmParams_dim.get("utm_campaign"),
+    utmParams_dim120 = utmSource_dim + " / " + utmMedium_dim + " / " + utmCamp_dim;
+
+  if (utmSource_dim) {
+    window.customDimension.dimension120 = utmParams_dim120;
+    sessionStorage.setItem("utm_params_dim", utmParams_dim120);
+  } else if (utmDimension) {
+    window.customDimension.dimension120 = utmDimension;
+  }
+}
 
 export const event = ({ action, params }) => {
   window["gtag"] && window["gtag"]("event", action, params);
@@ -143,31 +167,45 @@ export const growthRxInit = () => {
 };
 
 export const grxEvent = (type, data, gaEvent = 0) => {
-  if (window.grx && data) {
-    const grxDimension = data;
-    // let localobjVc = objVc || {};
-    const localobjVc = {};
-    grxDimension["url"] = grxDimension["url"] || window.location.href;
-    if (window.customDimension && localobjVc["growthRxDimension"]) {
-      const objDim = localobjVc["growthRxDimension"];
-      for (const key in window.customDimension) {
-        const dimId = "d" + key.substr(9, key.length);
-        if (objDim[dimId] && [key] && typeof window.customDimension[key] !== "undefined") {
-          grxDimension[objDim[dimId]] = window.customDimension[key];
-        } else if ([key] && typeof window.customDimension[key] !== "undefined") {
-          grxDimension[key] = window.customDimension[key];
+  try {
+    if (window.grx && data) {
+      const grxDimension = data;
+      const localobjVc = window.objVc || {};
+      // const localobjVc = {};
+      grxDimension["url"] = grxDimension["url"] || window.location.href;
+      if (window.customDimension && localobjVc["growthRxDimension"]) {
+        const objDim = localobjVc["growthRxDimension"];
+        for (const key in window.customDimension) {
+          const dimId = "d" + key.substr(9, key.length);
+          if (objDim[dimId] && [key] && typeof window.customDimension[key] !== "undefined") {
+            grxDimension[objDim[dimId]] = window.customDimension[key];
+          } else if ([key] && typeof window.customDimension[key] !== "undefined") {
+            grxDimension[key] = window.customDimension[key];
+          }
         }
       }
+      /* if (typeof e$ != "undefined" && e$.jStorage) {
+            var objProf = e$.jStorage.get('et_subscription_profile');
+            if(objProf) {
+                for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
+            }
+        } */
+      window.grx("track", type, grxDimension);
+      if (gaEvent && window.ga && type == "event") {
+        window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
+      }
+
+      if (type == "event") {
+        const gtmEventDimension = { ...grxDimension, event: "et_push_event" };
+        window.dataLayer.push(gtmEventDimension);
+      }
+
+      if (type == "page_view") {
+        const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
+        window.dataLayer.push(gtmEventDimension);
+      }
     }
-    /* if (typeof e$ != "undefined" && e$.jStorage) {
-          var objProf = e$.jStorage.get('et_subscription_profile');
-          if(objProf) {
-              for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
-          }
-      } */
-    window.grx("track", type, grxDimension);
-    if (gaEvent && window.ga && type == "event") {
-      window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
-    }
+  } catch (e) {
+    console.log("grxEvent error: ", e);
   }
 };

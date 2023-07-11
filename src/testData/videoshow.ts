@@ -9,6 +9,8 @@ export const data: PageProps = {
 
         date: "14 Mar 2022, 02:39 PM IST",
         agency: "Mirror Now",
+        authors: [],
+        hideAds: 0,
         synopsis:
           "The government has time till May 12 to launch the initial public offering (IPO) of LIC without filing fresh papers with market regulator Sebi, an official said. The government's sale of about 31.6 crore shares or 5 per cent stake in LIC, which was estimated to fetch around Rs 60,000 crore to the exchequer, was originally planned to be launched in March, but the Russia-Ukraine crisis has derailed the plans as stock markets are highly volatile. ",
 

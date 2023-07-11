@@ -52,6 +52,18 @@ export const SiteConfig = {
   publisherLogo: "https://img.etimg.com/photo/msid-76191298/76191298.jpg"
 };
 
+export function getSubsecString(subsecNames) {
+  if (!subsecNames) return "";
+  const names = [],
+    ids = [];
+  Object.values(subsecNames).forEach((item: string) => {
+    if (item) {
+      /^[0-9]+$/.test(item) ? ids.push(item) : names.push(item);
+    }
+  });
+  return names.length > 0 ? names.join("|") : ids.join("|");
+}
+
 export const GA = {
   // GTM_KEY: "AW-1012951608",
   GTM_KEY: "GTM-566NCXC",

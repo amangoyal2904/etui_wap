@@ -14,11 +14,31 @@ import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
+  const result = props?.searchResult?.find((item) => item.name === "videoshow")?.data as VideoShowProps;
+  const otherVids = props?.searchResult?.find((item) => item.name === "other_videos") as OtherVidsProps;
+  const hideAds = result.hideAds == 1;
+
   const [isPrimeUser, setIsPrimeUser] = useState(0);
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
+
+  function getAuthors(authors) {
+    if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
+    return (
+      <span>
+        By{" "}
+        {authors?.map((author, i) => {
+          return (
+            <Fragment key={`author_${i}`}>
+              {author.url ? <a href={author.url}>{author.title}</a> : author.title},
+            </Fragment>
+          );
+        })}
+      </span>
+    );
+  }
 
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
@@ -42,60 +62,48 @@ const VideoShow: FC<PageProps> = (props) => {
     window.customDimension = { ...window.customDimension, ...payload };
   }, [props]);
 
-  const VideoContainer = () => {
-    {
-      return props?.searchResult?.map((item) => {
-        if (item.name === "videoshow") {
-          const result = item.data as VideoShowProps;
-          const url = `${result.iframeUrl}&skipad=${isPrimeUser}`;
-          return (
-            <Fragment key={item.name}>
-              <div className={styles.videoshow}>
-                <VideoEmbed url={url} />
-
-                <div className={styles.wrap}>
-                  <h1 role="heading">{result.title}</h1>
-                  <div className={styles.synopsis}>
-                    <p>{result.synopsis}</p>
-                  </div>
-                  <div className={styles.date}>
-                    {result.agency} | {result.date}
-                  </div>
-                </div>
-                <SocialShare
-                  shareParam={{
-                    shareUrl: ET_WAP_URL + result.url,
-                    title: result.title,
-                    msid: result.msid,
-                    hostId: result.hostid,
-                    type: "5"
-                  }}
-                />
-              </div>
-              <SeoWidget data={result.relKeywords} title="READ MORE" />
-            </Fragment>
-          );
-        } else if (item.name === "other_videos" && Array.isArray(item.data)) {
-          const otherVids = item as OtherVidsProps;
-          return <Listing type="grid" title={otherVids.title} data={otherVids} key={item.name} />;
-        }
-      });
-    }
-  };
+  const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
   return (
     <>
       <div className={styles.mainContent}>
-        <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-          <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
+        {!hideAds && (
+          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+            <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
+          </div>
+        )}
+        <div className={styles.videoshow}>
+          <VideoEmbed url={url} />
+
+          <div className={styles.wrap}>
+            <h1 role="heading">{result.title}</h1>
+            <div className={styles.synopsis}>
+              <p>{result.synopsis}</p>
+            </div>
+            <div className={styles.date}>
+              {getAuthors(result.authors)} {result.agency} | {result.date}
+            </div>
+          </div>
+          <SocialShare
+            shareParam={{
+              shareUrl: ET_WAP_URL + result.url,
+              title: result.title,
+              msid: result.msid,
+              hostId: result.hostid,
+              type: "5"
+            }}
+          />
         </div>
-        {VideoContainer()}
+        <SeoWidget data={result.relKeywords} title="READ MORE" />
+        {Array.isArray(otherVids.data) && <Listing type="grid" title={otherVids.title} data={otherVids} />}
         <SEO {...seoData} />
         <GreyDivider />
         <AppDownloadWidget tpName="videoshow" />
         <BreadCrumb data={seoData.breadcrumb} />
-        <div className={`${styles.footerAd} adContainer`}>
-          <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
-        </div>
+        {!hideAds && (
+          <div className={`${styles.footerAd} adContainer`}>
+            <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
+          </div>
+        )}
       </div>
     </>
   );

@@ -1,20 +1,39 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
-import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents } from "utils/slike";
+import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents, setGetPlayerConfig } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
-import { ET_WAP_URL } from "utils/common";
+import { ET_WAP_URL, getSubsecString } from "utils/common";
 declare global {
   interface Window {
     fromIframeNewVideo: any;
     SlikePlayer: any;
     spl: any;
+    slikePlayer: any;
   }
 }
 
-export default function VideoStoryCard({ result, index, didUserInteractionStart, pageViewMsids }) {
+export default function VideoStoryCard({ result, subsecNames, index, didUserInteractionStart, pageViewMsids }) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
+  const hideAds = result.hideAds == 1;
+
+  function getAuthors(authors) {
+    if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
+    return (
+      <span>
+        By{" "}
+        {authors?.map((author, i) => {
+          return (
+            <Fragment key={`author_${i}`}>
+              {author.url ? <a href={author.url}>{author.title}</a> : author.title},
+            </Fragment>
+          );
+        })}
+      </span>
+    );
+  }
+
   /**
    * Fires tracking events.
    * Toggles video description
@@ -37,19 +56,21 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
    * Calls player event hooks
    */
   const setPlayer = (isPrimeUser) => {
-    const playerConfig = JSON.parse(JSON.stringify(dynamicPlayerConfig));
-    playerConfig.contEl = "id_" + result.msid;
-    playerConfig.video.id = result.slikeid;
-    playerConfig.video.playerType = result.playertype;
-    playerConfig.video.shareUrl = ET_WAP_URL + result.url;
-    playerConfig.video.description_url = ET_WAP_URL + result.url; // no need to modify; added specifically for tracking purpose by Slike team
-    playerConfig.video.image = result.img;
-    playerConfig.video.title = result.title;
-    playerConfig.player.msid = result.msid;
-    playerConfig.player.autoPlay = index === 0;
-    playerConfig.player.pagetpl = "videoshownew";
-    playerConfig.player.skipAd = isPrimeUser;
+    const autoPlay = index === 0;
+    const subSecs = getSubsecString(subsecNames);
+    const playerConfig = setGetPlayerConfig({
+      dynamicPlayerConfig,
+      result,
+      autoPlay,
+      pageTpl: "videoshownew",
+      isPrimeUser,
+      subSecs,
+      hideAds: isPrimeUser || hideAds
+    });
+
+    window.slikePlayer = window.slikePlayer || {};
     const player = new window.SlikePlayer(playerConfig);
+    window.slikePlayer[index] = player;
 
     handleAdEvents(player);
     handlePlayerEvents(player);
@@ -89,19 +110,6 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
       document.removeEventListener("objIntsLoaded", intsCallback);
     };
   }, []);
-  // useEffect(() => {
-  //   /**
-  //    * SlikePlayerReady is dispatched from VideoShow(parent) component.
-  //    * index > 0 can happen only after slike is fully initialized.
-  //    */
-  //   if (index === 0) {
-  //     document.addEventListener("SlikePlayerReady", () => {
-  //       setPlayer();
-  //     });
-  //   } else {
-  //     setPlayer();
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (videoStoryCardRef.current) {
@@ -171,7 +179,7 @@ export default function VideoStoryCard({ result, index, didUserInteractionStart,
           }
         </div>
         <div className={styles.date}>
-          {result.agency} | {result.date}
+          {getAuthors(result.authors)} {result.agency} | {result.date}
         </div>
       </div>
       <SocialShare
