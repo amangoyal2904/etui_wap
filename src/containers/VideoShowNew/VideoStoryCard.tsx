@@ -58,6 +58,15 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
   const setPlayer = (isPrimeUser) => {
     const autoPlay = index === 0;
     const subSecs = getSubsecString(subsecNames);
+
+    let adSection = "default",
+      isDeferredPreRoll = false;
+    if (subsecNames.subsec1 == 13352306) {
+      // industry
+      adSection = "industry";
+      isDeferredPreRoll = true;
+    }
+
     const playerConfig = setGetPlayerConfig({
       dynamicPlayerConfig,
       result,
@@ -65,7 +74,9 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
       pageTpl: "videoshownew",
       isPrimeUser,
       subSecs,
-      hideAds: isPrimeUser || hideAds
+      hideAds: isPrimeUser || hideAds,
+      adSection,
+      isDeferredPreRoll
     });
 
     window.slikePlayer = window.slikePlayer || {};

@@ -97,6 +97,15 @@ const VideoShow: FC<PageProps> = (props) => {
        */
       document.addEventListener("objSlikeScriptsLoaded", () => {
         const subSecs = getSubsecString(subsecNames);
+
+        let adSection = "default",
+          isDeferredPreRoll = false;
+        if (subsecNames.subsec1 == 13352306) {
+          // industry
+          adSection = "industry";
+          isDeferredPreRoll = true;
+        }
+
         const playerConfig = setGetPlayerConfig({
           dynamicPlayerConfig,
           result,
@@ -104,7 +113,9 @@ const VideoShow: FC<PageProps> = (props) => {
           pageTpl: "videoshownew",
           isPrimeUser: window.isprimeuser,
           subSecs,
-          hideAds: window.isprimeuser || hideAds
+          hideAds: window.isprimeuser || hideAds,
+          adSection,
+          isDeferredPreRoll
         });
 
         window.spl.load(playerConfig, (status) => {
