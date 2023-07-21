@@ -131,7 +131,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
           href="/fonts/Montserrat-VariableFont_wght.woff2"
           as="font"
           type="font/woff2"
-          crossOrigin="true"
+          crossOrigin=""
         />
       </Head>
     </>
