@@ -60,7 +60,7 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
     const autoPlay = index === 0;
     const subSecs = getSubsecString(subsecNames);
 
-    let adSection = "default",
+    let adSection = "videoshow",
       isDeferredPreRoll = false;
     if (subsecNames.subsec1 == 13352306) {
       // industry
