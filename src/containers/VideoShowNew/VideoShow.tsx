@@ -98,7 +98,7 @@ const VideoShow: FC<PageProps> = (props) => {
       document.addEventListener("objSlikeScriptsLoaded", () => {
         const subSecs = getSubsecString(subsecNames);
 
-        let adSection = "default",
+        let adSection = "videoshow",
           isDeferredPreRoll = false;
         if (subsecNames.subsec1 == 13352306) {
           // industry
