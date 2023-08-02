@@ -68,8 +68,10 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
   //==== sets response headers =====
   const ttl = pagettl[page] ? pagettl[page] : expiryTime;
-  res.setHeader("Cache-Control", `public, s-maxage=${ttl}, must-revalidate, stale-while-revalidate=${ttl * 2}`);
-  res.setHeader("Expires", new Date(new Date().getTime() + ttl * 1000).toUTCString());
+  //res.setHeader("Cache-Control", `public, s-maxage=${ttl}, must-revalidate, stale-while-revalidate=${ttl * 2}`);
+  //res.setHeader("Expires", new Date(new Date().getTime() + ttl * 1000).toUTCString());
+
+  res.setHeader("Cache-Control: no-cache, no-store, max-age=0, must-revalidate");
 
   if (page === "notfound") res.statusCode = "404";
 
