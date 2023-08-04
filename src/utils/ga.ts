@@ -184,6 +184,9 @@ export const grxEvent = (type, data, gaEvent = 0) => {
           }
         }
       }
+
+      grxDimension["country"] = window.geoinfo.CountryCode;
+
       /* if (typeof e$ != "undefined" && e$.jStorage) {
             var objProf = e$.jStorage.get('et_subscription_profile');
             if(objProf) {
