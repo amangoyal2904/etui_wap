@@ -68,6 +68,10 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
       isDeferredPreRoll = true;
     }
 
+    if (subsecNames.subsec1 == 1977021501) {
+      adSection = "markets";
+    }
+
     const playerConfig = setGetPlayerConfig({
       dynamicPlayerConfig,
       result,
