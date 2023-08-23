@@ -69,7 +69,7 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
     }
 
     if (subsecNames.subsec1 == 1977021501) {
-      adSection = "markets";
+      adSection = "market";
     }
 
     const playerConfig = setGetPlayerConfig({
