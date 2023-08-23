@@ -121,6 +121,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             const geoLoaded = new Event("geoLoaded");
             document.dispatchEvent(geoLoaded);
           }
+          const hdomain = "economictimes.com";
+          if (document.domain != hdomain && document.domain.indexOf(hdomain) != -1) {
+              document.domain = hdomain;
+          }
         `}
       </Script>
       {/* <Script

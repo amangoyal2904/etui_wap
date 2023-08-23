@@ -126,6 +126,22 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
             `
           }}
         /> */}
+        <link rel="preload" href="/fonts/montserrat-v14-latin-regular.woff" as="font" type="font/woff" crossOrigin="" />
+        <link rel="preload" href="/fonts/montserrat-v14-latin-700.woff" as="font" type="font/woff" crossOrigin="" />
+        {/* <link
+          rel="preload"
+          href="/fonts/faustina-v6-latin-regular.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/faustina-v6-latin-700.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin=""
+        />         */}
       </Head>
     </>
   );

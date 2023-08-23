@@ -6,7 +6,8 @@ const All = () => null;
 const expiryTime = 10 * 60 * 6 * 4; // seconds
 
 const pagettl = {
-  videoshownew: 3600 * 8
+  videoshownew: 3600 * 16,
+  videoshow: 3600 * 16
 };
 
 export async function getServerSideProps({ req, res, params, resolvedUrl }) {
