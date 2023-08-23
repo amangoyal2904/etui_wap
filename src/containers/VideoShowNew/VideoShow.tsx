@@ -107,7 +107,7 @@ const VideoShow: FC<PageProps> = (props) => {
         }
 
         if (subsecNames.subsec1 == 1977021501) {
-          adSection = "markets";
+          adSection = "market";
         }
 
         const playerConfig = setGetPlayerConfig({
