@@ -106,6 +106,10 @@ const VideoShow: FC<PageProps> = (props) => {
           isDeferredPreRoll = true;
         }
 
+        if (subsecNames.subsec1 == 1977021501) {
+          adSection = "market";
+        }
+
         const playerConfig = setGetPlayerConfig({
           dynamicPlayerConfig,
           result,
