@@ -138,6 +138,11 @@ const ShortsVideos: FC = () => {
         return;
       }
     });
+
+    ShortsPlayer.on("INDEX_CHANGES", function (data) {
+      const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
+      window.history.pushState({}, "", seoURL);
+    });
   }
   /**
    * Loads slike sdks and on successful load, fires custom event objSlikeScriptsLoaded
