@@ -9,8 +9,8 @@ import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 
-const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
-const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic", "quickreads"];
+const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortsVideos"];
+const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortsVideos"];
 
 const AppHeader: FC<{ page: string }> = ({ page }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

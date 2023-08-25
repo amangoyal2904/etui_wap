@@ -62,9 +62,9 @@ const Login = () => {
   };
   const intsCallback = () => {
     if (typeof window.objUser !== "undefined") {
-      window.objUser.afterLoginCall(loginCallback);
+      window.objUser?.afterLoginCall(loginCallback);
     }
-    window.objInts.afterPermissionCall(permissionCallback);
+    window.objInts?.afterPermissionCall(permissionCallback);
   };
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {

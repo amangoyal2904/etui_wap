@@ -34,7 +34,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
     }
   }
 
-  if (page !== "notfound") {
+  if (!["notfound", "shortsVideos"].includes(page)) {
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====
@@ -74,6 +74,8 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   //res.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
 
   if (page === "notfound") res.statusCode = "404";
+
+  console.log({ page });
 
   return {
     props: {

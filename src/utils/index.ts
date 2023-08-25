@@ -141,6 +141,8 @@ export const pageType = (pathurl, msid, all) => {
     return "videoshownew";
   } else if (pathurl.indexOf("/quickreads") != -1) {
     return "quickreads";
+  } else if (pathurl.indexOf("/shortvideos/") != -1) {
+    return "shortsVideos";
   } else {
     return "notfound";
   }
