@@ -34,7 +34,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
     }
   }
 
-  if (!["notfound", "shortsVideos"].includes(page)) {
+  if (!["notfound"].includes(page)) {
     const moreParams = prepareMoreParams({ all, page, msid });
 
     //==== gets page data =====
@@ -44,21 +44,24 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
       params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
     });
     response = result.data;
-    const { subsecnames = {} } = response.seo;
-    extraParams = subsecnames
-      ? {
-          subsec1: subsecnames.subsec1,
-          subsec2: subsecnames.subsec2
-        }
-      : {};
 
-    if (response && response.error) page = "notfound";
+    if (response && response.error) {
+      page = "notfound";
+    } else {
+      const { subsecnames = {} } = response.seo;
+      extraParams = subsecnames
+        ? {
+            subsec1: subsecnames.subsec1,
+            subsec2: subsecnames.subsec2
+          }
+        : {};
+    }
   }
 
   //==== gets dyanmic footer data =====
   let dynamicFooterData = {};
 
-  if (page !== "quickreads") {
+  if (!["quickreads", "shortvideos"].includes(page)) {
     const footerMenu = await Service.get({
       api,
       params: { type: "footermenu", feedtype: "etjson", ...extraParams, template_name: page }
@@ -72,8 +75,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   res.setHeader("Expires", new Date(new Date().getTime() + ttl * 1000).toUTCString());
 
   if (page === "notfound") res.statusCode = "404";
-
-  console.log({ page });
 
   return {
     props: {
