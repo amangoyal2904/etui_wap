@@ -5,7 +5,7 @@
   },
   "FEED": {
     "dns": {
-      "development": ["https://etdev8243.indiatimes.com/", "http://s2sorigineconomictimes.timesofindia.co.in/"],
+      "development": ["https://etdev8243.indiatimes.com/", "https://etdev8243.indiatimes.com/"],
       "production": ["https://economictimes.indiatimes.com/", "http://s2sorigineconomictimes.timesofindia.co.in/"]
     },
     "path": "reactfeed"
