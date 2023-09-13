@@ -25,23 +25,23 @@ const ShortVideos: FC = (props: any) => {
       ui: {
         back: true,
         mute: true,
-        views: true,
+        views: false,
         viewShowAbove: 1000,
         share: true,
         whatsapp: true,
         progress: true,
-        logo: true,
+        logo: false,
 
         swipUpCount: 3,
-        logoCTR: "https://google.com",
-        logoURL: "https://static.sli.ke/dam/dev/asset/17/39/1v1739u9o9.png"
+        logoCTR: "",
+        logoURL: ""
       },
       player: {
         prefetchVideoCount: 4,
         preferMp4: false
       },
       ad: {
-        adStartIndex: 1,
+        adStartIndex: 2,
         adFrequency: 3,
         adPreCache: 4000,
         adRetry: 3,
@@ -80,6 +80,22 @@ const ShortVideos: FC = (props: any) => {
         const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
         window.history.pushState({}, "", seoURL);
       }
+    });
+
+    ShortsPlayer.on("SHARE_BUTTON_CLICK", function (data) {
+      window.navigator.share &&
+        window.navigator.share({
+          url: window.location.href,
+          title: data.title
+        });
+    });
+
+    ShortsPlayer.on("WHATSAPP_CLICKED", function (data) {
+      window.location.href = `whatsapp://send?text=${data?.title || ""}`;
+    });
+
+    ShortsPlayer.on("BACK_BUTTON_CLICKED", function (data) {
+      window.location.href = document.referrer;
     });
   }
   /**
