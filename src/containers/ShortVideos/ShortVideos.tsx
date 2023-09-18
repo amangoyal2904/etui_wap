@@ -1,3 +1,4 @@
+import SEO from "components/SEO";
 import { FC, useEffect, useState } from "react";
 import { loadScript } from "utils";
 import styles from "./ShortVideos.module.scss";
@@ -11,6 +12,9 @@ declare global {
 const ShortVideos: FC = (props: any) => {
   const result = props?.searchResult?.find((item) => item.name === "shortvideos")?.data;
   const slikeId = result.slikeid;
+
+  const { seo = {}, version_control, parameters } = props;
+  const seoData = { ...seo, ...version_control?.seo };
 
   function initPlayer() {
     const config = {
@@ -45,7 +49,7 @@ const ShortVideos: FC = (props: any) => {
         adFrequency: 3,
         adPreCache: 4000,
         adRetry: 3,
-        skipAd: false,
+        skipAd: window.isprimeuser,
         adTags: {
           default: {
             pre: {
@@ -79,6 +83,7 @@ const ShortVideos: FC = (props: any) => {
       if (data.index > 0) {
         const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
         window.history.pushState({}, "", seoURL);
+        document.title = data.title;
       }
     });
 
@@ -95,7 +100,8 @@ const ShortVideos: FC = (props: any) => {
     });
 
     ShortsPlayer.on("BACK_BUTTON_CLICKED", function (data) {
-      window.location.href = document.referrer;
+      const takeTo = document.referrer.indexOf("m.economictimes.com") > -1 ? document.referrer : "/";
+      window.location.href = takeTo;
     });
   }
   /**
@@ -125,6 +131,7 @@ const ShortVideos: FC = (props: any) => {
   return (
     <div className={styles.shortsWrap}>
       <div id="shortsVids"></div>
+      <SEO {...seoData} />
     </div>
   );
 };
