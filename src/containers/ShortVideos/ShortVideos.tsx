@@ -96,7 +96,7 @@ const ShortVideos: FC = (props: any) => {
     });
 
     ShortsPlayer.on("WHATSAPP_CLICKED", function (data) {
-      window.location.href = `whatsapp://send?text=${data?.title || ""}`;
+      window.location.href = `whatsapp://send?text=${window.location.href}`;
     });
 
     ShortsPlayer.on("BACK_BUTTON_CLICKED", function (data) {
