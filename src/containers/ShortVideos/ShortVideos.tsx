@@ -10,6 +10,7 @@ declare global {
 }
 
 const ShortVideos: FC = (props: any) => {
+  const [isPrimeUser, setIsPrimeUser] = useState(false);
   const result = props?.searchResult?.find((item) => item.name === "shortvideos")?.data;
   const slikeId = result.slikeid;
 
@@ -49,7 +50,7 @@ const ShortVideos: FC = (props: any) => {
         adFrequency: 3,
         adPreCache: 4000,
         adRetry: 3,
-        skipAd: window.isprimeuser,
+        skipAd: isPrimeUser,
         adTags: {
           default: {
             pre: {
@@ -120,6 +121,22 @@ const ShortVideos: FC = (props: any) => {
       }
     );
   }
+
+  const intsCallback = () => {
+    window.objInts.afterPermissionCall(() => {
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(true);
+    });
+  };
+  useEffect(() => {
+    if (typeof window.objInts !== "undefined") {
+      intsCallback();
+    } else {
+      document.addEventListener("objIntsLoaded", intsCallback);
+    }
+    return () => {
+      document.removeEventListener("objIntsLoaded", intsCallback);
+    };
+  }, []);
 
   useEffect(() => {
     loadSlikeScripts();
