@@ -104,7 +104,8 @@ a {
 
 #shortsVids #more-text {
   background: transparent;
-  padding-right: 4rem;
+  right: 4rem;
+  width: auto;
 }
 
 #shortsVids #more-text div {
