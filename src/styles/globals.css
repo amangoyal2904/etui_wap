@@ -97,3 +97,21 @@ a {
 .adContainer.expando_1 {
   min-height: 250px;
 }
+
+#shortsVids .common .moreTextImg {
+  display: none;
+}
+
+#shortsVids #more-text {
+  background: transparent;
+  right: 4rem;
+  width: auto;
+}
+
+#shortsVids #more-text div {
+  color: #fff;
+}
+
+#shortsVids #footer-common {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.969087) 87.8%, #000000 100%);
+}

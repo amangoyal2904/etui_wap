@@ -22,11 +22,11 @@ const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
   return (
     <>
       <Headers isprimeuser={isprimeuser} reqData={reqData} />
-      <AppHeader page={page} />
+      {!["shortvideos"].includes(page) && <AppHeader page={page} />}
       <main>{children}</main>
       <PrivacyPolicy />
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-      {page !== "quickreads" && <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />}
+      {!["quickreads", "shortvideos"].includes(page) && <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />}
     </>
   );
 };
