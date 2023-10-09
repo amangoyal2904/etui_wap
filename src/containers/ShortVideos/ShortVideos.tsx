@@ -24,7 +24,7 @@ const ShortVideos: FC = (props: any) => {
       startId: slikeId,
       playlistId: "",
       endPlayList: 1,
-      nextPlaylistId: [],
+      nextPlaylistId: ["hqcfq9zku6_v", "hqbv396zzl_v", "hqbv496z6z_v", "hqbve96z66", "hqcns9zu6u_v"],
       fallbackPlayList: "hqcfq9zku6_v",
       apiKey: "etmweb46324htoi24",
       ui: {
@@ -80,12 +80,12 @@ const ShortVideos: FC = (props: any) => {
     });
 
     ShortsPlayer.on("INDEX_CHANGES", function (data) {
-      console.log({ data });
-      if (data.index > 0) {
-        const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
-        window.history.pushState({}, "", seoURL);
-        document.title = data.title;
-      }
+      // console.log({ data });
+      // if (data.index > 0) {
+      const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
+      window.history.pushState({}, "", seoURL);
+      document.title = data.title;
+      // }
     });
 
     ShortsPlayer.on("SHARE_BUTTON_CLICK", function (data) {
