@@ -11,10 +11,10 @@ declare global {
 
 const ShortVideos: FC = (props: any) => {
   const [isPrimeUser, setIsPrimeUser] = useState(false);
-  const result = props?.searchResult?.find((item) => item.name === "shortvideos")?.data;
-  const slikeId = result.slikeid;
+  const result = props?.searchResult?.find((item) => item.name === "shortvideos")?.data || {};
+  const slikeId = result.slikeid || "";
 
-  const { seo = {}, version_control, parameters } = props;
+  const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
   function initPlayer() {
@@ -80,24 +80,24 @@ const ShortVideos: FC = (props: any) => {
     });
 
     ShortsPlayer.on("INDEX_CHANGES", function (data) {
-      const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
+      const seoURL = `/${data?.seoPath}/shortvideos/${data?.msid}.cms`;
       window.history.pushState({}, "", seoURL);
-      document.title = data.title;
+      document.title = data?.title;
     });
 
     ShortsPlayer.on("SHARE_BUTTON_CLICK", function (data) {
       window.navigator.share &&
         window.navigator.share({
           url: window.location.href,
-          title: data.title
+          title: data?.title || ""
         });
     });
 
-    ShortsPlayer.on("WHATSAPP_CLICKED", function (data) {
+    ShortsPlayer.on("WHATSAPP_CLICKED", function () {
       window.location.href = `whatsapp://send?text=${window.location.href}`;
     });
 
-    ShortsPlayer.on("BACK_BUTTON_CLICKED", function (data) {
+    ShortsPlayer.on("BACK_BUTTON_CLICKED", function () {
       const takeTo = document.referrer.indexOf("m.economictimes.com") > -1 ? document.referrer : "/";
       window.location.href = takeTo;
     });
@@ -114,7 +114,7 @@ const ShortVideos: FC = (props: any) => {
         document.dispatchEvent(objSlikeScriptsLoaded);
       },
       (error) => {
-        console.error("ima3 sdk failed to load: ", error);
+        console.error("short video slike sdk failed to load: ", error);
       }
     );
   }
