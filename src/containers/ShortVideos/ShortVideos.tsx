@@ -114,7 +114,7 @@ const ShortVideos: FC = (props: any) => {
         document.dispatchEvent(objSlikeScriptsLoaded);
       },
       (error) => {
-        console.error("ima3 sdk failed to load: ", error);
+        console.error("short video slike sdk failed to load: ", error);
       }
     );
   }
