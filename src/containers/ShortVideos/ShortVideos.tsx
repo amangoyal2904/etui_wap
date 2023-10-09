@@ -80,12 +80,9 @@ const ShortVideos: FC = (props: any) => {
     });
 
     ShortsPlayer.on("INDEX_CHANGES", function (data) {
-      // console.log({ data });
-      // if (data.index > 0) {
       const seoURL = `/${data.seoPath}/shortvideos/${data.msid}.cms`;
       window.history.pushState({}, "", seoURL);
       document.title = data.title;
-      // }
     });
 
     ShortsPlayer.on("SHARE_BUTTON_CLICK", function (data) {
@@ -109,7 +106,7 @@ const ShortVideos: FC = (props: any) => {
    * Loads slike sdks and on successful load, fires custom event objSlikeScriptsLoaded
    */
   function loadSlikeScripts() {
-    const promise = loadScript("https://web.sli.ke/sdk/stg/shorts.js");
+    const promise = loadScript("https://web.sli.ke/sdk/shorts.js");
 
     promise.then(
       () => {

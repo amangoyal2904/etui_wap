@@ -119,7 +119,7 @@ export function handleAdEvents(player) {
 export const dynamicPlayerConfig = {
   apiKey: "etmweb46324htoi24",
   contEl: "id_",
-  debug: true,
+  debug: false,
   video: {
     id: "",
     playerType: "",

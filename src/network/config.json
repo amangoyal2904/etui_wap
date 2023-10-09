@@ -67,9 +67,5 @@
   "cookieConsent": {
     "production": "https://etservices2.indiatimes.com/et/consent",
     "development": "https://etservices2.indiatimes.com/et/consent"
-  },
-  "etshorts": {
-    "production": "https://cloudservices.indiatimes.com/cms-api/hierarchy/98357754?hostid=153&format=json&mode=medium&sortby=rank&perpage=6&pageno=1&level=leaf&contenttype=ALL",
-    "development": "https://cloudservices.indiatimes.com/cms-api/hierarchy/98357754?hostid=153&format=json&mode=medium&sortby=rank&perpage=6&pageno=1&level=leaf&contenttype=ALL"
   }
 }
