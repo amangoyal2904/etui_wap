@@ -75,9 +75,5 @@
   "version_control": {
     "production": "https://economictimes.indiatimes.com/version_control.cms",
     "development": "https://etdev8243.indiatimes.com/version_control.cms"
-  },
-  "etshorts": {
-    "production": "https://cloudservices.indiatimes.com/cms-api/hierarchy/98357754?hostid=153&format=json&mode=medium&sortby=rank&perpage=6&pageno=1&level=leaf&contenttype=ALL",
-    "development": "https://cloudservices.indiatimes.com/cms-api/hierarchy/98357754?hostid=153&format=json&mode=medium&sortby=rank&perpage=6&pageno=1&level=leaf&contenttype=ALL"
   }
 }
