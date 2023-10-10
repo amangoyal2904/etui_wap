@@ -59,12 +59,12 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
     const autoPlay = index === 0;
     const subSecs = getSubsecString(subsecNames);
 
-    let adSection = "videoshow",
-      isDeferredPreRoll = false;
+    let adSection = "videoshow";
+    const isDeferredPreRoll = false;
     if (subsecNames.subsec1 == 13352306) {
       // industry
       adSection = "industry";
-      isDeferredPreRoll = true;
+      // isDeferredPreRoll = true;
     }
 
     if (subsecNames.subsec1 == 1977021501) {
