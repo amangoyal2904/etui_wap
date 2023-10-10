@@ -51,8 +51,8 @@ const GET_URL_FROM_canvasmaker = async (msid: any) => {
 const handler: NextApiHandler = async (request, response) => {
   try {
     const msid = request && request.body && request.body.msid ? request.body.msid : "";
-    const mstype = request && request.body && request.body.mstype ? request.body.mstype : "";
-    const hostId = request && request.body && request.body.hostId ? request.body.hostId : "";
+    // const mstype = request && request.body && request.body.mstype ? request.body.mstype : "";
+    // const hostId = request && request.body && request.body.hostId ? request.body.hostId : "";
     const operation = request && request.body && request.body.operation ? request.body.operation : "";
 
     if (msid === "" || operation === "") {
