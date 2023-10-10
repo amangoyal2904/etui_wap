@@ -32,11 +32,45 @@ const callIndexingAPI = async (url) => {
   }
 };
 
+const GET_URL_FROM_canvasmaker = async (msid: any) => {
+  try {
+    const resData = await fetch(`https://economictimes.indiatimes.com/geturlfeed.cms?msid=${msid}&feedtype=json`);
+    const data = await resData.json();
+    //console.log('data',data.longUrl);
+
+    if (data && data.longUrl && data.longUrl !== "") {
+      return data.longUrl;
+    }
+    return "";
+  } catch (error) {
+    console.log("error", error);
+    return "";
+  }
+};
+
 const handler: NextApiHandler = async (request, response) => {
   try {
-    const reqQuery = request && request.query ? request.query : {};
-    const url = reqQuery && reqQuery.url ? reqQuery.url : "";
-    //console.log('request.query', request.query)
+    const msid = request && request.body && request.body.msid ? request.body.msid : "";
+    // const mstype = request && request.body && request.body.mstype ? request.body.mstype : "";
+    // const hostId = request && request.body && request.body.hostId ? request.body.hostId : "";
+    const operation = request && request.body && request.body.operation ? request.body.operation : "";
+
+    if (msid === "" || operation === "") {
+      return response
+        .status(400)
+        .json({ message: "failed", text: "All parameter  are must  - msid, mstype, hostId, operation" });
+    }
+
+    if (operation !== "add") {
+      return response.status(400).json({ message: "failed", text: "operation param is not equal to  add" });
+    }
+
+    const url = await GET_URL_FROM_canvasmaker(msid);
+
+    if (request && request.method !== "POST") {
+      return response.status(400).json({ message: "failed", text: "Only Post Method Allowed" });
+    }
+
     if (url && url !== "") {
       const dataSendAPI = await callIndexingAPI(url);
       return response.status(201).json({
