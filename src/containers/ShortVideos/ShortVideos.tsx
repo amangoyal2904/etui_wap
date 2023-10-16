@@ -55,7 +55,7 @@ const ShortVideos: FC = (props: any) => {
           default: {
             pre: {
               url: [
-                "https://pubads.g.doubleclick.net/gampad/ads?iu=/7176/ET_MWeb/ET_Mweb_Video/ET_Mweb_Videos_Shorts_Preroll&description_url=https%3A%2F%2Fm.economictimes.com%2F&tfcd=0&npa=0&sz=300x400%7C300x415%7C320x240%7C320x480%7C359x200%7C400x300%7C400x315%7C420x315%7C480x320%7C480x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="
+                "https://pubads.g.doubleclick.net/gampad/ads?iu=/7176/ET_MWeb/ET_Mweb_Video/ET_Mweb_Videos_Shorts_Preroll&description_url=https://m.economictimes.com/&tfcd=0&npa=0&sz=300x400|300x415|320x240|320x480|359x200|400x300|400x315|420x315|480x320|480x480&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&vad_type=linear"
               ]
             }
           }
