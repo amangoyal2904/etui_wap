@@ -249,7 +249,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
                 }}
               />
               {router.asPath.indexOf("skip_ctn=1") == -1 && (
-                <Script src="https://static.clmbtech.com/ad/commons/js/2501/colombia_v2.js" strategy="lazyOnload" />
+                <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />
               )}
             </>
           )}
