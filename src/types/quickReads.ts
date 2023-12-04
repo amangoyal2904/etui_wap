@@ -1,4 +1,6 @@
 interface NewsItem {
+  type: any;
+  name: string;
   id: string;
   title: string;
   url: string;
