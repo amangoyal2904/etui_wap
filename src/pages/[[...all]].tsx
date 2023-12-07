@@ -32,6 +32,15 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
         }
       };
     }
+    const redirectQuery = all && all.length > 1 ? all[1] : "";
+    if (redirectQuery == "newspaper") {
+      return {
+        redirect: {
+          destination: "https://epaper.indiatimes.com/timesepaper/publication-the-economic-times,city-delhi.cms",
+          statusCode: 301
+        }
+      };
+    }
   }
 
   if (!["notfound"].includes(page)) {
