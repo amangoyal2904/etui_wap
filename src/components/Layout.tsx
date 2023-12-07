@@ -24,7 +24,7 @@ const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
       <Headers isprimeuser={isprimeuser} reqData={reqData} />
       {!["shortvideos"].includes(page) && <AppHeader page={page} />}
       <main>{children}</main>
-      <PrivacyPolicy />
+      {/* <PrivacyPolicy /> */}
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />
       {!["quickreads", "shortvideos"].includes(page) && <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />}
     </>
