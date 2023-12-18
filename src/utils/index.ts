@@ -143,16 +143,22 @@ export const pageType = (pathurl, msid, all) => {
     return "quickreads";
   } else if (pathurl.indexOf("/shortvideos/") != -1) {
     return "shortvideos";
+  } else if (pathurl.indexOf("/stockreports/") != -1) {
+    return "stockreports";
+  } else if (pathurl.indexOf("/stockreportscategory/") != -1) {
+    return "stockreportscategory";
   } else {
     return "notfound";
   }
 };
 
-export const prepareMoreParams = ({ all, page, msid }) => {
+export const prepareMoreParams = ({ all, page, msid, stockapitype, screenerid }) => {
   interface MoreParams {
     msid?: string | number;
     query?: string;
     tab?: string;
+    stockapitype?: string;
+    screenerid?: string;
   }
 
   const moreParams: MoreParams = {};
@@ -168,10 +174,29 @@ export const prepareMoreParams = ({ all, page, msid }) => {
     delete moreParams.msid;
   }
 
+  if (page === "stockreports") {
+    moreParams.stockapitype = stockapitype;
+    delete moreParams.msid;
+  }
+  if (page === "stockreportscategory") {
+    moreParams.screenerid = screenerid;
+    delete moreParams.msid;
+  }
+
   return moreParams;
 };
 
 export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
+export const getStockAPITYPE = (all: any) => {
+  const elementWithApitype = all.find((item: any) => item.includes("apitype-"));
+
+  return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
+};
+export const getScreenerID = (all: any) => {
+  const elementWithApitype = all.find((item: any) => item.includes("screenerid-"));
+
+  return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
+};
 export const encodeQueryData = (data) => {
   const ret = [];
   for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));

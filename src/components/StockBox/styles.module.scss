@@ -1,0 +1,93 @@
+.smallCard {
+  background-color: #fff6f3;
+  border: dotted 1px #183651;
+  border-radius: 5px;
+}
+.scoreSec {
+  text-align: center;
+  margin-top: 10px;
+  .bigNo {
+    font-size: 28px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    &::after {
+      content: "/";
+    }
+  }
+  .smallNo {
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+}
+.scoreTxt {
+  text-align: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  margin: 3px 0;
+}
+.reportSec {
+  background-color: #183651;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 5px;
+  padding: 0 10px 2px 10px;
+  margin-top: 8px;
+  .viewPdf {
+    display: inline-block;
+    background: url("https://img.etimg.com/photo/msid-105657210,quality-100/pdf-view.jpg") no-repeat 0 0;
+    background-size: 100%;
+    width: 12px;
+    height: 16px;
+    position: relative;
+    top: -4px;
+  }
+  .reportTxt {
+    font-size: 10px;
+    padding-top: 2px;
+    display: flex;
+    white-space: nowrap;
+  }
+}
+
+.ratingBox {
+  margin-top: 10px;
+  > div {
+    color: #5b5b5b;
+    font-size: 10px;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      left: 0;
+      top: 3px;
+    }
+  }
+  .norating {
+    &::after {
+      background-color: #53548f;
+    }
+  }
+  .negative {
+    &::after {
+      background-color: #ea332a;
+    }
+  }
+  .neutral {
+    &::after {
+      background-color: #b6b6b6;
+    }
+  }
+  .positive {
+    &::after {
+      background-color: #409161;
+    }
+  }
+}
