@@ -1,0 +1,225 @@
+.cardWraper {
+  margin: 0;
+}
+
+.cardSec {
+  border: solid 1px #d5d5d5;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative;
+  .heading {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+  }
+  .heading3 {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0 0 0;
+  }
+  .heading4 {
+    margin: 4px 0 0 0;
+    font-size: 11px;
+    font-weight: 500;
+    color: #545454;
+  }
+  .boxWraper {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+    column-gap: 20px;
+    align-items: center;
+  }
+}
+.cardSec + .cardSec {
+  margin-top: 20px;
+}
+
+.leftSec {
+  margin: 0;
+  min-width: 185px;
+}
+
+.rightSec {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+  width: 100%;
+}
+.returnCardWrap {
+  background: #edfff9;
+  padding: 5px 9px;
+  .card {
+    .txt {
+      color: #434343;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 12px;
+      margin-top: 3px;
+    }
+    .value {
+      color: #000;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      margin-top: 3px;
+      position: relative;
+    }
+  }
+  .middleCard.card {
+    margin: 10px 0;
+    padding: 10px 0;
+    border-top: dashed 1px #a5c9bd;
+    border-bottom: dashed 1px #a5c9bd;
+    .value {
+      &::before {
+        content: "₹";
+      }
+    }
+  }
+  .bottomCard.card {
+    .txt {
+      font-size: 11px;
+    }
+    .value {
+      font-weight: 400;
+      &::before {
+        content: "₹";
+      }
+    }
+  }
+}
+.returnCardWrap.down {
+  background: #ffeeee;
+  .middleCard.card {
+    border-color: #c19292;
+  }
+}
+
+.viewAllCta {
+  margin: 20px 0;
+  text-align: center;
+  border: solid 1px #000000;
+  border-radius: 5px;
+  display: block;
+  span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 40px;
+    text-transform: capitalize;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-top: solid 2px #000;
+      border-right: solid 2px #000000;
+      transform: rotate(45deg);
+      margin-top: -3px;
+    }
+  }
+}
+.stockRecoChart {
+  height: 70px;
+  display: flex;
+  align-items: flex-end;
+  .bar {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    justify-content: flex-end;
+    .topTxt,
+    .btmTxt {
+      font-size: 10px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .btmTxt {
+      min-height: 26px;
+    }
+    .graphBoxWraper {
+      height: 40px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+    .graphBox {
+      width: 100%;
+      margin: 2px 0;
+    }
+  }
+  .strongSell {
+    .graphBox {
+      background-color: #ed193b;
+    }
+  }
+  .sell {
+    .graphBox {
+      background-color: #ff7a9b;
+    }
+  }
+  .hold {
+    .graphBox {
+      background-color: #737373;
+    }
+  }
+  .buy {
+    .graphBox {
+      background-color: #41ca9c;
+    }
+  }
+  .strongBuy {
+    .graphBox {
+      background-color: #009060;
+    }
+  }
+}
+.reportSec {
+  border-radius: 2px;
+  border: 0.5px solid #000;
+  background: #fff6f2;
+  width: 93px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 2px;
+  padding: 0 10px 2px 5px;
+  margin-top: 8px;
+  .viewPdf {
+    display: inline-block;
+    background: url("https://img.etimg.com/photo/msid-105657210,quality-100/pdf-view.jpg") no-repeat 0 0;
+    background-size: 100%;
+    width: 12px;
+    height: 16px;
+    position: relative;
+    top: -4px;
+  }
+  .reportTxt {
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    padding-top: 2px;
+    display: flex;
+    white-space: nowrap;
+  }
+}
+
+.rightSecWrap {
+  width: 100%;
+}
+.nameBlur {
+  margin: 0;
+  background: url(https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg) no-repeat -219px -104px;
+  height: 23px;
+  background-size: 384px 148px;
+  font-size: 0;
+  width: 100px;
+}
