@@ -20,6 +20,7 @@ export interface StockReportsProps {
   stockapitype: string;
   allowSortFields?: any;
   requestObj?: any;
+  pageSummary?: any;
   slikeid?: string;
   relKeywords: {
     title: string;
@@ -38,7 +39,8 @@ export interface StockReportsProps {
 export interface StocksTabs {
   tabs: {
     name: string;
-    apiType: string;
+    activeCategory: string;
+    array: any;
   }[];
 }
 export interface PageProps {
@@ -66,7 +68,8 @@ export interface PageProps {
   };
   tabs: {
     name: string;
-    apiType: string;
+    activeCategory: string;
+    array: any;
   }[];
 }
 
@@ -77,4 +80,10 @@ export interface StockOverViewProps {
   dataList: any[];
   allowSortFields: any;
   requestObj?: any;
+  pageSummary?: {
+    pageno: any;
+    pagesize: any;
+    totalRecords: any;
+    totalpages: any;
+  };
 }

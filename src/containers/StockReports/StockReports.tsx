@@ -25,12 +25,13 @@ const StockReports: FC<PageProps> = (props) => {
   const [filterMenuTxtShow, setFilterMenuTxtShow] = useState(defaultFilterMenuTxt);
   const [stockDataFilter, setStockDataFilter] = useState(stockData);
   const [loader, setLoader] = useState(false);
+  const [srTabActivemenu, setSrTabActivemenu] = useState("overview");
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const tabData = props && props.tabs;
-  const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
+  //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
@@ -43,15 +44,8 @@ const StockReports: FC<PageProps> = (props) => {
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const APICallForFilterData = (id: any) => {
-    const _apiTypeValue =
-      activeMenu === "overview"
-        ? "overview"
-        : activeMenu === "stockscore"
-        ? "stockscore"
-        : activeMenu === "stockforecast"
-        ? "stockforecast"
-        : "";
+  const APICallForFilterData = (id: any, apitype: string) => {
+    const _apiTypeValue = srTabActivemenu || "";
     // $'{\"deviceId\":\"web\",\"filterType\":\"index\",\"filterValue\":[2371],\"pageno\":1,\"pagesize\":20,\"screenerId\":2530,\"sort\":[{\"displayName\":\"Last Traded Price\",\"field\":\"lastTradedPrice\",\"order\":\"asc\"}]}'
     const _id = id !== 0 ? [parseFloat(id)] : [];
     const dataBody = {
@@ -101,7 +95,8 @@ const StockReports: FC<PageProps> = (props) => {
     setShowFilter(false);
     console.log("ID", id, "Name", name);
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    APICallForFilterData(id);
+    //const apiType = srTabActivemenu;
+    //APICallForFilterData(id, apiType);
   };
   const filterApiCall = () => {
     fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
@@ -120,6 +115,13 @@ const StockReports: FC<PageProps> = (props) => {
         console.log("get error", err);
       });
   };
+  const srTabHandleClick = (apitype: string) => {
+    console.log("click tabs apitype", apitype);
+    setSrTabActivemenu(apitype);
+    //const id = filterMenuTxtShow.id;
+    //APICallForFilterData(id, apitype);
+  };
+
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -138,6 +140,12 @@ const StockReports: FC<PageProps> = (props) => {
     window.customDimension = { ...window.customDimension, ...payload };
     menuChangeDataSet();
   }, [props]);
+  useEffect(() => {
+    const id = filterMenuTxtShow.id;
+    if (srTabActivemenu) {
+      APICallForFilterData(id, srTabActivemenu);
+    }
+  }, [srTabActivemenu, filterMenuTxtShow.id]);
 
   return (
     <>
@@ -148,8 +156,8 @@ const StockReports: FC<PageProps> = (props) => {
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )} */}
-        <StockSrTabs data={tabData} activeMenu={activeMenu} />
-        <StockTopBanner />
+        <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
+        {!isPrimeUser && <StockTopBanner />}
         {stockDataFilter &&
           stockDataFilter.length &&
           stockDataFilter.map((item: any, index: any) => {
@@ -228,6 +236,7 @@ const StockReports: FC<PageProps> = (props) => {
           onclick={showFilterMenu}
           valuechange={handleChagneData}
           selectTab={filterMenuTxtShow.slectedTab}
+          childMenuTabAcive={filterMenuTxtShow.id}
         />
       )}
       {loader && (

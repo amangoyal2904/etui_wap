@@ -1,0 +1,31 @@
+.tabsWraper {
+  border-bottom: solid 1px #dfdfdf;
+  margin-top: 20px;
+  ul {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 0 0 15px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    li {
+      color: #000;
+      font-size: 0.75rem;
+      font-family: "Montserrat", "Verdana";
+      display: inline-block;
+      vertical-align: top;
+      padding: 0 10px 5px;
+      border-bottom: solid 2px transparent;
+    }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .active {
+      font-weight: bold;
+      border-bottom: solid 2px #000000;
+    }
+  }
+}

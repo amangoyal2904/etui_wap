@@ -111,38 +111,39 @@
     .graphBg {
       position: relative;
       height: 5px;
-      background-image: -o-linear-gradient(left, #ff0029, #b7b7b7 29%, #b7b7b7 49%, #9f9f9f 70%, #009060);
-      background-image: -o-linear-gradient(
-        left,
-        #53568f 0,
-        #e3092c 15%,
-        #b7b7b7 38%,
-        #b7b7b7 58%,
-        #9f9f9f 71%,
-        #009060
-      );
       background-image: -webkit-gradient(
         linear,
         left top,
         right top,
-        color-stop(0, #53568f),
-        color-stop(15%, #e3092c),
-        color-stop(38%, #b7b7b7),
-        color-stop(58%, #b7b7b7),
-        color-stop(71%, #9f9f9f),
-        to(#009060)
+        from(#9a9cc3),
+        color-stop(15%, #ec4843),
+        color-stop(35%, #f3a655),
+        color-stop(50%, #b7b7b7),
+        color-stop(65%, #ccc),
+        color-stop(95%, #56bc7c),
+        to(#3d8b87)
+      );
+      background-image: -o-linear-gradient(
+        left,
+        #9a9cc3,
+        #ec4843 15%,
+        #f3a655 35%,
+        #b7b7b7 50%,
+        #ccc 65%,
+        #56bc7c 95%,
+        #3d8b87
       );
       background-image: linear-gradient(
         to right,
-        #53568f 0,
-        #e3092c 15%,
-        #b7b7b7 38%,
-        #b7b7b7 58%,
-        #9f9f9f 71%,
-        #009060
+        #9a9cc3,
+        #ec4843 15%,
+        #f3a655 35%,
+        #b7b7b7 50%,
+        #ccc 65%,
+        #56bc7c 95%,
+        #3d8b87
       );
       margin-top: 10px;
-      border-radius: 10px;
       .valueBox {
         position: absolute;
         left: 0;
@@ -150,14 +151,25 @@
         width: 16px;
         height: 16px;
         text-align: center;
-        color: #ffffff;
+
         font-size: 10px;
         font-weight: 500;
-        background-color: #000000;
-        border-radius: 50%;
+        background: #53568f;
+        border: 1px solid #fff;
+        border-radius: 2px;
+        color: #fff;
         line-height: 16px;
         top: -6px;
         margin-left: -8px;
+      }
+      .valueBox.up {
+        background: #009060;
+      }
+      .valueBox.down {
+        background: #ed193b;
+      }
+      .valueBox.neutral {
+        background: #b2b2b2;
       }
     }
   }

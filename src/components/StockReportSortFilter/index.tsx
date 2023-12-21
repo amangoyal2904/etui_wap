@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 interface StockSRSortFilterProps {
   data: any[];
   oncloseMenu: (value: boolean) => void;
-  sortApplyHandler: (id: string, sort: boolean, displayName: string) => void;
+  sortApplyHandler: (id: string, sort: string, displayName: string) => void;
   defaultActiveTabData: any;
 }
 
@@ -15,21 +15,27 @@ export default function StockReportSortFilter({
   sortApplyHandler,
   defaultActiveTabData
 }: StockSRSortFilterProps) {
-  const [sortMenuSelected, setSortMenuSelected] = useState(defaultActiveTabData);
-  const [sortIcon, setSortIcon] = useState(true);
+  const [sortMenuSelected, setSortMenuSelected] = useState({ ...defaultActiveTabData });
+  const [sortIconClass, setSortIconClass] = useState(defaultActiveTabData.sort);
   const [displayname, setDisplayname] = useState("");
   const sortIconChangeHandler = () => {
-    setSortIcon(!sortIcon);
+    const revertClass = sortIconClass === "desc" ? "asc" : "desc";
+    setSortIconClass(revertClass);
+    setSortMenuSelected((preData: any) => ({
+      ...preData,
+      sort: revertClass
+    }));
   };
-  console.log("________sortMenuSelected", sortMenuSelected);
+
   const menuSortHandler = (id: string, name: string) => {
-    setSortIcon(false);
-    setSortMenuSelected(id);
-    setDisplayname(name);
+    setSortMenuSelected((preData: any) => ({
+      ...preData,
+      id: id,
+      displayname: name
+    }));
   };
   const applyHandler = () => {
-    console.log("appply filter value ___", sortMenuSelected, sortIcon, displayname);
-    sortApplyHandler(sortMenuSelected, sortIcon, displayname);
+    sortApplyHandler(sortMenuSelected.id, sortMenuSelected.sort, sortMenuSelected.displayname);
   };
   return (
     <>
@@ -54,7 +60,7 @@ export default function StockReportSortFilter({
                       <span onClick={() => menuSortHandler(item.id, item.displayName)}>{item.displayName}</span>
                       {sortMenuSelected.id === item.id && (
                         <span
-                          className={`${styles.sortIcon} ${sortIcon && styles.decending}`}
+                          className={`${styles.sortIcon} ${styles[sortIconClass]}`}
                           onClick={sortIconChangeHandler}
                         ></span>
                       )}

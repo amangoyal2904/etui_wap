@@ -5,9 +5,10 @@ import Link from "next/link";
 interface StockTabsProps {
   data: { name: string; apiType: any }[];
   activeMenu: string;
+  srTabClick?: any;
 }
 
-export default function StockSrTabs({ data, activeMenu }: StockTabsProps) {
+export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsProps) {
   //console.log("activeMenu", activeMenu);
   return (
     <>
@@ -15,10 +16,14 @@ export default function StockSrTabs({ data, activeMenu }: StockTabsProps) {
         <ul>
           {data.map((item: any, i) => (
             <Fragment key={i}>
-              <li className={`${activeMenu === item.apiType ? styles.active : ""}`}>
-                <Link href={item.url}>
+              <li
+                className={`${activeMenu === item.apiType ? styles.active : ""}`}
+                onClick={() => srTabClick(item.apiType)}
+              >
+                {/* <Link href={item.url}>
                   <a>{item.name}</a>
-                </Link>
+                </Link> */}
+                {item.name}
               </li>
             </Fragment>
           ))}

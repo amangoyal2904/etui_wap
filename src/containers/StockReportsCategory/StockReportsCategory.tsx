@@ -1,6 +1,7 @@
 import styles from "./StockReportsCategory.module.scss";
 import DfpAds from "components/Ad/DfpAds";
-import { useEffect, useState, Fragment, FC } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState, Fragment, FC, useRef } from "react";
 import { PageProps, StockReportsProps, StocksTabs, StockOverViewProps } from "types/stockreportscategory";
 import BreadCrumb from "components/BreadCrumb";
 import GreyDivider from "components/GreyDivider";
@@ -8,7 +9,7 @@ import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 import StockReportCard from "components/StockReportCard";
 import StockReportUpside from "components/StockReportUpside";
-import StockSrTabs from "components/StocksSRTabs";
+import StockSrCatTabs from "components/StocksSRCatTabs";
 import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
@@ -28,6 +29,12 @@ const StockReports: FC<PageProps> = (props) => {
   const screenerIdDefault = props?.searchResult?.find((item) => item.name === "stockreportsbycategory")?.json
     ?.requestObj?.screenerId;
 
+  const defaultPageSummary = props?.searchResult?.find((item) => item.name === "stockreportsbycategory")?.json
+    ?.pageSummary;
+  const observer = useRef<IntersectionObserver>();
+  const lastElementRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [isPrimeUser, setIsPrimeUser] = useState(0);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -37,7 +44,7 @@ const StockReports: FC<PageProps> = (props) => {
   const [loader, setLoader] = useState(false);
   const [sortApplyFilterValue, setSortApplyFilterValue] = useState({
     id: sortDefaultActive,
-    sort: "asc",
+    sort: "desc",
     displayname: ""
   });
   const { seo = {}, version_control, parameters } = props;
@@ -46,7 +53,12 @@ const StockReports: FC<PageProps> = (props) => {
   const { cpd_wap = "0" } = version_control;
   const tabData = props && props.tabs;
   const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
-
+  const [pageSummary, setPageSummary] = useState({
+    pageno: parseFloat(defaultPageSummary.pageno),
+    pagesize: parseFloat(defaultPageSummary.pagesize),
+    totalRecords: parseFloat(defaultPageSummary.totalRecords),
+    totalpages: parseFloat(defaultPageSummary.totalpages)
+  });
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
@@ -63,19 +75,29 @@ const StockReports: FC<PageProps> = (props) => {
   const showSortFilter = () => {
     setSortMenu(true);
   };
-  const sortApplyHandlerFun = (id: string, sort: boolean, displayname: string) => {
-    setSortApplyFilterValue({
-      id: id,
-      sort: sort ? "asc" : "desc",
-      displayname: displayname
-    });
+  const sortApplyHandlerFun = (newId: string, newSort: string, newDisplayName: string) => {
+    setSortApplyFilterValue((preData: any) => ({
+      ...preData,
+      id: newId,
+      sort: newSort,
+      displayname: newDisplayName
+    }));
+
     setSortMenu(false);
-    APICallForFilterData(filterMenuTxtShow.id);
+    const filterID = filterMenuTxtShow.id;
+    const postData = {
+      id: filterID,
+      field: newId,
+      sort: newSort,
+      displayName: newDisplayName
+    };
+
+    APICallForFilterData(filterID, postData);
   };
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const APICallForFilterData = (id: any) => {
+  const APICallForFilterData = (id: any, postData: any = {}) => {
     console.log("sortApplyFilterValue", sortApplyFilterValue);
     const _id = id !== 0 ? [parseFloat(id)] : [];
     const bodyPostData = {
@@ -83,12 +105,12 @@ const StockReports: FC<PageProps> = (props) => {
       filterType: "index",
       filterValue: _id,
       pageno: 1,
-      screenerId: parseFloat(screenerIdDefault),
+      screenerId: parseFloat(defaultScreenerId),
       sort: [
         {
-          displayName: sortApplyFilterValue.displayname,
-          field: sortApplyFilterValue.id,
-          order: sortApplyFilterValue.sort
+          displayName: postData.displayName || sortApplyFilterValue.displayname,
+          field: postData.field || sortApplyFilterValue.id,
+          order: postData.sort || sortApplyFilterValue.sort
         }
       ]
     };
@@ -120,6 +142,13 @@ const StockReports: FC<PageProps> = (props) => {
           displayname: displayName
         });
         setStockDataFilter(data);
+        setPageSummary((prevPageSummary) => ({
+          ...prevPageSummary,
+          pageno: data.pageSummary.pageno,
+          pagesize: data.pageSummary.pagesize,
+          totalRecords: data.pageSummary.totalRecords,
+          totalpages: data.pageSummary.totalpages
+        }));
       })
       .catch((error) => {
         setLoader(false);
@@ -129,8 +158,17 @@ const StockReports: FC<PageProps> = (props) => {
   const handleChagneData = (id: any, name: string, slectedTab: string) => {
     setShowFilter(false);
     console.log("ID", id, "Name", name);
-    setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    APICallForFilterData(id);
+
+    setFilterMenuTxtShow((preData: any) => ({
+      ...preData,
+      name: name,
+      id: id,
+      slectedTab: slectedTab
+    }));
+
+    const filterID = filterMenuTxtShow.id;
+
+    APICallForFilterData(filterID);
   };
 
   const filterApiCall = () => {
@@ -150,6 +188,68 @@ const StockReports: FC<PageProps> = (props) => {
         console.log("get error", err);
       });
   };
+  const fetchDataMore = () => {
+    const pageNumberValue = pageSummary.pageno + 1;
+    const id = parseFloat(filterMenuTxtShow.id) !== 0 ? [parseFloat(filterMenuTxtShow.id)] : [];
+    const bodyPostData = {
+      deviceId: "web",
+      filterType: "index",
+      filterValue: id,
+      pageno: pageNumberValue,
+      screenerId: parseFloat(defaultScreenerId),
+      sort: [
+        {
+          displayName: sortApplyFilterValue.displayname,
+          field: sortApplyFilterValue.id,
+          order: sortApplyFilterValue.sort
+        }
+      ]
+    };
+    const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bodyPostData)
+    };
+    setLoader(true);
+    fetch(APIURL, requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          setLoader(false);
+          throw new Error("Network response was not ok.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Response data:", data);
+        setLoader(false);
+        const onlyData = data.dataList;
+        setPageSummary((prevPageSummary) => ({
+          ...prevPageSummary,
+          pageno: data.pageSummary.pageno,
+          pagesize: data.pageSummary.pagesize,
+          totalRecords: data.pageSummary.totalRecords,
+          totalpages: data.pageSummary.totalpages
+        }));
+        //console.log("_________________________pageSummery", data.pageSummary);
+        setStockDataFilter((prevData: any) => ({
+          ...prevData,
+          dataList: [...prevData.dataList, ...data.dataList]
+        }));
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.error("There was a problem with the fetch operation more data:", error);
+      });
+  };
+  const srTabsHandlerClick = (id: any, name: string) => {
+    if (id !== defaultScreenerId) {
+      router.push(`stockreportscategory/screenerid-${id}.cms`, undefined, { shallow: true });
+      setDefaultScreenerId(id);
+    }
+  };
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -166,14 +266,43 @@ const StockReports: FC<PageProps> = (props) => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
-    menuChangeDataSet();
+    //menuChangeDataSet();
   }, [props]);
-  //console.log("filterMenuTxtShow", filterMenuTxtShow);
+  useEffect(() => {
+    if (observer.current) {
+      observer.current.disconnect(); // Disconnect the existing observer if any
+    }
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && pageSummary.pageno !== pageSummary.totalpages) {
+          fetchDataMore(); // Call the fetchData function when the observed element is intersecting
+          //console.log("___________entries___________", entries, pageSummary);
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect(); // Disconnect the observer on component unmount
+      }
+    };
+  }, [lastElementRef, pageSummary]);
+  useEffect(() => {
+    const filterID = filterMenuTxtShow.id;
+    APICallForFilterData(filterID);
+  }, [defaultScreenerId]);
   return (
     <>
       <SEO {...seoData} />
       <div className={styles.mainContent}>
-        <StockSrTabs data={tabData} activeMenu={activeMenu} />
+        <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
+        {!isPrimeUser && <StockTopBanner />}
         {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length && (
           <>
             <div className={styles.stockReportsWrap}>
@@ -188,14 +317,25 @@ const StockReports: FC<PageProps> = (props) => {
               </div>
 
               {stockDataFilter.screenerDetail.srPlusType === "type-1" ? (
-                <StockReportCard data={stockDataFilter.dataList} cardType="scoreCard" totalRecords="0" />
+                <StockReportCard
+                  data={stockDataFilter.dataList}
+                  cardType="scoreCard"
+                  totalRecords="0"
+                  isPrimeUser={isPrimeUser}
+                />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
-                <StockReportCard data={stockDataFilter.dataList} cardType="upgradeCard" totalRecords="0" />
+                <StockReportCard
+                  data={stockDataFilter.dataList}
+                  cardType="upgradeCard"
+                  totalRecords="0"
+                  isPrimeUser={isPrimeUser}
+                />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
-                <StockReportUpside data={stockDataFilter.dataList} totalRecords="0" />
+                <StockReportUpside data={stockDataFilter.dataList} totalRecords="0" isPrimeUser={isPrimeUser} />
               ) : (
                 ""
               )}
+              <div ref={lastElementRef}></div>
             </div>
           </>
         )}
@@ -213,6 +353,7 @@ const StockReports: FC<PageProps> = (props) => {
           onclick={showFilterMenu}
           valuechange={handleChagneData}
           selectTab={filterMenuTxtShow.slectedTab}
+          childMenuTabAcive={filterMenuTxtShow.id}
         />
       )}
       {showSortMenu && (
