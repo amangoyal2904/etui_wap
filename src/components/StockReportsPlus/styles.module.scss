@@ -1,0 +1,342 @@
+@import "../../styles/variables.scss";
+.topSec {
+  border-bottom: solid 1px #d9d9d9;
+  padding: 0;
+  margin: 0;
+  .stock_wrapper {
+    padding: 13px 0 20px 0;
+    text-align: center;
+    p {
+      margin-top: 15px;
+      padding: 0 20px;
+      font-size: 0.875em;
+      font-weight: normal;
+      line-height: 1.4;
+      .linkAnchor {
+        color: #ed193b;
+        text-decoration: underline;
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 5px;
+      }
+    }
+  }
+  .topHeadInner {
+    width: 158px;
+    height: 31px;
+    background-position: -21px -26px;
+    margin: 12px auto;
+  }
+  .captionHead {
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.38;
+    color: #727272;
+    padding: 0 20px;
+    .redTxt {
+      color: #e60015;
+    }
+  }
+}
+.stockBanner {
+  background: url("https://img.etimg.com/photo/msid-83542006,quality-100/stock-reports-plus.jpg") no-repeat 0 0;
+  display: block;
+  height: 290px;
+  background-size: contain;
+}
+.btnTextWraper {
+  margin: 26px 20px 0 20px;
+  button {
+    background: #e60015;
+    line-height: 48px;
+    height: 48px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.9375em;
+    border: 0;
+    outline: none;
+  }
+}
+
+.featureSec {
+  background: #fff7f5;
+  .stock_wrapper {
+    padding: 13px 20px 24px;
+    text-align: center;
+    .smallHead {
+      padding-top: 33px;
+      font-size: 1.125em;
+      color: #414141;
+    }
+    .boxHead {
+      margin-top: 11px;
+      font-size: 1.625em;
+      font-weight: 900;
+      line-height: 32px;
+    }
+    .stockList {
+      li {
+        margin-top: 24px;
+        text-align: left;
+        position: relative;
+        padding-left: 65px;
+        h5 {
+          font-size: 1.125em;
+          font-weight: bold;
+          margin: 0;
+        }
+        p {
+          margin: 5px 0 0 0;
+          font-size: 1em;
+          color: #414141;
+          line-height: 1.38;
+          text-align: left;
+        }
+        &::after {
+          background: url($common-sr-sprite-path) no-repeat;
+          display: inline-block;
+          position: relative;
+          background-size: 352px 267px;
+          vertical-align: top;
+        }
+      }
+      .investIcn {
+        &::after {
+          content: "";
+          background-position: -17px -93px;
+          width: 50px;
+          height: 31px;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+      .newIdea:after {
+        content: "";
+        background-position: -83px -88px;
+        width: 50px;
+        height: 36px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .analysisIcn:after {
+        content: "";
+        background-position: -150px -82px;
+        width: 56px;
+        height: 41px;
+        position: absolute;
+        top: 0;
+        left: -5px;
+      }
+    }
+    .stockViewRepo {
+      text-align: center;
+      font-size: 1em;
+      font-weight: 500;
+      margin-top: 40px;
+      margin-bottom: 25px;
+      .loginBtn {
+        cursor: pointer;
+        color: #ed193b;
+        display: inline-block;
+        width: 100%;
+        text-transform: uppercase;
+        vertical-align: top;
+        font-size: 0.9375em;
+        border-radius: 3px;
+        border: solid 1px #e60015;
+        padding: 12px 0;
+      }
+    }
+    .skipTrialUser {
+      font-size: 1.5em;
+      font-weight: normal;
+      line-height: 34px;
+      padding-top: 16px;
+      border-top: solid 1px #ddd;
+      margin-top: 45px;
+      .redTxt {
+        display: inline-block;
+        vertical-align: top;
+        color: #ed193b;
+        font-weight: bold;
+      }
+      p {
+        font-size: 0.584em;
+        color: #727272;
+        line-height: normal;
+        text-align: center;
+        margin: 13px 0 45px 0;
+      }
+    }
+  }
+}
+
+.etPrimeSec {
+  .stockWrapper {
+    padding: 13px 20px 24px;
+  }
+  .ctaSec {
+    margin-bottom: 50px;
+    .ctaHead {
+      font-size: 1.5em;
+      margin-top: 24px;
+      text-align: center;
+      font-weight: normal;
+      line-height: 30px;
+      .redTxt {
+        display: inline-block;
+        vertical-align: top;
+        color: #e60015;
+        font-weight: bold;
+      }
+    }
+    .btnSec {
+      margin-top: 17px;
+      .etBtnPrime {
+        border-radius: 3px;
+        border: solid 1px #fb0000;
+        background-color: #e60015;
+        display: block;
+        width: 100%;
+        text-align: center;
+        line-height: 48px;
+        height: 48px;
+        color: #fff;
+        font-size: 0.9375em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .conditionText {
+        margin-top: 24px;
+        color: #727272;
+        font-size: 1em;
+        text-align: center;
+        a {
+          color: #727272;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .f_list {
+    padding: 24px 15px 32px 15px;
+    .normal {
+      font-size: 1.25em;
+      text-align: center;
+      line-height: 32px;
+      .prel {
+        position: relative;
+        .ePrime {
+          width: 141px;
+          height: 44px;
+          display: inline-block;
+          position: relative;
+          background: url(https://img.etimg.com/photo/msid-76685415,quality-100.cms) no-repeat 0 0;
+          background-size: 100%;
+          vertical-align: text-top;
+          margin-right: 5px;
+        }
+        small {
+          font-weight: 400;
+        }
+      }
+    }
+    ul {
+      margin-top: 20px;
+      li {
+        padding: 20px 0;
+        > div:first-child {
+          display: inline-block;
+          width: 50px;
+        }
+        img {
+          vertical-align: middle;
+          width: 50px;
+          display: inline-block;
+        }
+        .fl_i_title {
+          display: inline-block;
+          vertical-align: middle;
+          width: 75%;
+          padding-left: 15px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          font-size: 0.875em;
+        }
+      }
+    }
+  }
+}
+
+.faqSecWrap {
+  .faqSection {
+    padding: 30px 20px 0 20px;
+  }
+  .boxHead {
+    text-align: left;
+    line-height: normal;
+    margin-top: 11px;
+    font-size: 1.625em;
+    font-weight: 900;
+  }
+  .faqContainer {
+    margin: 30px auto 40px;
+    .faqPanel {
+      border-bottom: solid 1px #ddd;
+      h3 {
+        cursor: pointer;
+        font-size: 0.9375em;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 15px;
+        padding-right: 35px;
+        margin: 0;
+        .arrowContainer {
+          background: url($common-sr-sprite-path) no-repeat;
+          display: inline-block;
+          background-size: 352px 267px;
+          vertical-align: top;
+          width: 19px;
+          height: 19px;
+          background-position: -272px -91px;
+          position: absolute;
+          right: 0;
+          top: 0;
+          -webkit-transform: rotate(180deg);
+          -ms-transform: rotate(180deg);
+          transform: rotate(180deg);
+        }
+      }
+    }
+    .faqPanel + .faqPanel {
+      margin-top: 24px;
+    }
+    .faqContent {
+      padding-bottom: 24px;
+      display: none;
+      p {
+        font-size: 0.9375em;
+        line-height: 21px;
+        text-align: left;
+        margin: 0;
+      }
+    }
+    .faqPanel.active {
+      .arrowContainer {
+        background-position: -233px -91px;
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        transform: rotate(0);
+      }
+      .faqContent {
+        display: block;
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import StockSrTabs from "components/StocksSRTabs";
 import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
+import StockReportsPlus from "components/StockReportsPlus";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -20,6 +21,7 @@ const StockReports: FC<PageProps> = (props) => {
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [stockReportActive, setStockReportActive] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [filterMenuTxtShow, setFilterMenuTxtShow] = useState(defaultFilterMenuTxt);
@@ -117,9 +119,14 @@ const StockReports: FC<PageProps> = (props) => {
   };
   const srTabHandleClick = (apitype: string) => {
     console.log("click tabs apitype", apitype);
+
+    if (apitype === "stockreports") {
+      setStockReportActive(true);
+      console.log("here go to stock page condtion here");
+    } else {
+      setStockReportActive(false);
+    }
     setSrTabActivemenu(apitype);
-    //const id = filterMenuTxtShow.id;
-    //APICallForFilterData(id, apitype);
   };
 
   useEffect(() => {
@@ -142,7 +149,7 @@ const StockReports: FC<PageProps> = (props) => {
   }, [props]);
   useEffect(() => {
     const id = filterMenuTxtShow.id;
-    if (srTabActivemenu) {
+    if (srTabActivemenu && srTabActivemenu !== "stockreports") {
       APICallForFilterData(id, srTabActivemenu);
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
@@ -158,70 +165,57 @@ const StockReports: FC<PageProps> = (props) => {
         )} */}
         <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
         {!isPrimeUser && <StockTopBanner />}
-        {stockDataFilter &&
-          stockDataFilter.length &&
-          stockDataFilter.map((item: any, index: any) => {
-            return (
-              <>
-                <div className={styles.stockReportsWrap}>
-                  <h2 className={styles.heading2}>
-                    {item.name}
-                    <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-                      {filterMenuTxtShow.name}
-                    </span>
-                  </h2>
 
-                  {item.type === "type-1" ? (
-                    <StockReportCard
-                      data={item.dataList}
-                      cardType="scoreCard"
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : item.type === "type-2" ? (
-                    <StockReportCard
-                      data={item.dataList}
-                      cardType="upgradeCard"
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : item.type === "type-3" ? (
-                    <StockReportUpside
-                      data={item.dataList}
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <GreyDivider />
-              </>
-            );
-          })}
+        {!stockReportActive ? (
+          <>
+            {stockDataFilter &&
+              stockDataFilter.length &&
+              stockDataFilter.map((item: any, index: any) => {
+                return (
+                  <>
+                    <div className={styles.stockReportsWrap}>
+                      <h2 className={styles.heading2}>
+                        {item.name}
+                        <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
+                          {filterMenuTxtShow.name}
+                        </span>
+                      </h2>
 
-        {/* <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>
-            Top Score Companies{" "}
-            <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-              Nifty 50
-            </span>
-          </h2>
-          <StockReportCard data={seoData.breadcrumb} cardType="scoreCard" />
-        </div>
-        <GreyDivider />
-        <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>Score Upgrade</h2>
-          <StockReportCard data={seoData.breadcrumb} cardType="upgradeCard" />
-        </div>
-        <GreyDivider />
-        <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>High Upside Stocks</h2>
-          <StockReportUpside data={seoData.breadcrumb} />
-        </div> */}
+                      {item.type === "type-1" ? (
+                        <StockReportCard
+                          data={item.dataList}
+                          cardType="scoreCard"
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : item.type === "type-2" ? (
+                        <StockReportCard
+                          data={item.dataList}
+                          cardType="upgradeCard"
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : item.type === "type-3" ? (
+                        <StockReportUpside
+                          data={item.dataList}
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <GreyDivider />
+                  </>
+                );
+              })}
+          </>
+        ) : (
+          <StockReportsPlus isPrimeUser={isPrimeUser} />
+        )}
 
         <BreadCrumb data={seoData.breadcrumb} />
         {!hideAds && (
