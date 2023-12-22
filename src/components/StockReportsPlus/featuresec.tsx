@@ -29,7 +29,7 @@ export default function FeatureSec({ isPrimeUser, isLogin }: FeatureSecProps) {
               <p>of company and its peers through independent research, ratings, and market data</p>
             </li>
           </ul>
-          {isLogin ? (
+          {isPrimeUser ? (
             <div className={styles.skipTrialUser}>
               <span>Sandeep, now </span> enjoy <strong>Stock Reports Plus</strong> worth <strong>₹1,499*</strong>{" "}
               offered complimentary with your <span className={styles.redTxt}>ETPrime</span> membership

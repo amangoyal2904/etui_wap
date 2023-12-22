@@ -37,11 +37,13 @@ export interface PageProps {
       name: string;
       data: StockReportsProps;
       stockapitype: string;
+      faq: any;
     },
     {
       name: string;
       data: StockOverViewProps;
       stockapitype: string;
+      faq: any;
     }
   ];
   defaultFiterName: string;

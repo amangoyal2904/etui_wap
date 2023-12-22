@@ -64,6 +64,8 @@
 
 .featureSec {
   background: #fff7f5;
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
   .stock_wrapper {
     padding: 13px 20px 24px;
     text-align: center;
@@ -178,6 +180,8 @@
 }
 
 .etPrimeSec {
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
   .stockWrapper {
     padding: 13px 20px 24px;
   }
@@ -275,6 +279,8 @@
 }
 
 .faqSecWrap {
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
   .faqSection {
     padding: 30px 20px 0 20px;
   }
@@ -339,4 +345,191 @@
       }
     }
   }
+}
+.searchExploreNow {
+  margin: 30px 20px 10px 20px;
+  button {
+    background: #e60015;
+    line-height: 48px;
+    height: 48px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9375em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    border: 0;
+    outline: none;
+  }
+}
+.reportsSlider {
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
+  .companiesBg {
+    position: relative;
+    background: #ffe7e1;
+    padding: 20px 0;
+    .heading {
+      font-size: 1.25em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-align: center;
+      line-height: 23px;
+    }
+    .sliderItem {
+      margin: 0;
+      padding: 0;
+      .listLi {
+        border-radius: 3px;
+        -webkit-box-shadow: 1px 2px 8px 0 rgba(145, 145, 145, 0.5);
+        box-shadow: 1px 2px 8px 0 rgba(145, 145, 145, 0.5);
+        border: solid 1px #fff;
+        background: #fff;
+        padding: 15px 10px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        a {
+          display: flex;
+          flex-direction: column;
+          row-gap: 1px;
+        }
+        .compName {
+          font-size: 1.125em;
+          font-weight: 800;
+          line-height: 1.1;
+          margin: 0;
+          padding: 0;
+          margin-bottom: 5px;
+          -o-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .value {
+          font-size: 1em;
+          font-weight: 500;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          column-gap: 6px;
+        }
+
+        .change {
+          position: relative;
+          font-size: 0.9375em;
+          padding-left: 20px;
+          display: flex;
+          white-space: nowrap;
+          span + span {
+            margin-left: 5px;
+          }
+        }
+        .up {
+          color: #009060;
+        }
+        .down {
+          color: #da2337;
+          .stockSprite {
+            background-position: -289px -130px;
+          }
+        }
+        .stockSprite {
+          background: url($common-sr-sprite-path) no-repeat;
+          display: inline-block;
+          background-size: 352px 267px;
+          vertical-align: top;
+          width: 7px;
+          height: 11px;
+          position: absolute;
+          top: 4px;
+          left: 10px;
+          background-position: -270px -130px;
+        }
+      }
+    }
+  }
+}
+.mainSlider {
+  margin: 0;
+  .slick-slide {
+    > div {
+      margin: 25px;
+    }
+  }
+}
+
+.searchSecSR {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 103;
+  background: #fff;
+  .sr_search {
+    padding: 20px;
+  }
+  .formGroup {
+    position: relative;
+    .iBack {
+      background: url($common-sr-sprite-path) no-repeat;
+      display: inline-block;
+      background-size: 352px 267px;
+      vertical-align: top;
+      outline: 0;
+      width: 30px;
+      height: 30px;
+      background-position: -300px -120px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .inputBox {
+      background: #f0f4f5;
+      width: calc(100% - 30px);
+      height: 40px;
+      font-size: 0.8125em;
+      font-weight: 500;
+      padding: 10px 30px 10px 10px;
+      border-radius: 21px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border: 0;
+      outline: none;
+    }
+    .iSearch {
+      background: url($common-sr-sprite-path) no-repeat;
+      display: inline-block;
+      background-size: 352px 267px;
+      vertical-align: top;
+      width: 13px;
+      height: 13px;
+      background-position: -301px -93px;
+      position: absolute;
+      right: 9px;
+      top: 15px;
+    }
+  }
+}
+.resultListItem {
+  margin: 0;
+  text-align: left;
+  width: auto;
+  right: 0;
+  padding: 0 20px;
+  li {
+    font-weight: 500;
+    padding: 5px 10px;
+    border-bottom: 1px dotted #d4d9dc;
+    font-size: 14px;
+    .highlight {
+      font-weight: 700;
+    }
+  }
+}
+.noprenext {
+  width: 0;
+  height: 0;
+  display: none;
 }

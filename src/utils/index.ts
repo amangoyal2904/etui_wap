@@ -132,6 +132,8 @@ export const pageType = (pathurl, msid, all) => {
     return "stockreports";
   } else if (pathurl.indexOf("/stockreportscategory/") != -1) {
     return "stockreportscategory";
+  } else if (pathurl.indexOf("stockreports_benefits.cms") != -1) {
+    return "stockreportsplus";
   } else {
     return "notfound";
   }
@@ -159,7 +161,7 @@ export const prepareMoreParams = ({ all, page, msid, stockapitype, screenerid })
     delete moreParams.msid;
   }
 
-  if (page === "stockreports") {
+  if (page === "stockreportsplus") {
     moreParams.stockapitype = stockapitype;
     delete moreParams.msid;
   }

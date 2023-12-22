@@ -18,6 +18,7 @@ const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
   //console.log("_______props", props);
   const stockData = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.data as any;
+  const reportsPlusFaq = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.faq as any;
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
   const [isPrimeUser, setIsPrimeUser] = useState(0);
@@ -167,12 +168,12 @@ const StockReports: FC<PageProps> = (props) => {
         {!isPrimeUser && <StockTopBanner />}
 
         {!stockReportActive ? (
-          <>
+          <Fragment>
             {stockDataFilter &&
               stockDataFilter.length &&
               stockDataFilter.map((item: any, index: any) => {
                 return (
-                  <>
+                  <Fragment key={index}>
                     <div className={styles.stockReportsWrap}>
                       <h2 className={styles.heading2}>
                         {item.name}
@@ -209,12 +210,12 @@ const StockReports: FC<PageProps> = (props) => {
                       )}
                     </div>
                     <GreyDivider />
-                  </>
+                  </Fragment>
                 );
               })}
-          </>
+          </Fragment>
         ) : (
-          <StockReportsPlus isPrimeUser={isPrimeUser} />
+          <StockReportsPlus isPrimeUser={isPrimeUser} faqdata={reportsPlusFaq} />
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />

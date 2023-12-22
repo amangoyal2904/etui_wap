@@ -2,38 +2,12 @@ import { Fragment, useState } from "react";
 import styles from "./styles.module.scss";
 
 interface FaqInfoProps {
-  isPrimeUser?: number;
-  isLogin?: boolean;
+  faqdata?: any;
 }
-const faqData = [
-  {
-    question: " What is Stock Reports Plus?12",
-    answer: " What is Stock Reports Plus? What is Stock Reports Plus?"
-  },
-  {
-    question: " What is Stock Reports Plus?22",
-    answer: " What is Stock Reports Plus? What is Stock Reports Plus?"
-  },
-  {
-    question: " What is Stock Reports Plus?33",
-    answer:
-      " What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus?"
-  },
-  {
-    question: " What is Stock Reports Plus?44",
-    answer:
-      " What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus?"
-  },
-  {
-    question: " What is Stock Reports Plus?55",
-    answer:
-      " What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus? What is Stock Reports Plus?"
-  }
-];
 
-export default function FaqInfoSec({ isPrimeUser, isLogin }: FaqInfoProps) {
+export default function FaqInfoSec({ faqdata }: FaqInfoProps) {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const toggleAnswer = (index) => {
+  const toggleAnswer = (index: number) => {
     setActiveIndex(activeIndex === index ? -1 : index);
   };
   return (
@@ -42,18 +16,20 @@ export default function FaqInfoSec({ isPrimeUser, isLogin }: FaqInfoProps) {
         <div className={styles.faqSection}>
           <div className={styles.boxHead}>Frequently Asked Questions</div>
           <div className={styles.faqContainer}>
-            {faqData.map((item: any, index: number) => {
-              return (
-                <div className={`${styles.faqPanel} ${activeIndex === index ? styles.active : ""}`} key={index}>
-                  <h3 onClick={() => toggleAnswer(index)}>
-                    {item.question} <span className={styles.arrowContainer}></span>
-                  </h3>
-                  <div className={styles.faqContent}>
-                    <p>{item.answer}</p>
-                  </div>
-                </div>
-              );
-            })}
+            {faqdata && faqdata.mainEntity && faqdata.mainEntity.length > 0
+              ? faqdata.mainEntity.map((item: any, index: number) => {
+                  return (
+                    <div className={`${styles.faqPanel} ${activeIndex === index ? styles.active : ""}`} key={index}>
+                      <h3 onClick={() => toggleAnswer(index)}>
+                        {item.name} <span className={styles.arrowContainer}></span>
+                      </h3>
+                      <div className={styles.faqContent}>
+                        <p>{item.acceptedAnswer.text}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              : ""}
           </div>
         </div>
       </section>

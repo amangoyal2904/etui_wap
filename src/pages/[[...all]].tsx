@@ -22,7 +22,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
 
   let extraParams = {},
     response: any = {};
-
   if (page === "topic") {
     const isValidQuery = shouldRedirectTopic(all);
     if (!isValidQuery) {
