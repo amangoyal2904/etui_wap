@@ -7,13 +7,20 @@ interface StockSRFilterProps {
   onclick: (value: boolean) => void;
   valuechange: (id: string, name: string, slectedTab: string) => void;
   selectTab: string;
+  childMenuTabAcive: string;
 }
 
-export default function StockReportFilter({ data, onclick, valuechange, selectTab }: StockSRFilterProps) {
+export default function StockReportFilter({
+  data,
+  onclick,
+  valuechange,
+  selectTab,
+  childMenuTabAcive
+}: StockSRFilterProps) {
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   //const [nseBseMenuSelect, setNseBseMenuSelect] = useState("nse");
   const [activeItem, setActiveItem] = useState<number | null>(0);
-  console.log("___selectTab", selectTab);
+  console.log("___selectTab", selectTab, "childMenuTabAcive", childMenuTabAcive);
   const nseBseMenu = (e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
     setNseBseMenuSelect(selectedMenu);
@@ -26,6 +33,7 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
     valuechange(indexid, name, slectedTab);
   };
   //console.log("___data", data);
+
   return (
     <>
       <div className={styles.filterWrap}>
@@ -59,7 +67,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>
@@ -71,7 +81,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>
@@ -92,7 +104,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>
@@ -104,7 +118,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>
@@ -125,7 +141,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>
@@ -137,7 +155,9 @@ export default function StockReportFilter({ data, onclick, valuechange, selectTa
                         <Fragment key={i}>
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""}`}
+                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                            }`}
                           >
                             {item.name}
                           </li>

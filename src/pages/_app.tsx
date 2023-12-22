@@ -81,7 +81,7 @@ const Container = (props) => {
     case "shortvideos":
       container = <ShortVideos {...data} />;
       break;
-    case "stockreports":
+    case "stockreportsplus":
       container = <StockReports {...data} />;
       break;
     case "stockreportscategory":

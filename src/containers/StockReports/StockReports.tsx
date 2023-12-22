@@ -12,25 +12,29 @@ import StockSrTabs from "components/StocksSRTabs";
 import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
+import StockReportsPlus from "components/StockReportsPlus";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
   //console.log("_______props", props);
   const stockData = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.data as any;
+  const reportsPlusFaq = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.faq as any;
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [stockReportActive, setStockReportActive] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [filterMenuTxtShow, setFilterMenuTxtShow] = useState(defaultFilterMenuTxt);
   const [stockDataFilter, setStockDataFilter] = useState(stockData);
   const [loader, setLoader] = useState(false);
+  const [srTabActivemenu, setSrTabActivemenu] = useState("overview");
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const tabData = props && props.tabs;
-  const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
+  //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
@@ -43,15 +47,8 @@ const StockReports: FC<PageProps> = (props) => {
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const APICallForFilterData = (id: any) => {
-    const _apiTypeValue =
-      activeMenu === "overview"
-        ? "overview"
-        : activeMenu === "stockscore"
-        ? "stockscore"
-        : activeMenu === "stockforecast"
-        ? "stockforecast"
-        : "";
+  const APICallForFilterData = (id: any, apitype: string) => {
+    const _apiTypeValue = srTabActivemenu || "";
     // $'{\"deviceId\":\"web\",\"filterType\":\"index\",\"filterValue\":[2371],\"pageno\":1,\"pagesize\":20,\"screenerId\":2530,\"sort\":[{\"displayName\":\"Last Traded Price\",\"field\":\"lastTradedPrice\",\"order\":\"asc\"}]}'
     const _id = id !== 0 ? [parseFloat(id)] : [];
     const dataBody = {
@@ -101,7 +98,8 @@ const StockReports: FC<PageProps> = (props) => {
     setShowFilter(false);
     console.log("ID", id, "Name", name);
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    APICallForFilterData(id);
+    //const apiType = srTabActivemenu;
+    //APICallForFilterData(id, apiType);
   };
   const filterApiCall = () => {
     fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
@@ -120,6 +118,18 @@ const StockReports: FC<PageProps> = (props) => {
         console.log("get error", err);
       });
   };
+  const srTabHandleClick = (apitype: string) => {
+    console.log("click tabs apitype", apitype);
+
+    if (apitype === "stockreports") {
+      setStockReportActive(true);
+      console.log("here go to stock page condtion here");
+    } else {
+      setStockReportActive(false);
+    }
+    setSrTabActivemenu(apitype);
+  };
+
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -138,6 +148,12 @@ const StockReports: FC<PageProps> = (props) => {
     window.customDimension = { ...window.customDimension, ...payload };
     menuChangeDataSet();
   }, [props]);
+  useEffect(() => {
+    const id = filterMenuTxtShow.id;
+    if (srTabActivemenu && srTabActivemenu !== "stockreports") {
+      APICallForFilterData(id, srTabActivemenu);
+    }
+  }, [srTabActivemenu, filterMenuTxtShow.id]);
 
   return (
     <>
@@ -148,72 +164,59 @@ const StockReports: FC<PageProps> = (props) => {
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )} */}
-        <StockSrTabs data={tabData} activeMenu={activeMenu} />
-        <StockTopBanner />
-        {stockDataFilter &&
-          stockDataFilter.length &&
-          stockDataFilter.map((item: any, index: any) => {
-            return (
-              <>
-                <div className={styles.stockReportsWrap}>
-                  <h2 className={styles.heading2}>
-                    {item.name}
-                    <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-                      {filterMenuTxtShow.name}
-                    </span>
-                  </h2>
+        <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
+        {!isPrimeUser && <StockTopBanner />}
 
-                  {item.type === "type-1" ? (
-                    <StockReportCard
-                      data={item.dataList}
-                      cardType="scoreCard"
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : item.type === "type-2" ? (
-                    <StockReportCard
-                      data={item.dataList}
-                      cardType="upgradeCard"
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : item.type === "type-3" ? (
-                    <StockReportUpside
-                      data={item.dataList}
-                      totalRecords={item.totalRecords}
-                      id={item.id}
-                      isPrimeUser={isPrimeUser}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <GreyDivider />
-              </>
-            );
-          })}
+        {!stockReportActive ? (
+          <Fragment>
+            {stockDataFilter &&
+              stockDataFilter.length &&
+              stockDataFilter.map((item: any, index: any) => {
+                return (
+                  <Fragment key={index}>
+                    <div className={styles.stockReportsWrap}>
+                      <h2 className={styles.heading2}>
+                        {item.name}
+                        <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
+                          {filterMenuTxtShow.name}
+                        </span>
+                      </h2>
 
-        {/* <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>
-            Top Score Companies{" "}
-            <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-              Nifty 50
-            </span>
-          </h2>
-          <StockReportCard data={seoData.breadcrumb} cardType="scoreCard" />
-        </div>
-        <GreyDivider />
-        <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>Score Upgrade</h2>
-          <StockReportCard data={seoData.breadcrumb} cardType="upgradeCard" />
-        </div>
-        <GreyDivider />
-        <div className={styles.stockReportsWrap}>
-          <h2 className={styles.heading2}>High Upside Stocks</h2>
-          <StockReportUpside data={seoData.breadcrumb} />
-        </div> */}
+                      {item.type === "type-1" ? (
+                        <StockReportCard
+                          data={item.dataList}
+                          cardType="scoreCard"
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : item.type === "type-2" ? (
+                        <StockReportCard
+                          data={item.dataList}
+                          cardType="upgradeCard"
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : item.type === "type-3" ? (
+                        <StockReportUpside
+                          data={item.dataList}
+                          totalRecords={item.totalRecords}
+                          id={item.id}
+                          isPrimeUser={isPrimeUser}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <GreyDivider />
+                  </Fragment>
+                );
+              })}
+          </Fragment>
+        ) : (
+          <StockReportsPlus isPrimeUser={isPrimeUser} faqdata={reportsPlusFaq} />
+        )}
 
         <BreadCrumb data={seoData.breadcrumb} />
         {!hideAds && (
@@ -228,6 +231,7 @@ const StockReports: FC<PageProps> = (props) => {
           onclick={showFilterMenu}
           valuechange={handleChagneData}
           selectTab={filterMenuTxtShow.slectedTab}
+          childMenuTabAcive={filterMenuTxtShow.id}
         />
       )}
       {loader && (

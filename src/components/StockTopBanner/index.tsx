@@ -1,6 +1,11 @@
 import styles from "./styles.module.scss";
 
 const StockTopBanner = () => {
+  const subscrineUserCta = () => {
+    const planPage = "here plan page goes here ";
+    //window.location.href = "/planpage";
+    console.log("__planPage", planPage);
+  };
   return (
     <>
       <div className={styles.bannerWraper}>
@@ -12,6 +17,9 @@ const StockTopBanner = () => {
             <li>Get Analyst Recommendations</li>
             <li>Generate Investment Ideas</li>
           </ul>
+          <span onClick={subscrineUserCta} className={styles.bannerCta}>
+            Subscribe to ET Prime
+          </span>
         </div>
       </div>
     </>
