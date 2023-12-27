@@ -1,12 +1,47 @@
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
+import Link from "next/link";
 
 interface FeatureSecProps {
   isPrimeUser?: number;
-  isLogin?: boolean;
+  isLogin?: number;
+  userName?: string;
+  loginHandler?: any;
 }
 
-export default function FeatureSec({ isPrimeUser, isLogin }: FeatureSecProps) {
+export default function FeatureSec({ isPrimeUser, isLogin, userName, loginHandler }: FeatureSecProps) {
+  const genRateData = () => {
+    if (isPrimeUser && isLogin) {
+      return (
+        <div className={styles.skipTrialUser}>
+          <span>{userName}, now </span> enjoy <strong>Stock Reports Plus</strong> worth <strong>₹1,499*</strong> offered
+          complimentary with your <span className={styles.redTxt}>ETPrime</span> membership
+          <p>
+            *As per competitive benchmarking of annual price. <a href="/terms-conditions">T&amp;C apply</a>
+          </p>
+        </div>
+      );
+    } else if (!isPrimeUser && isLogin) {
+      return (
+        <div className={styles.stockViewRepo}>
+          <span className={styles.sampleLinkData}>Still Curious?</span>
+          <Link href="/tata-consultancy-services-ltd/stockreports/reportid-8345.cms">
+            <a className={styles.smapleLinkAnchor} target="_blank">
+              View Sample Report
+            </a>
+          </Link>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.stockViewRepo}>
+          <span className={styles.loginBtn} onClick={() => loginHandler()}>
+            Login to View Sample Report
+          </span>
+        </div>
+      );
+    }
+  };
   return (
     <>
       <div className={styles.featureSec}>
@@ -29,21 +64,7 @@ export default function FeatureSec({ isPrimeUser, isLogin }: FeatureSecProps) {
               <p>of company and its peers through independent research, ratings, and market data</p>
             </li>
           </ul>
-          {isPrimeUser ? (
-            <div className={styles.skipTrialUser}>
-              <span>Sandeep, now </span> enjoy <strong>Stock Reports Plus</strong> worth <strong>₹1,499*</strong>{" "}
-              offered complimentary with your <span className={styles.redTxt}>ETPrime</span> membership
-              <p>
-                *As per competitive benchmarking of annual price. <a href="/terms-conditions">T&amp;C apply</a>
-              </p>
-            </div>
-          ) : (
-            <div className={styles.stockViewRepo}>
-              <span data-ru="/tata-consultancy-services-ltd/stockreports/reportid-8345.cms" className={styles.loginBtn}>
-                Login to View Sample Report
-              </span>
-            </div>
-          )}
+          {genRateData()}
         </div>
       </div>
     </>

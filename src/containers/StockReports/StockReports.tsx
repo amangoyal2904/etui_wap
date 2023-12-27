@@ -22,6 +22,8 @@ const StockReports: FC<PageProps> = (props) => {
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [userName, setUserName] = useState("");
   const [stockReportActive, setStockReportActive] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
@@ -37,7 +39,12 @@ const StockReports: FC<PageProps> = (props) => {
   //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
+      const userFullName = window.objUser?.info?.firstName
+        ? window.objUser.info.firstName + " " + window.objUser?.info?.lastName
+        : "";
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+      window.objUser?.info?.isLogged && setIsLoginUser(1);
+      setUserName(userFullName);
     });
   };
   const menuChangeDataSet = () => {
@@ -215,7 +222,12 @@ const StockReports: FC<PageProps> = (props) => {
               })}
           </Fragment>
         ) : (
-          <StockReportsPlus isPrimeUser={isPrimeUser} faqdata={reportsPlusFaq} />
+          <StockReportsPlus
+            isLoginUser={isLoginUser}
+            userName={userName}
+            isPrimeUser={isPrimeUser}
+            faqdata={reportsPlusFaq}
+          />
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />
