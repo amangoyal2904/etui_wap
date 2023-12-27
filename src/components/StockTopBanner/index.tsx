@@ -1,10 +1,9 @@
 import styles from "./styles.module.scss";
+import { goToPlanPage } from "../../utils/common";
 
 const StockTopBanner = () => {
   const subscrineUserCta = () => {
-    const planPage = "here plan page goes here ";
-    //window.location.href = "/planpage";
-    console.log("__planPage", planPage);
+    goToPlanPage();
   };
   return (
     <>

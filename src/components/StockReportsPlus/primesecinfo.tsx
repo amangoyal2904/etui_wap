@@ -1,13 +1,16 @@
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
 import LazyLoadImg from "../LazyLoad";
+import Link from "next/link";
 
 interface PrimeSecInfoProps {
   isPrimeUser?: number;
-  isLogin?: boolean;
+  isLogin?: number;
+  userName?: string;
+  goToPlanPage?: any;
 }
 
-export default function PrimeSecInfoSec({ isPrimeUser, isLogin }: PrimeSecInfoProps) {
+export default function PrimeSecInfoSec({ isPrimeUser, isLogin, userName, goToPlanPage }: PrimeSecInfoProps) {
   return (
     <>
       <section className={styles.etPrimeSec}>
@@ -20,14 +23,14 @@ export default function PrimeSecInfoSec({ isPrimeUser, isLogin }: PrimeSecInfoPr
               <strong className={styles.moreBold}> at no extra cost</strong>
             </h4>
             <div className={styles.btnSec}>
-              <button
-                className={styles.etBtnPrime}
-                data-url="/stockreport/plans.cms?dc=ETPMONSN5T&amp;track=stockreport"
-              >
+              <button className={styles.etBtnPrime} onClick={() => goToPlanPage()}>
                 View ETPrime Plans
               </button>
               <p className={styles.conditionText}>
-                *As per competitive benchmarking of annual price. <a href="/terms-conditions">T&amp;C apply</a>
+                *As per competitive benchmarking of annual price.
+                <Link href="/terms-conditions">
+                  <a target="_blank">T&amp;C apply</a>
+                </Link>
               </p>
             </div>
           </div>
