@@ -36,6 +36,7 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
@@ -61,7 +62,15 @@ const StockReports: FC<PageProps> = (props) => {
   });
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
-      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+      const __accessibleFeatures = window.objInts?.accessibleFeatures || [];
+      const __primeuser =
+        window.objInts.permissions.indexOf("subscribed") > -1 &&
+        __accessibleFeatures.length > 0 &&
+        __accessibleFeatures.indexOf("ETSRP") !== -1
+          ? 1
+          : 0;
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(__primeuser);
+      setAccessibleFeatures(__accessibleFeatures);
     });
   };
   const menuChangeDataSet = () => {

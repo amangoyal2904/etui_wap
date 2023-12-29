@@ -23,6 +23,7 @@ const StockReports: FC<PageProps> = (props) => {
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
   const [isPrimeUser, setIsPrimeUser] = useState(0);
   const [isLoginUser, setIsLoginUser] = useState(0);
+  const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [userName, setUserName] = useState("");
   const [stockReportActive, setStockReportActive] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -42,9 +43,17 @@ const StockReports: FC<PageProps> = (props) => {
       const userFullName = window.objUser?.info?.firstName
         ? window.objUser.info.firstName + " " + window.objUser?.info?.lastName
         : "";
-      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
+      const __accessibleFeatures = window.objInts?.accessibleFeatures || [];
+      const __primeuser =
+        window.objInts.permissions.indexOf("subscribed") > -1 &&
+        __accessibleFeatures.length > 0 &&
+        __accessibleFeatures.indexOf("ETSRP") !== -1
+          ? 1
+          : 0;
+      window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(__primeuser);
       window.objUser?.info?.isLogged && setIsLoginUser(1);
       setUserName(userFullName);
+      setAccessibleFeatures(__accessibleFeatures);
     });
   };
   const menuChangeDataSet = () => {
@@ -161,7 +170,7 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(id, srTabActivemenu);
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
-
+  console.log("____________accessibleFeatures", accessibleFeatures);
   return (
     <>
       <SEO {...seoData} />
