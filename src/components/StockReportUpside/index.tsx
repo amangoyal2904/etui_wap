@@ -12,7 +12,7 @@ interface StockSRCardProps {
 }
 
 export default function StockReportCard({ data, totalRecords, id, isPrimeUser }: StockSRCardProps) {
-  console.log("___isPrimeUser", isPrimeUser);
+  //console.log("___isPrimeUser", isPrimeUser);
   return (
     <>
       <div className={styles.cardWraper}>
@@ -36,7 +36,7 @@ export default function StockReportCard({ data, totalRecords, id, isPrimeUser }:
                   <GraphSecCard data={item.data} seoName={item.seoName} companyID={item.companyID} />
                 </div>
                 <div className={styles.rightSec}>
-                  <ReturnCard data={item.data} />
+                  <ReturnCard isPrimeUser={isPrimeUser} data={item.data} />
                 </div>
               </div>
             </div>

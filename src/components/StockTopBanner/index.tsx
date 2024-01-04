@@ -14,7 +14,7 @@ const StockTopBanner = () => {
           <ul className={styles.txtList}>
             <li>View Stock Ratings</li>
             <li>Get Analyst Recommendations</li>
-            <li>Generate Investment Ideas</li>
+            <li>Find New Trading Ideas</li>
           </ul>
           <span onClick={subscrineUserCta} className={styles.bannerCta}>
             Subscribe to ET Prime

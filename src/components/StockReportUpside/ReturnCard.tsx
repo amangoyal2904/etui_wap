@@ -2,9 +2,10 @@ import styles from "./styles.module.scss";
 
 interface ReturnCardProps {
   data: any[];
+  isPrimeUser: number;
 }
 
-export default function ReturnCard({ data }: ReturnCardProps) {
+export default function ReturnCard({ data, isPrimeUser }: ReturnCardProps) {
   const sr_targetVsCurrent = data.find((item) => item.keyId === "sr_targetVsCurrent").value;
   const calssUpDown = data.find((item) => item.keyId === "sr_targetVsCurrent").trend;
   const sr_priceTargetMean = data.find((item) => item.keyId === "sr_priceTargetMean").value;
@@ -19,11 +20,19 @@ export default function ReturnCard({ data }: ReturnCardProps) {
           </div>
           <div className={`${styles.card} ${styles.middleCard}`}>
             <div className={styles.txt}>1Y Target</div>
-            <div className={styles.value}>{sr_priceTargetMean}</div>
+            {isPrimeUser ? (
+              <div className={styles.value}>{sr_priceTargetMean}</div>
+            ) : (
+              <div className={styles.priceBlur}></div>
+            )}
           </div>
           <div className={`${styles.card} ${styles.bottomCard}`}>
             <div className={styles.txt}>Current Price</div>
-            <div className={styles.value}>{lastTradedPrice}</div>
+            {isPrimeUser ? (
+              <div className={styles.value}>{lastTradedPrice}</div>
+            ) : (
+              <div className={styles.priceBlur}></div>
+            )}
           </div>
         </div>
       </div>
