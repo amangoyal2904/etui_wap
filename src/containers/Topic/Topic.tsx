@@ -4,7 +4,7 @@ import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
-import { prepSeoListData } from "utils";
+import { prepSeoListData, updateDimension } from "utils";
 
 const Topic: FC<PageProps> = (props) => {
   const { seo = {}, version_control, parameters } = props || {};
