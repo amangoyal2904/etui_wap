@@ -3,7 +3,7 @@ import styles from "./QuickReads.module.scss";
 import { QuickReadsProps } from "types/quickReads";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
-import { getMSID } from "utils";
+import { getMSID, updateDimension } from "utils";
 import { grxEvent } from "utils/ga";
 import SEO from "components/SEO";
 import DfpAds from "components/Ad/DfpAds";
@@ -25,16 +25,17 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
 
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
-
   const router = useRouter();
   //const slides = props?.searchResult[0]?.data || [];
   seoData.title = slides[currentCardIndex].title + " - The Economic Times";
 
   const handlers = useSwipeable({
     onSwipedUp: () => {
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
       currentCardIndex + 1 < slides.length && setCurrentCardIndex(currentCardIndex + 1);
     },
     onSwipedDown: () => {
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
       currentCardIndex > 0 && setCurrentCardIndex(currentCardIndex - 1);
     },
     ...config
@@ -59,6 +60,7 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
     if (foundIndex !== -1 && currentCardIndex !== foundIndex) {
       setCurrentCardIndex(foundIndex);
     }
+    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
   }, []);
 
   useEffect(() => {

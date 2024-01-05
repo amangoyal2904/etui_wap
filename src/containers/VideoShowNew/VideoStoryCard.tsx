@@ -4,6 +4,8 @@ import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents, setGetPlayerConfig } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
 import { ET_WAP_URL, getSubsecString } from "utils/common";
+import { updateDimension } from "utils";
+
 declare global {
   interface Window {
     fromIframeNewVideo: any;
@@ -14,7 +16,15 @@ declare global {
   }
 }
 
-export default function VideoStoryCard({ result, subsecNames, index, didUserInteractionStart, pageViewMsids }) {
+export default function VideoStoryCard({
+  result,
+  subsecNames,
+  index,
+  didUserInteractionStart,
+  pageViewMsids,
+  parameters,
+  seo
+}) {
   const [isMoreShown, setIsMoreShown] = useState(index === 0);
   const videoStoryCardRef = useRef(null);
   const hideAds = result.hideAds == 1;
@@ -141,7 +151,13 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
             index > 0 && window.history.pushState({}, "", vidStoryUrl);
             if (pageViewMsids.indexOf(result.msid) === -1 && index > 0) {
               pageViewMsids.push(result.msid);
-              pageview(vidStoryUrl);
+              updateDimension({
+                url: vidStoryUrl,
+                pageName: parameters?.type,
+                msid: parameters.msid,
+                subsecnames: seo.subsecnames
+              });
+              //pageview(vidStoryUrl);
             }
           }
         },

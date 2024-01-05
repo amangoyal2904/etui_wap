@@ -28,35 +28,35 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
 
-    document.addEventListener(
-      "grxLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "grxLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //   );
 
-    document.addEventListener(
-      "gaLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "gaLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //   );
 
-    document.addEventListener(
-      "gtmLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "gtmLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //  );
   }, []);
 
   return (
@@ -192,6 +192,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             type="text/javascript"
             data-domain-script={`2e8261f2-d127-4191-b6f6-62ba7e124082${APP_ENV === "development" ? "-test" : ""}`}
           />
+          <Script id="cookielaw">
+            {`              
+            function OptanonWrapper() { }
+              `}
+          </Script>
 
           {/* <Script
             src="https://static.growthrx.in/js/v2/web-sdk.js"

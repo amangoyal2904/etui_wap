@@ -15,13 +15,15 @@ interface ListProps {
   query: string;
   data: TopicDataProps;
   showSynopsis: boolean;
+  parameters: any;
+  seo: any;
 }
 const tabsName = ["All", "News", "Videos"];
 let dfp_position = 0;
 let curpg = 1;
 
 const NewsCard = (props: ListProps) => {
-  const { data, showSynopsis, query, type }: ListProps = props;
+  const { data, showSynopsis, query, type, parameters, seo }: ListProps = props;
   const [isFetching, setIsFetching] = useState(false);
   const [tab, setTab] = useState(type || "all");
 
@@ -58,7 +60,7 @@ const NewsCard = (props: ListProps) => {
     curpg = 1; // reset on tab change
     const tab = tabName != "all" ? `/${tabName}` : "";
     window.history.pushState({}, "", `/topic/${query}${tab}`);
-    updateDimension();
+    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     const Query = query.replace(/-/g, "%20");
     setIsFetching(true);
     const res = await Service.get({
