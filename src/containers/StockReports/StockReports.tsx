@@ -205,6 +205,7 @@ const StockReports: FC<PageProps> = (props) => {
                           totalRecords={item.totalRecords}
                           id={item.id}
                           isPrimeUser={isPrimeUser}
+                          isLoginUser={isLoginUser}
                         />
                       ) : item.type === "type-2" ? (
                         <StockReportCard
@@ -213,6 +214,7 @@ const StockReports: FC<PageProps> = (props) => {
                           totalRecords={item.totalRecords}
                           id={item.id}
                           isPrimeUser={isPrimeUser}
+                          isLoginUser={isLoginUser}
                         />
                       ) : item.type === "type-3" ? (
                         <StockReportUpside
@@ -220,6 +222,7 @@ const StockReports: FC<PageProps> = (props) => {
                           totalRecords={item.totalRecords}
                           id={item.id}
                           isPrimeUser={isPrimeUser}
+                          isLoginUser={isLoginUser}
                         />
                       ) : (
                         ""

@@ -8,9 +8,10 @@ interface StockCardBoxProps {
   ratingBox: boolean;
   seoName: string;
   companyID: string;
+  isPrimeUser: number;
 }
 
-export default function StockReportBox({ data, ratingBox, seoName, companyID }: StockCardBoxProps) {
+export default function StockReportBox({ data, ratingBox, seoName, companyID, isPrimeUser }: StockCardBoxProps) {
   const sr_avgScore = data.find((item) => item.keyId === "sr_avgScore").value;
   const viewReportUrl = `https://economictimes.indiatimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
   return (
@@ -22,12 +23,19 @@ export default function StockReportBox({ data, ratingBox, seoName, companyID }: 
             <span className={styles.smallNo}>10</span>
           </div>
           <div className={styles.scoreTxt}>Stock Score</div>
-          <Link href={viewReportUrl}>
-            <a className={styles.reportSec} target="_blank">
+          {isPrimeUser ? (
+            <Link href={viewReportUrl}>
+              <a className={styles.reportSec} target="_blank">
+                <i className={styles.viewPdf}></i>
+                <span className={styles.reportTxt}>View Report</span>
+              </a>
+            </Link>
+          ) : (
+            <span className={styles.reportSec}>
               <i className={styles.viewPdf}></i>
               <span className={styles.reportTxt}>View Report</span>
-            </a>
-          </Link>
+            </span>
+          )}
         </div>
         {ratingBox ? <RatingBox /> : ""}
       </Fragment>

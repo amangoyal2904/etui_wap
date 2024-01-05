@@ -6,9 +6,10 @@ interface GraphSecProps {
   data: any[];
   seoName: string;
   companyID: string;
+  isPrimeUser: number;
 }
 
-export default function GraphSecCard({ data, seoName, companyID }: GraphSecProps) {
+export default function GraphSecCard({ data, seoName, companyID, isPrimeUser }: GraphSecProps) {
   const viewReportUrl = `https://economictimes.indiatimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
   const sr_analystScore = data.find((item) => item.keyId === "sr_recText").value;
   const sr_recCnt = data.find((item) => item.keyId === "sr_recCnt").value;
@@ -75,12 +76,19 @@ export default function GraphSecCard({ data, seoName, companyID }: GraphSecProps
           <div className={styles.btmTxt}>Strong Buy</div>
         </div>
       </div>
-      <Link href={viewReportUrl}>
-        <a className={styles.reportSec} target="_blank">
+      {isPrimeUser ? (
+        <Link href={viewReportUrl}>
+          <a className={styles.reportSec} target="_blank">
+            <i className={styles.viewPdf}></i>
+            <span className={styles.reportTxt}>View Report</span>
+          </a>
+        </Link>
+      ) : (
+        <span className={styles.reportSec}>
           <i className={styles.viewPdf}></i>
           <span className={styles.reportTxt}>View Report</span>
-        </a>
-      </Link>
+        </span>
+      )}
     </>
   );
 }
