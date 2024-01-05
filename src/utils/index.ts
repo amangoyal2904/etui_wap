@@ -8,6 +8,7 @@ declare global {
   interface Window {
     geolocation: number;
     customDimension: any;
+    grxDimension_cdp: any;
     geoinfo: {
       CountryCode: string;
       geolocation: string;
@@ -15,6 +16,13 @@ declare global {
     };
     opera?: string;
     MSStream?: string;
+    e$: {
+      jStorage: {
+        set(arg1: string, arg2: any): any;
+        get(arg1: string): any;
+        index: any;
+      };
+    };
   }
   interface objUser {
     info: {
@@ -304,18 +312,174 @@ export const createGAPageViewPayload = (payload = {}) => {
     console.log("Error in createGAPageViewPayload:", e);
   }
 };
-export const updateDimension = (dimensions = {}, payload = {}) => {
+export const appendZero = (num) => (num >= 0 && num < 10 ? "0" + num : num);
+
+export const getjStorageVal = (keyName) => {
+  let value = "";
+  try {
+    if (typeof window.e$ !== "undefined") {
+      value = window.e$.jStorage.get(keyName);
+    }
+  } catch (e) {
+    console.log("error", e);
+  }
+  return value;
+};
+
+export const fetchAdaptiveData = function () {
+  const referrer = document.referrer;
+  let trafficSource = "Direct";
+  if (getjStorageVal("etu_source")) {
+    trafficSource = getjStorageVal("etu_source");
+  } else if (referrer.indexOf("google") !== -1 || referrer.indexOf("bing") || referrer.indexOf("yahoo")) {
+    trafficSource = "Organic";
+  } else if (
+    referrer.indexOf("social") !== -1 ||
+    referrer.indexOf("facebook") ||
+    referrer.indexOf("linkedin") ||
+    referrer.indexOf("instagram") ||
+    referrer.indexOf("twitter")
+  ) {
+    trafficSource = "Social";
+  } else if (window.location.href.toLowerCase().indexOf("utm") !== -1) {
+    trafficSource = "Newsletter";
+  }
+  const loginStatus = getCookie("ssoid") ? "Logged In" : "Not Logged In";
+  const lastClick = getjStorageVal("etu_last_click") || "direct_landing_articleshow";
+  const dtObject = new Date(),
+    dt = dtObject.getFullYear() + "" + appendZero(dtObject.getMonth() + 1) + "" + appendZero(dtObject.getDate());
+  const key = "et_article_" + dt;
+  const articleReadCountToday = (getjStorageVal(key) || []).length;
+  let articleReadCountMonth = 0;
+  let paidArticleReadCountMonth: any = 0;
+  try {
+    const jstorageKeys = window.e$.jStorage.index();
+    jstorageKeys
+      .filter(function (key) {
+        return key.indexOf("et_article_") !== -1;
+      })
+      .forEach(function (key) {
+        articleReadCountMonth += getjStorageVal(key).length;
+      });
+    jstorageKeys
+      .filter(function (key) {
+        return key.indexOf("et_primearticle_") !== -1;
+      })
+      .forEach(function (key) {
+        paidArticleReadCountMonth += getjStorageVal(key) || 0;
+      });
+  } catch (e) {
+    console.log("error", e);
+  }
+  const paidArticleReadCountTodayKey = "et_primearticle_" + dt;
+  const paidArticleReadCountToday = getjStorageVal(paidArticleReadCountTodayKey) || 0;
+  const continuousPaywallHits = (getjStorageVal("et_continuousPaywalled") || []).length;
+  return {
+    trafficSource,
+    loginStatus,
+    lastClick,
+    articleReadCountToday,
+    articleReadCountMonth,
+    paidArticleReadCountToday,
+    paidArticleReadCountMonth,
+    continuousPaywallHits
+  };
+};
+
+export const updateDimension = ({
+  dimensions = {},
+  payload = {},
+  url = "",
+  type = "",
+  pageName = "",
+  msid = "",
+  subsecnames
+}) => {
   try {
     if (typeof window !== "undefined") {
       const sendEvent = () => {
         dimensions["dimension20"] = "PWA";
         window.customDimension = { ...window.customDimension, ...dimensions };
         createGAPageViewPayload(payload);
-        pageview(
-          (location.pathname + location.search).length > 1
-            ? (location.pathname + location.search).substr(1)
-            : location.pathname + location.search
-        );
+        const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
+        const isSubscribed =
+          typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
+        const nonAdPageArray = ["shortvideos", "quickreads"];
+        let isMonetizable = "y";
+        if (isSubscribed || nonAdPageArray.indexOf(pageName) !== -1) {
+          isMonetizable = "n";
+        }
+        const { trafficSource, lastClick } = fetchAdaptiveData();
+        window.grxDimension_cdp = {
+          url: window.location.href,
+          title: document.title,
+          referral_url: document.referrer,
+          platform: "pwa"
+        };
+        window.grxDimension_cdp["section_id"] =
+          (window.customDimension["dimension29"] && window.customDimension["dimension29"]) || "";
+        window.grxDimension_cdp["level_1"] =
+          (window.customDimension["dimension26"] && window.customDimension["dimension26"].toLowerCase()) || "";
+        window.grxDimension_cdp["level_full"] =
+          (window.customDimension["dimension27"] && window.customDimension["dimension27"].toLowerCase()) || "";
+        window.grxDimension_cdp["paywalled"] = window.customDimension["dimension59"] == "Yes" ? "y" : "n";
+        window.grxDimension_cdp["content_id"] =
+          (window.customDimension["msid"] && window.customDimension["msid"]) || msid;
+        window.grxDimension_cdp["last_click_source"] = lastClick || "";
+        window.grxDimension_cdp["source"] = trafficSource || "";
+        window.grxDimension_cdp["business"] = "et";
+        window.grxDimension_cdp["dark_mode"] = "n";
+        window.grxDimension_cdp["loggedin"] =
+          window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
+            ? "y"
+            : userInfo && userInfo.isLogged
+            ? "y"
+            : "n";
+        window.grxDimension_cdp["email"] = (userInfo && userInfo.primaryEmail) || "";
+        window.grxDimension_cdp["phone"] =
+          userInfo && userInfo.mobileData && userInfo.mobileData.Verified && userInfo.mobileData.Verified.mobile
+            ? userInfo.mobileData.Verified.mobile
+            : "";
+        window.grxDimension_cdp["subscription_status"] =
+          (window.customDimension["dimension37"] && window.customDimension["dimension37"].toLowerCase()) || "";
+        window.grxDimension_cdp["page_template"] =
+          (window.customDimension["dimension25"] && window.customDimension["dimension25"].toLowerCase()) ||
+          (pageName && pageName.toLowerCase());
+        window.grxDimension_cdp["subscription_type"] =
+          (typeof window.e$ != "undefined" &&
+            window.e$.jStorage &&
+            window.e$.jStorage.get("et_subscription_profile") &&
+            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type &&
+            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type.toLowerCase()) ||
+          "";
+        window.grxDimension_cdp["monetizable"] = isMonetizable;
+        const navigator: any = window.navigator;
+        window.grxDimension_cdp["browser_name"] = (navigator && navigator.sayswho) || "";
+        window.grxDimension_cdp["product"] =
+          (window.customDimension["dimension1"] && window.customDimension["dimension1"]) || "";
+        window.grxDimension_cdp["level_2"] = subsecnames.subsecname2 || "";
+        window.grxDimension_cdp["level_3"] = subsecnames.subsecname3 || "";
+        window.grxDimension_cdp["level_4"] = subsecnames.subsecname4 || "";
+        const utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search);
+        const utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source");
+        const utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium");
+        const utmCamp_dim = utmParams_dim.get && utmParams_dim.get("utm_campaign");
+        const campaign_id = utmParams_dim.get && utmParams_dim.get("campaign_id");
+        window.grxDimension_cdp["utm_source"] = utmSource_dim || "";
+        window.grxDimension_cdp["utm_medium"] = utmMedium_dim || "";
+        window.grxDimension_cdp["utm_campaign"] = utmCamp_dim || "";
+        window.grxDimension_cdp["campaign_id"] = campaign_id || "";
+        window.grxDimension_cdp["login_method"] = window.objInts.readCookie("LoginType") || "";
+
+        url
+          ? pageview(url, payload, type)
+          : pageview(
+              (location.pathname + location.search).length > 1
+                ? (location.pathname + location.search).substr(1)
+                : location.pathname + location.search,
+              payload,
+              type
+            );
       };
       const objUser = (window.objUser && window.objUser.info) || {};
       if (Object.keys(objUser).length) {

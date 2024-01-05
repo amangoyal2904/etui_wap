@@ -28,35 +28,35 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
 
-    document.addEventListener(
-      "grxLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "grxLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //   );
 
-    document.addEventListener(
-      "gaLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "gaLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //   );
 
-    document.addEventListener(
-      "gtmLoaded",
-      () => {
-        if (window.ga && window.grx && window.dataLayer) {
-          updateDimension();
-        }
-      },
-      { once: true }
-    );
+    //   document.addEventListener(
+    //     "gtmLoaded",
+    //     () => {
+    //       if (window.ga && window.grx && window.dataLayer) {
+    //         updateDimension();
+    //       }
+    //     },
+    //     { once: true }
+    //  );
   }, []);
 
   return (

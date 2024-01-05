@@ -4,7 +4,7 @@ import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { getPageSpecificDimensions, loadScript } from "utils";
+import { getPageSpecificDimensions, loadScript, updateDimension } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VideoStoryCard from "./VideoStoryCard";
@@ -126,7 +126,7 @@ const VideoShow: FC<PageProps> = (props) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
-            let nextVideoMsid = result.nextvideo;
+            let nextVideoMsid: any = result.nextvideo;
             if (nextVideoMsid) {
               const observer = new IntersectionObserver(([entry]) => {
                 if (
@@ -177,6 +177,7 @@ const VideoShow: FC<PageProps> = (props) => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload, dimension25: "videoshownew" };
+    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
   }, [props]);
 
   useEffect(() => {
@@ -215,6 +216,8 @@ const VideoShow: FC<PageProps> = (props) => {
             key={`vid_${i}`}
             didUserInteractionStart={didUserInteractionStart}
             pageViewMsids={pageViewMsids}
+            parameters={parameters}
+            seo={seo}
           />
         ))}
         {showLoaderNext && (
