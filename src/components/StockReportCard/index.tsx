@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useState, useRef } from "react";
 import styles from "./styles.module.scss";
 import StockReportBox from "../StockBox";
 import StockRightProps from "./ScoreUpgrade";
 import UpGradeCard from "./UpGradeCard";
 import BottomScore from "./BottomScore";
+import StockSRLoginBlocker from "../StockSRLoginBlocker";
 
 interface StockSRCardProps {
   data: { totalRecords: string; name: string; id: string }[];
@@ -12,19 +13,39 @@ interface StockSRCardProps {
   totalRecords?: string;
   id?: string;
   isPrimeUser?: number;
+  isLoginUser: any;
 }
 
-export default function StockReportCard({ data, cardType, totalRecords, id, isPrimeUser }: StockSRCardProps) {
+export default function StockReportCard({
+  data,
+  cardType,
+  totalRecords,
+  id,
+  isPrimeUser,
+  isLoginUser
+}: StockSRCardProps) {
   const _cardType = cardType;
   const ratingBox = _cardType && _cardType === "upgradeCard" ? true : false;
   const prevScore = _cardType && _cardType === "upgradeCard" ? true : false;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
+  const handleClick = (value: boolean) => {
+    //console.log("click to button");
+    setIsModalOpen(value);
+    if (value) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "visible";
+    }
+  };
 
+  const cardClickProps = !isPrimeUser ? { onClick: () => handleClick(true) } : {};
   return (
     <>
       <div className={styles.cardWraper}>
         {data.map((item: any, i: any) => (
           <Fragment key={i}>
-            <div className={`${styles.cardSec} ${prevScore ? styles.btt : ""}`}>
+            <div {...cardClickProps} className={`${styles.cardSec} ${prevScore ? styles.btt : ""}`}>
               {isPrimeUser ? (
                 <h2 className={styles.heading}>
                   <Link
@@ -43,6 +64,7 @@ export default function StockReportCard({ data, cardType, totalRecords, id, isPr
                     ratingBox={ratingBox}
                     seoName={item.seoName}
                     companyID={item.companyID}
+                    isPrimeUser={isPrimeUser}
                   />
                 </div>
                 <div className={styles.rightSec}>
@@ -73,6 +95,7 @@ export default function StockReportCard({ data, cardType, totalRecords, id, isPr
           </Link>
         )}
       </div>
+      {isModalOpen && <StockSRLoginBlocker isLoginUser={isLoginUser} handleClick={handleClick} />}
     </>
   );
 }

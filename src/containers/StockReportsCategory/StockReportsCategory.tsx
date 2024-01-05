@@ -36,6 +36,7 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [isLoginUser, setIsLoginUser] = useState(0);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -70,6 +71,7 @@ const StockReports: FC<PageProps> = (props) => {
           ? 1
           : 0;
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(__primeuser);
+      window.objUser?.info?.isLogged && setIsLoginUser(1);
       setAccessibleFeatures(__accessibleFeatures);
     });
   };
@@ -331,6 +333,7 @@ const StockReports: FC<PageProps> = (props) => {
                   cardType="scoreCard"
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
+                  isLoginUser={isLoginUser}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
@@ -338,9 +341,15 @@ const StockReports: FC<PageProps> = (props) => {
                   cardType="upgradeCard"
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
+                  isLoginUser={isLoginUser}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
-                <StockReportUpside data={stockDataFilter.dataList} totalRecords="0" isPrimeUser={isPrimeUser} />
+                <StockReportUpside
+                  data={stockDataFilter.dataList}
+                  totalRecords="0"
+                  isLoginUser={isLoginUser}
+                  isPrimeUser={isPrimeUser}
+                />
               ) : (
                 ""
               )}
