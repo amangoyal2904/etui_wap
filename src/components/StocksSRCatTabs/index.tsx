@@ -26,6 +26,11 @@ export default function StockSrCatTabs({ data, srTabsClick }: StockSRCatTabsProp
     <>
       <div className={styles.tabsWraper}>
         <ul>
+          <li>
+            <Link href={`/stockreports_benefits.cms`}>
+              <a>Overview</a>
+            </Link>
+          </li>
           {Array.isArray(tabsData) &&
             tabsData.map((item: any, i: any) => {
               return (
