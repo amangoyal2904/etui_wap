@@ -11,9 +11,17 @@ interface StockSRCardProps {
   id?: string;
   isPrimeUser?: number;
   isLoginUser: any;
+  overlayBlockerData: any;
 }
 
-export default function StockReportCard({ data, totalRecords, id, isPrimeUser, isLoginUser }: StockSRCardProps) {
+export default function StockReportCard({
+  data,
+  totalRecords,
+  id,
+  isPrimeUser,
+  isLoginUser,
+  overlayBlockerData
+}: StockSRCardProps) {
   //console.log("___isPrimeUser", isPrimeUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
@@ -70,7 +78,13 @@ export default function StockReportCard({ data, totalRecords, id, isPrimeUser, i
           </Link>
         )}
       </div>
-      {isModalOpen && <StockSRLoginBlocker isLoginUser={isLoginUser} handleClick={handleClick} />}
+      {isModalOpen && (
+        <StockSRLoginBlocker
+          overlayBlockerData={overlayBlockerData}
+          isLoginUser={isLoginUser}
+          handleClick={handleClick}
+        />
+      )}
     </>
   );
 }

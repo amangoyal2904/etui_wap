@@ -54,6 +54,8 @@ const StockReports: FC<PageProps> = (props) => {
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const tabData = props && props.tabs;
+  const stPlusBannerData = props && props.srpluscontent;
+  const overlayBlockerData = props && props.overlayBlocker;
   const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const [pageSummary, setPageSummary] = useState({
     pageno: parseFloat(defaultPageSummary.pageno),
@@ -319,7 +321,7 @@ const StockReports: FC<PageProps> = (props) => {
       <SEO {...seoData} />
       <div className={styles.mainContent}>
         <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
-        {!isPrimeUser && <StockTopBanner />}
+        {!isPrimeUser && <StockTopBanner data={stPlusBannerData} />}
         {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length && (
           <>
             <div className={styles.stockReportsWrap}>
@@ -340,6 +342,7 @@ const StockReports: FC<PageProps> = (props) => {
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
                   isLoginUser={isLoginUser}
+                  overlayBlockerData={overlayBlockerData}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
@@ -348,6 +351,7 @@ const StockReports: FC<PageProps> = (props) => {
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
                   isLoginUser={isLoginUser}
+                  overlayBlockerData={overlayBlockerData}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
                 <StockReportUpside
@@ -355,6 +359,7 @@ const StockReports: FC<PageProps> = (props) => {
                   totalRecords="0"
                   isLoginUser={isLoginUser}
                   isPrimeUser={isPrimeUser}
+                  overlayBlockerData={overlayBlockerData}
                 />
               ) : (
                 ""

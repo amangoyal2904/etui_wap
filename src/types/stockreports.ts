@@ -58,6 +58,18 @@ export interface PageProps {
     name: string;
     apiType: string;
   }[];
+  srpluscontent: {
+    listItem: any;
+    head: string;
+    ctaTxt: string;
+  };
+  overlayBlocker: {
+    textForData: string;
+    textForReport: string;
+    ctaText: string;
+    textBenefits: string;
+    discCoupon: string;
+  };
 }
 
 export interface StockOverViewProps {

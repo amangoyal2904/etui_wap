@@ -14,6 +14,7 @@ interface StockSRCardProps {
   id?: string;
   isPrimeUser?: number;
   isLoginUser: any;
+  overlayBlockerData: any;
 }
 
 export default function StockReportCard({
@@ -22,7 +23,8 @@ export default function StockReportCard({
   totalRecords,
   id,
   isPrimeUser,
-  isLoginUser
+  isLoginUser,
+  overlayBlockerData
 }: StockSRCardProps) {
   const _cardType = cardType;
   const ratingBox = _cardType && _cardType === "upgradeCard" ? true : false;
@@ -95,7 +97,13 @@ export default function StockReportCard({
           </Link>
         )}
       </div>
-      {isModalOpen && <StockSRLoginBlocker isLoginUser={isLoginUser} handleClick={handleClick} />}
+      {isModalOpen && (
+        <StockSRLoginBlocker
+          overlayBlockerData={overlayBlockerData}
+          isLoginUser={isLoginUser}
+          handleClick={handleClick}
+        />
+      )}
     </>
   );
 }
