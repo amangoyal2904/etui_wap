@@ -140,10 +140,11 @@ const StockReports: FC<PageProps> = (props) => {
           setLoader(false);
           throw new Error("Network response was not ok.");
         }
+        //console.log("__________call api", response);
         return response.json();
       })
       .then((data) => {
-        console.log("Response data:", data);
+        //console.log("Response data:", data);
         setLoader(false);
         const sortValue = data.requestObj.sort[0].field;
         const displayName = data.allowSortFields.find((item) => item.id === sortValue)?.displayName;
@@ -229,12 +230,13 @@ const StockReports: FC<PageProps> = (props) => {
       .then((response) => {
         if (!response.ok) {
           setLoader(false);
+          //console.log("yes call api for this ______", response);
           throw new Error("Network response was not ok.");
         }
         return response.json();
       })
       .then((data) => {
-        console.log("Response data:", data);
+        // console.log("Response data:", data);
         setLoader(false);
         const onlyData = data.dataList;
         setPageSummary((prevPageSummary) => ({
@@ -259,6 +261,9 @@ const StockReports: FC<PageProps> = (props) => {
     if (id !== defaultScreenerId) {
       router.push(`stockreportscategory/screenerid-${id}.cms`, undefined, { shallow: true });
       setDefaultScreenerId(id);
+      const filterID = filterMenuTxtShow.id;
+      console.log("___here call default id ", filterID);
+      APICallForFilterData(filterID);
     }
   };
   useEffect(() => {
@@ -304,10 +309,11 @@ const StockReports: FC<PageProps> = (props) => {
       }
     };
   }, [lastElementRef, pageSummary]);
-  useEffect(() => {
-    const filterID = filterMenuTxtShow.id;
-    APICallForFilterData(filterID);
-  }, [defaultScreenerId]);
+  // useEffect(() => {
+  //   const filterID = filterMenuTxtShow.id;
+  //   console.log("___here call default id ", filterID);
+  //   APICallForFilterData(filterID);
+  // }, [defaultScreenerId]);
   return (
     <>
       <SEO {...seoData} />

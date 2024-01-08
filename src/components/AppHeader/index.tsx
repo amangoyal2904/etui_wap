@@ -20,7 +20,6 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
   const store = useSelector((state: AppState) => state);
   const { appHeader } = store;
   let requestIdleCallbackId = 0;
-
   useEffect(() => {
     if ("requestIdleCallback" in window) {
       requestIdleCallbackId = window.requestIdleCallback(
@@ -95,7 +94,7 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
             </span>
           </div>
         )}
-        {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar />}
+        {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar page={page} />}
       </header>
       <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}

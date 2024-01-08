@@ -10,11 +10,11 @@ const StockTopBanner = () => {
       <div className={styles.bannerWraper}>
         <div className={styles.leftSec}></div>
         <div className={styles.rightSec}>
-          <div className={styles.topTxt}>Stock Analysis Now Get Simplified</div>
+          <div className={styles.topTxt}>Stock Analysis Now Gets Simplified</div>
           <ul className={styles.txtList}>
-            <li>View Stock Ratings</li>
-            <li>Get Analyst Recommendations</li>
-            <li>Find New Trading Ideas</li>
+            <li>Track weekly stock scores, ratings & forecast</li>
+            <li>Comprehensive peer level analysis</li>
+            <li>Get analyst recommendations. </li>
           </ul>
           <span onClick={subscrineUserCta} className={styles.bannerCta}>
             Subscribe to ET Prime

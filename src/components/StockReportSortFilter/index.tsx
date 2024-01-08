@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import styles from "./styles.module.scss";
 
 interface StockSRSortFilterProps {
@@ -18,6 +18,7 @@ export default function StockReportSortFilter({
   const [sortMenuSelected, setSortMenuSelected] = useState({ ...defaultActiveTabData });
   const [sortIconClass, setSortIconClass] = useState(defaultActiveTabData.sort);
   const [displayname, setDisplayname] = useState("");
+  const modalRef = useRef(null);
   const sortIconChangeHandler = () => {
     const revertClass = sortIconClass === "desc" ? "asc" : "desc";
     setSortIconClass(revertClass);
@@ -37,10 +38,23 @@ export default function StockReportSortFilter({
   const applyHandler = () => {
     sortApplyHandler(sortMenuSelected.id, sortMenuSelected.sort, sortMenuSelected.displayname);
   };
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        oncloseMenu(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <div className={styles.filterWrap}>
-        <div className={styles.filterSection}>
+        <div className={styles.filterSection} ref={modalRef}>
           <div className={styles.topSec}>
             <span>Sort by</span>
             <div

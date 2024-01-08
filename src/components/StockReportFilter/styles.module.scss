@@ -99,6 +99,9 @@
       .subMenu {
         .subMenuItem {
           display: block;
+          .mainTxt {
+            font-weight: 600;
+          }
           .activelist {
             display: block;
           }
@@ -128,7 +131,7 @@
     position: relative;
     font-size: 14px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     line-height: normal;
     color: rgba(0, 0, 0, 0.7);
     text-transform: capitalize;
