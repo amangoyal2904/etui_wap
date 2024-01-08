@@ -33,7 +33,7 @@ export default function StockSRLoginBlocker({ isLoginUser, handleClick }: StockS
       <div className={styles.loginWrap}>
         <div className={styles.loginSec} ref={modalRef}>
           <div className={styles.etPrimeLogo}></div>
-          <div className={styles.textMember}>Exclusive stock reports are accessible for ET Prime Member Only.</div>
+          <div className={styles.textMember}>Exclusive stock reports are accessible for ETPrime Member Only.</div>
           <div className={styles.textMember2}>Become a member & unlock all the data and reports now.</div>
           <div className={styles.subBtn}>
             <span className={styles.subLink} onClick={() => goToPlanPage()}>
@@ -48,7 +48,7 @@ export default function StockSRLoginBlocker({ isLoginUser, handleClick }: StockS
               </p>
             )}
           </div>
-          <div className={styles.footerTxt}>Special Offer: Flat 20% off on ET Prime</div>
+          {/* <div className={styles.footerTxt}>Special Offer: Flat 20% off on ETPrime</div> */}
         </div>
       </div>
     </>

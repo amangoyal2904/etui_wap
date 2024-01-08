@@ -101,7 +101,7 @@ const StockReports: FC<PageProps> = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Response data:", data);
+        //console.log("Response data:", data);
         setLoader(false);
         setStockDataFilter(data);
       })
@@ -170,7 +170,7 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(id, srTabActivemenu);
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
-  console.log("____________accessibleFeatures", accessibleFeatures);
+  //console.log("____________accessibleFeatures", accessibleFeatures);
   return (
     <>
       <SEO {...seoData} />
