@@ -7,14 +7,26 @@ import { APP_ENV } from "../../utils";
 interface StockSRLoginBlockerProps {
   isLoginUser: any;
   handleClick: any;
+  overlayBlockerData: {
+    textForData: string;
+    textForReport: string;
+    ctaText: string;
+    textBenefits: string;
+    discCoupon: string;
+  };
 }
 
-export default function StockSRLoginBlocker({ isLoginUser, handleClick }: StockSRLoginBlockerProps) {
+export default function StockSRLoginBlocker({
+  isLoginUser,
+  handleClick,
+  overlayBlockerData
+}: StockSRLoginBlockerProps) {
   const modalRef = useRef(null);
   const loginHandler = () => {
     const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
     return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
   };
+  //console.log("overlayBlockerData", overlayBlockerData);
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -33,11 +45,11 @@ export default function StockSRLoginBlocker({ isLoginUser, handleClick }: StockS
       <div className={styles.loginWrap}>
         <div className={styles.loginSec} ref={modalRef}>
           <div className={styles.etPrimeLogo}></div>
-          <div className={styles.textMember}>Exclusive stock reports are accessible for ETPrime Member Only.</div>
-          <div className={styles.textMember2}>Become a member & unlock all the data and reports now.</div>
+          <div className={styles.textMember}>{overlayBlockerData.textForData}</div>
+          <div className={styles.textMember2}>{overlayBlockerData.textBenefits}</div>
           <div className={styles.subBtn}>
             <span className={styles.subLink} onClick={() => goToPlanPage()}>
-              Subscribe Now
+              {overlayBlockerData.ctaText}
             </span>
             {!isLoginUser && (
               <p>
@@ -48,7 +60,7 @@ export default function StockSRLoginBlocker({ isLoginUser, handleClick }: StockS
               </p>
             )}
           </div>
-          {/* <div className={styles.footerTxt}>Special Offer: Flat 20% off on ETPrime</div> */}
+          <div className={styles.footerTxt}>{overlayBlockerData.discCoupon}</div>
         </div>
       </div>
     </>

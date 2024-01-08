@@ -37,6 +37,8 @@ const StockReports: FC<PageProps> = (props) => {
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
   const tabData = props && props.tabs;
+  const stPlusBannerData = props && props.srpluscontent;
+  const overlayBlockerData = props && props.overlayBlocker;
   //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
@@ -181,7 +183,7 @@ const StockReports: FC<PageProps> = (props) => {
           </div>
         )} */}
         <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
-        {!isPrimeUser && <StockTopBanner />}
+        {!isPrimeUser && <StockTopBanner data={stPlusBannerData} />}
 
         {!stockReportActive ? (
           <Fragment>
@@ -206,6 +208,7 @@ const StockReports: FC<PageProps> = (props) => {
                           id={item.id}
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
+                          overlayBlockerData={overlayBlockerData}
                         />
                       ) : item.type === "type-2" ? (
                         <StockReportCard
@@ -215,6 +218,7 @@ const StockReports: FC<PageProps> = (props) => {
                           id={item.id}
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
+                          overlayBlockerData={overlayBlockerData}
                         />
                       ) : item.type === "type-3" ? (
                         <StockReportUpside
@@ -223,6 +227,7 @@ const StockReports: FC<PageProps> = (props) => {
                           id={item.id}
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
+                          overlayBlockerData={overlayBlockerData}
                         />
                       ) : (
                         ""

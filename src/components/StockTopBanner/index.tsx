@@ -1,23 +1,35 @@
 import styles from "./styles.module.scss";
 import { goToPlanPage } from "../../utils/common";
 
-const StockTopBanner = () => {
+interface StockTopBannerProps {
+  data: {
+    head: any;
+    ctaTxt: string;
+    listItem: any;
+  };
+}
+
+const StockTopBanner = ({ data }: StockTopBannerProps) => {
   const subscrineUserCta = () => {
     goToPlanPage();
   };
+  //console.log("data", data);
   return (
     <>
       <div className={styles.bannerWraper}>
         <div className={styles.leftSec}></div>
         <div className={styles.rightSec}>
-          <div className={styles.topTxt}>Stock Analysis Now Gets Simplified</div>
+          <div className={styles.topTxt}>{data.head}</div>
           <ul className={styles.txtList}>
-            <li>Track weekly stock scores, ratings & forecast</li>
-            <li>Comprehensive peer level analysis</li>
-            <li>Get analyst recommendations. </li>
+            {data &&
+              data.listItem &&
+              data.listItem.length &&
+              data.listItem.map((item: any) => {
+                return <li key={item}>{item}</li>;
+              })}
           </ul>
           <span onClick={subscrineUserCta} className={styles.bannerCta}>
-            Subscribe to ET Prime
+            {data.ctaTxt}
           </span>
         </div>
       </div>
