@@ -16,7 +16,8 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const lastUrlPart: string = all?.slice(-1).toString();
   const msid = getMSID(lastUrlPart);
   const stockapitype = getStockAPITYPE(all);
-  const screenerid = getScreenerID(all);
+  const screenerid = getScreenerID(all, "screenerid");
+  const filterid = getScreenerID(all, "filterid");
   let page = pageType(resolvedUrl, msid, all);
   const api = APIS_CONFIG.FEED;
 
@@ -44,7 +45,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   }
 
   if (!["notfound"].includes(page)) {
-    const moreParams = prepareMoreParams({ all, page, msid, stockapitype, screenerid });
+    const moreParams = prepareMoreParams({ all, page, msid, stockapitype, screenerid, filterid });
 
     //==== gets page data =====
     const apiType = page === "videoshownew" ? "videoshow" : page;
@@ -52,7 +53,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
       api,
       params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
     });
-    // console.log("__resultstockapitype", result);
+    //console.log("__resultstockapitype", result);
     response = result.data;
 
     if (response && response.error) {
