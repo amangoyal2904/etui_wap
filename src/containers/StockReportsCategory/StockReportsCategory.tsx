@@ -172,7 +172,16 @@ const StockReports: FC<PageProps> = (props) => {
   };
   const handleChagneData = (id: any, name: string, slectedTab: string) => {
     setShowFilter(false);
-    console.log("ID", id, "Name", name);
+    const urlNode = {
+      filter: id,
+      filterSeoName: name,
+      screenerid: defaultScreenerId,
+      seoNodeName: stockDataFilter.screenerDetail.name
+    };
+    console.log("Filter ID", urlNode);
+    const stockSeoName =
+      urlNode && urlNode.seoNodeName !== "" ? urlNode.seoNodeName?.trim().replace(/\s/g, "").toLowerCase() : "";
+    const filterSeoName = name && name !== "" ? name?.trim().replace(/\s/g, "").toLowerCase() : "";
 
     setFilterMenuTxtShow((preData: any) => ({
       ...preData,
@@ -181,9 +190,19 @@ const StockReports: FC<PageProps> = (props) => {
       slectedTab: slectedTab
     }));
 
-    const filterID = filterMenuTxtShow.id;
+    router.push(
+      `markets/stockreportsplus/${stockSeoName}-${filterSeoName}/stockreportscategory/screenerid-${defaultScreenerId},filter-${id}.cms`,
+      undefined,
+      { shallow: true }
+    );
 
-    APICallForFilterData(filterID);
+    //setDefaultScreenerId(id);
+    //APICallForFilterData(filterID, id);
+
+    //const filterID = filterMenuTxtShow.id;
+    //srTabsHandlerClick(id, name);
+    // here get Seo Filer Name and ID screener id and filter id then call api
+    //APICallForFilterData(filterID);
   };
 
   const filterApiCall = () => {
@@ -325,11 +344,17 @@ const StockReports: FC<PageProps> = (props) => {
   }, [lastElementRef, pageSummary]);
   useEffect(() => {
     const filterID = filterMenuTxtShow.id;
-    console.log("___here call default id ", filterID, defaultScreenerId, screenerIdDefault);
-    if (screenerIdDefault != defaultScreenerId) {
+    console.log("_________________here call default id ", {
+      filterID,
+      defaultScreenerId,
+      screenerIdDefault,
+      defaultFilterMenuTxt
+    });
+    if (screenerIdDefault != defaultScreenerId || defaultFilterMenuTxt.id != filterID) {
       APICallForFilterData(filterID);
     }
-  }, [defaultScreenerId]);
+  }, [defaultScreenerId, filterMenuTxtShow.id]);
+  //console.log("defaultFilterMenuTxt", defaultFilterMenuTxt);
   return (
     <>
       <SEO {...seoData} />
