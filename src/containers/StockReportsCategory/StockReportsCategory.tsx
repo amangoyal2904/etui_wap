@@ -34,6 +34,7 @@ const StockReports: FC<PageProps> = (props) => {
   const observer = useRef<IntersectionObserver>();
   const lastElementRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [isPrimeUser, setIsPrimeUser] = useState(0);
   const [isLoginUser, setIsLoginUser] = useState(0);
@@ -260,14 +261,25 @@ const StockReports: FC<PageProps> = (props) => {
       });
   };
   const srTabsHandlerClick = (id: any, name: string) => {
+    const stockSeoName = name && name !== "" ? name?.trim().replace(/\s/g, "").toLowerCase() : "";
+    const filterSeoName =
+      filterMenuTxtShow && filterMenuTxtShow.name && filterMenuTxtShow.name !== ""
+        ? filterMenuTxtShow?.name?.trim().replace(/\s/g, "").toLowerCase()
+        : "";
+
     if (id !== defaultScreenerId) {
-      router.push(`stockreportscategory/screenerid-${id}.cms`, undefined, { shallow: true });
-      setDefaultScreenerId(id);
+      router.push(
+        `markets/stockreportsplus/${stockSeoName}-${filterSeoName}/stockreportscategory/screenerid-${id},filter-${filterMenuTxtShow.id}.cms`,
+        undefined,
+        { shallow: true }
+      );
       const filterID = filterMenuTxtShow.id;
       console.log("___here call default id ", filterID);
-      APICallForFilterData(filterID);
+      setDefaultScreenerId(id);
+      //APICallForFilterData(filterID, id);
     }
   };
+  console.log("_____filterMenuTxtShow", filterMenuTxtShow);
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -311,11 +323,13 @@ const StockReports: FC<PageProps> = (props) => {
       }
     };
   }, [lastElementRef, pageSummary]);
-  // useEffect(() => {
-  //   const filterID = filterMenuTxtShow.id;
-  //   console.log("___here call default id ", filterID);
-  //   APICallForFilterData(filterID);
-  // }, [defaultScreenerId]);
+  useEffect(() => {
+    const filterID = filterMenuTxtShow.id;
+    console.log("___here call default id ", filterID, defaultScreenerId, screenerIdDefault);
+    if (screenerIdDefault != defaultScreenerId) {
+      APICallForFilterData(filterID);
+    }
+  }, [defaultScreenerId]);
   return (
     <>
       <SEO {...seoData} />
@@ -343,6 +357,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isPrimeUser={isPrimeUser}
                   isLoginUser={isLoginUser}
                   overlayBlockerData={overlayBlockerData}
+                  stockname={stockDataFilter.screenerDetail.name}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
@@ -352,6 +367,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isPrimeUser={isPrimeUser}
                   isLoginUser={isLoginUser}
                   overlayBlockerData={overlayBlockerData}
+                  stockname={stockDataFilter.screenerDetail.name}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
                 <StockReportUpside
@@ -360,6 +376,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isLoginUser={isLoginUser}
                   isPrimeUser={isPrimeUser}
                   overlayBlockerData={overlayBlockerData}
+                  stockname={stockDataFilter.screenerDetail.name}
                 />
               ) : (
                 ""

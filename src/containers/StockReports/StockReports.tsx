@@ -13,6 +13,7 @@ import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
 import StockReportsPlus from "components/StockReportsPlus";
+import { grxEvent, pageview } from "utils/ga";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -147,8 +148,24 @@ const StockReports: FC<PageProps> = (props) => {
     }
     setSrTabActivemenu(apitype);
   };
-
+  /**
+   * Fires tracking events.
+   * for sample
+   */
+  const handleClickForGRX = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: "title",
+        event_action: `Click-Show More`,
+        event_label: `heretitleofPageLable`
+      },
+      1
+    );
+    //pageview("https://etnext.economictimes.com/stockreports_benefits.cms");
+  };
   useEffect(() => {
+    //handleClickForGRX();
     if (typeof window.objInts !== "undefined") {
       intsCallback();
     } else {
@@ -209,6 +226,7 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
+                          stockname={item.name}
                         />
                       ) : item.type === "type-2" ? (
                         <StockReportCard
@@ -219,6 +237,7 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
+                          stockname={item.name}
                         />
                       ) : item.type === "type-3" ? (
                         <StockReportUpside
@@ -228,6 +247,7 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
+                          stockname={item.name}
                         />
                       ) : (
                         ""

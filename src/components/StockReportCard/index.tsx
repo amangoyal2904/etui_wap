@@ -15,6 +15,7 @@ interface StockSRCardProps {
   isPrimeUser?: number;
   isLoginUser: any;
   overlayBlockerData: any;
+  stockname: string;
 }
 
 export default function StockReportCard({
@@ -24,13 +25,15 @@ export default function StockReportCard({
   id,
   isPrimeUser,
   isLoginUser,
-  overlayBlockerData
+  overlayBlockerData,
+  stockname
 }: StockSRCardProps) {
   const _cardType = cardType;
   const ratingBox = _cardType && _cardType === "upgradeCard" ? true : false;
   const prevScore = _cardType && _cardType === "upgradeCard" ? true : false;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
+  const stockSeoName = stockname && stockname !== "" ? stockname?.trim().replace(/\s/g, "").toLowerCase() : "";
   const handleClick = (value: boolean) => {
     //console.log("click to button");
     setIsModalOpen(value);
@@ -90,7 +93,10 @@ export default function StockReportCard({
           </Fragment>
         ))}
         {totalRecords && totalRecords !== "0" && (
-          <Link href={`/markets/stockreportscategory/screenerid-${id}.cms`}>
+          <Link
+            data-href={`/markets/stockreportscategory/screenerid-${id}.cms`}
+            href={`/markets/stockreportsplus/${stockSeoName}-nifty500/stockreportscategory/screenerid-${id},filter-2371.cms`}
+          >
             <a className={styles.viewAllCta}>
               <span>View All {totalRecords} stocks</span>
             </a>
