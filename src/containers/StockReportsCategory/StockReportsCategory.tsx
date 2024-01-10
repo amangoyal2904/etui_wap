@@ -36,8 +36,8 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
-  const [isPrimeUser, setIsPrimeUser] = useState(1);
-  const [isLoginUser, setIsLoginUser] = useState(1);
+  const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [isLoginUser, setIsLoginUser] = useState(0);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
