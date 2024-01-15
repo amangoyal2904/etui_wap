@@ -44,11 +44,7 @@ const Meta = (props: SEOProps) => {
       <>
         <title>{removeBackSlash(data.title)}</title>
         <meta name="keywords" content={data.keywords} />
-        <link
-          rel="shortcut icon"
-          href={`https://m.economictimes.com/icons/${hostid && hostid == 317 ? "hindi" : "et"}favicon.ico`}
-          type="image/x-icon"
-        />
+        <link rel="shortcut icon" href={`https://m.economictimes.com/favicon.ico`} type="image/x-icon" />
         <meta httpEquiv="content-language" content={hostid && hostid == 317 ? "hi" : "en"} />
         {data.news_keywords && <meta name="news_keywords" content={data.news_keywords} />}
         <meta name="description" content={removeBackSlash(data.description)} />
