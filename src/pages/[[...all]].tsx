@@ -53,7 +53,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
       api,
       params: { type: apiType, platform: "wap", feedtype: "etjson", ...moreParams }
     });
-    //console.log("__resultstockapitype", result);
+    //  console.log("__resultstockapitype", result);
     response = result.data;
 
     if (response && response.error) {

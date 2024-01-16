@@ -69,7 +69,7 @@ const StockReports: FC<PageProps> = (props) => {
   const APICallForFilterData = (id: any, apitype: string) => {
     const _apiTypeValue = srTabActivemenu || "";
     // $'{\"deviceId\":\"web\",\"filterType\":\"index\",\"filterValue\":[2371],\"pageno\":1,\"pagesize\":20,\"screenerId\":2530,\"sort\":[{\"displayName\":\"Last Traded Price\",\"field\":\"lastTradedPrice\",\"order\":\"asc\"}]}'
-    const _id = id !== 0 ? [parseFloat(id)] : [];
+    const _id = id && id !== 0 ? [parseFloat(id)] : [];
     const dataBody = {
       deviceId: "web",
       filterType: "index",
@@ -86,7 +86,7 @@ const StockReports: FC<PageProps> = (props) => {
       ]
     };
     const APIURL = "https://screener.indiatimes.com/screener/stockReportAllTabs";
-    const postData = { apiType: _apiTypeValue, filterType: "index", filterValue: _id };
+    const postData = { apiType: _apiTypeValue, filterType: "index", filterValue: _id, deviceId: "web" };
     const requestOptions = {
       method: "POST",
       headers: {
@@ -189,7 +189,7 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(id, srTabActivemenu);
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
-  //console.log("____________accessibleFeatures", accessibleFeatures);
+  //console.log("____________stockDataFilter", filterMenuTxtShow.id);
   return (
     <>
       <SEO {...seoData} />
@@ -211,7 +211,9 @@ const StockReports: FC<PageProps> = (props) => {
                   <Fragment key={index}>
                     <div className={styles.stockReportsWrap}>
                       <h2 className={styles.heading2}>
-                        {item.name}
+                        {item.filterScreenerName && item.filterScreenerName !== ""
+                          ? item.filterScreenerName
+                          : item.name}
                         <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
                           {filterMenuTxtShow.name}
                         </span>
@@ -227,6 +229,8 @@ const StockReports: FC<PageProps> = (props) => {
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
                           stockname={item.name}
+                          filterSeoName={item.filterSeoName}
+                          filterId={filterMenuTxtShow.id}
                         />
                       ) : item.type === "type-2" ? (
                         <StockReportCard
@@ -238,6 +242,8 @@ const StockReports: FC<PageProps> = (props) => {
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
                           stockname={item.name}
+                          filterSeoName={item.filterSeoName}
+                          filterId={filterMenuTxtShow.id}
                         />
                       ) : item.type === "type-3" ? (
                         <StockReportUpside
@@ -248,6 +254,8 @@ const StockReports: FC<PageProps> = (props) => {
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
                           stockname={item.name}
+                          filterSeoName={item.filterSeoName}
+                          filterId={filterMenuTxtShow.id}
                         />
                       ) : (
                         ""

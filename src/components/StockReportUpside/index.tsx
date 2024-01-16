@@ -13,6 +13,8 @@ interface StockSRCardProps {
   isLoginUser: any;
   overlayBlockerData: any;
   stockname: string;
+  filterSeoName?: string;
+  filterId?: any;
 }
 
 export default function StockReportCard({
@@ -22,12 +24,19 @@ export default function StockReportCard({
   isPrimeUser,
   isLoginUser,
   overlayBlockerData,
-  stockname
+  stockname,
+  filterSeoName,
+  filterId
 }: StockSRCardProps) {
   //console.log("___isPrimeUser", isPrimeUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
-  const stockSeoName = stockname && stockname !== "" ? stockname?.trim().replace(/\s/g, "").toLowerCase() : "";
+  const seoNameGenrate = stockname && stockname !== "" ? stockname?.trim().replace(/\s/g, "-").toLowerCase() : "";
+
+  const stockSeoname =
+    filterSeoName && filterSeoName !== ""
+      ? `/markets/stockreportsplus/${filterSeoName}/stockreportscategory/screenerid-${id},filter-2371.cms`
+      : `/markets/stockreportsplus/${seoNameGenrate}/stockreportscategory/screenerid-${id},filter-2371.cms`;
   const handleClick = (value: boolean) => {
     //console.log("click to button");
     setIsModalOpen(value);
@@ -74,10 +83,7 @@ export default function StockReportCard({
           </Fragment>
         ))}
         {totalRecords && totalRecords !== "0" && (
-          <Link
-            data-href={`/markets/stockreportscategory/screenerid-${id}.cms`}
-            href={`/markets/stockreportsplus/${stockSeoName}-nifty500/stockreportscategory/screenerid-${id},filter-2371.cms`}
-          >
+          <Link href={stockSeoname}>
             <a className={styles.viewAllCta}>
               <span>View All {totalRecords} stocks</span>
             </a>
