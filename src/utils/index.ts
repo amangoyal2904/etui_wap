@@ -163,7 +163,7 @@ export const prepareMoreParams = ({ all, page, msid, stockapitype, screenerid, f
   }
 
   if (page === "stockreportsplus") {
-    moreParams.stockapitype = stockapitype;
+    moreParams.stockapitype = stockapitype || "overview";
     delete moreParams.msid;
   }
   if (page === "stockreportscategory") {
@@ -183,11 +183,32 @@ export const getStockAPITYPE = (all: any) => {
 };
 export const getScreenerID = (all: any, type: string) => {
   const elementWithApitype = all.find((item: any) => item.includes("screenerid-"));
-
+  const splitElementWithApitype = elementWithApitype && elementWithApitype.split(",");
+  const screeneridString =
+    splitElementWithApitype &&
+    splitElementWithApitype
+      .filter((item) => item.includes("screenerid-"))
+      .map((item) => {
+        const match = item.match(/screenerid-(\d+)/);
+        return match ? match[1] : null;
+      })
+      .filter((id) => id !== null);
+  const filteridString =
+    splitElementWithApitype &&
+    splitElementWithApitype
+      .filter((item) => item.includes("filter-"))
+      .map((item) => {
+        const match = item.match(/filter-(\d+)/);
+        return match ? match[1] : null;
+      })
+      .filter((id) => id !== null);
   if (type === "screenerid") {
-    return elementWithApitype ? elementWithApitype.split(",")[0].split("-")[1] : "";
+    //console.log("_____________elementWithApitype", splitElementWithApitype, "__screeneridString", screeneridString[0]);
+    return screeneridString && screeneridString.length ? screeneridString[0] : "";
+    // return elementWithApitype ? elementWithApitype.split(",")[0].split("-")[1] : "";
   } else if (type === "filterid") {
-    return elementWithApitype ? elementWithApitype.split(",")[1].split("-")[1].split(".")[0] : "";
+    return filteridString && filteridString.length ? filteridString[0] : "";
+    // return elementWithApitype ? elementWithApitype.split(",")[1].split("-")[1].split(".")[0] : "";
   }
 
   //return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";

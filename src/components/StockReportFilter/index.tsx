@@ -7,7 +7,7 @@ interface StockSRFilterProps {
   onclick: (value: boolean) => void;
   valuechange: (id: string, name: string, slectedTab: string) => void;
   selectTab: string;
-  childMenuTabAcive: string;
+  childMenuTabAcive?: string;
 }
 
 export default function StockReportFilter({
@@ -20,7 +20,8 @@ export default function StockReportFilter({
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   //const [nseBseMenuSelect, setNseBseMenuSelect] = useState("nse");
   const [activeItem, setActiveItem] = useState<number | null>(0);
-  console.log("___selectTab", selectTab, "childMenuTabAcive", childMenuTabAcive);
+  const childTabMenuActive = childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
+  // console.log("___selectTab", selectTab, "childMenuTabAcive", childMenuTabAcive);
   const nseBseMenu = (e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
     setNseBseMenuSelect(selectedMenu);
@@ -68,7 +69,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}
@@ -82,7 +83,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}
@@ -105,7 +106,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}
@@ -119,7 +120,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}
@@ -142,7 +143,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}
@@ -156,7 +157,7 @@ export default function StockReportFilter({
                           <li
                             onClick={() => clickFilterMenu(item.name, item.indexId)}
                             className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childMenuTabAcive === item.indexId ? styles.selectedMenu : ""
+                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
                             }`}
                           >
                             {item.name}

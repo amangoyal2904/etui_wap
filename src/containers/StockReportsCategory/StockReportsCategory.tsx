@@ -36,8 +36,8 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -164,11 +164,25 @@ const StockReports: FC<PageProps> = (props) => {
           totalRecords: data.pageSummary.totalRecords,
           totalpages: data.pageSummary.totalpages
         }));
+        const urlData = {
+          seoName: data.screenerDetail.filterSeoName || data.screenerDetail.seoName,
+          filterid: data.screenerDetail.filterValue || ""
+        };
+        urlUpdateHandler(urlData);
       })
       .catch((error) => {
         setLoader(false);
         console.error("There was a problem with the fetch operation:", error);
       });
+  };
+  const urlUpdateHandler = (urlData: any) => {
+    const stockSeoName = urlData.seoName;
+    const id = urlData.filterid;
+    const urlGenrate =
+      id && id !== ""
+        ? `markets/stockreportsplus/${stockSeoName}/stockreportscategory/screenerid-${defaultScreenerId},filter-${id}.cms`
+        : `markets/stockreportsplus/${stockSeoName}/stockreportscategory/screenerid-${defaultScreenerId}.cms`;
+    router.push(urlGenrate, undefined, { shallow: true });
   };
   const handleChagneData = (id: any, name: string, slectedTab: string) => {
     setShowFilter(false);
@@ -189,12 +203,6 @@ const StockReports: FC<PageProps> = (props) => {
       id: id,
       slectedTab: slectedTab
     }));
-
-    router.push(
-      `markets/stockreportsplus/${stockSeoName}-${filterSeoName}/stockreportscategory/screenerid-${defaultScreenerId},filter-${id}.cms`,
-      undefined,
-      { shallow: true }
-    );
 
     //setDefaultScreenerId(id);
     //APICallForFilterData(filterID, id);
@@ -354,7 +362,7 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(filterID);
     }
   }, [defaultScreenerId, filterMenuTxtShow.id]);
-  //console.log("defaultFilterMenuTxt", defaultFilterMenuTxt);
+  // console.log("_______stockDataFilter", stockDataFilter);
   return (
     <>
       <SEO {...seoData} />
@@ -364,14 +372,18 @@ const StockReports: FC<PageProps> = (props) => {
         {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length && (
           <>
             <div className={styles.stockReportsWrap}>
-              <h2 className={styles.heading2}>{stockDataFilter.screenerDetail.name}</h2>
-              <div className={styles.catFilterWraper}>
-                <span className={styles.sortFilter} onClick={showSortFilter}>
-                  sort
-                </span>
-                <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-                  {filterMenuTxtShow.name}
-                </span>
+              <div className={styles.topHeadingSec}>
+                <h2 className={styles.heading2}>
+                  {stockDataFilter.screenerDetail.filterScreenerName || stockDataFilter.screenerDetail.name}
+                </h2>
+                <div className={styles.catFilterWraper}>
+                  <span className={styles.sortFilter} onClick={showSortFilter}>
+                    sort
+                  </span>
+                  <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
+                    {filterMenuTxtShow.name}
+                  </span>
+                </div>
               </div>
 
               {stockDataFilter.screenerDetail.srPlusType === "type-1" ? (
@@ -383,6 +395,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isLoginUser={isLoginUser}
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
+                  filterSeoName={stockDataFilter.filterSeoName}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
@@ -393,6 +406,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isLoginUser={isLoginUser}
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
+                  filterSeoName={stockDataFilter.filterSeoName}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
                 <StockReportUpside
@@ -402,6 +416,7 @@ const StockReports: FC<PageProps> = (props) => {
                   isPrimeUser={isPrimeUser}
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
+                  filterSeoName={stockDataFilter.filterSeoName}
                 />
               ) : (
                 ""
