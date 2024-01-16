@@ -232,7 +232,8 @@ const StockReports: FC<PageProps> = (props) => {
   };
   const fetchDataMore = () => {
     const pageNumberValue = pageSummary.pageno + 1;
-    const id = parseFloat(filterMenuTxtShow.id) !== 0 ? [parseFloat(filterMenuTxtShow.id)] : [];
+    const id =
+      filterMenuTxtShow.id !== "" && parseFloat(filterMenuTxtShow.id) !== 0 ? [parseFloat(filterMenuTxtShow.id)] : [];
     const bodyPostData = {
       deviceId: "web",
       filterType: "index",
@@ -247,6 +248,7 @@ const StockReports: FC<PageProps> = (props) => {
         }
       ]
     };
+    //console.log("___ body", bodyPostData, filterMenuTxtShow);
     const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
     const requestOptions = {
       method: "POST",
@@ -301,12 +303,12 @@ const StockReports: FC<PageProps> = (props) => {
         { shallow: true }
       );
       const filterID = filterMenuTxtShow.id;
-      console.log("___here call default id ", filterID);
+      // console.log("___here call default id ", filterID);
       setDefaultScreenerId(id);
       //APICallForFilterData(filterID, id);
     }
   };
-  console.log("_____filterMenuTxtShow", filterMenuTxtShow);
+  //console.log("_____filterMenuTxtShow", filterMenuTxtShow);
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -334,7 +336,7 @@ const StockReports: FC<PageProps> = (props) => {
       (entries) => {
         if (entries[0].isIntersecting && pageSummary.pageno !== pageSummary.totalpages) {
           fetchDataMore(); // Call the fetchData function when the observed element is intersecting
-          //console.log("___________entries___________", entries, pageSummary);
+          // console.log("___________entries___________", entries, pageSummary);
         }
       },
       { threshold: 1 }
@@ -362,7 +364,7 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(filterID);
     }
   }, [defaultScreenerId, filterMenuTxtShow.id]);
-  // console.log("_______stockDataFilter", stockDataFilter);
+  //console.log("_______pageSummary", pageSummary);
   return (
     <>
       <SEO {...seoData} />
