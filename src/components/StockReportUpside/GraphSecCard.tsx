@@ -10,7 +10,7 @@ interface GraphSecProps {
 }
 
 export default function GraphSecCard({ data, seoName, companyID, isPrimeUser }: GraphSecProps) {
-  const viewReportUrl = `https://economictimes.indiatimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
+  const viewReportUrl = `https://m.economictimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
   const sr_analystScore = data.find((item) => item.keyId === "sr_recText").value;
   const sr_recCnt = data.find((item) => item.keyId === "sr_recCnt").value;
   const recoByCount = Math.round(sr_recCnt);

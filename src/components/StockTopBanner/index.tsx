@@ -1,5 +1,6 @@
 import styles from "./styles.module.scss";
 import { goToPlanPage } from "../../utils/common";
+import { grxEvent } from "utils/ga";
 
 interface StockTopBannerProps {
   data: {
@@ -7,12 +8,23 @@ interface StockTopBannerProps {
     ctaTxt: string;
     listItem: any;
   };
+  srTabActivemenu?: string;
 }
 
-const StockTopBanner = ({ data }: StockTopBannerProps) => {
+const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
   const subscrineUserCta = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: `Subscription Flow ET`,
+        event_action: `Flow Started`,
+        event_label: `SR+ ${srTabActivemenu} Subscribe to ETPrime`
+      },
+      1
+    );
     goToPlanPage();
   };
+
   //console.log("data", data);
   return (
     <>

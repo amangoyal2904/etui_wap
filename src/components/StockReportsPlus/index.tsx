@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import GreyDivider from "components/GreyDivider";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import ShowSearchUISec from "./showsearchui";
 import APIS_CONFIG from "../../network/config.json";
 import { APP_ENV } from "../../utils";
 import { goToPlanPage } from "../../utils/common";
+import { grxEvent } from "utils/ga";
 
 interface StockReportsPlusProps {
   data?: { title: string; item: any }[];
@@ -35,7 +36,28 @@ export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUs
 
   const loginHandler = () => {
     const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+    grxEvent(
+      "event",
+      {
+        event_category: "Subscription Flow",
+        event_action: `Subscribe Now`,
+        event_label: `Stock Report  - Proposition Page`
+      },
+      1
+    );
     return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
+  };
+  const planPageHandler = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: "Subscription Flow",
+        event_action: `Subscribe Now`,
+        event_label: `Stock Report  - Proposition Page`
+      },
+      1
+    );
+    goToPlanPage();
   };
 
   const userBaseDataGen = () => {
@@ -48,7 +70,7 @@ export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUs
     } else if (!isPrimeUser && isLoginUser) {
       return (
         <div className={styles.btnTextWraper}>
-          <button onClick={() => goToPlanPage()}>Subscribe To et prime</button>
+          <button onClick={planPageHandler}>Subscribe To et prime</button>
           <p>
             Already subscribed?<span className={styles.linkAnchor}>Restore Purchase</span>
           </p>
@@ -57,7 +79,7 @@ export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUs
     } else {
       return (
         <div className={styles.btnTextWraper}>
-          <button onClick={() => goToPlanPage()}>Subscribe Now</button>
+          <button onClick={planPageHandler}>Subscribe Now</button>
           <p>
             Already a Member?
             <span className={styles.linkAnchor} onClick={loginHandler}>
@@ -68,10 +90,47 @@ export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUs
       );
     }
   };
+  const trackedSections = document.querySelectorAll(".topSec1, .topSec2, .topSec3, .topSec4, .topSec5");
+  const trackedSectionSet = new Set();
+  const handleIntersection = (entries) => {
+    entries.forEach((entry) => {
+      const { target } = entry;
+      if (entry.isIntersecting && !trackedSectionSet.has(target)) {
+        trackGAEvent(target.className);
+        trackedSectionSet.add(target);
+      }
+    });
+  };
+  const trackGAEvent = (sectionClassName) => {
+    // =====
+    const getClassName = getSectionNumber(sectionClassName);
+    console.log(`Track GA Event for ${getClassName}`);
+    grxEvent(
+      "event",
+      {
+        event_category: "Stock Report  - Proposition Page' : 'Stock Report - Viewer",
+        event_action: `Scroll`,
+        event_label: `${getClassName}`
+      },
+      1
+    );
+  };
+  const getSectionNumber = (classname: string) => {
+    const match = classname.match(/topSec(\d+)/);
+    return match ? parseInt(match[1], 10) : null;
+  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.5 });
+    trackedSections.forEach((section) => observer.observe(section));
+    // Clean up the Intersection Observer when the component is unmounted
+    return () => {
+      trackedSections.forEach((section) => observer.unobserve(section));
+    };
+  }, []);
   return (
     <>
-      <div className={styles.topSec}>
-        <div className={styles.stock_wrapper}>
+      <div className={`${styles.topSec} topSec1`}>
+        <div className={`${styles.stock_wrapper}`}>
           <div className={styles.topHead}>
             <span className={`${styles.topHeadInner} ${styles.stockReportsSprite}`}></span>
           </div>

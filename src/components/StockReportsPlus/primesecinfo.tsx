@@ -13,7 +13,7 @@ interface PrimeSecInfoProps {
 export default function PrimeSecInfoSec({ isPrimeUser, isLogin, userName, goToPlanPage }: PrimeSecInfoProps) {
   return (
     <>
-      <section className={styles.etPrimeSec}>
+      <section className={`${styles.etPrimeSec} topSec3`}>
         <div className={styles.stockWrapper}>
           <div className={styles.ctaSec}>
             <h4 className={styles.ctaHead}>
