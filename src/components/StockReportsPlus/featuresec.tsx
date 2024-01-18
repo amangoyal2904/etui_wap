@@ -44,7 +44,7 @@ export default function FeatureSec({ isPrimeUser, isLogin, userName, loginHandle
   };
   return (
     <>
-      <div className={styles.featureSec}>
+      <div className={`${styles.featureSec} topSec2`}>
         <div className={styles.stock_wrapper}>
           <div className={styles.smallHead}>FEATURES &amp; BENEFITS</div>
           <div className={styles.boxHead}>What you get with Stock Reports Plus?</div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { grxEvent } from "utils/ga";
 
 interface ReportSliderProps {
   isPrimeUser?: number;
@@ -58,12 +59,23 @@ export default function ReportSliderSec() {
         console.log("Error found slider api nifty 50", error);
       });
   };
+  const gaTrackHandler = (companyName: string) => {
+    grxEvent(
+      "event",
+      {
+        event_category: "Stock Report  - Proposition Page",
+        event_action: `Select Company`,
+        event_label: `widget- ${companyName}`
+      },
+      1
+    );
+  };
   useEffect(() => {
     fetchData();
   }, []);
   return (
     <>
-      <div className={styles.reportsSlider}>
+      <div className={`${styles.reportsSlider} topSec4`}>
         <div className={styles.companiesBg}>
           <h3 className={styles.heading}>
             Start Exploring
@@ -77,7 +89,7 @@ export default function ReportSliderSec() {
                 {stockData.map((item: any, index: number) => {
                   const formattedAmount = formatIndianRupees(item.current);
                   return (
-                    <div key={index} className={styles.listLi}>
+                    <div key={index} className={styles.listLi} onClick={() => gaTrackHandler(item.companyName)}>
                       <Link href={`/${item.seoName}/stockreports/reportid-${item.companyId}.cms`}>
                         <a target="_blank">
                           <span className={styles.compName}>{item.companyName}</span>

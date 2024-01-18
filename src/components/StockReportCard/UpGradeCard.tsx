@@ -31,7 +31,7 @@ export default function UpGradeCard({ data }: StockRightProps) {
           <p>Earnings</p>
           <div className={styles.graphBg}>
             <span className={`${styles.valueBox} ${styles[earningsClass]}`} style={{ left: `${earningsScore}0%` }}>
-              {earningsScore}
+              {earningsScore === 0 ? <span className={styles.navalue}>NA</span> : earningsScore}
             </span>
           </div>
         </div>
@@ -42,7 +42,7 @@ export default function UpGradeCard({ data }: StockRightProps) {
               className={`${styles.valueBox} ${styles[fundamentalsClass]}`}
               style={{ left: `${fundamentalsScore}0%` }}
             >
-              {fundamentalsScore}
+              {fundamentalsScore === 0 ? <span className={styles.navalue}>NA</span> : fundamentalsScore}
             </span>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function UpGradeCard({ data }: StockRightProps) {
               className={`${styles.valueBox} ${styles[relativeValuationClass]}`}
               style={{ left: `${relativeValuationScore}0%` }}
             >
-              {relativeValuationScore}
+              {relativeValuationScore === 0 ? <span className={styles.navalue}>NA</span> : relativeValuationScore}
             </span>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default function UpGradeCard({ data }: StockRightProps) {
           <p>Risk</p>
           <div className={styles.graphBg}>
             <span className={`${styles.valueBox} ${styles[riskScoreClass]}`} style={{ left: `${riskScore}0%` }}>
-              {riskScore}
+              {riskScore === 0 ? <span className={styles.navalue}>NA</span> : riskScore}
             </span>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function UpGradeCard({ data }: StockRightProps) {
               className={`${styles.valueBox} ${styles[priceMomentumClass]}`}
               style={{ left: `${priceMomentumScore}0%` }}
             >
-              {priceMomentumScore}
+              {priceMomentumScore === 0 ? <span className={styles.navalue}>NA</span> : priceMomentumScore}
             </span>
           </div>
         </div>

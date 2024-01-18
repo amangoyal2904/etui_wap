@@ -161,6 +161,11 @@
         line-height: 16px;
         top: -6px;
         margin-left: -8px;
+        .navalue {
+          font-size: 8px;
+          display: inline-block;
+          vertical-align: top;
+        }
       }
       .valueBox.up {
         background: #009060;

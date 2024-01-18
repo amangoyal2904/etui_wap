@@ -13,7 +13,8 @@ import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
 import StockReportsPlus from "components/StockReportsPlus";
-import { grxEvent, pageview } from "utils/ga";
+import { grxEvent } from "utils/ga";
+import Link from "next/link";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -22,8 +23,8 @@ const StockReports: FC<PageProps> = (props) => {
   const reportsPlusFaq = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.faq as any;
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [userName, setUserName] = useState("");
   const [stockReportActive, setStockReportActive] = useState(false);
@@ -116,6 +117,15 @@ const StockReports: FC<PageProps> = (props) => {
   const handleChagneData = (id: any, name: string, slectedTab: string) => {
     setShowFilter(false);
     console.log("ID", id, "Name", name);
+    grxEvent(
+      "event",
+      {
+        event_category: "SR+ Home Page",
+        event_action: `${name} - Index Filter`,
+        event_label: window.location.href
+      },
+      1
+    );
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
     //const apiType = srTabActivemenu;
     //APICallForFilterData(id, apiType);
@@ -176,7 +186,22 @@ const StockReports: FC<PageProps> = (props) => {
       document.removeEventListener("objIntsLoaded", intsCallback);
     };
   }, []);
-
+  useEffect(() => {
+    (async () => {
+      const filterValue = (await sessionStorage.getItem("sr_filtervalue")) || "";
+      const filterName = (await sessionStorage.getItem("sr_filtername")) || "";
+      const filterTab = (await sessionStorage.getItem("sr_filtertab")) || "";
+      if (filterValue !== "" && filterName !== "" && filterTab !== "") {
+        setFilterMenuTxtShow((preData: any) => ({
+          ...preData,
+          name: filterName,
+          id: filterValue,
+          slectedTab: filterTab
+        }));
+      }
+      // console.log("________F__i__l__t___e___rMenuTxtShow", filterMenuTxtShow, filterValue, filterName, filterTab);
+    })();
+  }, []);
   useEffect(() => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
@@ -190,6 +215,7 @@ const StockReports: FC<PageProps> = (props) => {
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
   //console.log("____________stockDataFilter", filterMenuTxtShow.id);
+  console.log("__FilterMenu________________TxtShow", filterMenuTxtShow);
   return (
     <>
       <SEO {...seoData} />
@@ -200,20 +226,33 @@ const StockReports: FC<PageProps> = (props) => {
           </div>
         )} */}
         <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
-        {!isPrimeUser && <StockTopBanner data={stPlusBannerData} />}
+        {!isPrimeUser && <StockTopBanner data={stPlusBannerData} srTabActivemenu={srTabActivemenu} />}
 
         {!stockReportActive ? (
           <Fragment>
             {stockDataFilter &&
               stockDataFilter.length &&
               stockDataFilter.map((item: any, index: any) => {
+                const seoNameGenrate =
+                  item.name && item.name !== "" ? item.name?.trim().replace(/\s/g, "-").toLowerCase() : "";
+                const filterNumber =
+                  filterMenuTxtShow.id && filterMenuTxtShow.id !== "" ? parseFloat(filterMenuTxtShow.id) : "";
+                const filterIdSeo =
+                  filterNumber && filterMenuTxtShow.id !== "" ? `,filter-${filterNumber}.cms` : `.cms`;
+                const stockSeoname =
+                  item.filterSeoName && item.filterSeoName !== ""
+                    ? `/markets/stockreportsplus/${item.filterSeoName}/stockreportscategory/screenerid-${item.id}${filterIdSeo}`
+                    : `/markets/stockreportsplus/${seoNameGenrate}/stockreportscategory/screenerid-${item.id}${filterIdSeo}`;
+
                 return (
                   <Fragment key={index}>
                     <div className={styles.stockReportsWrap}>
                       <h2 className={styles.heading2}>
-                        {item.filterScreenerName && item.filterScreenerName !== ""
-                          ? item.filterScreenerName
-                          : item.name}
+                        <Link href={stockSeoname}>
+                          {item.filterScreenerName && item.filterScreenerName !== ""
+                            ? item.filterScreenerName
+                            : item.name}
+                        </Link>
                         <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
                           {filterMenuTxtShow.name}
                         </span>
@@ -228,9 +267,14 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
-                          stockname={item.name}
+                          stockname={
+                            item.filterScreenerName && item.filterScreenerName !== ""
+                              ? item.filterScreenerName
+                              : item.name
+                          }
                           filterSeoName={item.filterSeoName}
                           filterId={filterMenuTxtShow.id}
+                          srTabActivemenu={srTabActivemenu}
                         />
                       ) : item.type === "type-2" ? (
                         <StockReportCard
@@ -241,9 +285,14 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
-                          stockname={item.name}
+                          stockname={
+                            item.filterScreenerName && item.filterScreenerName !== ""
+                              ? item.filterScreenerName
+                              : item.name
+                          }
                           filterSeoName={item.filterSeoName}
                           filterId={filterMenuTxtShow.id}
+                          srTabActivemenu={srTabActivemenu}
                         />
                       ) : item.type === "type-3" ? (
                         <StockReportUpside
@@ -253,9 +302,14 @@ const StockReports: FC<PageProps> = (props) => {
                           isPrimeUser={isPrimeUser}
                           isLoginUser={isLoginUser}
                           overlayBlockerData={overlayBlockerData}
-                          stockname={item.name}
+                          stockname={
+                            item.filterScreenerName && item.filterScreenerName !== ""
+                              ? item.filterScreenerName
+                              : item.name
+                          }
                           filterSeoName={item.filterSeoName}
                           filterId={filterMenuTxtShow.id}
+                          srTabActivemenu={srTabActivemenu}
                         />
                       ) : (
                         ""

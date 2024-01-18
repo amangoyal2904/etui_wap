@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
 import styles from "./styles.module.scss";
 import Link from "next/link";
+import { grxEvent } from "utils/ga";
 
 interface ShowSearchUIProps {
   isPrimeUser?: number;
@@ -23,6 +24,15 @@ export default function ShowSearchUISec({ oncloseSearch }: ShowSearchUIProps) {
   // Function to call your API
   const fetchSearchResults = useCallback(async (term) => {
     try {
+      grxEvent(
+        "event",
+        {
+          event_category: "Stock Report  - Proposition Page",
+          event_action: `Search Company on proposition page`,
+          event_label: `${term}`
+        },
+        1
+      );
       const APIURL = `https://etsearch.indiatimes.com/etspeeds/ethome.ep?ticker=${term}&matchCompanyName=true&realstate=false&pp=false&dvr=false&idr=false&trust=false&mcx=false&mf=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&pagesize=6&language=&outputtype=json`;
       const response = await fetch(APIURL);
       const data = await response.json();
@@ -33,7 +43,17 @@ export default function ShowSearchUISec({ oncloseSearch }: ShowSearchUIProps) {
     }
   }, []);
   const debouncedFetch = useCallback(debounce(fetchSearchResults, 500), [fetchSearchResults]);
-
+  const gaHandlerClick = (companyName: string) => {
+    grxEvent(
+      "event",
+      {
+        event_category: "Stock Report  - Proposition Page",
+        event_action: `Select Company`,
+        event_label: `${companyName}`
+      },
+      1
+    );
+  };
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchTerm(value);
@@ -73,7 +93,7 @@ export default function ShowSearchUISec({ oncloseSearch }: ShowSearchUIProps) {
           </div>
           <ul className={styles.resultListItem}>
             {searchResults.map((result, index) => (
-              <li key={index}>
+              <li key={index} onClick={() => gaHandlerClick(result.tagName)}>
                 <Link href={`/${result.tagSeoName}/stockreports/reportid-${result.tagId}.cms`}>
                   <a target="_blank">{highlightMatch(result.tagName, searchTerm)}</a>
                 </Link>

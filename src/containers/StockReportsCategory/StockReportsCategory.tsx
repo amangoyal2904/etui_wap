@@ -14,6 +14,8 @@ import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
 import StockReportSortFilter from "components/StockReportSortFilter";
+import StockCatTabNoDataFound from "components/StockSRNoDataFound";
+import { grxEvent } from "utils/ga";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -36,8 +38,8 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -105,7 +107,15 @@ const StockReports: FC<PageProps> = (props) => {
       sort: newSort,
       displayName: newDisplayName
     };
-
+    grxEvent(
+      "event",
+      {
+        event_category: "SR+ Details Page",
+        event_action: `${newDisplayName} - Index Filter`,
+        event_label: window.location.href
+      },
+      1
+    );
     APICallForFilterData(filterID, postData);
   };
   const showFilterMenu = (value: boolean) => {
@@ -147,15 +157,18 @@ const StockReports: FC<PageProps> = (props) => {
         return response.json();
       })
       .then((data) => {
-        //console.log("Response data:", data);
+        // console.log("Response data:_____", data);
         setLoader(false);
         const sortValue = data.requestObj.sort[0].field;
-        const displayName = data.allowSortFields.find((item) => item.id === sortValue)?.displayName;
+        const displayName = data.allowSortFields
+          ? data.allowSortFields.find((item) => item.id === sortValue)?.displayName
+          : "";
         setSortApplyFilterValue({
           id: data.requestObj.sort[0].field,
           sort: data.requestObj.sort[0].order,
           displayname: displayName
         });
+        // console.log("StockDataFilter:_____", stockDataFilter);
         setStockDataFilter(data);
         setPageSummary((prevPageSummary) => ({
           ...prevPageSummary,
@@ -192,7 +205,19 @@ const StockReports: FC<PageProps> = (props) => {
       screenerid: defaultScreenerId,
       seoNodeName: stockDataFilter.screenerDetail.name
     };
-    console.log("Filter ID", urlNode);
+    grxEvent(
+      "event",
+      {
+        event_category: "SR+ Details Page",
+        event_action: `${name} - Index Filter`,
+        event_label: window.location.href
+      },
+      1
+    );
+    //console.log("Filter ID", urlNode);
+    sessionStorage.setItem("sr_filtervalue", id);
+    sessionStorage.setItem("sr_filtername", name);
+    sessionStorage.setItem("sr_filtertab", slectedTab);
     const stockSeoName =
       urlNode && urlNode.seoNodeName !== "" ? urlNode.seoNodeName?.trim().replace(/\s/g, "").toLowerCase() : "";
     const filterSeoName = name && name !== "" ? name?.trim().replace(/\s/g, "").toLowerCase() : "";
@@ -223,7 +248,7 @@ const StockReports: FC<PageProps> = (props) => {
         }
       })
       .then((data) => {
-        console.log("get Fitler Data", data);
+        // console.log("get Fitler Data", data);
         setFilterMenuData(data);
       })
       .catch((err) => {
@@ -364,14 +389,14 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(filterID);
     }
   }, [defaultScreenerId, filterMenuTxtShow.id]);
-  //console.log("_______pageSummary", pageSummary);
+  //console.log("_______stockDataFilter", stockDataFilter);
   return (
     <>
       <SEO {...seoData} />
       <div className={styles.mainContent}>
         <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
-        {!isPrimeUser && <StockTopBanner data={stPlusBannerData} />}
-        {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length && (
+        {!isPrimeUser && <StockTopBanner srTabActivemenu={`stockreportscategory`} data={stPlusBannerData} />}
+        {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length > 0 ? (
           <>
             <div className={styles.stockReportsWrap}>
               <div className={styles.topHeadingSec}>
@@ -426,6 +451,8 @@ const StockReports: FC<PageProps> = (props) => {
               <div ref={lastElementRef}></div>
             </div>
           </>
+        ) : (
+          <StockCatTabNoDataFound />
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />

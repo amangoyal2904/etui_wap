@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { Fragment } from "react";
-import Link from "next/link";
+import { grxEvent } from "utils/ga";
 
 interface StockTabsProps {
   data: { name: string; apiType: any }[];
@@ -10,6 +10,18 @@ interface StockTabsProps {
 
 export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsProps) {
   //console.log("activeMenu", activeMenu);
+  const handleClick = (apiType: any, name: string) => {
+    grxEvent(
+      "event",
+      {
+        event_category: `SR+ ${name}`,
+        event_action: "Tab Click",
+        event_label: name
+      },
+      1
+    );
+    srTabClick(apiType);
+  };
   return (
     <>
       <div className={styles.tabsWraper}>
@@ -18,11 +30,8 @@ export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsP
             <Fragment key={i}>
               <li
                 className={`${activeMenu === item.apiType ? styles.active : ""}`}
-                onClick={() => srTabClick(item.apiType)}
+                onClick={() => handleClick(item.apiType, item.name)}
               >
-                {/* <Link href={item.url}>
-                  <a>{item.name}</a>
-                </Link> */}
                 {item.name}
               </li>
             </Fragment>
