@@ -10,7 +10,7 @@
 }
 .heading2 {
   margin: 10px 0;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -20,12 +20,12 @@
   justify-content: space-between;
 }
 .catFilterWraper {
-  margin: 0 0 10px 0;
+  margin: 10px 0;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   display: flex;
-  justify-content: end;
+  justify-content: start;
   column-gap: 20px;
   text-transform: capitalize;
   .sortFilter {
@@ -36,7 +36,7 @@
     &:after {
       content: "";
       position: absolute;
-      right: -10px;
+      left: -10px;
       top: 0;
       bottom: 0;
       border-right: solid 1px #b5b5b5;

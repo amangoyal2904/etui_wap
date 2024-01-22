@@ -400,15 +400,15 @@ const StockReports: FC<PageProps> = (props) => {
           <>
             <div className={styles.stockReportsWrap}>
               <div className={styles.topHeadingSec}>
-                <h2 className={styles.heading2}>
+                <div className={styles.heading2}>
                   {stockDataFilter.screenerDetail.filterScreenerName || stockDataFilter.screenerDetail.name}
-                </h2>
+                </div>
                 <div className={styles.catFilterWraper}>
-                  <span className={styles.sortFilter} onClick={showSortFilter}>
-                    sort
-                  </span>
                   <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
                     {filterMenuTxtShow.name}
+                  </span>
+                  <span className={styles.sortFilter} onClick={showSortFilter}>
+                    sort
                   </span>
                 </div>
               </div>

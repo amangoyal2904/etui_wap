@@ -247,16 +247,20 @@ const StockReports: FC<PageProps> = (props) => {
                 return (
                   <Fragment key={index}>
                     <div className={styles.stockReportsWrap}>
-                      <h2 className={styles.heading2}>
-                        <Link href={stockSeoname}>
-                          {item.filterScreenerName && item.filterScreenerName !== ""
-                            ? item.filterScreenerName
-                            : item.name}
-                        </Link>
-                        <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
-                          {filterMenuTxtShow.name}
-                        </span>
-                      </h2>
+                      <div className={styles.heading2}>
+                        <div>
+                          <Link href={stockSeoname}>
+                            {item.filterScreenerName && item.filterScreenerName !== ""
+                              ? item.filterScreenerName
+                              : item.name}
+                          </Link>
+                        </div>
+                        <div>
+                          <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
+                            {filterMenuTxtShow.name}
+                          </span>
+                        </div>
+                      </div>
 
                       {item.type === "type-1" ? (
                         <StockReportCard
