@@ -70,6 +70,10 @@ export interface PageProps {
     textBenefits: string;
     discCoupon: string;
   };
+  btmBlocker: {
+    text: string;
+    ctaText: string;
+  };
 }
 
 export interface StockOverViewProps {

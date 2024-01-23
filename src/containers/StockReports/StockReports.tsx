@@ -15,6 +15,7 @@ import SEO from "components/SEO";
 import StockReportsPlus from "components/StockReportsPlus";
 import { grxEvent } from "utils/ga";
 import Link from "next/link";
+import StockSRBTMBannerCard from "components/StockSRBTMBanner";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -41,6 +42,7 @@ const StockReports: FC<PageProps> = (props) => {
   const tabData = props && props.tabs;
   const stPlusBannerData = props && props.srpluscontent;
   const overlayBlockerData = props && props.overlayBlocker;
+  const btmBlockerData = props && props.btmBlocker;
   //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
@@ -334,12 +336,13 @@ const StockReports: FC<PageProps> = (props) => {
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />
-        {!hideAds && (
+        {/* {!hideAds && (
           <div className={`${styles.footerAd} adContainer`}>
             <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
-        )}
+        )} */}
       </div>
+      {!isPrimeUser ? <StockSRBTMBannerCard data={btmBlockerData} /> : ""}
       {showFilter && (
         <StockReportFilter
           data={filterMenuData}
