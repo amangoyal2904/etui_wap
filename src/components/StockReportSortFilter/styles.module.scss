@@ -16,13 +16,13 @@
   background-color: #ffffff;
   padding: 0;
   .topSec {
-    padding: 15px 0;
-    text-align: center;
+    padding: 15px 20px;
+    text-align: left;
     > span {
       display: inline-block;
       vertical-align: top;
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: bold;
+      font-size: 18px;
     }
   }
 }
@@ -34,6 +34,7 @@
   top: 15px;
   display: inline-block;
   vertical-align: top;
+  cursor: pointer;
   &:after,
   &::before {
     content: "";
@@ -79,6 +80,7 @@
       display: flex;
       justify-content: space-between;
       line-height: 18px;
+      cursor: pointer;
     }
     li:last-child {
       border-bottom: solid 1px #f3f3f3;

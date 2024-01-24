@@ -72,7 +72,8 @@ const StockReports: FC<PageProps> = (props) => {
   const APICallForFilterData = (id: any, apitype: string) => {
     const _apiTypeValue = srTabActivemenu || "";
     // $'{\"deviceId\":\"web\",\"filterType\":\"index\",\"filterValue\":[2371],\"pageno\":1,\"pagesize\":20,\"screenerId\":2530,\"sort\":[{\"displayName\":\"Last Traded Price\",\"field\":\"lastTradedPrice\",\"order\":\"asc\"}]}'
-    const _id = id && id !== 0 ? [parseFloat(id)] : [];
+    const _id = id && id > 0 ? [parseFloat(id)] : [];
+    //console.log("__________", id, _id);
     const dataBody = {
       deviceId: "web",
       filterType: "index",
@@ -131,6 +132,9 @@ const StockReports: FC<PageProps> = (props) => {
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
     //const apiType = srTabActivemenu;
     //APICallForFilterData(id, apiType);
+    sessionStorage.setItem("sr_filtervalue", id);
+    sessionStorage.setItem("sr_filtername", name);
+    sessionStorage.setItem("sr_filtertab", slectedTab);
   };
   const filterApiCall = () => {
     fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
@@ -217,7 +221,7 @@ const StockReports: FC<PageProps> = (props) => {
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
   //console.log("____________stockDataFilter", filterMenuTxtShow.id);
-  console.log("__FilterMenu________________TxtShow", filterMenuTxtShow);
+  //console.log("__FilterMenu________________TxtShow", filterMenuTxtShow);
   return (
     <>
       <SEO {...seoData} />

@@ -20,8 +20,10 @@ export default function StockReportFilter({
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   //const [nseBseMenuSelect, setNseBseMenuSelect] = useState("nse");
   const [activeItem, setActiveItem] = useState<number | null>(0);
+  // const activeId = childMenuTabAcive;
+  // const activeIndex = data.keyIndices.nse.findIndex((item: any) => item.indexId === activeId);
   const childTabMenuActive = childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
-  // console.log("___selectTab", selectTab, "childMenuTabAcive", childMenuTabAcive);
+  //console.log("___selectTa b", selectTab, "childMenuTabAcive", childMenuTabAcive);
   const nseBseMenu = (e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
     setNseBseMenuSelect(selectedMenu);
