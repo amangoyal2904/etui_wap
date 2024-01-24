@@ -24,8 +24,8 @@ const StockReports: FC<PageProps> = (props) => {
   const reportsPlusFaq = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.faq as any;
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [userName, setUserName] = useState("");
   const [stockReportActive, setStockReportActive] = useState(false);
@@ -131,6 +131,9 @@ const StockReports: FC<PageProps> = (props) => {
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
     //const apiType = srTabActivemenu;
     //APICallForFilterData(id, apiType);
+    sessionStorage.setItem("sr_filtervalue", id);
+    sessionStorage.setItem("sr_filtername", name);
+    sessionStorage.setItem("sr_filtertab", slectedTab);
   };
   const filterApiCall = () => {
     fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
