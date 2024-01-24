@@ -34,8 +34,18 @@ export default function StockReportSortFilter({
       id: id,
       displayname: name
     }));
+    // for filter section
+    const revertClass = sortIconClass === "desc" ? "asc" : "desc";
+    if (sortMenuSelected.id === id) {
+      setSortIconClass(revertClass);
+      setSortMenuSelected((preData: any) => ({
+        ...preData,
+        sort: revertClass
+      }));
+    }
   };
   const applyHandler = () => {
+    //console.log(sortMenuSelected.id, "______", sortMenuSelected.sort, "______", sortMenuSelected.displayname);
     sortApplyHandler(sortMenuSelected.id, sortMenuSelected.sort, sortMenuSelected.displayname);
   };
   useEffect(() => {
@@ -70,12 +80,12 @@ export default function StockReportSortFilter({
                 data.length &&
                 data.map((item: any) => {
                   return (
-                    <li key={item.id}>
-                      <span onClick={() => menuSortHandler(item.id, item.displayName)}>{item.displayName}</span>
+                    <li key={item.id} onClick={() => menuSortHandler(item.id, item.displayName)}>
+                      <span>{item.displayName}</span>
                       {sortMenuSelected.id === item.id && (
                         <span
                           className={`${styles.sortIcon} ${styles[sortIconClass]}`}
-                          onClick={sortIconChangeHandler}
+                          // onClick={sortIconChangeHandler}
                         ></span>
                       )}
                     </li>

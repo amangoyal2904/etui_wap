@@ -119,13 +119,14 @@ const StockReports: FC<PageProps> = (props) => {
       1
     );
     APICallForFilterData(filterID, postData);
+    //console.log("___filterID", filterID, "___postData", postData);
   };
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
   const APICallForFilterData = (id: any, postData: any = {}) => {
     console.log("sortApplyFilterValue", sortApplyFilterValue);
-    const _id = id !== 0 ? [parseFloat(id)] : [];
+    const _id = id > 0 ? [parseFloat(id)] : [];
     const bodyPostData = {
       deviceId: "web",
       filterType: "index",
