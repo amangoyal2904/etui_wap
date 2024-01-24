@@ -402,6 +402,7 @@ export const updateDimension = ({
         window.customDimension = { ...window.customDimension, ...dimensions };
         createGAPageViewPayload(payload);
         const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
+        const uniqueID = Date.now() + "_" + window.objInts.readCookie("_grx");
         const isSubscribed =
           typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
         const nonAdPageArray = ["shortvideos", "quickreads"];
@@ -429,6 +430,9 @@ export const updateDimension = ({
         window.grxDimension_cdp["source"] = trafficSource || "";
         window.grxDimension_cdp["business"] = "et";
         window.grxDimension_cdp["dark_mode"] = "n";
+        window.grxDimension_cdp["client_source"] = "cdp";
+        window.grxDimension_cdp["event_name"] = "page_view";
+        window.grxDimension_cdp["unique_id"] = uniqueID;
         window.grxDimension_cdp["loggedin"] =
           window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
             ? "y"
