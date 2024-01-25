@@ -39,8 +39,8 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -156,7 +156,7 @@ const StockReports: FC<PageProps> = (props) => {
           setLoader(false);
           throw new Error("Network response was not ok.");
         }
-        //console.log("__________call api", response);
+        //console.log("__________call api__________", response);
         return response.json();
       })
       .then((data) => {
@@ -185,6 +185,13 @@ const StockReports: FC<PageProps> = (props) => {
           filterid: data.screenerDetail.filterValue || ""
         };
         urlUpdateHandler(urlData);
+        const flIdValue = data.screenerDetail.filterValue || "";
+        const flNameValue = data.screenerDetail.filterName || "";
+        const flExValue = data.screenerDetail.exhchange || "nse";
+
+        sessionStorage.setItem("sr_filtervalue", flIdValue);
+        sessionStorage.setItem("sr_filtername", flNameValue);
+        sessionStorage.setItem("sr_filtertab", flExValue);
       })
       .catch((error) => {
         setLoader(false);
@@ -388,6 +395,10 @@ const StockReports: FC<PageProps> = (props) => {
       screenerIdDefault,
       defaultFilterMenuTxt
     });
+    sessionStorage.setItem("sr_filtervalue", defaultFilterMenuTxt.id);
+    sessionStorage.setItem("sr_filtername", defaultFilterMenuTxt.name);
+    sessionStorage.setItem("sr_filtertab", defaultFilterMenuTxt.slectedTab);
+
     if (screenerIdDefault != defaultScreenerId || defaultFilterMenuTxt.id != filterID) {
       APICallForFilterData(filterID);
     }
