@@ -17,13 +17,26 @@ export default function StockReportFilter({
   selectTab,
   childMenuTabAcive
 }: StockSRFilterProps) {
+  const activeFilterValue = sessionStorage.sr_filtervalue;
+  const activeIndex =
+    (!!activeFilterValue && data.keyIndices.nse.some((obj) => obj.indexId == activeFilterValue)) ||
+    data.keyIndices.bse.some((obj) => obj.indexId == activeFilterValue)
+      ? 0
+      : data.sectoralIndices.nse.some((obj) => obj.indexId == activeFilterValue) ||
+        data.sectoralIndices.bse.some((obj) => obj.indexId == activeFilterValue)
+      ? 1
+      : data.otherIndices.nse.some((obj) => obj.indexId == activeFilterValue) ||
+        data.otherIndices.bse.some((obj) => obj.indexId == activeFilterValue)
+      ? 2
+      : 3;
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   //const [nseBseMenuSelect, setNseBseMenuSelect] = useState("nse");
-  const [activeItem, setActiveItem] = useState<number | null>(0);
+  const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
   // const activeId = childMenuTabAcive;
   // const activeIndex = data.keyIndices.nse.findIndex((item: any) => item.indexId === activeId);
   const childTabMenuActive = childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
   //console.log("___selectTa b", selectTab, "childMenuTabAcive", childMenuTabAcive);
+
   const nseBseMenu = (e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
     setNseBseMenuSelect(selectedMenu);
@@ -35,7 +48,7 @@ export default function StockReportFilter({
     const slectedTab = nseBseMenuSelect;
     valuechange(indexid, name, slectedTab);
   };
-  //console.log("___data", data);
+  console.log("___filterData", data);
 
   return (
     <>
