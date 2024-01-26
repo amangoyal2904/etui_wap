@@ -18,7 +18,7 @@ const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
       {
         event_category: `Subscription Flow ET`,
         event_action: `Flow Started`,
-        event_label: `SR+ ${srTabActivemenu} Subscribe to ETPrime`
+        event_label: `StockReports ${srTabActivemenu} - Top banner`
       },
       1
     );

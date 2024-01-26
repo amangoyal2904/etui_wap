@@ -1,15 +1,27 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import styles from "./styles.module.scss";
+import { grxEvent } from "utils/ga";
 
 interface GraphSecProps {
   data: any[];
   seoName: string;
   companyID: string;
   isPrimeUser: number;
+  companyName?: string;
+  stockname?: string;
+  srTabActivemenu?: string;
 }
 
-export default function GraphSecCard({ data, seoName, companyID, isPrimeUser }: GraphSecProps) {
+export default function GraphSecCard({
+  data,
+  seoName,
+  companyID,
+  isPrimeUser,
+  companyName,
+  stockname,
+  srTabActivemenu
+}: GraphSecProps) {
   const viewReportUrl = `https://m.economictimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
   const sr_analystScore = data.find((item) => item.keyId === "sr_recText").value;
   const sr_recCnt = data.find((item) => item.keyId === "sr_recCnt").value;
@@ -34,7 +46,17 @@ export default function GraphSecCard({ data, seoName, companyID, isPrimeUser }: 
   const sr_recReduceCnt = data.find((item) => item.keyId === "sr_recReduceCnt").value;
   const recoStrongSell = Math.round(sr_recReduceCnt);
   const recoStrongSellValue = `${recoStrongSell === 0 ? 5 : (recoStrongSell / recoByCount) * 100 + 5}%`;
-
+  const grxHandle = () => {
+    grxEvent(
+      "event",
+      {
+        event_category: `SR+ ${srTabActivemenu}`,
+        event_action: `${stockname} - ${companyName} View Report`,
+        event_label: window.location.href
+      },
+      1
+    );
+  };
   return (
     <>
       <h3 className={styles.heading3}>{sr_analystScore}</h3>
@@ -78,7 +100,7 @@ export default function GraphSecCard({ data, seoName, companyID, isPrimeUser }: 
       </div>
       {isPrimeUser ? (
         <Link href={viewReportUrl}>
-          <a className={styles.reportSec} target="_blank">
+          <a className={styles.reportSec} target="_blank" onClick={grxHandle}>
             <i className={styles.viewPdf}></i>
             <span className={styles.reportTxt}>View Report</span>
           </a>

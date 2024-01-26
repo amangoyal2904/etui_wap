@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import { Fragment, useState } from "react";
 import Link from "next/link";
+import { grxEvent } from "utils/ga";
 
 interface StockSRCatTabsProps {
   data: {
@@ -19,6 +20,15 @@ export default function StockSrCatTabs({ data, srTabsClick }: StockSRCatTabsProp
   const [activeCategory, setActiveCategory] = useState(data[0].activeCategory);
 
   const srTabsHandleClick = (id: any, name: string) => {
+    grxEvent(
+      "event",
+      {
+        event_category: `SR+ Top Header Tab Change`,
+        event_action: "Tab Click",
+        event_label: name
+      },
+      1
+    );
     setActiveCategory(name);
     srTabsClick(id, name);
   };

@@ -14,7 +14,7 @@ export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsP
     grxEvent(
       "event",
       {
-        event_category: `SR+ ${name}`,
+        event_category: `SR+ Top Header Tab Change`,
         event_action: "Tab Click",
         event_label: name
       },

@@ -59,7 +59,17 @@ export default function StockReportCard({
       document.body.style.overflow = "visible";
     }
   };
-
+  const grxHandle = (name: string) => {
+    grxEvent(
+      "event",
+      {
+        event_category: `SR+ ${srTabActivemenu}`,
+        event_action: `${stockname} - ${name} name click`,
+        event_label: window.location.href
+      },
+      1
+    );
+  };
   const cardClickProps = !isPrimeUser ? { onClick: () => handleClick(true) } : {};
   const handleClickGRX = () => {
     grxEvent(
@@ -72,6 +82,7 @@ export default function StockReportCard({
       1
     );
   };
+
   return (
     <>
       <div className={styles.cardWraper}>
@@ -86,7 +97,9 @@ export default function StockReportCard({
                         <Link
                           href={`https://m.economictimes.com/${item.seoName}/stocks/companyid-${item.companyID}.cms`}
                         >
-                          <a target="_blank">{item.name}</a>
+                          <a onClick={() => grxHandle(item.name)} target="_blank">
+                            {item.name}
+                          </a>
                         </Link>
                       </h2>
                     ) : (
@@ -98,6 +111,9 @@ export default function StockReportCard({
                       data={item.data}
                       seoName={item.seoName}
                       companyID={item.companyID}
+                      srTabActivemenu={srTabActivemenu}
+                      stockname={stockname}
+                      companyName={item.name}
                     />
                   </div>
                   <div className={styles.rightSec}>

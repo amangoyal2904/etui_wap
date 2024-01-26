@@ -43,9 +43,9 @@ export default function StockSRLoginBlocker({
     grxEvent(
       "event",
       {
-        event_category: "Flow Started",
-        event_action: `Subscription Flow ET`,
-        event_label: `SR+ ${srTabActivemenu} - ${stockname}`
+        event_category: "Subscription Flow ET",
+        event_action: `Flow Started`,
+        event_label: `SR+ ${srTabActivemenu} - ${stockname} Subscribe Now`
       },
       1
     );
