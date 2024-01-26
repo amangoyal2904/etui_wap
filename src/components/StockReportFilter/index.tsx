@@ -48,7 +48,7 @@ export default function StockReportFilter({
     const slectedTab = nseBseMenuSelect;
     valuechange(indexid, name, slectedTab);
   };
-  console.log("___filterData", data);
+  //console.log("___filterData", data);
 
   return (
     <>
