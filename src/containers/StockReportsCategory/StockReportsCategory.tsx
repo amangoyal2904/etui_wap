@@ -405,20 +405,22 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(filterID);
     }
   }, [defaultScreenerId, filterMenuTxtShow.id]);
-  //console.log("_______stockDataFilter", stockDataFilter);
+  // console.log("_______stockDataFilter", stockDataFilter.dataList);
   return (
     <>
       <SEO {...seoData} />
       <div className={styles.mainContent}>
         <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
         {!isPrimeUser && <StockTopBanner srTabActivemenu={`stockreportscategory`} data={stPlusBannerData} />}
-        {stockDataFilter && stockDataFilter.dataList && stockDataFilter.dataList.length > 0 ? (
+        {stockDataFilter &&
+        stockDataFilter.dataList &&
+        (stockDataFilter.dataList.length > 0 || stockDataFilter.dataList.name) ? (
           <>
             <div className={styles.stockReportsWrap}>
               <div className={styles.topHeadingSec}>
-                <div className={styles.heading2}>
+                <h1 className={styles.heading2}>
                   {stockDataFilter.screenerDetail.filterScreenerName || stockDataFilter.screenerDetail.name}
-                </div>
+                </h1>
                 <div className={styles.catFilterWraper}>
                   <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
                     {filterMenuTxtShow.name}
@@ -431,7 +433,11 @@ const StockReports: FC<PageProps> = (props) => {
 
               {stockDataFilter.screenerDetail.srPlusType === "type-1" ? (
                 <StockReportCard
-                  data={stockDataFilter.dataList}
+                  data={
+                    stockDataFilter.dataList && stockDataFilter.dataList.length > 0
+                      ? stockDataFilter.dataList
+                      : [stockDataFilter.dataList]
+                  }
                   cardType="scoreCard"
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
@@ -443,7 +449,11 @@ const StockReports: FC<PageProps> = (props) => {
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
-                  data={stockDataFilter.dataList}
+                  data={
+                    stockDataFilter.dataList && stockDataFilter.dataList.length > 0
+                      ? stockDataFilter.dataList
+                      : [stockDataFilter.dataList]
+                  }
                   cardType="upgradeCard"
                   totalRecords="0"
                   isPrimeUser={isPrimeUser}
@@ -455,7 +465,11 @@ const StockReports: FC<PageProps> = (props) => {
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
                 <StockReportUpside
-                  data={stockDataFilter.dataList}
+                  data={
+                    stockDataFilter.dataList && stockDataFilter.dataList.length > 0
+                      ? stockDataFilter.dataList
+                      : [stockDataFilter.dataList]
+                  }
                   totalRecords="0"
                   isLoginUser={isLoginUser}
                   isPrimeUser={isPrimeUser}

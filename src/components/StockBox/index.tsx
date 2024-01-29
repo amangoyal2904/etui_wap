@@ -59,7 +59,7 @@ export default function StockReportBox({
         <div className={styles.smallCard}>
           {isPrimeUser ? (
             <Link href={viewReportUrl}>
-              <a onClick={grxHandle} target="_blank">
+              <a title={companyName} onClick={grxHandle} target="_blank">
                 {boxComData()}
               </a>
             </Link>
