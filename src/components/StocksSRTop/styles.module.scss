@@ -1,0 +1,43 @@
+.srTopBanner {
+  text-align: left;
+  margin-left: 20px;
+  margin-top: 10px;
+  .topHeading {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding-left: 30px;
+    &::after {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      background: url("https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg") no-repeat -331px -94px;
+      background-size: 384px 148px;
+    }
+    h1 {
+      margin: 0;
+      font-family: Faustina;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 21px;
+      margin-top: -10px;
+    }
+    span {
+      color: #eb2227;
+      font-family: Montserrat;
+      font-size: 9px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      margin-top: 2px;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
