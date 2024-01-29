@@ -104,7 +104,7 @@ export default function StockReportCard({
                 {isPrimeUser ? (
                   <h2 className={styles.heading}>
                     <Link href={`https://m.economictimes.com/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
-                      <a onClick={() => grxHandle(item.name)} target="_blank">
+                      <a title={item.name} onClick={() => grxHandle(item.name)} target="_blank">
                         {item.name}
                       </a>
                     </Link>
@@ -150,7 +150,7 @@ export default function StockReportCard({
         )}
         {totalRecords && totalRecords !== "0" ? (
           <Link href={stockSeoname}>
-            <a className={styles.viewAllCta} onClick={handleClickGRX}>
+            <a title={`View All ${totalRecords} stocks`} className={styles.viewAllCta} onClick={handleClickGRX}>
               <span>View All {totalRecords} stocks</span>
             </a>
           </Link>
