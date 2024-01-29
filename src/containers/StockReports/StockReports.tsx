@@ -16,6 +16,7 @@ import StockReportsPlus from "components/StockReportsPlus";
 import { grxEvent } from "utils/ga";
 import Link from "next/link";
 import StockSRBTMBannerCard from "components/StockSRBTMBanner";
+import StockSrTop from "components/StocksSRTop";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -232,6 +233,7 @@ const StockReports: FC<PageProps> = (props) => {
           </div>
         )} */}
         <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
+        <StockSrTop />
         {!isPrimeUser && <StockTopBanner data={stPlusBannerData} srTabActivemenu={srTabActivemenu} />}
 
         {!stockReportActive ? (
