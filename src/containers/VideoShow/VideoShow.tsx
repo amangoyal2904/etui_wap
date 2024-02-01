@@ -24,6 +24,8 @@ const VideoShow: FC<PageProps> = (props) => {
   const { msid } = parameters;
   const { cpd_wap = "0" } = version_control;
 
+  const objVc: any = version_control;
+
   function getAuthors(authors) {
     if (!authors || !Array.isArray(authors) || authors.length === 0) return "";
     return (
@@ -66,6 +68,9 @@ const VideoShow: FC<PageProps> = (props) => {
   return (
     <>
       <div className={styles.mainContent}>
+        {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
+          <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={msid} />
+        )}
         {!hideAds && (
           <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
