@@ -115,3 +115,9 @@ a {
 #shortsVids #footer-common {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.969087) 87.8%, #000000 100%);
 }
+
+#mh {
+  text-align: center;
+  margin-top: 10px;
+  min-height: 50px;
+}

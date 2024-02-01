@@ -58,6 +58,13 @@ const DfpAds: FC<AdInfoProps> = function (props) {
     const { customDimension, currMsid, customSlot } = adInfo;
     const objVc = window.objVc || {};
 
+    if (key === "mh") {
+      objVc.dfp.mh = {
+        adSlot: "/7176/ET_MWeb/ET_Mweb_Home/ET_Mweb_HP_Fixed",
+        adSize: "[[[320,50],[320,100]]]"
+      };
+    }
+
     if (divId && googleTag) {
       googleTag.cmd.push(() => {
         let slot = undefined;
