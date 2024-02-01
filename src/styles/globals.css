@@ -118,3 +118,9 @@ a {
 .reportPlustSliderWrap .slick-list .slick-slide > div:first-child {
   padding: 10px 20px;
 }
+
+#mh {
+  text-align: center;
+  margin-top: 10px;
+  min-height: 50px;
+}
