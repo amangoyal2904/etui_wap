@@ -26,7 +26,7 @@ export default function StockReportBox({
   srTabActivemenu
 }: StockCardBoxProps) {
   const sr_avgScore = data.find((item) => item.keyId === "sr_avgScore").value;
-  const viewReportUrl = `https://m.economictimes.com/${seoName}/stockreports/reportid-${companyID}.cms`;
+  const viewReportUrl = `/${seoName}/stockreports/reportid-${companyID}.cms`;
   const grxHandle = () => {
     grxEvent(
       "event",
