@@ -100,6 +100,7 @@ const StockReports: FC<PageProps> = (props) => {
     document.body.style.overflow = "hidden";
   };
   const sortApplyHandlerFun = (newId: string, newSort: string, newDisplayName: string) => {
+    document.body.style.overflow = "visible";
     setSortApplyFilterValue((preData: any) => ({
       ...preData,
       id: newId,
@@ -313,7 +314,7 @@ const StockReports: FC<PageProps> = (props) => {
       .then((data) => {
         // console.log("Response data:", data);
         setLoader(false);
-        const onlyData = data.dataList;
+        const onlyData = data && data.dataList && data.dataList.length > 0 ? data.dataList : [];
         setPageSummary((prevPageSummary) => ({
           ...prevPageSummary,
           pageno: data.pageSummary.pageno,
@@ -491,7 +492,30 @@ const StockReports: FC<PageProps> = (props) => {
             </div>
           </>
         ) : (
-          <StockCatTabNoDataFound />
+          <>
+            {stockDataFilter.screenerDetail &&
+            stockDataFilter.screenerDetail.name &&
+            stockDataFilter.screenerDetail.name !== "" ? (
+              <div className={styles.stockReportsWrap}>
+                <div className={styles.topHeadingSec}>
+                  <h1 className={styles.heading2}>
+                    {stockDataFilter.screenerDetail.filterScreenerName || stockDataFilter.screenerDetail.name}
+                  </h1>
+                  <div className={styles.catFilterWraper}>
+                    <span onClick={() => showFilterMenu(true)} className={styles.menuWraper}>
+                      {filterMenuTxtShow.name}
+                    </span>
+                    <span className={styles.sortFilter} onClick={showSortFilter}>
+                      sort
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              "no fitler"
+            )}
+            <StockCatTabNoDataFound />
+          </>
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />
