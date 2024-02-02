@@ -49,6 +49,8 @@ const StockReports: FC<PageProps> = (props) => {
     window.objInts.afterPermissionCall(() => {
       const userFullName = window.objUser?.info?.firstName
         ? window.objUser.info.firstName + " " + window.objUser?.info?.lastName
+          ? window.objUser?.info?.lastName
+          : ""
         : "";
       const __accessibleFeatures = window.objInts?.accessibleFeatures || [];
       const __primeuser =
