@@ -59,13 +59,13 @@ export default function StockReportCard({
       document.body.style.overflow = "visible";
     }
   };
-  const grxHandle = (name: string) => {
+  const grxHandle = (name: string, url: string) => {
     grxEvent(
       "event",
       {
         event_category: `SR+ ${srTabActivemenu}`,
         event_action: `${stockname} - ${name} name click`,
-        event_label: window.location.pathname
+        event_label: url
       },
       1
     );
@@ -95,7 +95,13 @@ export default function StockReportCard({
                     {isPrimeUser ? (
                       <h2 className={styles.heading}>
                         <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
-                          <a title={item.name} onClick={() => grxHandle(item.name)} target="_blank">
+                          <a
+                            title={item.name}
+                            onClick={() =>
+                              grxHandle(item.name, `/${item.seoName}/stocks/companyid-${item.companyID}.cms`)
+                            }
+                            target="_blank"
+                          >
                             {item.name}
                           </a>
                         </Link>
