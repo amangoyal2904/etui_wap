@@ -89,9 +89,15 @@ const StockReports: FC<PageProps> = (props) => {
   const oncloseSortMenu = (value: boolean) => {
     console.log("click to sort menu ", value);
     setSortMenu(value);
+    if (value) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "visible";
+    }
   };
   const showSortFilter = () => {
     setSortMenu(true);
+    document.body.style.overflow = "hidden";
   };
   const sortApplyHandlerFun = (newId: string, newSort: string, newDisplayName: string) => {
     setSortApplyFilterValue((preData: any) => ({
