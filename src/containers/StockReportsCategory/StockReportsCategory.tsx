@@ -39,8 +39,8 @@ const StockReports: FC<PageProps> = (props) => {
   const router = useRouter();
   //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
-  const [isPrimeUser, setIsPrimeUser] = useState(0);
-  const [isLoginUser, setIsLoginUser] = useState(0);
+  const [isPrimeUser, setIsPrimeUser] = useState(1);
+  const [isLoginUser, setIsLoginUser] = useState(1);
   const [accessibleFeatures, setAccessibleFeatures] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showSortMenu, setSortMenu] = useState(false);
@@ -121,7 +121,7 @@ const StockReports: FC<PageProps> = (props) => {
       {
         event_category: "SR+ Details Page",
         event_action: `${activeCat} - ${filterMenuTxtShow.name}- Sort Filter`,
-        event_label: `${newDisplayName}`
+        event_label: `${newDisplayName} ${newSort}`
       },
       1
     );
@@ -451,7 +451,7 @@ const StockReports: FC<PageProps> = (props) => {
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
                   filterSeoName={stockDataFilter.filterSeoName}
-                  srTabActivemenu={`stockreportscategory`}
+                  srTabActivemenu={`Detail Page`}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-2" ? (
                 <StockReportCard
@@ -467,7 +467,7 @@ const StockReports: FC<PageProps> = (props) => {
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
                   filterSeoName={stockDataFilter.filterSeoName}
-                  srTabActivemenu={`stockreportscategory`}
+                  srTabActivemenu={`Detail Page`}
                 />
               ) : stockDataFilter.screenerDetail.srPlusType === "type-3" ? (
                 <StockReportUpside
@@ -482,7 +482,7 @@ const StockReports: FC<PageProps> = (props) => {
                   overlayBlockerData={overlayBlockerData}
                   stockname={stockDataFilter.screenerDetail.name}
                   filterSeoName={stockDataFilter.filterSeoName}
-                  srTabActivemenu={`stockreportscategory`}
+                  srTabActivemenu={`Detail Page`}
                 />
               ) : (
                 ""

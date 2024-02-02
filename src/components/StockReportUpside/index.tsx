@@ -65,7 +65,7 @@ export default function StockReportCard({
       {
         event_category: `SR+ ${srTabActivemenu}`,
         event_action: `${stockname} - ${name} name click`,
-        event_label: window.location.href
+        event_label: window.location.pathname
       },
       1
     );
@@ -77,7 +77,7 @@ export default function StockReportCard({
       {
         event_category: `SR+ ${srTabActivemenu}`,
         event_action: `${stockname} - View All`,
-        event_label: window.location.href
+        event_label: window.location.pathname
       },
       1
     );
@@ -94,9 +94,7 @@ export default function StockReportCard({
                   <div className={styles.leftSec}>
                     {isPrimeUser ? (
                       <h2 className={styles.heading}>
-                        <Link
-                          href={`https://m.economictimes.com/${item.seoName}/stocks/companyid-${item.companyID}.cms`}
-                        >
+                        <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
                           <a title={item.name} onClick={() => grxHandle(item.name)} target="_blank">
                             {item.name}
                           </a>
