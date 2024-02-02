@@ -52,7 +52,7 @@ export default function GraphSecCard({
       {
         event_category: `SR+ ${srTabActivemenu}`,
         event_action: `${stockname} - ${companyName} View Report`,
-        event_label: window.location.href
+        event_label: window.location.pathname
       },
       1
     );

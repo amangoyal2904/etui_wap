@@ -47,11 +47,10 @@ const StockReports: FC<PageProps> = (props) => {
   //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
-      const userFullName = window.objUser?.info?.firstName
-        ? window.objUser.info.firstName + " " + window.objUser?.info?.lastName
-          ? window.objUser?.info?.lastName
-          : ""
-        : "";
+      const userFullName =
+        window.objUser?.info?.firstName && window.objUser?.info?.firstName !== null
+          ? window.objUser.info.firstName
+          : "";
       const __accessibleFeatures = window.objInts?.accessibleFeatures || [];
       const __primeuser =
         window.objInts.permissions.indexOf("subscribed") > -1 &&
