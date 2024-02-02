@@ -5,25 +5,25 @@ interface StockRightProps {
 }
 
 export default function UpGradeCard({ data }: StockRightProps) {
-  const sr_analystScore = data.find((item) => item.keyId === "sr_analystScore").value;
+  const sr_analystScore = data && data.find((item) => item.keyId === "sr_analystScore").value;
   const earningsScore = Math.round(sr_analystScore);
-  const earningsClass = data.find((item) => item.keyId === "sr_analystScore").trend;
+  const earningsClass = data && data.find((item) => item.keyId === "sr_analystScore").trend;
 
-  const sr_fundScore = data.find((item) => item.keyId === "sr_fundScore").value;
+  const sr_fundScore = data && data.find((item) => item.keyId === "sr_fundScore").value;
   const fundamentalsScore = Math.round(sr_fundScore);
-  const fundamentalsClass = data.find((item) => item.keyId === "sr_fundScore").trend;
+  const fundamentalsClass = data && data.find((item) => item.keyId === "sr_fundScore").trend;
 
-  const sr_rvScore = data.find((item) => item.keyId === "sr_rvScore").value;
+  const sr_rvScore = data && data.find((item) => item.keyId === "sr_rvScore").value;
   const relativeValuationScore = Math.round(sr_rvScore);
-  const relativeValuationClass = data.find((item) => item.keyId === "sr_rvScore").trend;
+  const relativeValuationClass = data && data.find((item) => item.keyId === "sr_rvScore").trend;
 
-  const sr_riskScore = data.find((item) => item.keyId === "sr_riskScore").value;
+  const sr_riskScore = data && data.find((item) => item.keyId === "sr_riskScore").value;
   const riskScore = Math.round(sr_riskScore);
-  const riskScoreClass = data.find((item) => item.keyId === "sr_riskScore").trend;
+  const riskScoreClass = data && data.find((item) => item.keyId === "sr_riskScore").trend;
 
-  const sr_techScore = data.find((item) => item.keyId === "sr_techScore").value;
+  const sr_techScore = data && data.find((item) => item.keyId === "sr_techScore").value;
   const priceMomentumScore = Math.round(sr_techScore);
-  const priceMomentumClass = data.find((item) => item.keyId === "sr_techScore").trend;
+  const priceMomentumClass = data && data.find((item) => item.keyId === "sr_techScore").trend;
   return (
     <>
       <div className={styles.upgradeCard}>
