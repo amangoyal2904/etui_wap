@@ -9,6 +9,7 @@ export interface SEOProps {
   url?: string;
   actualURL?: string;
   canonical?: string;
+  metarobotstag?: number;
   type?: string; // e.g. article
   description?: string;
   image?: string;

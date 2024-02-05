@@ -23,6 +23,7 @@ const Meta = (props: SEOProps) => {
   const type = data.type ? data.type : "website";
   const url = data.url ? data.url : SiteConfig.weburl;
   const alternateUrl = (data.actualURL && data.actualURL.replace(ET_WAP_URL, ET_WEB_URL)) || "";
+  const metarobotstag = data.metarobotstag || 0;
 
   const getRegion = (subsecName: any) => {
     const { subsec3 = "" } = subsecName || {};
@@ -58,6 +59,7 @@ const Meta = (props: SEOProps) => {
           ampURL && <link rel="amphtml" href={ampURL} />
         )}
         {data.noindex == 1 ? <meta name="googlebot" content="noindex,nofollow" /> : ""}
+        {metarobotstag == 1 ? <meta content="index,follow" name="robots" /> : ""}
         {data && data.noindexFollow && data.noindexFollow == 1 ? (
           <meta content="noindex, follow" name="robots" />
         ) : null}
