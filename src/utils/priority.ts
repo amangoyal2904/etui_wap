@@ -21,7 +21,7 @@ export function InitialJsOnAppLoad(): void {
 
 export function callJsOnRouteChange(url?): void {
   console.log("callJsOnRouteChange called");
-  //ga.pageview(url);
+  ga.pageview(url);
   window._ibeat_track.ct = getIbeatContentType();
 }
 

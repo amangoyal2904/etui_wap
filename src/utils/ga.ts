@@ -16,7 +16,7 @@ declare global {
     gtmEventDimension: object;
   }
 }
-export const pageview = (url, params = {}, type = "") => {
+export const pageview = (url, params = {}) => {
   try {
     setDimension120();
 
@@ -29,8 +29,7 @@ export const pageview = (url, params = {}, type = "") => {
     const payload = { ...params, ...window.customDimension };
     // send the page views
     window.ga && window.ga("send", "pageview", payload);
-    type != "cdpPageView" && grxEvent("page_view", params);
-    grxEvent("cdp_page_view", params);
+    grxEvent("page_view", params);
   } catch (e) {
     console.log("pageview error: ", e);
   }
@@ -185,16 +184,13 @@ export const grxEvent = (type, data, gaEvent = 0) => {
           }
         }
       }
-
-      grxDimension["country"] = window.geoinfo.CountryCode;
-
       /* if (typeof e$ != "undefined" && e$.jStorage) {
             var objProf = e$.jStorage.get('et_subscription_profile');
             if(objProf) {
                 for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
             }
         } */
-      window.grx("track", type, type == "cdp_page_view" ? window.grxDimension_cdp : grxDimension);
+      window.grx("track", type, grxDimension);
       if (gaEvent && window.ga && type == "event") {
         window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
       }
@@ -207,10 +203,6 @@ export const grxEvent = (type, data, gaEvent = 0) => {
       if (type == "page_view") {
         const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
         window.dataLayer.push(gtmEventDimension);
-      }
-      if (type == "cdp_page_view") {
-        const _gtmEventDimension = { ...window.grxDimension_cdp, event: "et_push_pageload" };
-        window.dataLayer.push(_gtmEventDimension);
       }
     }
   } catch (e) {

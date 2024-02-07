@@ -109,8 +109,8 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
         {isVideoShowNew && (
           <>
-            <link rel="dns-prefetch" href="https://slike.indiatimes.com" />
-            <link rel="dns-prefetch" href="https://tvid.in" />
+            <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
+            <link rel="dns-prefetch" href="http://tvid.in" />
           </>
         )}
         {/* {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />} */}

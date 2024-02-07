@@ -2,14 +2,6 @@ const packageDetails = require("./package.json");
 
 /* next.config.js  */
 module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: "/robots.txt",
-        destination: "/api/robots"
-      }
-    ];
-  },
   compress: false,
   publicRuntimeConfig: {
     APP_ENV: process.env.APP_ENV,

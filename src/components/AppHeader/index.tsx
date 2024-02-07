@@ -10,16 +10,7 @@ import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 
 const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortvideos"];
-const NO_NAVBAR = [
-  "videoshow",
-  "videoshownew",
-  "notfound",
-  "topic",
-  "quickreads",
-  "shortvideos",
-  "stockreportsplus",
-  "stockreportscategory"
-];
+const NO_NAVBAR = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortvideos"];
 
 const AppHeader: FC<{ page: string }> = ({ page }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -29,6 +20,7 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
   const store = useSelector((state: AppState) => state);
   const { appHeader } = store;
   let requestIdleCallbackId = 0;
+
   useEffect(() => {
     if ("requestIdleCallback" in window) {
       requestIdleCallbackId = window.requestIdleCallback(
@@ -103,7 +95,7 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
             </span>
           </div>
         )}
-        {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar page={page} />}
+        {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar />}
       </header>
       <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}

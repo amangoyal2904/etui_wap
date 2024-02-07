@@ -19,9 +19,7 @@ const Topic: FC<PageProps> = (props) => {
   if (typeof window != "undefined") {
     query = window.location.pathname.split("/")[2];
   }
-  useEffect(() => {
-    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
-  }, []);
+
   const objVc: any = version_control;
 
   const intsCallback = () => {
@@ -44,15 +42,7 @@ const Topic: FC<PageProps> = (props) => {
     return props?.searchResult?.map((item) => {
       const topicData = item as TopicDataProps;
       return props?.searchResult[0]?.data.length > 0 ? (
-        <NewsCard
-          data={topicData}
-          key={item.name}
-          showSynopsis={true}
-          query={query}
-          type={tab}
-          parameters={parameters}
-          seo={seo}
-        />
+        <NewsCard data={topicData} key={item.name} showSynopsis={true} query={query} type={tab} />
       ) : (
         <p className={styles.noData} key="paragraph">
           Sorry, there are no results for your search!

@@ -75,8 +75,8 @@ const DfpAds: FC<AdInfoProps> = function (props) {
           }
           let adSize = objVc.dfp[key] && objVc.dfp[key]["adSize"];
           adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-          const dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
-          //dimension = Array.isArray(dimension[0]) ? dimension[0] : dimension;
+          let dimension = customDimension ? JSON.parse(customDimension) : adSize ? adSize : [320, 250];
+          dimension = Array.isArray(dimension[0]) ? dimension[0] : dimension;
           const adSlot = customSlot ? customSlot : objVc.dfp[key] && objVc.dfp[key]["adSlot"];
           slot = googleTag.defineSlot(adSlot, dimension, divId);
           window.adDivIdSlots[divId] = slot;

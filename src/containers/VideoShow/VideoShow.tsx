@@ -10,7 +10,7 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-import { getPageSpecificDimensions, updateDimension } from "utils";
+import { getPageSpecificDimensions } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
@@ -43,7 +43,6 @@ const VideoShow: FC<PageProps> = (props) => {
   }
 
   const intsCallback = () => {
-    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     window.objInts.afterPermissionCall(() => {
       window.objInts.permissions.indexOf("subscribed") > -1 && setIsPrimeUser(1);
     });

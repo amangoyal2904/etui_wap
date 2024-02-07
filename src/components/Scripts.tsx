@@ -28,35 +28,35 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
   useEffect(() => {
     window.optCheck = router.asPath.indexOf("opt=1") != -1;
 
-    //   document.addEventListener(
-    //     "grxLoaded",
-    //     () => {
-    //       if (window.ga && window.grx && window.dataLayer) {
-    //         updateDimension();
-    //       }
-    //     },
-    //     { once: true }
-    //   );
+    document.addEventListener(
+      "grxLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
 
-    //   document.addEventListener(
-    //     "gaLoaded",
-    //     () => {
-    //       if (window.ga && window.grx && window.dataLayer) {
-    //         updateDimension();
-    //       }
-    //     },
-    //     { once: true }
-    //   );
+    document.addEventListener(
+      "gaLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
 
-    //   document.addEventListener(
-    //     "gtmLoaded",
-    //     () => {
-    //       if (window.ga && window.grx && window.dataLayer) {
-    //         updateDimension();
-    //       }
-    //     },
-    //     { once: true }
-    //  );
+    document.addEventListener(
+      "gtmLoaded",
+      () => {
+        if (window.ga && window.grx && window.dataLayer) {
+          updateDimension();
+        }
+      },
+      { once: true }
+    );
   }, []);
 
   return (
@@ -75,11 +75,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
           }
           var _comscore = _comscore || [];
           _comscore.push({ c1: "2", c2: "6036484" });
-
-          var isAdBlockerActive = true;
         `}
       </Script>
-      <Script src={`/assets/js/ad_frame.js`} />
       <Script id="geoinfo-call">
         {`
         function getGeoInfo() {    

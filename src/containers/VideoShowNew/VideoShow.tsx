@@ -4,7 +4,7 @@ import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
 import { PageProps, VideoShowProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
-import { getPageSpecificDimensions, loadScript, wait, updateDimension } from "utils";
+import { getPageSpecificDimensions, loadScript } from "utils";
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
 import VideoStoryCard from "./VideoStoryCard";
@@ -126,7 +126,7 @@ const VideoShow: FC<PageProps> = (props) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
-            let nextVideoMsid: any = result.nextvideo;
+            let nextVideoMsid = result.nextvideo;
             if (nextVideoMsid) {
               const observer = new IntersectionObserver(([entry]) => {
                 if (
@@ -141,10 +141,6 @@ const VideoShow: FC<PageProps> = (props) => {
                   (async () => {
                     try {
                       setIsLoading(true);
-
-                      // wait for 12 seconds for every next video load start
-                      // await wait(12000);
-
                       const res = await Service.get({
                         api,
                         params: { type: "videoshow", msid: nextVideoMsid, platform: "wap", feedtype: "etjson" }
@@ -181,7 +177,6 @@ const VideoShow: FC<PageProps> = (props) => {
     // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload, dimension25: "videoshownew" };
-    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
   }, [props]);
 
   useEffect(() => {
@@ -193,8 +188,7 @@ const VideoShow: FC<PageProps> = (props) => {
         .then((response) => response.json())
         .then((data) => {
           if (data && Array.isArray(data) && data.length > 0) {
-            const data3 = data.slice(0, 3);
-            data3.forEach((item) => {
+            data.forEach((item) => {
               recosMsids.push(item.msid);
             });
           }
@@ -221,8 +215,6 @@ const VideoShow: FC<PageProps> = (props) => {
             key={`vid_${i}`}
             didUserInteractionStart={didUserInteractionStart}
             pageViewMsids={pageViewMsids}
-            parameters={parameters}
-            seo={seo}
           />
         ))}
         {showLoaderNext && (

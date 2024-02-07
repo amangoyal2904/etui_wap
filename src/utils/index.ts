@@ -1,7 +1,5 @@
 import getConfig from "next/config";
 import { pageview } from "./ga";
-import { ET_WAP_URL, ET_WEB_URL, SiteConfig } from "utils/common";
-import { networkInterfaces } from "os";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -10,7 +8,6 @@ declare global {
   interface Window {
     geolocation: number;
     customDimension: any;
-    grxDimension_cdp: any;
     geoinfo: {
       CountryCode: string;
       geolocation: string;
@@ -18,33 +15,12 @@ declare global {
     };
     opera?: string;
     MSStream?: string;
-    e$: {
-      jStorage: {
-        set(arg1: string, arg2: any): any;
-        get(arg1: string): any;
-        index: any;
-      };
-    };
   }
   interface objUser {
     info: {
       isLogged: boolean;
     };
   }
-}
-
-interface payLoadType {
-  dimension4: any;
-  dimension8: any;
-  dimension9: any;
-  dimension12: any;
-  dimension13: any;
-  dimension25: any;
-  dimension26: any;
-  dimension27: string;
-  dimension29: any;
-  dimension48: any;
-  dimension34?: string;
 }
 export const isBrowser = () => typeof window !== "undefined";
 
@@ -190,12 +166,12 @@ export const prepareMoreParams = ({ all, page, msid, stockapitype, screenerid, f
     moreParams.stockapitype = stockapitype || "overview";
     delete moreParams.msid;
   }
+
   if (page === "stockreportscategory") {
     moreParams.screenerid = screenerid;
     moreParams.filterid = filterid;
     delete moreParams.msid;
   }
-
   return moreParams;
 };
 
@@ -205,9 +181,12 @@ export const getStockAPITYPE = (all: any) => {
 
   return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
 };
+
 export const getScreenerID = (all: any, type: string) => {
   const elementWithApitype = all.find((item: any) => item.includes("screenerid-"));
+
   const splitElementWithApitype = elementWithApitype && elementWithApitype.split(",");
+
   const screeneridString =
     splitElementWithApitype &&
     splitElementWithApitype
@@ -234,7 +213,6 @@ export const getScreenerID = (all: any, type: string) => {
     return filteridString && filteridString.length ? filteridString[0] : "";
     // return elementWithApitype ? elementWithApitype.split(",")[1].split("-")[1].split(".")[0] : "";
   }
-
   //return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
 };
 export const encodeQueryData = (data) => {
@@ -291,7 +269,7 @@ export const checkLoggedinStatus = () => {
   }
 };
 export const getPageSpecificDimensions = (seo) => {
-  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow", videoAge } = seo;
+  const { subsecnames = {}, msid, updated = "", keywords, agency, page = "videoshow" } = seo;
   const dateArray = updated.split(",");
   const dateString = dateArray[0] || "";
   const timeString = dateArray[1] || "";
@@ -305,7 +283,7 @@ export const getPageSpecificDimensions = (seo) => {
       ? `/${subsecname1}/`
       : "";
 
-  const payload: payLoadType = {
+  const payload = {
     dimension4: agency,
     dimension8: dateString,
     dimension9: subsecname2,
@@ -317,10 +295,6 @@ export const getPageSpecificDimensions = (seo) => {
     dimension29: subsec1,
     dimension48: msid
   };
-
-  if (page == "videoshow") {
-    videoAge && (videoAge > 3 ? (payload.dimension34 = ">72hrs") : (payload.dimension34 = "<72hrs"));
-  }
   return payload;
 };
 
@@ -388,178 +362,18 @@ export const createGAPageViewPayload = (payload = {}) => {
     console.log("Error in createGAPageViewPayload:", e);
   }
 };
-export const appendZero = (num) => (num >= 0 && num < 10 ? "0" + num : num);
-
-export const getjStorageVal = (keyName) => {
-  let value = "";
-  try {
-    if (typeof window.e$ !== "undefined") {
-      value = window.e$.jStorage.get(keyName);
-    }
-  } catch (e) {
-    console.log("error", e);
-  }
-  return value;
-};
-
-export const fetchAdaptiveData = function () {
-  const referrer = document.referrer;
-  let trafficSource = "Direct";
-  if (getjStorageVal("etu_source")) {
-    trafficSource = getjStorageVal("etu_source");
-  } else if (referrer.indexOf("google") !== -1 || referrer.indexOf("bing") || referrer.indexOf("yahoo")) {
-    trafficSource = "Organic";
-  } else if (
-    referrer.indexOf("social") !== -1 ||
-    referrer.indexOf("facebook") ||
-    referrer.indexOf("linkedin") ||
-    referrer.indexOf("instagram") ||
-    referrer.indexOf("twitter")
-  ) {
-    trafficSource = "Social";
-  } else if (window.location.href.toLowerCase().indexOf("utm") !== -1) {
-    trafficSource = "Newsletter";
-  }
-  const loginStatus = getCookie("ssoid") ? "Logged In" : "Not Logged In";
-  const lastClick = getjStorageVal("etu_last_click") || "direct_landing_articleshow";
-  const dtObject = new Date(),
-    dt = dtObject.getFullYear() + "" + appendZero(dtObject.getMonth() + 1) + "" + appendZero(dtObject.getDate());
-  const key = "et_article_" + dt;
-  const articleReadCountToday = (getjStorageVal(key) || []).length;
-  let articleReadCountMonth = 0;
-  let paidArticleReadCountMonth: any = 0;
-  try {
-    const jstorageKeys = window.e$.jStorage.index();
-    jstorageKeys
-      .filter(function (key) {
-        return key.indexOf("et_article_") !== -1;
-      })
-      .forEach(function (key) {
-        articleReadCountMonth += getjStorageVal(key).length;
-      });
-    jstorageKeys
-      .filter(function (key) {
-        return key.indexOf("et_primearticle_") !== -1;
-      })
-      .forEach(function (key) {
-        paidArticleReadCountMonth += getjStorageVal(key) || 0;
-      });
-  } catch (e) {
-    console.log("error", e);
-  }
-  const paidArticleReadCountTodayKey = "et_primearticle_" + dt;
-  const paidArticleReadCountToday = getjStorageVal(paidArticleReadCountTodayKey) || 0;
-  const continuousPaywallHits = (getjStorageVal("et_continuousPaywalled") || []).length;
-  return {
-    trafficSource,
-    loginStatus,
-    lastClick,
-    articleReadCountToday,
-    articleReadCountMonth,
-    paidArticleReadCountToday,
-    paidArticleReadCountMonth,
-    continuousPaywallHits
-  };
-};
-
-export const updateDimension = ({
-  dimensions = {},
-  payload = {},
-  url = "",
-  type = "",
-  pageName = "",
-  msid = "",
-  subsecnames
-}) => {
+export const updateDimension = (dimensions = {}, payload = {}) => {
   try {
     if (typeof window !== "undefined") {
       const sendEvent = () => {
         dimensions["dimension20"] = "PWA";
         window.customDimension = { ...window.customDimension, ...dimensions };
         createGAPageViewPayload(payload);
-        const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
-        const uniqueID = Date.now() + "_" + window.objInts.readCookie("_grx");
-        const isSubscribed =
-          typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
-        const nonAdPageArray = ["shortvideos", "quickreads"];
-        let isMonetizable = "y";
-        if (isSubscribed || nonAdPageArray.indexOf(pageName) !== -1) {
-          isMonetizable = "n";
-        }
-        const { trafficSource, lastClick } = fetchAdaptiveData();
-        window.grxDimension_cdp = {
-          url: window.location.href,
-          title: document.title,
-          referral_url: document.referrer,
-          platform: "pwa"
-        };
-        window.grxDimension_cdp["section_id"] =
-          (window.customDimension["dimension29"] && window.customDimension["dimension29"]) || "";
-        window.grxDimension_cdp["level_1"] =
-          (window.customDimension["dimension26"] && window.customDimension["dimension26"].toLowerCase()) || "";
-        window.grxDimension_cdp["level_full"] =
-          (window.customDimension["dimension27"] && window.customDimension["dimension27"].toLowerCase()) || "";
-        window.grxDimension_cdp["paywalled"] = window.customDimension["dimension59"] == "Yes" ? "y" : "n";
-        window.grxDimension_cdp["content_id"] =
-          (window.customDimension["msid"] && window.customDimension["msid"]) || msid;
-        window.grxDimension_cdp["last_click_source"] = lastClick || "";
-        window.grxDimension_cdp["source"] = trafficSource || "";
-        window.grxDimension_cdp["business"] = "et";
-        window.grxDimension_cdp["dark_mode"] = "n";
-        window.grxDimension_cdp["client_source"] = "cdp";
-        window.grxDimension_cdp["event_name"] = "page_view";
-        window.grxDimension_cdp["unique_id"] = uniqueID;
-        window.grxDimension_cdp["loggedin"] =
-          window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
-            ? "y"
-            : userInfo && userInfo.isLogged
-            ? "y"
-            : "n";
-        window.grxDimension_cdp["email"] = (userInfo && userInfo.primaryEmail) || "";
-        window.grxDimension_cdp["phone"] =
-          userInfo && userInfo.mobileData && userInfo.mobileData.Verified && userInfo.mobileData.Verified.mobile
-            ? userInfo.mobileData.Verified.mobile
-            : "";
-        window.grxDimension_cdp["subscription_status"] =
-          (window.customDimension["dimension37"] && window.customDimension["dimension37"].toLowerCase()) || "";
-        window.grxDimension_cdp["page_template"] =
-          (window.customDimension["dimension25"] && window.customDimension["dimension25"].toLowerCase()) ||
-          (pageName && pageName.toLowerCase());
-        window.grxDimension_cdp["subscription_type"] =
-          (typeof window.e$ != "undefined" &&
-            window.e$.jStorage &&
-            window.e$.jStorage.get("et_subscription_profile") &&
-            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type &&
-            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type.toLowerCase()) ||
-          "";
-        window.grxDimension_cdp["monetizable"] = isMonetizable;
-        const navigator: any = window.navigator;
-        window.grxDimension_cdp["browser_name"] = (navigator && navigator.sayswho) || "";
-        window.grxDimension_cdp["product"] =
-          (window.customDimension["dimension1"] && window.customDimension["dimension1"]) || "";
-        window.grxDimension_cdp["level_2"] = subsecnames.subsecname2 || "";
-        window.grxDimension_cdp["level_3"] = subsecnames.subsecname3 || "";
-        window.grxDimension_cdp["level_4"] = subsecnames.subsecname4 || "";
-        const utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search);
-        const utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source");
-        const utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium");
-        const utmCamp_dim = utmParams_dim.get && utmParams_dim.get("utm_campaign");
-        const campaign_id = utmParams_dim.get && utmParams_dim.get("campaign_id");
-        window.grxDimension_cdp["utm_source"] = utmSource_dim || "";
-        window.grxDimension_cdp["utm_medium"] = utmMedium_dim || "";
-        window.grxDimension_cdp["utm_campaign"] = utmCamp_dim || "";
-        window.grxDimension_cdp["campaign_id"] = campaign_id || "";
-        window.grxDimension_cdp["login_method"] = window.objInts.readCookie("LoginType") || "";
-
-        url
-          ? pageview(url, payload, type)
-          : pageview(
-              (location.pathname + location.search).length > 1
-                ? (location.pathname + location.search).substr(1)
-                : location.pathname + location.search,
-              payload,
-              type
-            );
+        pageview(
+          (location.pathname + location.search).length > 1
+            ? (location.pathname + location.search).substr(1)
+            : location.pathname + location.search
+        );
       };
       const objUser = (window.objUser && window.objUser.info) || {};
       if (Object.keys(objUser).length) {
@@ -599,136 +413,6 @@ export const prepSeoListData = (data) => {
  * @param all
  * @returns true or false
  */
-export function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("");
-    }, ms);
-  });
-}
-
-export const getArticleType = (url) => {
-  try {
-    let a,
-      b,
-      c = "";
-    let type = "";
-    if (typeof url == "string") {
-      a = url.split(".cms")[0];
-      b = a.split("/");
-      c = b[b.length - 2];
-      switch (c) {
-        case "articleshow":
-          type = "articleshow";
-          break;
-        case "slideshow":
-        case "photostory":
-          type = "slideshow";
-          break;
-        case "primearticleshow":
-          type = "primearticleshow";
-          break;
-        case "videoshow":
-          type = "videoshow";
-          break;
-        case "liveblog":
-          type = "liveblog";
-          break;
-        case "podcast":
-          type = "podcast";
-          break;
-      }
-      if (
-        url.indexOf(ET_WEB_URL) > -1 &&
-        (type == "articleshow" || type == "articlelist" || type == "primearticleshow")
-      ) {
-        type = "";
-      }
-    }
-
-    return type;
-  } catch (e) {
-    console.log("Err getArticleType: ", e);
-  }
-};
-
-export const getType = (data) => {
-  try {
-    const metainfo = data.metainfo || {};
-    let type = "articleshow";
-    if (data.mstype) {
-      if (data.mstype == "8" || data.mstype == "3") {
-        type = "slideshow";
-      } else if (data.msType == "38" && data.mssubtype == "2") {
-        type = "podcast";
-      } else if (data.mstype == "38") {
-        type = "videoshow";
-      } else if (data.mstype == "42") {
-        type = "liveblog";
-      }
-    } else if (data.cmstype) {
-      if (data.hostid && data.primeid) {
-        if (data.cmstype == "ARTICLE") {
-          if (data.hostid.indexOf(318) !== -1) {
-            if (data.primeid == "200") {
-              type = "freereads";
-            } else {
-              type = "primearticleshow";
-            }
-          } else if (data.primeid == "100") {
-            type = "premium";
-          } else {
-            type == "articleshow";
-          }
-        } else if (
-          data.cmstype == "SLIDESHOW" ||
-          data.cmstype == "IMAGES" ||
-          data.cmstype == "PHOTOGALLERYSLIDESHOWSECTION"
-        ) {
-          type = "slideshow";
-          if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
-            type = "webstory";
-          }
-        } else if (data.cmstype == "VIDEO" || data.cmstype == "MEDIAVIDEO") {
-          type = "videoshow";
-        } else if (data.cmstype == "MEDIAAUDIO") {
-          type = "podcast";
-        } else if (data.cmstype == "LIVEBLOG") {
-          type = "liveblog";
-        } else if (data.cmstype == "DEFINITION") {
-          // Panache people - 77284788
-          type = data.parentid == 77284788 ? "profileshow" : "definition";
-        }
-      }
-    } else {
-      const url = data.ploverridelink || data.overridelink || data.hoverridelink || "";
-      if (url) {
-        type = getArticleType(url);
-      }
-      if (data.contenttypeid == 2) {
-        type == "articleshow";
-      } else if (data.contenttypeid == 3 || data.contenttypeid == 8) {
-        type = "slideshow";
-        if (metainfo.AMPStory && metainfo.AMPStory.value && metainfo.AMPStory.value == 1) {
-          type = "webstory";
-        }
-      } else if (data.contenttypeid == 38 && data.contentsubtypeid == 2) {
-        type = "podcast";
-        // eslint-disable-next-line no-dupe-else-if
-      } else if (data.contenttypeid == 2 && data.contentsubtypeid == 7) {
-        type = "profileshow";
-      } else if (data.contenttypeid == 38) {
-        type = "videoshow";
-      } else if (data.contenttypeid == 42) {
-        type = "liveblog";
-      }
-    }
-    return type;
-  } catch (e) {
-    console.log("Err getType: ", e);
-  }
-};
-
 export const shouldRedirectTopic = (all) => {
   const query: string = all?.slice(1, 2).toString();
   let isValidQuery = true;
@@ -737,190 +421,4 @@ export const shouldRedirectTopic = (all) => {
     isValidQuery = false;
   }
   return isValidQuery;
-};
-
-export const getMSUrl = (data) => {
-  try {
-    // const { metainfo, original, agency, msid } = data;
-    let url = "";
-    let type = getType(data);
-    if (type == "webstory") {
-      type = "slideshow";
-    }
-    if (type == "premium") {
-      type = "articleshow";
-    } else if (type == "freereads") {
-      type = "primearticleshow";
-    }
-    let seopath = data.seopath || data.seolocation || "";
-    if (data && data.hostid && data.hostid.indexOf("318") != -1) {
-      seopath = seopath.replace("news/", "prime/");
-    }
-
-    const overrideURL = data.ploverridelink || data.overridelink || data.hoverridelink || "";
-    url = data.msid && data.hostid.indexOf("153") == -1 ? "" : overrideURL;
-    if (!url) {
-      url = ET_WAP_URL + "/" + seopath + "/" + type + "/" + data.msid + ".cms";
-    }
-    url = url.indexOf("/topic/") > -1 ? url.replace(/[, ]/gi, "-").toLowerCase() : url;
-    if (url.indexOf("liveblog") > -1) {
-      url = url.replace(ET_WAP_URL, ET_WEB_URL);
-    } else if (url && url.indexOf("http") == -1) {
-      url = url.indexOf("/") == 0 ? url : "/" + url;
-      url = ET_WAP_URL + url;
-    }
-    /*const customUTM = metainfo && metainfo.RealEstateProjectName && metainfo.RealEstateProjectName.value || "";
-    utm = utm || customUTM || "";
-    if(customUTM){
-      utm = url.indexOf("?") != -1 ? "&" + utm : "?" + utm;
-    }
-    url = utm ? url + utm : url;*/
-    return url;
-  } catch (error) {
-    console.log("error in getURL", error);
-  }
-};
-
-export const unixToDate = (unixTimestamp) => {
-  try {
-    // Create a new Date object based on the Unix timestamp
-    const date = new Date(unixTimestamp);
-
-    // Define an array of month abbreviations
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    // Get the day, month, and year from the Date object
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    // Get the hours and minutes from the Date object
-    let hours = date.getHours();
-    let minutes: any = date.getMinutes();
-
-    // Determine whether it's AM or PM
-    const amOrPm = hours < 12 ? "AM" : "PM";
-
-    // Convert to 12-hour format
-    if (hours > 12) {
-      hours -= 12;
-    } else if (hours === 0) {
-      hours = 12;
-    }
-
-    // Add leading zeros to minutes if necessary
-    if (minutes < 10) {
-      minutes = "0" + minutes;
-    }
-
-    // Get the timezone offset from UTC in minutes
-    const timezoneOffset = date.getTimezoneOffset();
-
-    // Convert the timezone offset to hours and minutes
-    const timezoneOffsetHours = Math.abs(Math.floor(timezoneOffset / 60));
-    const timezoneOffsetMinutes = Math.abs(timezoneOffset % 60);
-
-    // Determine whether the timezone offset is ahead or behind UTC
-    const timezoneOffsetSign = timezoneOffset > 0 ? "-" : "+";
-
-    // Create the formatted date string
-    const dateString = `${day} ${month}, ${year}, ${hours}.${minutes} ${amOrPm} IST`;
-
-    // Return the formatted date string
-    return dateString;
-  } catch (e) {
-    console.log("Err unixToDate: ", e);
-  }
-};
-
-export const getKeyData = (data) => {
-  const obj = {};
-  try {
-    for (const key in data) {
-      if (data && data[key] && data[key]["@react"]) {
-        const keyData = data[key]["#text"] || data[key]["data"] || "";
-        if (keyData) {
-          obj[key] = keyData;
-        } else if (typeof data[key] == "object") {
-          const val = getKeyData(data[key]);
-          if (val && Object.keys(val).length) {
-            obj[key] = val;
-          }
-        }
-      }
-    }
-  } catch (error) {
-    console.log("error in getKeyData");
-  }
-  return obj;
-};
-
-const addZero = (num) => {
-  return num >= 10 ? num : "0" + num;
-};
-
-export const nowDate = () => {
-  const dt = new Date(),
-    now =
-      dt.getFullYear() +
-      "-" +
-      addZero(dt.getMonth() + 1) +
-      "-" +
-      addZero(dt.getDate()) +
-      " " +
-      addZero(dt.getHours()) +
-      ":" +
-      addZero(dt.getMinutes()) +
-      ":" +
-      addZero(dt.getSeconds());
-  return now || dt;
-};
-
-const getIPAddress = () => {
-  const interfaces = networkInterfaces();
-  for (const devName in interfaces) {
-    const iface = interfaces[devName];
-
-    for (let i = 0; i < iface.length; i++) {
-      const alias = iface[i];
-      if (alias.family === "IPv4" && alias.address !== "127.0.0.1" && !alias.internal) return alias.address;
-    }
-  }
-  return "0.0.0.0";
-};
-
-export const saveLogs = (data = {}) => {
-  try {
-    data["vmip"] = getIPAddress();
-    const logData =
-      "logdata=" + JSON.stringify({ mode: APP_ENV == "development" ? "modeDev" : "modeLive", channel: "WapApi", data });
-
-    fetch("https://etx.indiatimes.com/log?et=mobile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: logData
-    });
-  } catch (error) {
-    console.log("error in saveLogs", error);
-  }
-};
-
-export const countWords = (str) => {
-  // Remove leading/trailing spaces
-  str = str.trim();
-
-  // If the string is empty, return 0
-  if (str === "") {
-    return 0;
-  }
-
-  // Split the string by spaces
-  const words = [...str.split(" ")];
-
-  // Count the number of non-empty words
-  const wordCount = words.filter((word) => word !== "").length;
-
-  return wordCount;
 };
