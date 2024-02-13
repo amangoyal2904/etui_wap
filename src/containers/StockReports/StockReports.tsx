@@ -1,6 +1,6 @@
 import styles from "./StockReports.module.scss";
 import { useEffect, useState, Fragment, FC } from "react";
-import { PageProps, StockReportsProps, StocksTabs, StockOverViewProps } from "types/stockreports";
+import { PageProps, StockReportsProps } from "types/stockreports";
 import BreadCrumb from "components/BreadCrumb";
 import GreyDivider from "components/GreyDivider";
 import { getPageSpecificDimensions } from "utils";
@@ -41,7 +41,6 @@ const StockReports: FC<PageProps> = (props) => {
   const stPlusBannerData = props && props.srpluscontent;
   const overlayBlockerData = props && props.overlayBlocker;
   const btmBlockerData = props && props.btmBlocker;
-  //const activeMenu = props?.searchResult?.find((item) => item.name === "stockreports")?.stockapitype;
   const intsCallback = () => {
     window.objInts.afterPermissionCall(() => {
       const userFullName =
@@ -69,56 +68,56 @@ const StockReports: FC<PageProps> = (props) => {
     setShowFilter(value);
   };
   const APICallForFilterData = (id: any, apitype: string) => {
-    const _apiTypeValue = srTabActivemenu || "";
-    // $'{\"deviceId\":\"web\",\"filterType\":\"index\",\"filterValue\":[2371],\"pageno\":1,\"pagesize\":20,\"screenerId\":2530,\"sort\":[{\"displayName\":\"Last Traded Price\",\"field\":\"lastTradedPrice\",\"order\":\"asc\"}]}'
-    const _id = id && id > 0 ? [parseFloat(id)] : [];
-    //console.log("__________", id, _id);
-    const dataBody = {
-      deviceId: "web",
-      filterType: "index",
-      filterValue: _id,
-      pageno: 1,
-      pagesize: 20,
-      screenerId: _id,
-      sort: [
-        {
-          displayName: "Last Traded Price",
-          field: "lastTradedPrice",
-          order: "asc"
-        }
-      ]
-    };
-    const APIURL = "https://screener.indiatimes.com/screener/stockReportAllTabs";
-    const postData = { apiType: _apiTypeValue, filterType: "index", filterValue: _id, deviceId: "web" };
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(postData)
-    };
-    setLoader(true);
-    fetch(APIURL, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
+    try {
+      const _apiTypeValue = srTabActivemenu || "";
+      const _id = id && id > 0 ? [parseFloat(id)] : [];
+      const dataBody = {
+        deviceId: "web",
+        filterType: "index",
+        filterValue: _id,
+        pageno: 1,
+        pagesize: 20,
+        screenerId: _id,
+        sort: [
+          {
+            displayName: "Last Traded Price",
+            field: "lastTradedPrice",
+            order: "asc"
+          }
+        ]
+      };
+      const APIURL = "https://screener.indiatimes.com/screener/stockReportAllTabs";
+      const postData = { apiType: _apiTypeValue, filterType: "index", filterValue: _id, deviceId: "web" };
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(postData)
+      };
+      setLoader(true);
+      fetch(APIURL, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            setLoader(false);
+            throw new Error("Network response was not ok.");
+          }
+          return response.json();
+        })
+        .then((data) => {
           setLoader(false);
-          throw new Error("Network response was not ok.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        //console.log("Response data:", data);
-        setLoader(false);
-        setStockDataFilter(data);
-      })
-      .catch((error) => {
-        setLoader(false);
-        console.error("There was a problem with the fetch operation:", error);
-      });
+          setStockDataFilter(data);
+        })
+        .catch((error) => {
+          setLoader(false);
+          console.error("There was a problem with the fetch operation:", error);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const handleChagneData = (id: any, name: string, slectedTab: string) => {
     setShowFilter(false);
-    console.log("ID", id, "Name", name);
     sessionStorage.setItem("sr_filtervalue", id);
     sessionStorage.setItem("sr_filtername", name);
     sessionStorage.setItem("sr_filtertab", slectedTab);
@@ -132,24 +131,26 @@ const StockReports: FC<PageProps> = (props) => {
       1
     );
     setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    //const apiType = srTabActivemenu;
-    //APICallForFilterData(id, apiType);
   };
   const filterApiCall = () => {
-    fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          console.log("error filer data is not fetch");
-        }
-      })
-      .then((data) => {
-        setFilterMenuData(data);
-      })
-      .catch((err) => {
-        console.log("get error", err);
-      });
+    try {
+      fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            console.log("error filer data is not fetch");
+          }
+        })
+        .then((data) => {
+          setFilterMenuData(data);
+        })
+        .catch((err) => {
+          console.log("get error", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const srTabHandleClick = (apitype: string) => {
     if (apitype === "stockreports") {
@@ -159,24 +160,8 @@ const StockReports: FC<PageProps> = (props) => {
     }
     setSrTabActivemenu(apitype);
   };
-  /**
-   * Fires tracking events.
-   * for sample
-   */
-  const handleClickForGRX = () => {
-    grxEvent(
-      "event",
-      {
-        event_category: "title",
-        event_action: `Click-Show More`,
-        event_label: `heretitleofPageLable`
-      },
-      1
-    );
-    //pageview("https://etnext.economictimes.com/stockreports_benefits.cms");
-  };
+
   useEffect(() => {
-    //handleClickForGRX();
     if (typeof window.objInts !== "undefined") {
       intsCallback();
     } else {
@@ -200,11 +185,9 @@ const StockReports: FC<PageProps> = (props) => {
           slectedTab: filterTab
         }));
       }
-      // console.log("________F__i__l__t___e___rMenuTxtShow", filterMenuTxtShow, filterValue, filterName, filterTab);
     })();
   }, []);
   useEffect(() => {
-    // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
     menuChangeDataSet();
@@ -215,17 +198,10 @@ const StockReports: FC<PageProps> = (props) => {
       APICallForFilterData(id, srTabActivemenu);
     }
   }, [srTabActivemenu, filterMenuTxtShow.id]);
-  //console.log("____________stockDataFilter", filterMenuTxtShow.id);
-  //console.log("__FilterMenu________________TxtShow", filterMenuTxtShow);
   return (
     <>
       <SEO {...seoData} />
       <div className={styles.mainContent}>
-        {/* {!hideAds && (
-          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
-            <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
-          </div>
-        )} */}
         <StockSrTabs data={tabData} activeMenu={srTabActivemenu} srTabClick={srTabHandleClick} />
         <StockSrTop />
         {!isPrimeUser && <StockTopBanner data={stPlusBannerData} srTabActivemenu={srTabActivemenu} />}
@@ -336,11 +312,6 @@ const StockReports: FC<PageProps> = (props) => {
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />
-        {/* {!hideAds && (
-          <div className={`${styles.footerAd} adContainer`}>
-            <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
-          </div>
-        )} */}
       </div>
       {!isPrimeUser ? <StockSRBTMBannerCard data={btmBlockerData} /> : ""}
       {showFilter && (

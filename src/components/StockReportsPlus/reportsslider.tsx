@@ -37,26 +37,30 @@ export default function ReportSliderSec() {
   };
 
   const fetchData = () => {
-    fetch(
-      `https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?indexid=2369&exchange=50&pagesize=50&sortorder=desc&sortby=percentChange&company=true&indexname=Nifty+50`
-    )
-      .then((res) => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          console.log("get some error in slider api");
-        }
-      })
-      .then((data) => {
-        const sliderData =
-          data && data.searchresult && data.searchresult[0] && data.searchresult[0].companies
-            ? data.searchresult[0].companies
-            : [];
-        setStockData(sliderData);
-      })
-      .catch((error) => {
-        console.log("Error found slider api nifty 50", error);
-      });
+    try {
+      fetch(
+        `https://etmarketsapis.indiatimes.com/ET_Stats/getIndexByIds?indexid=2369&exchange=50&pagesize=50&sortorder=desc&sortby=percentChange&company=true&indexname=Nifty+50`
+      )
+        .then((res) => {
+          if (res && res.ok) {
+            return res.json();
+          } else {
+            console.log("get some error in slider api");
+          }
+        })
+        .then((data) => {
+          const sliderData =
+            data && data.searchresult && data.searchresult[0] && data.searchresult[0].companies
+              ? data.searchresult[0].companies
+              : [];
+          setStockData(sliderData);
+        })
+        .catch((error) => {
+          console.log("Error found slider api nifty 50", error);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const gaTrackHandler = (companyName: string) => {
     grxEvent(

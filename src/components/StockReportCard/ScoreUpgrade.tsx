@@ -5,13 +5,13 @@ interface StockRightProps {
   isPrimeUser?: number;
 }
 
-export default function StockReportCard({ data, isPrimeUser }: StockRightProps) {
-  const sr_targetVsCurrent = data && data.find((item) => item.keyId === "sr_targetVsCurrent").value;
-  const sr_targetVsCurrentClass = data && data.find((item) => item.keyId === "sr_targetVsCurrent").trend;
-  const price = data && data.find((item) => item.keyId === "sr_priceTargetMean").value;
-  const sr_recText = data && data.find((item) => item.keyId === "sr_recText").value;
-  const sr_recTextClass = data && data.find((item) => item.keyId === "sr_recText").trend;
-  const currentPrice = data && data.find((item) => item.keyId === "lastTradedPrice").value;
+export default function StockReportCard({ data = [], isPrimeUser }: StockRightProps) {
+  const sr_targetVsCurrent = data?.find((item) => item.keyId === "sr_targetVsCurrent").value || "";
+  const sr_targetVsCurrentClass = data?.find((item) => item.keyId === "sr_targetVsCurrent").trend || "";
+  const price = data?.find((item) => item.keyId === "sr_priceTargetMean").value || "";
+  const sr_recText = data?.find((item) => item.keyId === "sr_recText").value || "";
+  const sr_recTextClass = data?.find((item) => item.keyId === "sr_recText").trend || "";
+  const currentPrice = data?.find((item) => item.keyId === "lastTradedPrice").value || "";
   return (
     <>
       <div className={styles.rightSecWrap}>

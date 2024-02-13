@@ -15,7 +15,7 @@ interface StockSRCatTabsProps {
   srTabsClick: any;
 }
 
-export default function StockSrCatTabs({ data, srTabsClick }: StockSRCatTabsProps) {
+export default function StockSrCatTabs({ data = [], srTabsClick }: StockSRCatTabsProps) {
   const tabsData = Array.isArray(data) && data.length > 0 ? data[0].array : [];
   const [activeCategory, setActiveCategory] = useState(data[0].activeCategory);
 

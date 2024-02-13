@@ -24,7 +24,7 @@ interface StockSRCardProps {
 }
 
 export default function StockReportCard({
-  data,
+  data = [],
   cardType,
   totalRecords,
   id,
@@ -102,13 +102,15 @@ export default function StockReportCard({
               <div {...cardClickProps} className={`${styles.cardSec} ${prevScore ? styles.btt : ""}`}>
                 {isPrimeUser ? (
                   <h2 className={styles.heading}>
-                    <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
+                    <Link href={`/${item?.seoName}/stocks/companyid-${item?.companyID}.cms`}>
                       <a
-                        title={item.name}
-                        onClick={() => grxHandle(item.name, `/${item.seoName}/stocks/companyid-${item.companyID}.cms`)}
+                        title={item?.name}
+                        onClick={() =>
+                          grxHandle(item?.name, `/${item?.seoName}/stocks/companyid-${item?.companyID}.cms`)
+                        }
                         target="_blank"
                       >
-                        {item.name}
+                        {item?.name}
                       </a>
                     </Link>
                   </h2>
@@ -118,12 +120,12 @@ export default function StockReportCard({
                 <div className={styles.boxWraper}>
                   <div className={styles.leftSec}>
                     <StockReportBox
-                      data={item.data}
+                      data={item?.data}
                       ratingBox={ratingBox}
-                      seoName={item.seoName}
-                      companyID={item.companyID}
+                      seoName={item?.seoName}
+                      companyID={item?.companyID}
                       isPrimeUser={isPrimeUser}
-                      companyName={item.name}
+                      companyName={item?.name}
                       stockname={stockname}
                       srTabActivemenu={srTabActivemenu}
                     />
@@ -131,18 +133,18 @@ export default function StockReportCard({
                   <div className={styles.rightSec}>
                     {!ratingBox ? (
                       <>
-                        <StockRightProps isPrimeUser={isPrimeUser} data={item.data} />
+                        <StockRightProps isPrimeUser={isPrimeUser} data={item?.data} />
                       </>
                     ) : (
                       <>
-                        <UpGradeCard data={item.data} />
+                        <UpGradeCard data={item?.data} />
                       </>
                     )}
                   </div>
                 </div>
                 {prevScore && (
                   <>
-                    <BottomScore data={item.data} seoName={item.seoName} companyID={item.companyID} />
+                    <BottomScore data={item?.data} seoName={item?.seoName} companyID={item?.companyID} />
                   </>
                 )}
               </div>

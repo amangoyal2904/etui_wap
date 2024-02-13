@@ -7,8 +7,7 @@ interface StockTabsProps {
   srTabClick?: any;
 }
 
-export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsProps) {
-  //console.log("activeMenu", activeMenu);
+export default function StockSrTabs({ data = [], activeMenu, srTabClick }: StockTabsProps) {
   const handleClick = (apiType: any, name: string) => {
     grxEvent(
       "event",
@@ -28,10 +27,10 @@ export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsP
           {data.map((item: any, i) => (
             <li
               key={i}
-              className={`${activeMenu === item.apiType ? styles.active : ""}`}
-              onClick={() => handleClick(item.apiType, item.name)}
+              className={`${activeMenu === item?.apiType ? styles.active : ""}`}
+              onClick={() => handleClick(item?.apiType, item?.name)}
             >
-              {item.name}
+              {item?.name}
             </li>
           ))}
         </ul>

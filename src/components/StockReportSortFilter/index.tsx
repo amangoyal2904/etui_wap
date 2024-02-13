@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Fragment, useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./styles.module.scss";
 
 interface StockSRSortFilterProps {
@@ -10,7 +9,7 @@ interface StockSRSortFilterProps {
 }
 
 export default function StockReportSortFilter({
-  data,
+  data = [],
   oncloseMenu,
   sortApplyHandler,
   defaultActiveTabData
@@ -19,15 +18,6 @@ export default function StockReportSortFilter({
   const [sortIconClass, setSortIconClass] = useState(defaultActiveTabData.sort);
   const [displayname, setDisplayname] = useState("");
   const modalRef = useRef(null);
-  const sortIconChangeHandler = () => {
-    const revertClass = sortIconClass === "desc" ? "asc" : "desc";
-    setSortIconClass(revertClass);
-    setSortMenuSelected((preData: any) => ({
-      ...preData,
-      sort: revertClass
-    }));
-  };
-
   const menuSortHandler = (id: string, name: string) => {
     setSortMenuSelected((preData: any) => ({
       ...preData,
@@ -80,12 +70,9 @@ export default function StockReportSortFilter({
                 data.map((item: any) => {
                   return (
                     <li key={item.id} onClick={() => menuSortHandler(item.id, item.displayName)}>
-                      <span>{item.displayName}</span>
+                      <span>{item?.displayName}</span>
                       {sortMenuSelected.id === item.id && (
-                        <span
-                          className={`${styles.sortIcon} ${styles[sortIconClass]}`}
-                          // onClick={sortIconChangeHandler}
-                        ></span>
+                        <span className={`${styles.sortIcon} ${styles[sortIconClass]}`}></span>
                       )}
                     </li>
                   );

@@ -1,7 +1,7 @@
 import styles from "./StockReportsCategory.module.scss";
 import { useRouter } from "next/router";
-import { useEffect, useState, Fragment, FC, useRef } from "react";
-import { PageProps, StockReportsProps, StocksTabs, StockOverViewProps } from "types/stockreportscategory";
+import { useEffect, useState, FC, useRef } from "react";
+import { PageProps, StockReportsProps } from "types/stockreportscategory";
 import BreadCrumb from "components/BreadCrumb";
 import { getPageSpecificDimensions } from "utils";
 import StockReportCard from "components/StockReportCard";
@@ -33,7 +33,6 @@ const StockReports: FC<PageProps> = (props) => {
   const observer = useRef<IntersectionObserver>();
   const lastElementRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  //const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [defaultScreenerId, setDefaultScreenerId] = useState(screenerIdDefault);
   const [isPrimeUser, setIsPrimeUser] = useState(0);
   const [isLoginUser, setIsLoginUser] = useState(0);

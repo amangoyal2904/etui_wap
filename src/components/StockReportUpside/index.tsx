@@ -21,7 +21,7 @@ interface StockSRCardProps {
 }
 
 export default function StockReportCard({
-  data,
+  data = [],
   totalRecords,
   id,
   isPrimeUser,
@@ -93,13 +93,13 @@ export default function StockReportCard({
                     <h2 className={styles.heading}>
                       <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
                         <a
-                          title={item.name}
+                          title={item?.name}
                           onClick={() =>
                             grxHandle(item.name, `/${item.seoName}/stocks/companyid-${item.companyID}.cms`)
                           }
                           target="_blank"
                         >
-                          {item.name}
+                          {item?.name}
                         </a>
                       </Link>
                     </h2>
@@ -109,16 +109,16 @@ export default function StockReportCard({
 
                   <GraphSecCard
                     isPrimeUser={isPrimeUser}
-                    data={item.data}
-                    seoName={item.seoName}
-                    companyID={item.companyID}
+                    data={item?.data}
+                    seoName={item?.seoName}
+                    companyID={item?.companyID}
                     srTabActivemenu={srTabActivemenu}
                     stockname={stockname}
-                    companyName={item.name}
+                    companyName={item?.name}
                   />
                 </div>
                 <div className={styles.rightSec}>
-                  <ReturnCard isPrimeUser={isPrimeUser} data={item.data} />
+                  <ReturnCard isPrimeUser={isPrimeUser} data={item?.data} />
                 </div>
               </div>
             </div>

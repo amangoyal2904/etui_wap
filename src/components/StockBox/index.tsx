@@ -15,7 +15,7 @@ interface StockCardBoxProps {
 }
 
 export default function StockReportBox({
-  data,
+  data = [],
   ratingBox,
   seoName,
   companyID,
@@ -24,7 +24,7 @@ export default function StockReportBox({
   stockname,
   srTabActivemenu
 }: StockCardBoxProps) {
-  const sr_avgScore = data && data.find((item) => item.keyId === "sr_avgScore").value;
+  const sr_avgScore = data?.find((item) => item.keyId === "sr_avgScore").value || "";
   const viewReportUrl = `/${seoName}/stockreports/reportid-${companyID}.cms`;
   const grxHandle = () => {
     grxEvent(

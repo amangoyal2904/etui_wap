@@ -14,7 +14,7 @@ interface GraphSecProps {
 }
 
 export default function GraphSecCard({
-  data,
+  data = [],
   seoName,
   companyID,
   isPrimeUser,
@@ -23,27 +23,27 @@ export default function GraphSecCard({
   srTabActivemenu
 }: GraphSecProps) {
   const viewReportUrl = `/${seoName}/stockreports/reportid-${companyID}.cms`;
-  const sr_analystScore = data.find((item) => item.keyId === "sr_recText").value;
-  const sr_recCnt = data.find((item) => item.keyId === "sr_recCnt").value;
+  const sr_analystScore = data?.find((item) => item.keyId === "sr_recText").value || "";
+  const sr_recCnt = data?.find((item) => item.keyId === "sr_recCnt").value || "";
   const recoByCount = Math.round(sr_recCnt);
 
-  const sr_recStrongBuyCnt = data.find((item) => item.keyId === "sr_recStrongBuyCnt").value;
+  const sr_recStrongBuyCnt = data?.find((item) => item.keyId === "sr_recStrongBuyCnt").value || "";
   const recoStrongBuy = Math.round(sr_recStrongBuyCnt);
   const recoStrongBuyValue = `${recoStrongBuy === 0 ? 5 : (recoStrongBuy / recoByCount) * 100 + 5}%`;
 
-  const sr_recBuyCnt = data.find((item) => item.keyId === "sr_recBuyCnt").value;
+  const sr_recBuyCnt = data?.find((item) => item.keyId === "sr_recBuyCnt").value || "";
   const recoBuy = Math.round(sr_recBuyCnt);
   const recoBuyValue = `${recoBuy === 0 ? 5 : (recoBuy / recoByCount) * 100 + 5}%`;
 
-  const sr_recHoldCnt = data.find((item) => item.keyId === "sr_recHoldCnt").value;
+  const sr_recHoldCnt = data?.find((item) => item.keyId === "sr_recHoldCnt").value || "";
   const recoHold = Math.round(sr_recHoldCnt);
   const recoHoldValue = `${recoHold === 0 ? 5 : (recoHold / recoByCount) * 100 + 5}%`;
 
-  const sr_recSellCnt = data.find((item) => item.keyId === "sr_recSellCnt").value;
+  const sr_recSellCnt = data?.find((item) => item.keyId === "sr_recSellCnt").value || "";
   const recoSell = Math.round(sr_recSellCnt);
   const recoSellValue = `${recoSell === 0 ? 5 : (recoSell / recoByCount) * 100 + 5}%`;
 
-  const sr_recReduceCnt = data.find((item) => item.keyId === "sr_recReduceCnt").value;
+  const sr_recReduceCnt = data?.find((item) => item.keyId === "sr_recReduceCnt").value || "";
   const recoStrongSell = Math.round(sr_recReduceCnt);
   const recoStrongSellValue = `${recoStrongSell === 0 ? 5 : (recoStrongSell / recoByCount) * 100 + 5}%`;
   const grxHandle = () => {

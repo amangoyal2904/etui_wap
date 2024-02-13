@@ -6,8 +6,8 @@ interface BottomScoreProps {
   companyID: string;
 }
 
-export default function BottomScore({ data, seoName, companyID }: BottomScoreProps) {
-  const sr_avgScore = data && data.find((item) => item.keyId === "sr_avgScore").value;
+export default function BottomScore({ data = [], seoName, companyID }: BottomScoreProps) {
+  const sr_avgScore = data?.find((item) => item.keyId === "sr_avgScore").value || "";
   const earningsScore = Math.round(sr_avgScore);
   return (
     <>

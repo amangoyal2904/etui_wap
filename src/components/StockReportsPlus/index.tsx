@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { Fragment, useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import GreyDivider from "components/GreyDivider";
-import Image from "next/image";
 import FeatureSecProps from "./featuresec";
 import PrimeSecInfoSec from "./primesecinfo";
 import FaqInfoSec from "./faqsecinfo";
@@ -14,14 +12,13 @@ import { goToPlanPage } from "../../utils/common";
 import { grxEvent } from "utils/ga";
 
 interface StockReportsPlusProps {
-  data?: { title: string; item: any }[];
   isPrimeUser?: number;
   isLoginUser?: number;
   faqdata: any;
   userName?: string;
 }
 
-export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUser, userName }: StockReportsPlusProps) {
+export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, userName }: StockReportsPlusProps) {
   const [showSearchUI, setShowSearchUI] = useState(false);
   const showSearchFilter = () => {
     document.body.style.overflow = "hidden";

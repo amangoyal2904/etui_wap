@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import styles from "./styles.module.scss";
 import Link from "next/link";
 import { grxEvent } from "utils/ga";
