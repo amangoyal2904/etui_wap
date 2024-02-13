@@ -122,83 +122,83 @@ const StockReports: FC<PageProps> = (props) => {
       1
     );
     APICallForFilterData(filterID, postData);
-    //console.log("___filterID", filterID, "___postData");
   };
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
   const APICallForFilterData = (id: any, postData: any = {}) => {
-    const _id = id > 0 ? [parseFloat(id)] : [];
-    const bodyPostData = {
-      deviceId: "web",
-      filterType: "index",
-      filterValue: _id,
-      pageno: 1,
-      screenerId: parseFloat(defaultScreenerId),
-      sort: [
-        {
-          displayName: postData.displayName || sortApplyFilterValue.displayname,
-          field: postData.field || sortApplyFilterValue.id,
-          order: postData.sort || sortApplyFilterValue.sort
-        }
-      ]
-    };
-    const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(bodyPostData)
-    };
-    setLoader(true);
-    fetch(APIURL, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
+    try {
+      const _id = id > 0 ? [parseFloat(id)] : [];
+      const bodyPostData = {
+        deviceId: "web",
+        filterType: "index",
+        filterValue: _id,
+        pageno: 1,
+        screenerId: parseFloat(defaultScreenerId),
+        sort: [
+          {
+            displayName: postData.displayName || sortApplyFilterValue.displayname,
+            field: postData.field || sortApplyFilterValue.id,
+            order: postData.sort || sortApplyFilterValue.sort
+          }
+        ]
+      };
+      const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bodyPostData)
+      };
+      setLoader(true);
+      fetch(APIURL, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            setLoader(false);
+            throw new Error("Network response was not ok.");
+          }
+          return response.json();
+        })
+        .then((data) => {
           setLoader(false);
-          throw new Error("Network response was not ok.");
-        }
-        //console.log("__________call api__________", response);
-        return response.json();
-      })
-      .then((data) => {
-        // console.log("Response data:_____", data);
-        setLoader(false);
-        const sortValue = data.requestObj.sort[0].field;
-        const displayName = data.allowSortFields
-          ? data.allowSortFields.find((item) => item.id === sortValue)?.displayName
-          : "";
-        setSortApplyFilterValue({
-          id: data.requestObj.sort[0].field,
-          sort: data.requestObj.sort[0].order,
-          displayname: displayName
-        });
-        // console.log("StockDataFilter:_____", stockDataFilter);
-        setStockDataFilter(data);
-        setPageSummary((prevPageSummary) => ({
-          ...prevPageSummary,
-          pageno: data.pageSummary.pageno,
-          pagesize: data.pageSummary.pagesize,
-          totalRecords: data.pageSummary.totalRecords,
-          totalpages: data.pageSummary.totalpages
-        }));
-        const urlData = {
-          seoName: data.screenerDetail.filterSeoName || data.screenerDetail.seoName,
-          filterid: data.screenerDetail.filterValue || ""
-        };
-        urlUpdateHandler(urlData);
-        const flIdValue = data.screenerDetail.filterValue || "";
-        const flNameValue = data.screenerDetail.filterName || "";
-        const flExValue = data.screenerDetail.exhchange || "nse";
+          const sortValue = data.requestObj.sort[0].field;
+          const displayName = data.allowSortFields
+            ? data.allowSortFields.find((item) => item.id === sortValue)?.displayName
+            : "";
+          setSortApplyFilterValue({
+            id: data.requestObj.sort[0].field,
+            sort: data.requestObj.sort[0].order,
+            displayname: displayName
+          });
+          setStockDataFilter(data);
+          setPageSummary((prevPageSummary) => ({
+            ...prevPageSummary,
+            pageno: data.pageSummary.pageno,
+            pagesize: data.pageSummary.pagesize,
+            totalRecords: data.pageSummary.totalRecords,
+            totalpages: data.pageSummary.totalpages
+          }));
+          const urlData = {
+            seoName: data.screenerDetail.filterSeoName || data.screenerDetail.seoName,
+            filterid: data.screenerDetail.filterValue || ""
+          };
+          urlUpdateHandler(urlData);
+          const flIdValue = data.screenerDetail.filterValue || "";
+          const flNameValue = data.screenerDetail.filterName || "";
+          const flExValue = data.screenerDetail.exhchange || "nse";
 
-        sessionStorage.setItem("sr_filtervalue", flIdValue);
-        sessionStorage.setItem("sr_filtername", flNameValue);
-        sessionStorage.setItem("sr_filtertab", flExValue);
-      })
-      .catch((error) => {
-        setLoader(false);
-        console.error("There was a problem with the fetch operation:", error);
-      });
+          sessionStorage.setItem("sr_filtervalue", flIdValue);
+          sessionStorage.setItem("sr_filtername", flNameValue);
+          sessionStorage.setItem("sr_filtertab", flExValue);
+        })
+        .catch((error) => {
+          setLoader(false);
+          console.error("There was a problem with the fetch operation:", error);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const urlUpdateHandler = (urlData: any) => {
     const stockSeoName = urlData.seoName;
@@ -227,7 +227,6 @@ const StockReports: FC<PageProps> = (props) => {
       },
       1
     );
-    //console.log("Filter ID", urlNode);
     sessionStorage.setItem("sr_filtervalue", id);
     sessionStorage.setItem("sr_filtername", name);
     sessionStorage.setItem("sr_filtertab", slectedTab);
@@ -244,79 +243,83 @@ const StockReports: FC<PageProps> = (props) => {
   };
 
   const filterApiCall = () => {
-    fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          console.log("error filer data is not fetch");
-        }
-      })
-      .then((data) => {
-        setFilterMenuData(data);
-      })
-      .catch((err) => {
-        console.log("get error", err);
-      });
+    try {
+      fetch("https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            console.log("error filer data is not fetch");
+          }
+        })
+        .then((data) => {
+          setFilterMenuData(data);
+        })
+        .catch((err) => {
+          console.log("get error", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const fetchDataMore = () => {
-    const pageNumberValue = pageSummary.pageno + 1;
-    const id =
-      filterMenuTxtShow.id !== "" && parseFloat(filterMenuTxtShow.id) !== 0 ? [parseFloat(filterMenuTxtShow.id)] : [];
-    const bodyPostData = {
-      deviceId: "web",
-      filterType: "index",
-      filterValue: id,
-      pageno: pageNumberValue,
-      screenerId: parseFloat(defaultScreenerId),
-      sort: [
-        {
-          displayName: sortApplyFilterValue.displayname,
-          field: sortApplyFilterValue.id,
-          order: sortApplyFilterValue.sort
-        }
-      ]
-    };
-    //console.log("___ body", bodyPostData, filterMenuTxtShow);
-    const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(bodyPostData)
-    };
-    setLoader(true);
-    fetch(APIURL, requestOptions)
-      .then((response) => {
-        if (!response.ok) {
+    try {
+      const pageNumberValue = pageSummary.pageno + 1;
+      const id =
+        filterMenuTxtShow.id !== "" && parseFloat(filterMenuTxtShow.id) !== 0 ? [parseFloat(filterMenuTxtShow.id)] : [];
+      const bodyPostData = {
+        deviceId: "web",
+        filterType: "index",
+        filterValue: id,
+        pageno: pageNumberValue,
+        screenerId: parseFloat(defaultScreenerId),
+        sort: [
+          {
+            displayName: sortApplyFilterValue.displayname,
+            field: sortApplyFilterValue.id,
+            order: sortApplyFilterValue.sort
+          }
+        ]
+      };
+      const APIURL = "https://screener.indiatimes.com/screener/getScreenerByScreenerId";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bodyPostData)
+      };
+      setLoader(true);
+      fetch(APIURL, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            setLoader(false);
+            throw new Error("Network response was not ok.");
+          }
+          return response.json();
+        })
+        .then((data) => {
           setLoader(false);
-          //console.log("yes call api for this ______", response);
-          throw new Error("Network response was not ok.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // console.log("Response data:", data);
-        setLoader(false);
-        const onlyData = data && data.dataList && data.dataList.length > 0 ? data.dataList : [];
-        setPageSummary((prevPageSummary) => ({
-          ...prevPageSummary,
-          pageno: data.pageSummary.pageno,
-          pagesize: data.pageSummary.pagesize,
-          totalRecords: data.pageSummary.totalRecords,
-          totalpages: data.pageSummary.totalpages
-        }));
-        //console.log("_________________________pageSummery", data.pageSummary);
-        setStockDataFilter((prevData: any) => ({
-          ...prevData,
-          dataList: [...prevData.dataList, ...data.dataList]
-        }));
-      })
-      .catch((error) => {
-        setLoader(false);
-        console.error("There was a problem with the fetch operation more data:", error);
-      });
+          const onlyData = data && data.dataList && data.dataList.length > 0 ? data.dataList : [];
+          setPageSummary((prevPageSummary) => ({
+            ...prevPageSummary,
+            pageno: data.pageSummary.pageno,
+            pagesize: data.pageSummary.pagesize,
+            totalRecords: data.pageSummary.totalRecords,
+            totalpages: data.pageSummary.totalpages
+          }));
+          setStockDataFilter((prevData: any) => ({
+            ...prevData,
+            dataList: [...prevData.dataList, ...data.dataList]
+          }));
+        })
+        .catch((error) => {
+          setLoader(false);
+          console.error("There was a problem with the fetch operation more data:", error);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
   const srTabsHandlerClick = (id: any, name: string) => {
     const stockSeoName = name && name !== "" ? name?.trim().replace(/\s/g, "").toLowerCase() : "";
@@ -346,50 +349,42 @@ const StockReports: FC<PageProps> = (props) => {
       document.removeEventListener("objIntsLoaded", intsCallback);
     };
   }, []);
-  //console.log("___stockDataFilter", stockDataFilter);
   useEffect(() => {
-    // set page specific customDimensions
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
-    //menuChangeDataSet();
   }, [props]);
   useEffect(() => {
     if (observer.current) {
-      observer.current.disconnect(); // Disconnect the existing observer if any
+      observer.current.disconnect();
     }
 
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && pageSummary.pageno !== pageSummary.totalpages) {
-          fetchDataMore(); // Call the fetchData function when the observed element is intersecting
-          // console.log("___________entries___________", entries, pageSummary);
+          fetchDataMore();
         }
       },
       { threshold: 1 }
     );
-
     if (lastElementRef.current) {
       observer.current.observe(lastElementRef.current);
     }
 
     return () => {
       if (observer.current) {
-        observer.current.disconnect(); // Disconnect the observer on component unmount
+        observer.current.disconnect();
       }
     };
   }, [lastElementRef, pageSummary]);
   useEffect(() => {
     const filterID = filterMenuTxtShow.id;
-
     sessionStorage.setItem("sr_filtervalue", defaultFilterMenuTxt.id);
     sessionStorage.setItem("sr_filtername", defaultFilterMenuTxt.name);
     sessionStorage.setItem("sr_filtertab", defaultFilterMenuTxt.slectedTab);
-
     if (screenerIdDefault != defaultScreenerId || defaultFilterMenuTxt.id != filterID) {
       APICallForFilterData(filterID);
     }
   }, [defaultScreenerId, filterMenuTxtShow.id]);
-  // console.log("_______stockDataFilter", stockDataFilter.dataList);
   return (
     <>
       <SEO {...seoData} />
@@ -496,11 +491,6 @@ const StockReports: FC<PageProps> = (props) => {
         )}
 
         <BreadCrumb data={seoData.breadcrumb} />
-        {/* {!hideAds && (
-          <div className={`${styles.footerAd} adContainer`}>
-            <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
-          </div>
-        )} */}
       </div>
       {!isPrimeUser ? <StockSRBTMBannerCard data={btmBlockerData} /> : ""}
       {showFilter && (
