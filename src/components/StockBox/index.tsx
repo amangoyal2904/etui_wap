@@ -54,20 +54,18 @@ export default function StockReportBox({
   };
   return (
     <>
-      <>
-        <div className={styles.smallCard}>
-          {isPrimeUser ? (
-            <Link href={viewReportUrl}>
-              <a title={companyName} onClick={grxHandle} target="_blank">
-                {boxComData()}
-              </a>
-            </Link>
-          ) : (
-            boxComData()
-          )}
-        </div>
-        {ratingBox ? <RatingBox /> : ""}
-      </>
+      <div className={styles.smallCard}>
+        {isPrimeUser ? (
+          <Link href={viewReportUrl}>
+            <a title={companyName} onClick={grxHandle} target="_blank">
+              {boxComData()}
+            </a>
+          </Link>
+        ) : (
+          boxComData()
+        )}
+      </div>
+      {ratingBox ? <RatingBox /> : ""}
     </>
   );
 }
