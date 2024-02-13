@@ -1,4 +1,4 @@
-import { pageType, getMSID, prepareMoreParams, shouldRedirectTopic } from "utils";
+import { pageType, getMSID, getStockAPITYPE, getScreenerID, prepareMoreParams, shouldRedirectTopic } from "utils";
 import Service from "network/service";
 import APIS_CONFIG from "network/config.json";
 
@@ -15,13 +15,14 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const { all = [] } = params;
   const lastUrlPart: string = all?.slice(-1).toString();
   const msid = getMSID(lastUrlPart);
-
+  const stockapitype = getStockAPITYPE(all);
+  const screenerid = getScreenerID(all, "screenerid");
+  const filterid = getScreenerID(all, "filterid");
   let page = pageType(resolvedUrl, msid, all);
   const api = APIS_CONFIG.FEED;
 
   let extraParams = {},
     response: any = {};
-
   if (page === "topic") {
     const isValidQuery = shouldRedirectTopic(all);
     if (!isValidQuery) {
@@ -44,7 +45,7 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   }
 
   if (!["notfound"].includes(page)) {
-    const moreParams = prepareMoreParams({ all, page, msid });
+    const moreParams = prepareMoreParams({ all, page, msid, stockapitype, screenerid, filterid });
 
     //==== gets page data =====
     const apiType = page === "videoshownew" ? "videoshow" : page;
@@ -82,7 +83,6 @@ export async function getServerSideProps({ req, res, params, resolvedUrl }) {
   const ttl = pagettl[page] ? pagettl[page] : expiryTime;
   res.setHeader("Cache-Control", `public, s-maxage=${ttl}, must-revalidate, stale-while-revalidate=${ttl * 2}`);
   res.setHeader("Expires", new Date(new Date().getTime() + ttl * 1000).toUTCString());
-
   if (page === "notfound") res.statusCode = "404";
 
   return {

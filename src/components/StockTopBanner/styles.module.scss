@@ -1,0 +1,62 @@
+.bannerWraper {
+  background: #fff8f6;
+  padding: 5px 10px 8px 12px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  .leftSec {
+    width: 126px;
+    height: 67px;
+    background: url("https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg") no-repeat -203px -21px;
+    background-size: 384px 148px;
+  }
+  .rightSec {
+    width: 100%;
+    .topTxt {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+    }
+    .txtList {
+      margin: 4px 0 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        font-size: 9px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        position: relative;
+        padding-left: 12px;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 5px;
+          top: 4px;
+          width: 3px;
+          height: 3px;
+          background-color: #ed193b;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+.bannerCta {
+  border-radius: 10px;
+  background: #eb2227;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: #fff;
+  font-family: Montserrat;
+  display: inline-block;
+  vertical-align: top;
+  padding: 4px 20px;
+  margin-top: 6px;
+  cursor: pointer;
+}

@@ -128,16 +128,23 @@ export const pageType = (pathurl, msid, all) => {
     return "quickreads";
   } else if (pathurl.indexOf("/shortvideos/") != -1) {
     return "shortvideos";
+  } else if (pathurl.indexOf("/markets/benefits/stockreportsplus") != -1) {
+    return "stockreportsplus";
+  } else if (/^\/markets\/stockreportsplus\/(.)+\/stockreportscategory\/screenerid-(.)+/.test(pathurl)) {
+    return "stockreportscategory";
   } else {
     return "notfound";
   }
 };
 
-export const prepareMoreParams = ({ all, page, msid }) => {
+export const prepareMoreParams = ({ all, page, msid, stockapitype = "", screenerid = 0, filterid = 0 }) => {
   interface MoreParams {
     msid?: string | number;
     query?: string;
     tab?: string;
+    stockapitype?: string;
+    screenerid?: string | number;
+    filterid?: string | number;
   }
 
   const moreParams: MoreParams = {};
@@ -153,10 +160,56 @@ export const prepareMoreParams = ({ all, page, msid }) => {
     delete moreParams.msid;
   }
 
+  if (page === "stockreportsplus") {
+    moreParams.stockapitype = stockapitype || "overview";
+    delete moreParams.msid;
+  }
+
+  if (page === "stockreportscategory") {
+    moreParams.screenerid = screenerid;
+    moreParams.filterid = filterid;
+    delete moreParams.msid;
+  }
   return moreParams;
 };
 
 export const getMSID = (url) => (url && url.split(".cms")[0]) || "";
+export const getStockAPITYPE = (all: any) => {
+  try {
+    const elementWithApitype = all.find((item: any) => item.includes("apitype-"));
+    return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
+  } catch (error) {
+    return "";
+  }
+};
+
+export const getScreenerID = (all: any, type: string) => {
+  try {
+    const elementWithApitype = all.find((item: any) => item.includes("screenerid-"));
+    const splitElementWithApitype = elementWithApitype && elementWithApitype.split(",");
+    const screeneridString = splitElementWithApitype
+      ?.filter((item) => item.includes("screenerid-"))
+      ?.map((item) => {
+        const match = item.match(/screenerid-(\d+)/);
+        return match ? match[1] : null;
+      })
+      .filter((id) => id !== null);
+    const filteridString = splitElementWithApitype
+      ?.filter((item) => item.includes("filter-"))
+      ?.map((item) => {
+        const match = item.match(/filter-(\d+)/);
+        return match ? match[1] : null;
+      })
+      .filter((id) => id !== null);
+    if (type === "screenerid") {
+      return screeneridString && screeneridString.length ? screeneridString[0] : "";
+    } else if (type === "filterid") {
+      return filteridString && filteridString.length ? filteridString[0] : "";
+    }
+  } catch (error) {
+    return "";
+  }
+};
 export const encodeQueryData = (data) => {
   const ret = [];
   for (const d in data) ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));

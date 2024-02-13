@@ -1,0 +1,71 @@
+.srbtnBannerWraper {
+  margin: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff8f6;
+  padding: 15px 20px 10px 20px;
+  border-top: solid 2px #decbc5;
+  z-index: 99;
+}
+.btnSection {
+  .textBtm {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000000;
+    position: relative;
+    &::after {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      background: url("https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg") no-repeat -93px -75px;
+      width: 16px;
+      height: 20px;
+      background-size: 384px 148px;
+      position: absolute;
+      left: 0;
+      top: -4px;
+    }
+  }
+  .primeWrap {
+    margin-top: 8px;
+    text-align: center;
+    .primeCta {
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      background: #eb2227;
+      position: relative;
+      border-radius: 2px;
+      padding: 5px 30px 5px 15px;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 600;
+      &::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 8px;
+        display: inline-block;
+        vertical-align: top;
+        width: 5px;
+        height: 5px;
+        border-top: solid 2px #ffffff;
+        border-right: solid 2px #ffffff;
+        transform: rotate(45deg);
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 10.5px;
+        display: inline-block;
+        vertical-align: top;
+        width: 7px;
+        border-top: solid 2px #ffffff;
+      }
+    }
+  }
+}

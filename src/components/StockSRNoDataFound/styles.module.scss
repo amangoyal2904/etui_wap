@@ -1,0 +1,24 @@
+.noDatafound {
+  margin: 20px 0 0 0;
+  text-align: center;
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.noDatafoundCat {
+  padding: 10px 0;
+  .nodataImage {
+    background: url(https://img.etimg.com/photo/msid-107050542,quality-100/no-datafound.jpg) no-repeat top center;
+    height: 170px;
+  }
+  .nodataText {
+    margin-top: 10px;
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+  }
+}
