@@ -148,7 +148,6 @@ const StockReports: FC<PageProps> = (props) => {
         }
       })
       .then((data) => {
-        console.log("get Fitler Data", data);
         setFilterMenuData(data);
       })
       .catch((err) => {
@@ -156,11 +155,8 @@ const StockReports: FC<PageProps> = (props) => {
       });
   };
   const srTabHandleClick = (apitype: string) => {
-    console.log("click tabs apitype", apitype);
-
     if (apitype === "stockreports") {
       setStockReportActive(true);
-      console.log("here go to stock page condtion here");
     } else {
       setStockReportActive(false);
     }

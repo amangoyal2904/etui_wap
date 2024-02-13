@@ -128,25 +128,23 @@ export const pageType = (pathurl, msid, all) => {
     return "quickreads";
   } else if (pathurl.indexOf("/shortvideos/") != -1) {
     return "shortvideos";
-  } else if (pathurl.indexOf("/stockreports/") != -1) {
-    return "stockreports";
-  } else if (pathurl.indexOf("/stockreportscategory/") != -1) {
-    return "stockreportscategory";
-  } else if (pathurl.indexOf("stockreports_benefits.cms") != -1) {
+  } else if (pathurl.indexOf("/markets/benefits/stockreportsplus") != -1) {
     return "stockreportsplus";
+  } else if (/^\/markets\/stockreportsplus\/(.)+\/stockreportscategory\/screenerid-(.)+/.test(pathurl)) {
+    return "stockreportscategory";
   } else {
     return "notfound";
   }
 };
 
-export const prepareMoreParams = ({ all, page, msid, stockapitype, screenerid, filterid }) => {
+export const prepareMoreParams = ({ all, page, msid, stockapitype = "", screenerid = 0, filterid = 0 }) => {
   interface MoreParams {
     msid?: string | number;
     query?: string;
     tab?: string;
     stockapitype?: string;
-    screenerid?: string;
-    filterid?: string;
+    screenerid?: string | number;
+    filterid?: string | number;
   }
 
   const moreParams: MoreParams = {};
@@ -187,33 +185,25 @@ export const getScreenerID = (all: any, type: string) => {
 
   const splitElementWithApitype = elementWithApitype && elementWithApitype.split(",");
 
-  const screeneridString =
-    splitElementWithApitype &&
-    splitElementWithApitype
-      .filter((item) => item.includes("screenerid-"))
-      .map((item) => {
-        const match = item.match(/screenerid-(\d+)/);
-        return match ? match[1] : null;
-      })
-      .filter((id) => id !== null);
-  const filteridString =
-    splitElementWithApitype &&
-    splitElementWithApitype
-      .filter((item) => item.includes("filter-"))
-      .map((item) => {
-        const match = item.match(/filter-(\d+)/);
-        return match ? match[1] : null;
-      })
-      .filter((id) => id !== null);
+  const screeneridString = splitElementWithApitype
+    ?.filter((item) => item.includes("screenerid-"))
+    ?.map((item) => {
+      const match = item.match(/screenerid-(\d+)/);
+      return match ? match[1] : null;
+    })
+    .filter((id) => id !== null);
+  const filteridString = splitElementWithApitype
+    ?.filter((item) => item.includes("filter-"))
+    ?.map((item) => {
+      const match = item.match(/filter-(\d+)/);
+      return match ? match[1] : null;
+    })
+    .filter((id) => id !== null);
   if (type === "screenerid") {
-    //console.log("_____________elementWithApitype", splitElementWithApitype, "__screeneridString", screeneridString[0]);
     return screeneridString && screeneridString.length ? screeneridString[0] : "";
-    // return elementWithApitype ? elementWithApitype.split(",")[0].split("-")[1] : "";
   } else if (type === "filterid") {
     return filteridString && filteridString.length ? filteridString[0] : "";
-    // return elementWithApitype ? elementWithApitype.split(",")[1].split("-")[1].split(".")[0] : "";
   }
-  //return elementWithApitype ? elementWithApitype.split("-")[1].split(".")[0] : "";
 };
 export const encodeQueryData = (data) => {
   const ret = [];

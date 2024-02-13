@@ -37,7 +37,7 @@ export default function StockSrCatTabs({ data, srTabsClick }: StockSRCatTabsProp
       <div className={styles.tabsWraper}>
         <ul>
           <li>
-            <Link href={`/stockreports_benefits.cms`}>
+            <Link href={`/markets/benefits/stockreportsplus`}>
               <a>Overview</a>
             </Link>
           </li>

@@ -133,7 +133,6 @@ const StockReports: FC<PageProps> = (props) => {
     setShowFilter(value);
   };
   const APICallForFilterData = (id: any, postData: any = {}) => {
-    console.log("sortApplyFilterValue", sortApplyFilterValue);
     const _id = id > 0 ? [parseFloat(id)] : [];
     const bodyPostData = {
       deviceId: "web",
@@ -247,14 +246,6 @@ const StockReports: FC<PageProps> = (props) => {
       id: id,
       slectedTab: slectedTab
     }));
-
-    //setDefaultScreenerId(id);
-    //APICallForFilterData(filterID, id);
-
-    //const filterID = filterMenuTxtShow.id;
-    //srTabsHandlerClick(id, name);
-    // here get Seo Filer Name and ID screener id and filter id then call api
-    //APICallForFilterData(filterID);
   };
 
   const filterApiCall = () => {
@@ -267,7 +258,6 @@ const StockReports: FC<PageProps> = (props) => {
         }
       })
       .then((data) => {
-        // console.log("get Fitler Data", data);
         setFilterMenuData(data);
       })
       .catch((err) => {
@@ -347,12 +337,9 @@ const StockReports: FC<PageProps> = (props) => {
         { shallow: true }
       );
       const filterID = filterMenuTxtShow.id;
-      // console.log("___here call default id ", filterID);
       setDefaultScreenerId(id);
-      //APICallForFilterData(filterID, id);
     }
   };
-  //console.log("_____filterMenuTxtShow", filterMenuTxtShow);
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
@@ -398,12 +385,7 @@ const StockReports: FC<PageProps> = (props) => {
   }, [lastElementRef, pageSummary]);
   useEffect(() => {
     const filterID = filterMenuTxtShow.id;
-    console.log("_________________here call default id ", {
-      filterID,
-      defaultScreenerId,
-      screenerIdDefault,
-      defaultFilterMenuTxt
-    });
+
     sessionStorage.setItem("sr_filtervalue", defaultFilterMenuTxt.id);
     sessionStorage.setItem("sr_filtername", defaultFilterMenuTxt.name);
     sessionStorage.setItem("sr_filtertab", defaultFilterMenuTxt.slectedTab);
