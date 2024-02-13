@@ -77,5 +77,5 @@ export const AND_BEYOND = {
   adSize: [[1, 1]]
 };
 export const goToPlanPage = () => {
-  return window.objInts.goToPlanPageNext();
+  window?.objInts?.goToPlanPageNext();
 };
