@@ -238,7 +238,7 @@ const StockReports: FC<PageProps> = (props) => {
         {!isPrimeUser && <StockTopBanner data={stPlusBannerData} srTabActivemenu={srTabActivemenu} />}
 
         {!stockReportActive ? (
-          <Fragment>
+          <>
             {stockDataFilter &&
               stockDataFilter.length &&
               stockDataFilter.map((item: any, index: any) => {
@@ -332,7 +332,7 @@ const StockReports: FC<PageProps> = (props) => {
                   </Fragment>
                 );
               })}
-          </Fragment>
+          </>
         ) : (
           <StockReportsPlus
             isLoginUser={isLoginUser}

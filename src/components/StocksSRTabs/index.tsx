@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import { Fragment } from "react";
 import { grxEvent } from "utils/ga";
 
 interface StockTabsProps {
@@ -27,14 +26,13 @@ export default function StockSrTabs({ data, activeMenu, srTabClick }: StockTabsP
       <div className={styles.tabsWraper}>
         <ul>
           {data.map((item: any, i) => (
-            <Fragment key={i}>
-              <li
-                className={`${activeMenu === item.apiType ? styles.active : ""}`}
-                onClick={() => handleClick(item.apiType, item.name)}
-              >
-                {item.name}
-              </li>
-            </Fragment>
+            <li
+              key={i}
+              className={`${activeMenu === item.apiType ? styles.active : ""}`}
+              onClick={() => handleClick(item.apiType, item.name)}
+            >
+              {item.name}
+            </li>
           ))}
         </ul>
       </div>

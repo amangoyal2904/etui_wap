@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import styles from "./styles.module.scss";
 
 interface StockSRFilterProps {
@@ -53,9 +52,6 @@ export default function StockReportFilter({
   return (
     <>
       <div className={styles.filterWrap}>
-        {/* {data.map((item: any, i) => (
-          <Fragment key={i}>Hello</Fragment>
-        ))} */}
         <div className={styles.topSec}>
           <div className={styles.leftSec}>
             <span onClick={() => onclick(false)}>Filter</span>
@@ -80,30 +76,28 @@ export default function StockReportFilter({
                   <ul className={`${styles.subMenuItem}`}>
                     {data.keyIndices.nse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                     {data.keyIndices.bse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                   </ul>
@@ -117,30 +111,28 @@ export default function StockReportFilter({
                   <ul className={styles.subMenuItem}>
                     {data.sectoralIndices.nse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                     {data.sectoralIndices.bse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                   </ul>
@@ -154,30 +146,28 @@ export default function StockReportFilter({
                   <ul className={styles.subMenuItem}>
                     {data.otherIndices.nse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                     {data.otherIndices.bse.map((item: any, i: any) => {
                       return (
-                        <Fragment key={i}>
-                          <li
-                            onClick={() => clickFilterMenu(item.name, item.indexId)}
-                            className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                              childTabMenuActive === item.indexId ? styles.selectedMenu : ""
-                            }`}
-                          >
-                            {item.name}
-                          </li>
-                        </Fragment>
+                        <li
+                          key={i}
+                          onClick={() => clickFilterMenu(item.name, item.indexId)}
+                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
+                            childTabMenuActive === item.indexId ? styles.selectedMenu : ""
+                          }`}
+                        >
+                          {item.name}
+                        </li>
                       );
                     })}
                   </ul>
@@ -191,17 +181,6 @@ export default function StockReportFilter({
                 </div>
               </li>
             )}
-
-            {/* <li>
-              <div className={styles.subMenu}>
-                <div className={styles.mainTxt}>Key Indices</div>
-                <ul className={styles.subMenuItem}>
-                  <li>Nifty 50</li>
-                  <li>Nifty 50</li>
-                  <li>Nifty 50</li>
-                </ul>
-              </div>
-            </li> */}
           </ul>
         </div>
       </div>

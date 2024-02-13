@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Fragment, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import ReturnCard from "./ReturnCard";
 import GraphSecCard from "./GraphSecCard";
@@ -88,44 +88,42 @@ export default function StockReportCard({
       <div className={styles.cardWraper}>
         {data && data.length > 0 ? (
           data.map((item: any, i) => (
-            <Fragment key={i}>
-              <div {...cardClickProps} className={`${styles.cardSec}`}>
-                <div className={styles.boxWraper}>
-                  <div className={styles.leftSec}>
-                    {isPrimeUser ? (
-                      <h2 className={styles.heading}>
-                        <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
-                          <a
-                            title={item.name}
-                            onClick={() =>
-                              grxHandle(item.name, `/${item.seoName}/stocks/companyid-${item.companyID}.cms`)
-                            }
-                            target="_blank"
-                          >
-                            {item.name}
-                          </a>
-                        </Link>
-                      </h2>
-                    ) : (
-                      <div className={styles.nameBlur}>no prime user</div>
-                    )}
+            <div key={i} {...cardClickProps} className={`${styles.cardSec}`}>
+              <div className={styles.boxWraper}>
+                <div className={styles.leftSec}>
+                  {isPrimeUser ? (
+                    <h2 className={styles.heading}>
+                      <Link href={`/${item.seoName}/stocks/companyid-${item.companyID}.cms`}>
+                        <a
+                          title={item.name}
+                          onClick={() =>
+                            grxHandle(item.name, `/${item.seoName}/stocks/companyid-${item.companyID}.cms`)
+                          }
+                          target="_blank"
+                        >
+                          {item.name}
+                        </a>
+                      </Link>
+                    </h2>
+                  ) : (
+                    <div className={styles.nameBlur}>no prime user</div>
+                  )}
 
-                    <GraphSecCard
-                      isPrimeUser={isPrimeUser}
-                      data={item.data}
-                      seoName={item.seoName}
-                      companyID={item.companyID}
-                      srTabActivemenu={srTabActivemenu}
-                      stockname={stockname}
-                      companyName={item.name}
-                    />
-                  </div>
-                  <div className={styles.rightSec}>
-                    <ReturnCard isPrimeUser={isPrimeUser} data={item.data} />
-                  </div>
+                  <GraphSecCard
+                    isPrimeUser={isPrimeUser}
+                    data={item.data}
+                    seoName={item.seoName}
+                    companyID={item.companyID}
+                    srTabActivemenu={srTabActivemenu}
+                    stockname={stockname}
+                    companyName={item.name}
+                  />
+                </div>
+                <div className={styles.rightSec}>
+                  <ReturnCard isPrimeUser={isPrimeUser} data={item.data} />
                 </div>
               </div>
-            </Fragment>
+            </div>
           ))
         ) : (
           <StockSRNoDataFoundCard />

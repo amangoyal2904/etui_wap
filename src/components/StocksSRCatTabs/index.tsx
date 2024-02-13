@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { grxEvent } from "utils/ga";
 
@@ -44,14 +44,13 @@ export default function StockSrCatTabs({ data, srTabsClick }: StockSRCatTabsProp
           {Array.isArray(tabsData) &&
             tabsData.map((item: any, i: any) => {
               return (
-                <Fragment key={i}>
-                  <li
-                    className={`${activeCategory === item.name ? styles.active : ""}`}
-                    onClick={() => srTabsHandleClick(item.id, item.name)}
-                  >
-                    {item.name}
-                  </li>
-                </Fragment>
+                <li
+                  key={i}
+                  className={`${activeCategory === item.name ? styles.active : ""}`}
+                  onClick={() => srTabsHandleClick(item.id, item.name)}
+                >
+                  {item.name}
+                </li>
               );
             })}
         </ul>

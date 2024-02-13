@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Link from "next/link";
 import styles from "./styles.module.scss";
 import RatingBox from "./RatingBox";
@@ -55,7 +54,7 @@ export default function StockReportBox({
   };
   return (
     <>
-      <Fragment>
+      <>
         <div className={styles.smallCard}>
           {isPrimeUser ? (
             <Link href={viewReportUrl}>
@@ -68,7 +67,7 @@ export default function StockReportBox({
           )}
         </div>
         {ratingBox ? <RatingBox /> : ""}
-      </Fragment>
+      </>
     </>
   );
 }
