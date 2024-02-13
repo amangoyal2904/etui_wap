@@ -51,7 +51,6 @@ export default function StockSRLoginBlocker({
     );
     goToPlanPage();
   };
-  //console.log("overlayBlockerData", overlayBlockerData);
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {

@@ -1,12 +1,9 @@
 import styles from "./StockReportsCategory.module.scss";
-import DfpAds from "components/Ad/DfpAds";
 import { useRouter } from "next/router";
 import { useEffect, useState, Fragment, FC, useRef } from "react";
 import { PageProps, StockReportsProps, StocksTabs, StockOverViewProps } from "types/stockreportscategory";
 import BreadCrumb from "components/BreadCrumb";
-import GreyDivider from "components/GreyDivider";
 import { getPageSpecificDimensions } from "utils";
-import { ET_WAP_URL } from "utils/common";
 import StockReportCard from "components/StockReportCard";
 import StockReportUpside from "components/StockReportUpside";
 import StockSrCatTabs from "components/StocksSRCatTabs";
@@ -20,7 +17,6 @@ import StockSRBTMBannerCard from "components/StockSRBTMBanner";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
-  //console.log("_______props", props);
   const stockData = props?.searchResult?.find((item) => item.name === "stockreportsbycategory")?.json as any;
   const hideAds = result && result.hideAds == 1;
   const defaultFilterMenuTxt = { name: props.defaultFiterName, id: props.defaultFilerId, slectedTab: "nse" };

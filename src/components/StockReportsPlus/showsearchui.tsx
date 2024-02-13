@@ -36,7 +36,6 @@ export default function ShowSearchUISec({ oncloseSearch }: ShowSearchUIProps) {
       const APIURL = `https://etsearch.indiatimes.com/etspeeds/ethome.ep?ticker=${term}&matchCompanyName=true&realstate=false&pp=false&dvr=false&idr=false&trust=false&mcx=false&mf=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&pagesize=6&language=&outputtype=json`;
       const response = await fetch(APIURL);
       const data = await response.json();
-      console.log("___data", data);
       setSearchResults(data);
     } catch (error) {
       console.error("Error fetching data:", error);

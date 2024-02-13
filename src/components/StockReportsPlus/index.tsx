@@ -22,14 +22,12 @@ interface StockReportsPlusProps {
 }
 
 export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUser, userName }: StockReportsPlusProps) {
-  //console.log("___isPrimeUser", isPrimeUser);
   const [showSearchUI, setShowSearchUI] = useState(false);
   const showSearchFilter = () => {
     document.body.style.overflow = "hidden";
     setShowSearchUI(true);
   };
   const handlerCloseSearch = () => {
-    //console.log("yes");
     setShowSearchUI(false);
     document.body.style.overflow = "visible";
   };
@@ -104,7 +102,6 @@ export default function StockReportsPlus({ data, isPrimeUser, faqdata, isLoginUs
   const trackGAEvent = (sectionClassName) => {
     // =====
     const getClassName = getSectionNumber(sectionClassName);
-    console.log(`Track GA Event for ${getClassName}`);
     grxEvent(
       "event",
       {

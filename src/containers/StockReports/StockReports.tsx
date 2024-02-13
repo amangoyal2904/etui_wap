@@ -1,11 +1,9 @@
 import styles from "./StockReports.module.scss";
-import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, Fragment, FC } from "react";
 import { PageProps, StockReportsProps, StocksTabs, StockOverViewProps } from "types/stockreports";
 import BreadCrumb from "components/BreadCrumb";
 import GreyDivider from "components/GreyDivider";
 import { getPageSpecificDimensions } from "utils";
-import { ET_WAP_URL } from "utils/common";
 import StockReportCard from "components/StockReportCard";
 import StockReportUpside from "components/StockReportUpside";
 import StockSrTabs from "components/StocksSRTabs";
@@ -20,7 +18,6 @@ import StockSrTop from "components/StocksSRTop";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
-  //console.log("_______props", props);
   const stockData = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.data as any;
   const reportsPlusFaq = props?.searchResult?.find((item) => item.name === "stockreportsoverview")?.faq as any;
   const hideAds = result && result.hideAds == 1;

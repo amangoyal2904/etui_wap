@@ -32,7 +32,6 @@ export default function StockReportCard({
   filterId,
   srTabActivemenu
 }: StockSRCardProps) {
-  //console.log("___isPrimeUser", isPrimeUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
   const seoNameGenrate = stockname && stockname !== "" ? stockname?.trim().replace(/\s/g, "-").toLowerCase() : "";
@@ -42,7 +41,6 @@ export default function StockReportCard({
       ? `/markets/stockreportsplus/${filterSeoName}/stockreportscategory/screenerid-${id},filter-2371.cms`
       : `/markets/stockreportsplus/${seoNameGenrate}/stockreportscategory/screenerid-${id},filter-2371.cms`;
   const handleClick = (value: boolean) => {
-    //console.log("click to button");
     setIsModalOpen(value);
     if (value) {
       grxEvent(

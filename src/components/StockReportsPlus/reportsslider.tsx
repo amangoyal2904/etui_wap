@@ -53,7 +53,6 @@ export default function ReportSliderSec() {
             ? data.searchresult[0].companies
             : [];
         setStockData(sliderData);
-        console.log("get API Data ", data);
       })
       .catch((error) => {
         console.log("Error found slider api nifty 50", error);

@@ -50,7 +50,6 @@ export default function StockReportCard({
       ? `/markets/stockreportsplus/${filterSeoName}/stockreportscategory/screenerid-${id}${filterIdSeo}`
       : `/markets/stockreportsplus/${seoNameGenrate}/stockreportscategory/screenerid-${id}${filterIdSeo}`;
   const handleClick = (value: boolean) => {
-    //console.log("click to button");
     setIsModalOpen(value);
     if (value) {
       document.body.style.overflow = "hidden";

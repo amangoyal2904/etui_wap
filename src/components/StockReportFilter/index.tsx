@@ -29,12 +29,8 @@ export default function StockReportFilter({
       ? 2
       : 3;
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
-  //const [nseBseMenuSelect, setNseBseMenuSelect] = useState("nse");
   const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
-  // const activeId = childMenuTabAcive;
-  // const activeIndex = data.keyIndices.nse.findIndex((item: any) => item.indexId === activeId);
   const childTabMenuActive = childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
-  //console.log("___selectTa b", selectTab, "childMenuTabAcive", childMenuTabAcive);
 
   const nseBseMenu = (e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
@@ -47,8 +43,6 @@ export default function StockReportFilter({
     const slectedTab = nseBseMenuSelect;
     valuechange(indexid, name, slectedTab);
   };
-  //console.log("___filterData", data);
-
   return (
     <>
       <div className={styles.filterWrap}>

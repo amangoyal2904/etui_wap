@@ -45,7 +45,6 @@ export default function StockReportSortFilter({
     }
   };
   const applyHandler = () => {
-    //console.log(sortMenuSelected.id, "______", sortMenuSelected.sort, "______", sortMenuSelected.displayname);
     sortApplyHandler(sortMenuSelected.id, sortMenuSelected.sort, sortMenuSelected.displayname);
   };
   useEffect(() => {

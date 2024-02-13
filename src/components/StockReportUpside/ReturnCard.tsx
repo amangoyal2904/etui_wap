@@ -5,11 +5,11 @@ interface ReturnCardProps {
   isPrimeUser: number;
 }
 
-export default function ReturnCard({ data, isPrimeUser }: ReturnCardProps) {
-  const sr_targetVsCurrent = data.find((item) => item.keyId === "sr_targetVsCurrent").value;
-  const calssUpDown = data.find((item) => item.keyId === "sr_targetVsCurrent").trend;
-  const sr_priceTargetMean = data.find((item) => item.keyId === "sr_priceTargetMean").value;
-  const lastTradedPrice = data.find((item) => item.keyId === "lastTradedPrice").value;
+export default function ReturnCard({ data = [], isPrimeUser }: ReturnCardProps) {
+  const sr_targetVsCurrent = data?.find((item) => item.keyId === "sr_targetVsCurrent")?.value || "";
+  const calssUpDown = data?.find((item) => item.keyId === "sr_targetVsCurrent")?.trend || "";
+  const sr_priceTargetMean = data?.find((item) => item.keyId === "sr_priceTargetMean")?.value || "";
+  const lastTradedPrice = data?.find((item) => item.keyId === "lastTradedPrice")?.value || "";
   return (
     <>
       <div className={styles.rightSecWrap}>
