@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { fetchAllMetaInfo, isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginWidget";
+import LoginWidget from "components/LoginSdk";
 import APIS_CONFIG from "../../network/config.json";
 import { getCookie, APP_ENV } from "utils";
 import ErrorDialog from "./ErrorDialog";
