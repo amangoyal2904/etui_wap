@@ -18,15 +18,19 @@ const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
 
   const router = useRouter();
   const reqData = router.query;
+  const standalonePages = ["referrals", "redeemtoi"];
+  const isStandAlonePage = standalonePages.indexOf(page) > -1;
 
   return (
     <>
       <Headers isprimeuser={isprimeuser} reqData={reqData} />
-      {!["shortvideos"].includes(page) && <AppHeader page={page} />}
+      {!["shortvideos"].includes(page) && !isStandAlonePage && <AppHeader page={page} />}
       <main>{children}</main>
       {/* <PrivacyPolicy /> */}
       <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-      {!["quickreads", "shortvideos"].includes(page) && <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />}
+      {!["quickreads", "shortvideos"].includes(page) && !isStandAlonePage && (
+        <Footer objVc={objVc} dynamicFooterData={dynamicFooterData} />
+      )}
     </>
   );
 };

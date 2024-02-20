@@ -67,5 +67,9 @@
   "cookieConsent": {
     "production": "https://etservices2.indiatimes.com/et/consent",
     "development": "https://etservices2.indiatimes.com/et/consent"
+  },
+  "etReferrals": {
+    "development": "https://etonboard-stg.economictimes.indiatimes.com/etonboard/referral/fetch/code.json",
+    "production": "https://etonboard.economictimes.indiatimes.com/etonboard/referral/fetch/code.json"
   }
 }

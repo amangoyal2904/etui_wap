@@ -130,6 +130,10 @@ export const pageType = (pathurl, msid, all) => {
     return "shortvideos";
   } else if (pathurl.indexOf("/markets/benefits/stockreportsplus") != -1) {
     return "stockreportsplus";
+  } else if (pathurl.indexOf("/redeemtoi") != -1) {
+    return "redeemtoi";
+  } else if (pathurl.indexOf("/referrals") != -1) {
+    return "referrals";
   } else if (/^\/markets\/stockreportsplus\/(.)+\/stockreportscategory\/screenerid-(.)+/.test(pathurl)) {
     return "stockreportscategory";
   } else {

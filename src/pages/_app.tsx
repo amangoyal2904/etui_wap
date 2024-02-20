@@ -18,6 +18,8 @@ const QuickReads = dynamic(() => import("containers/QuickReads"));
 const ShortVideos = dynamic(() => import("containers/ShortVideos"));
 const StockReports = dynamic(() => import("containers/StockReports"));
 const StockReportsCategory = dynamic(() => import("containers/StockReportsCategory"));
+const Referrals = dynamic(() => import("containers/Referrals/referrals"));
+const RedeemTOI = dynamic(() => import("containers/Redeemtoi"));
 
 declare module "react" {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
@@ -86,6 +88,12 @@ const Container = (props) => {
       break;
     case "stockreportscategory":
       container = <StockReportsCategory {...data} />;
+      break;
+    case "redeemtoi":
+      container = <RedeemTOI {...data} />;
+      break;
+    case "referrals":
+      container = <Referrals {...data} />;
       break;
     default:
       container = <NotFound {...data} />;
