@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { isLiveApp } from "utils/articleUtility";
 import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWap from "./TOIBenefitsWap";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
@@ -114,14 +115,14 @@ const TOIRedeemBenefit = () => {
 
   const apiHit = () => {
     setIsLoading(true);
-    const lh = window.location.host,
-      isLive = lh.indexOf("localhost:3000") !== -1 || lh.indexOf("dev8243") != -1 || lh.indexOf("etpwa") != -1 ? 0 : 1;
     const headers = {
-      "X-SITE-APP-CODE": isLive ? "04e2b3dc222d26d7ffa0ed3d3285cce6" : "7a3514a35e5493b739659ba1bb9ea0a9",
+      "X-SITE-APP-CODE": isLiveApp() ? "04e2b3dc222d26d7ffa0ed3d3285cce6" : "7a3514a35e5493b739659ba1bb9ea0a9",
       "X-TOKEN": window.objInts.readCookie("OTR") || getCookie("OTR")
     };
 
-    const endPoint = `https://${window.objVc.subscriptions}.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=TOIPLUS&merchantCode=TOI&country_code=IN&voucherCode=${voucherCode}`;
+    const endPoint = `https://${
+      isLiveApp() ? "subscriptions" : "testsubscription"
+    }.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=TOIPLUS&merchantCode=TOI&country_code=IN&voucherCode=${voucherCode}`;
     const requestOptions = {
       body: JSON.stringify({}),
       method: "POST",
@@ -183,8 +184,6 @@ const TOIRedeemBenefit = () => {
   const handleChange = (e) => setVoucherCode(e?.target?.value);
 
   const onCtaClick = () => {
-    const lh = window.location.host,
-      isLive = lh.indexOf("localhost:3000") !== -1 || lh.indexOf("dev8243") != -1 || lh.indexOf("etpwa") != -1 ? 0 : 1;
     if (!voucherCode?.trim()) {
       setInvalidVoucher({ invalid: true, msg: "Voucher Code should not be blank" });
     } else if (!loggedIn) {
@@ -203,7 +202,7 @@ const TOIRedeemBenefit = () => {
       } else {
         // typeof window.e$ != 'undefined' && window.e$.jStorage.set('userlogin_ru', window.location.href, {TTL:(15*60*1000)});
         window.location.href = `https://${
-          isLive ? "buy" : "dev-buy"
+          isLiveApp() ? "buy" : "dev-buy"
         }.indiatimes.com/clogin.cms?ref=TOI&flag=toiredeem&ru=${window.location.href}`;
       }
     } else {
@@ -213,7 +212,7 @@ const TOIRedeemBenefit = () => {
 
   return (
     <React.Fragment>
-      <header className={styles.pageHeader}>
+      <header className={`${styles.pageHeader} skipInts`}>
         <Image alt="TOI Logo" width={80} height={24} src="https://economictimes.indiatimes.com/photo/107824390.cms" />
       </header>
       <div className={styles.redeemContainer}>

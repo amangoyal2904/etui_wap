@@ -11,7 +11,7 @@ export const getParameterByName = (name) => {
 
 export const isLiveApp = () => {
   const lh = window.location.host,
-    isLive = lh.indexOf("localhost:3000") !== -1 || lh.indexOf("dev8243") != -1 || lh.indexOf("etpwa") != -1 ? 0 : 1;
+    isLive = lh.indexOf("localhost:3000") !== -1 || lh.indexOf("etnext") != -1 || lh.indexOf("etpwa") != -1 ? 0 : 1;
   return isLive;
 };
 
