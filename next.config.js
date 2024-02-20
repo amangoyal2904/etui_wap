@@ -12,7 +12,7 @@ module.exports = {
     defaultLocale: "en"
   },
   images: {
-    domains: ["img.etimg.com"]
+    domains: ["img.etimg.com", "economictimes.indiatimes.com"]
   },
   generateBuildId: async () => {
     // You can, for example, get the latest git commit hash here

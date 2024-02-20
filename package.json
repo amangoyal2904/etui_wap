@@ -29,6 +29,7 @@
     "react-redux": "^7.2.6",
     "react-slick": "^0.29.0",
     "react-swipeable": "^7.0.0",
+    "react-swipeable-views": "^0.14.0",
     "sass": "^1.49.7",
     "slick-carousel": "^1.8.1"
   },

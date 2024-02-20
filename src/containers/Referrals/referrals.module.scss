@@ -1,0 +1,442 @@
+$referralSpriteWeb: url("https://img.etimg.com/photo/107138364.cms");
+$referralSprite: url("https://img.etimg.com/photo/107137662.cms");
+
+.sprite {
+  background-image: $referralSprite;
+  background-size: 350px 325px;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+@mixin spriteWeb {
+  background-image: $referralSpriteWeb;
+  background-size: 1210px 1084px;
+}
+.referreralContainer {
+  background-color: #ffe9e2;
+}
+.et_referrals {
+  text-align: center;
+  font-family: Montserrat;
+  padding: 16px 16px 50px;
+  @media only screen and (min-width: 768px) {
+    padding: 0 0 80px;
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .head_sec {
+    text-align: center;
+    padding-top: 0;
+    @media only screen and (min-width: 768px) {
+      padding-top: 30px;
+    }
+  }
+  .head_logo {
+    @extend .sprite;
+    background-position: -111px -233px;
+    margin-right: 8px;
+    width: 195px;
+    height: 22px;
+    @media only screen and (min-width: 768px) {
+      @include spriteWeb;
+      background-position: -5px -947px;
+      margin-right: 14px;
+      width: 312px;
+      height: 34px;
+    }
+  }
+  .head_seperator {
+    background: #e1c9c2;
+    font-size: 40px;
+    height: 20px;
+    display: inline-block;
+    width: 1.3px;
+    margin: 0.5px;
+    @media only screen and (min-width: 768px) {
+      height: 28px;
+    }
+  }
+  .head_primelogo {
+    @extend .sprite;
+    background-position: -112px -265px;
+    margin-left: 8px;
+    width: 101px;
+    height: 20px;
+    @media only screen and (min-width: 768px) {
+      @include spriteWeb;
+      background-position: -327px -947px;
+      margin-right: 14px;
+      width: 161px;
+      height: 28px;
+    }
+  }
+  .info_section {
+    margin: 17px auto 25px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 26px 16px 8px;
+    @media only screen and (min-width: 768px) {
+      @include spriteWeb;
+      height: 932px;
+      box-shadow: 0 12px 10px 0 #ecd3ca;
+      background-color: #fff;
+      width: 1200px;
+      padding: 66px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.39;
+      color: #183551;
+      margin: 0;
+      @media only screen and (min-width: 768px) {
+        font-size: 36px;
+      }
+
+      .brandColor {
+        color: #ed193b;
+      }
+    }
+    .desc {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.79;
+      color: #183551;
+      margin: 0;
+      @media only screen and (min-width: 768px) {
+        font-size: 28px;
+        font-weight: 600;
+      }
+    }
+    .referralCreative {
+      @extend .sprite;
+      background-position: -5px -5px;
+      height: 218px;
+      margin: 17px auto 25px;
+      width: 340px;
+      zoom: 1;
+      @media only screen and (max-width: 380px) {
+        zoom: 0.7;
+      }
+      @media only screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+    .share_content {
+      margin: auto;
+      text-align: left;
+      width: auto;
+      @media only screen and (min-width: 768px) {
+        margin: 400px auto 0;
+        width: 805px;
+      }
+
+      .hideOnMWeb {
+        display: none;
+        @media only screen and (min-width: 768px) {
+          display: inline;
+        }
+      }
+      .hideOnWeb {
+        display: block;
+        @media only screen and (min-width: 768px) {
+          display: none;
+        }
+      }
+      .offer_heading {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        width: 325px;
+        margin: 0 auto;
+        @media only screen and (min-width: 768px) {
+          width: 100%;
+          font-size: 30px;
+          font-weight: 600;
+          margin: 30px 0;
+        }
+      }
+      .link_box {
+        font-size: 13px;
+        text-align: center;
+        margin: 31px 0;
+        @media only screen and (min-width: 768px) {
+          width: 786px;
+          height: 51px;
+          margin: 19px 0 24px;
+          padding: 4px 3px 4px 16px;
+          border-radius: 3px;
+          border: solid 1px #a8a8a8;
+          background-color: #f5f5f5;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .referralLink {
+          border: solid 1px #a8a8a8;
+          text-decoration: underline;
+          background: #f5f5f5;
+          word-break: break-all;
+          border-radius: 3px;
+          overflow: hidden;
+          max-width: 292px;
+          min-height: 64px;
+          display: block;
+          margin: 0 auto;
+          padding: 5px;
+          width: 100%;
+          @media only screen and (min-width: 768px) {
+            width: 620px;
+            height: 16px;
+            border: none;
+            background: transparent;
+            max-width: 620px;
+            padding: 22px 0;
+            text-align: left;
+          }
+        }
+        .generate_btn {
+          padding: 13px 13px 11px 15px;
+          border-radius: 3px;
+          background-color: #183651;
+          box-sizing: border-box;
+          text-align: center;
+          color: #fff;
+          cursor: pointer;
+          border: none;
+          margin-top: 13px;
+          font-family: Montserrat;
+          font-weight: 500;
+          font-size: 15px;
+          &:disabled {
+            opacity: 0.7;
+            cursor: default;
+          }
+          @media only screen and (min-width: 768px) {
+            width: 140px;
+            height: 43px;
+            margin: 0;
+          }
+        }
+      }
+      ul li {
+        &:before {
+          content: "";
+          height: 5px;
+          width: 5px;
+          display: inline-block;
+          background: #ed193b;
+          border-radius: 5px;
+          margin-right: 10px;
+          position: relative;
+          top: -3px;
+        }
+        &:after {
+          content: "";
+          display: inline-block;
+          border: 1px dotted #cdcdcd;
+          width: 14px;
+          transform: rotate(90deg);
+          position: absolute;
+          top: 22px;
+          left: 0px;
+        }
+      }
+      .share_heading {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        margin: 0;
+        @media only screen and (min-width: 768px) {
+          font-size: 20px;
+          margin: 20px;
+        }
+      }
+      .share_btns {
+        width: 305px;
+        margin: 10px auto;
+        text-align: center;
+        @media only screen and (min-width: 768px) {
+          width: 625px;
+        }
+        button {
+          width: 140px;
+          height: 44px;
+          margin: 6px;
+          border-radius: 3px;
+          background-color: #183651;
+          border: none;
+          cursor: pointer;
+          color: #fff;
+          font-family: Montserrat;
+          display: inline-flex;
+          align-items: center;
+          justify-content: start;
+          font-weight: 500;
+          font-size: 15px;
+          padding: 14px;
+          &:disabled {
+            opacity: 0.7;
+            cursor: default;
+          }
+          .copyicon {
+            @extend .sprite;
+            background-position: -222px -264px;
+            margin-right: 11px;
+            height: 19px;
+            width: 19px;
+          }
+          &.linkedin {
+            background: #0e76a8;
+            .linkedInIcon {
+              @extend .sprite;
+              background-position: -111px -293px;
+              margin-right: 11px;
+              margin-top: -3px;
+              height: 20px;
+              width: 20px;
+            }
+          }
+          &.wa {
+            background: #24d366;
+            .waicon {
+              @extend .sprite;
+              background-position: -316px -233px;
+              margin-right: 11px;
+              height: 20px;
+              width: 20px;
+            }
+          }
+          &.twt {
+            background: #0f1419;
+            .twtIcon {
+              @extend .sprite;
+              background-position: -141px -293px;
+              width: 20px;
+              height: 19px;
+              margin-right: 11px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .tnc_section {
+    text-align: left;
+    padding-left: 15px;
+    .terms_use {
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: underline;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+  }
+  ul {
+    padding: 0 5px;
+    font-size: 14px;
+    line-height: 1.71;
+    list-style: none;
+    position: relative;
+    li:before {
+      content: "";
+      height: 3px;
+      width: 3px;
+      display: inline-block;
+      background: #ed193b;
+      border-radius: 3px;
+      margin-right: 10px;
+      position: relative;
+      top: -3px;
+    }
+  }
+}
+
+.errorDialogContainer {
+  .bgLayer {
+    position: fixed;
+    top: 0;
+    background-color: #000;
+    opacity: 0.6;
+    filter: alpha(opacity=50);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: auto;
+    left: 0;
+  }
+  .errorDialog {
+    max-width: 675px;
+    height: 419px;
+    padding: 20px;
+    border-radius: 6px;
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+    width: 90%;
+    @media only screen and (min-width: 768px) {
+      padding: 45px;
+    }
+    .warn_logo {
+      @extend .sprite;
+      background-position: -5px -233px;
+      width: 96px;
+      height: 88px;
+    }
+    .err_msg {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 15px;
+    }
+    .err_submsg {
+      font-size: 18px;
+      width: 85%;
+      text-align: center;
+      margin: 8px auto;
+      .brandColor {
+        color: #ed193b;
+      }
+      @media only screen and (min-width: 768px) {
+        width: 100%;
+        margin: 16px;
+      }
+    }
+    .already_member {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 33px 0 8px;
+      @media only screen and (min-width: 768px) {
+        margin: 33px 0 16px;
+      }
+    }
+    .sigin_btn {
+      width: 305px;
+      height: 44px;
+      border-radius: 3px;
+      background-color: #ed193b;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-family: Montserrat;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .email_label {
+      color: #505050;
+      font-size: 16px;
+      margin: 10px;
+    }
+  }
+}
