@@ -36,6 +36,7 @@ const TOIRedeemBenefit = () => {
   }, []);
 
   const userState = () => {
+    console.log(window.objUser, "User Details");
     if (typeof window.objUser !== "undefined") {
       window.objUser.afterLoginCall(() => {
         if (window.objUser.info.isLogged) {
