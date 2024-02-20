@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import LoginWidget from "../../Components/LoginWIdget";
+import LoginWidget from "components/LoginWidget";
 import TOIBenefitsWap from "./TOIBenefitsWap";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
