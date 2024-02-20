@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import Image from "next/image";
 
+import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
 import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWap from "./TOIBenefitsWap";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
-
+import SEO from "components/SEO";
 import styles from "./redeemstyles.module.scss";
 
-const TOIRedeemBenefit = () => {
+const TOIRedeemBenefit: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
   const [invalidVoucher, setInvalidVoucher] = useState({ invalid: false, msg: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,8 @@ const TOIRedeemBenefit = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
+  const { seo = {}, version_control } = props;
+  const seoData = { ...seo, ...version_control?.seo };
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const voucherCode = queryParams.get("redeemvoucher");
@@ -211,8 +214,11 @@ const TOIRedeemBenefit = () => {
 
   return (
     <React.Fragment>
+      <SEO {...seoData} />
       <header className={`${styles.pageHeader} skipInts`}>
-        <Image alt="TOI Logo" width={80} height={24} src="https://economictimes.indiatimes.com/photo/107824390.cms" />
+        <a href="https://timesofindia.indiatimes.com/">
+          <Image alt="TOI Logo" width={80} height={24} src="https://economictimes.indiatimes.com/photo/107824390.cms" />
+        </a>
       </header>
       <div className={styles.redeemContainer}>
         <div className={styles.content}>
