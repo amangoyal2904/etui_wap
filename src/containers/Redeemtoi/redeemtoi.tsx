@@ -29,11 +29,9 @@ const TOIRedeemBenefit = () => {
     setIsMobile(isMobile);
 
     if (typeof window.objInts !== "undefined") {
-      window.objInts.afterPermissionCall(userState);
+      userState();
     } else if (typeof document !== "undefined") {
-      document.addEventListener("objIntsLoaded", () => {
-        window.objInts.afterPermissionCall(userState);
-      });
+      document.addEventListener("objIntsLoaded", userState);
     }
   }, []);
 
