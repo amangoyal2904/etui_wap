@@ -30,7 +30,6 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
   };
 
   const loginHandler = () => {
-    const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
     grxEvent(
       "event",
       {
@@ -40,7 +39,12 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
       },
       1
     );
-    return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
+    if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
+      window.objInts.initSSOWidget();
+    } else {
+      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+      return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
+    }
   };
   const planPageHandler = () => {
     grxEvent(

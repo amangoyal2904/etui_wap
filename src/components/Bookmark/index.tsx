@@ -47,8 +47,12 @@ const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
   //save book mark of current article api
   const saveBookmark = async (currentMSID, type) => {
     if (login.userInfo && Object.keys(login.userInfo).length === 0) {
-      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
-      window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
+        window.objInts.initSSOWidget();
+      } else {
+        const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+        window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      }
     }
     const Authorization = getCookie("peuuid");
     const url = APIS_CONFIG.saveNews[APP_ENV];

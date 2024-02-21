@@ -3,7 +3,6 @@ import Image from "next/image";
 
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWap from "./TOIBenefitsWap";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
@@ -249,7 +248,6 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
       </div>
       {!isMobile && <TOIBenefitsWeb />}
       {isMobile && <TOIBenefitsWap />}
-      <LoginWidget />
     </React.Fragment>
   );
 };

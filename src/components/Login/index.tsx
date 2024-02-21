@@ -99,8 +99,12 @@ const Login = () => {
     if (isLogin) {
       setLogout();
     } else {
-      const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
-      window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
+        window.objInts.initSSOWidget();
+      } else {
+        const loginUrl = APIS_CONFIG.LOGIN[APP_ENV];
+        window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`;
+      }
     }
   };
   const firstName: string = (isLogin && userInfo.firstName) || "User";

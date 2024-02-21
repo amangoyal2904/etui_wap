@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { fetchAllMetaInfo, isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginSdk";
 import APIS_CONFIG from "../../network/config.json";
 import { getCookie, APP_ENV } from "utils";
 import ErrorDialog from "./ErrorDialog";
@@ -226,7 +225,6 @@ const Referrals = () => {
           {!isEligible && <ErrorDialog onSignin={loginMapping} />}
         </div>
       </div>
-      <LoginWidget />
     </React.Fragment>
   );
 };
