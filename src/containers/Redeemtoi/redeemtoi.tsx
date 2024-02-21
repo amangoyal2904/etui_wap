@@ -9,6 +9,7 @@ import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
 import SEO from "components/SEO";
+
 import styles from "./redeemstyles.module.scss";
 
 const TOIRedeemBenefit: FC<PageProps> = (props) => {
