@@ -9,6 +9,7 @@ import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
 import SEO from "components/SEO";
 import styles from "./redeemstyles.module.scss";
+import LoginWidget from "components/LoginSdk";
 
 const TOIRedeemBenefit: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
@@ -248,6 +249,7 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
       </div>
       {!isMobile && <TOIBenefitsWeb />}
       {isMobile && <TOIBenefitsWap />}
+      <LoginWidget />
     </React.Fragment>
   );
 };

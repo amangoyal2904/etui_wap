@@ -7,6 +7,7 @@ import ErrorDialog from "./ErrorDialog";
 import { grxEvent } from "utils/ga";
 
 import styles from "./referrals.module.scss";
+import LoginWidget from "components/LoginSdk";
 
 const Referrals = () => {
   const [referralLink, setReferralLink] = useState("");
@@ -225,6 +226,7 @@ const Referrals = () => {
           {!isEligible && <ErrorDialog onSignin={loginMapping} />}
         </div>
       </div>
+      <LoginWidget />
     </React.Fragment>
   );
 };
