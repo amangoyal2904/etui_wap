@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 
 import { fetchAllMetaInfo, isLiveApp } from "utils/articleUtility";
+import { PageProps } from "types/stockreportscategory";
 import APIS_CONFIG from "../../network/config.json";
+import LoginWidget from "components/LoginSdk";
 import { getCookie, APP_ENV } from "utils";
 import ErrorDialog from "./ErrorDialog";
 import { grxEvent } from "utils/ga";
+import SEO from "components/SEO";
 
 import styles from "./referrals.module.scss";
-import LoginWidget from "components/LoginSdk";
 
-const Referrals = () => {
+const Referrals: FC<PageProps> = (props) => {
   const [referralLink, setReferralLink] = useState("");
   const [isEligible, setIsElegible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
+
+  const { seo = {}, version_control } = props;
+  const seoData = { ...seo, ...version_control?.seo };
 
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
@@ -138,6 +143,7 @@ const Referrals = () => {
 
   return (
     <React.Fragment>
+      <SEO {...seoData} />
       <div className={styles.referreralContainer}>
         <div className={`skipInts ${styles.et_referrals}`}>
           <div className={styles.head_sec}>
