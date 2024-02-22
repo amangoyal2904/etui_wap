@@ -3,8 +3,8 @@ import Image from "next/image";
 
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWap from "./TOIBenefitsWap";
+import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
