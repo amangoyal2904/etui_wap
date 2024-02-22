@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
+import LoginWidget from "components/LoginSdk";
 
 const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortvideos"];
 const NO_NAVBAR = [
@@ -106,6 +107,7 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
         )}
         {appHeader.isFetchSuccess && !NO_NAVBAR.includes(page) && <NavBar />}
       </header>
+      <LoginWidget />
       <NavDrawer isOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
       {isSearchOverlayOpen && <Search setIsOpen={setIsSearchOverlayOpen} />}
     </>

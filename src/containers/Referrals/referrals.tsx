@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import { fetchAllMetaInfo, isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginSdk";
 import APIS_CONFIG from "../../network/config.json";
 import { getCookie, APP_ENV } from "utils";
 import ErrorDialog from "./ErrorDialog";
 import { grxEvent } from "utils/ga";
 
 import styles from "./referrals.module.scss";
+import LoginWidget from "components/LoginSdk";
 
 const Referrals = () => {
   const [referralLink, setReferralLink] = useState("");

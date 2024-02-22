@@ -3,13 +3,13 @@ import Image from "next/image";
 
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
-import LoginWidget from "components/LoginSdk";
 import TOIBenefitsWap from "./TOIBenefitsWap";
 import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
 import SEO from "components/SEO";
 import styles from "./redeemstyles.module.scss";
+import LoginWidget from "components/LoginSdk";
 
 const TOIRedeemBenefit: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
