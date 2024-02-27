@@ -402,9 +402,12 @@ $referralSprite: url("https://img.etimg.com/photo/107137662.cms");
     }
     .err_submsg {
       font-size: 18px;
-      width: 85%;
+      width: 100%;
       text-align: center;
       margin: 8px auto;
+      @media only screen and (min-width: 376px) {
+        width: 85%;
+      }
       .brandColor {
         color: #ed193b;
       }
@@ -436,7 +439,10 @@ $referralSprite: url("https://img.etimg.com/photo/107137662.cms");
     .email_label {
       color: #505050;
       font-size: 16px;
-      margin: 10px;
+      margin: 10px 0;
+      @media only screen and (min-width: 376px) {
+        margin: 10px;
+      }
     }
   }
 }
