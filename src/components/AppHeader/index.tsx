@@ -10,7 +10,16 @@ import { ET_WAP_URL } from "utils/common";
 import { grxEvent } from "utils/ga";
 import LoginWidget from "components/LoginSdk";
 
-const NO_CTAS = ["videoshow", "videoshownew", "notfound", "topic", "quickreads", "shortvideos"];
+const NO_CTAS = [
+  "videoshow",
+  "videoshownew",
+  "notfound",
+  "topic",
+  "quickreads",
+  "shortvideos",
+  "stockreportsplus",
+  "stockreportscategory"
+];
 const NO_NAVBAR = [
   "videoshow",
   "videoshownew",
