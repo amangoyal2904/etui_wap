@@ -156,8 +156,8 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             {showPersonalizedlink()}
           </div>
           |
-          <button id="ot-sdk-btn" className={`${styles.ot_sdk_btn} ${styles.withPadding}`}>
-            Cookie Settings
+          <button className={`ot-sdk-show-settings ${styles.ot_sdk_btn}`} id="ot-sdk-btn">
+            Cookies Settings
           </button>
         </div>
         <div className={styles.row}>
