@@ -146,6 +146,18 @@
         color: #cccccc;
       }
 
+      .ot_sdk_btn {
+        font-size: 0.875em !important;
+        color: #cccccc !important;
+        border: none !important;
+        background: none !important;
+        padding: 10px 10px 0 !important;
+
+        &:hover {
+          background: none;
+        }
+      }
+
       .withPadding {
         padding: 10px 10px 0;
       }

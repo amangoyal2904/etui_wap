@@ -145,7 +145,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
               <>
                 |
                 <a
-                  href="https://m.economictimes.com/feedback.cms"
+                  href="https://m.economictimes.com/contactus.cms"
                   displaytype="GDPR"
                   className={`${styles.policyTerm} ${styles.withPadding}`}
                 >
@@ -155,6 +155,10 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             }
             {showPersonalizedlink()}
           </div>
+          |
+          <button className={`ot-sdk-show-settings ${styles.ot_sdk_btn}`} id="ot-sdk-btn">
+            Cookies Settings
+          </button>
         </div>
         <div className={styles.row}>
           <div className={styles.copyright}>
