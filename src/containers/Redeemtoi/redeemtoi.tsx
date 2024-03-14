@@ -11,6 +11,7 @@ import { getCookie } from "utils";
 import SEO from "components/SEO";
 
 import styles from "./redeemstyles.module.scss";
+import LazyLoadImg from "components/LazyLoad";
 
 const TOIRedeemBenefit: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
@@ -218,7 +219,13 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
       <SEO {...seoData} />
       <header className={`${styles.pageHeader} skipInts`}>
         <a href="https://timesofindia.indiatimes.com/">
-          <Image alt="TOI Logo" width={80} height={24} src="https://economictimes.indiatimes.com/photo/107824390.cms" />
+          <LazyLoadImg
+            large={false}
+            img="https://economictimes.indiatimes.com/photo/107824390.cms"
+            alt="TOI Logo"
+            width={80}
+            height={24}
+          />
         </a>
       </header>
       <div className={styles.redeemContainer}>

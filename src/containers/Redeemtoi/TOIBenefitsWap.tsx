@@ -1,7 +1,5 @@
 import SwipeableViews from "react-swipeable-views";
 import React, { useState } from "react";
-import Image from "next/image";
-
 import styles from "./redeemstyles.module.scss";
 import Benefits from "./Data.json";
 
@@ -23,7 +21,7 @@ const TOIBenefitsWap = () => {
         <ul className={styles.benefitList}>
           {Benefits?.map((item, i) => (
             <li key={`listItems${i}`} onClick={() => expandCarousel(i)}>
-              <img alt={item.title} width={48} height={48} src={item.tileImageUrl} />
+              <img alt={item.title} width={48} height={48} src={item.tileImageUrl} loading="lazy" decoding="async" />
               <div className={styles.benefitDesc}>
                 <h4>{item.tileTitle}</h4>
                 <p className={styles.desc}>{item.tileSubTitle}</p>
@@ -41,6 +39,8 @@ const TOIBenefitsWap = () => {
               width={13}
               src="https://img.etimg.com/photo/msid-78144068,quality-100/close.jpg"
               alt="close"
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <SwipeableViews
@@ -54,7 +54,7 @@ const TOIBenefitsWap = () => {
               const { imageUrl, tileTitle, tileSubTitle } = slide;
               return (
                 <div key={`carousel${index}`} className={styles.carouselBox}>
-                  <img height={300} src={imageUrl} alt={`slide${index}`} />
+                  <img height={300} src={imageUrl} alt={`slide${index}`} loading="lazy" decoding="async" />
                   <div style={{ textAlign: "center", fontFamily: "Montserrat", marginTop: "30px" }}>
                     <h4>{tileTitle}</h4>
                     <p style={{ margin: "8px 60px 16px" }}>{tileSubTitle}</p>

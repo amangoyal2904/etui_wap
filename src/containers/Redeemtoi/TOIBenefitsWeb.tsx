@@ -1,8 +1,7 @@
-import Image from "next/image";
 import React from "react";
-
 import Benefits from "./Data.json";
 import styles from "./redeemstyles.module.scss";
+import LazyLoadImg from "components/LazyLoad";
 
 const TOIBenefitsWeb = () => {
   const BenefitImage = (ele, index, flag = true) => (
@@ -11,7 +10,7 @@ const TOIBenefitsWeb = () => {
         styles.creativeBox
       }`}
     >
-      <Image height="413" width="564" alt={ele?.detailText} title="TOI Benefit" src={ele?.imageUrl} />
+      <LazyLoadImg large={true} img={ele?.imageUrl} alt={ele?.detailText} width={564} height={413} />
     </div>
   );
 

@@ -6,8 +6,8 @@ import StockRightProps from "./ScoreUpgrade";
 import UpGradeCard from "./UpGradeCard";
 import BottomScore from "./BottomScore";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
-import StockSRNoDataFoundCard from "../StockSRNoDataFound";
 import { grxEvent } from "utils/ga";
+import { StockSRNoDataFoundCard } from "components/StockSRNoDataFound";
 
 interface StockSRCardProps {
   data: { totalRecords: string; name: string; id: string }[];
