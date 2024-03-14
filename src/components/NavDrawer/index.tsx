@@ -1,7 +1,5 @@
 import React from "react";
-import Link from "next/link";
 import styles from "./styles.module.scss";
-
 import { MenuProps } from "components/AppHeader/types";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";

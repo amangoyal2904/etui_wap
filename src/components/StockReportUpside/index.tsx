@@ -4,8 +4,8 @@ import styles from "./styles.module.scss";
 import ReturnCard from "./ReturnCard";
 import GraphSecCard from "./GraphSecCard";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
-import StockSRNoDataFoundCard from "../StockSRNoDataFound";
 import { grxEvent } from "utils/ga";
+import { StockSRNoDataFoundCard } from "components/StockSRNoDataFound";
 
 interface StockSRCardProps {
   data: { title: string; item: any }[];

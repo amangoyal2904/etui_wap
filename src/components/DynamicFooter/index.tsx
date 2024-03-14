@@ -1,8 +1,6 @@
 import styles from "./styles.module.scss";
 import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
-import { useSelector } from "react-redux";
-import { AppState } from "app/store";
 import { isBrowser, isNoFollow } from "utils";
 declare global {
   interface Window {
