@@ -1,3 +1,4 @@
+import { getSubscriptionStatus, goToPlanPageNext } from "./utility";
 export const ET_WEB_URL = "https://economictimes.indiatimes.com/";
 export const ET_WAP_URL = "https://m.economictimes.com";
 export const TEST_ID_CTN_HOME = "358376"; // 335965
@@ -76,6 +77,83 @@ export const AND_BEYOND = {
   adSlot: "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Andbeyond_1x1",
   adSize: [[1, 1]]
 };
-export const goToPlanPage = () => {
-  window?.objInts?.goToPlanPageNext();
+export const goToPlanPage = (params, gtmItems: any = "") => {
+  //window?.objInts?.goToPlanPageNext();
+  let items = {};
+  if (gtmItems == "") {
+    items = {
+      item_name: "stock_report_plus_on_company_page",
+      item_id: "",
+      item_brand: "market_tools",
+      item_category: "stock_report_plus",
+      item_category2: "company_page",
+      item_category3: params.item_category3 || "paywall_blocker_cta",
+      item_category4: params.cta,
+      location_id: window.customDimension["dimension25"] || ""
+    };
+  } else {
+    items = gtmItems;
+  }
+  alert("here");
+  pushGA4("select_item", items);
+  window.ga4Items = items;
+  goToPlanPageNext(params);
+};
+
+export const pushGA4 = (event = "", item) => {
+  window.dataLayer = window.dataLayer || [];
+  Array.isArray(window.dataLayer) &&
+    window.dataLayer.push({
+      event: event,
+      items: [{ ...item }]
+    });
+};
+
+export const loginInitiatedGA4 = ({ isPaywalled, entrypoint, screenName }) => {
+  const ticketId = (window.objInts && window.objInts.readCookie("TicketId")) || "";
+  const userAccountDetails = ticketId && window.e$.jStorage.get(`prime_${ticketId}`);
+  const subscriptionDetails =
+    (userAccountDetails && userAccountDetails.subscriptionDetails && userAccountDetails.subscriptionDetails[0]) || {};
+  // const isSubscribed = typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
+  // const nonAdPageArray = ["StockReportPlus"];
+  const isMonetizable = "n";
+  // if (isSubscribed || nonAdPageArray.indexOf(pageName) !== -1) {
+  //   isMonetizable = "n";
+  // }
+  if (typeof window != "undefined") {
+    const items = {
+      event: "login_journey",
+      entrypoint: entrypoint,
+      steps_name: "cta_click",
+      feature_name: "et_product",
+      screen_name: screenName,
+      level_1: window.customDimension ? window.customDimension["dimension26"] : "",
+      section_name: window.customDimension ? window.customDimension["dimension26"] : "",
+      page_template: window.customDimension ? window.customDimension["dimension25"] : "articleShow",
+      sub_section_name: window.customDimension ? window.customDimension["dimension9"] : "",
+      login_status: window.objUser && window.objUser.info && window.objUser.info.isLogged ? "y" : "n",
+      method: (window.objInts && window.objInts.readCookie("LoginType")) || "",
+      subscription_status: getSubscriptionStatus(),
+      subscription_type:
+        (subscriptionDetails &&
+          subscriptionDetails.userAcquisitionType &&
+          subscriptionDetails.userAcquisitionType.toLowerCase()) ||
+        "free",
+      is_monetizable: isMonetizable,
+      is_paywalled: isPaywalled ? "y" : "n",
+      email: (window.objUser && window.objUser.info && window.objUser.info.primaryEmail) || "",
+      phone:
+        window.objUser &&
+        window.objUser.info.mobileData &&
+        window.objUser.info.mobileData.Verified &&
+        window.objUser.info.mobileData.Verified.mobile
+          ? window.objUser.info.mobileData.Verified.mobile
+          : ""
+    };
+    window.dataLayer = window.dataLayer || [];
+    Array.isArray(window.dataLayer) &&
+      window.dataLayer.push({
+        ...items
+      });
+  }
 };

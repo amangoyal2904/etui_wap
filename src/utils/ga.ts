@@ -11,7 +11,7 @@ declare global {
     gtag: (event: string, action: string, params: object) => void;
     // eslint-disable-next-line
     // gtag: any;
-    dataLayer: [push: object];
+    dataLayer: any[];
     customDimension: any;
     gtmEventDimension: object;
   }

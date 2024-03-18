@@ -8,7 +8,7 @@ import ReportSliderSec from "./reportsslider";
 import ShowSearchUISec from "./showsearchui";
 import APIS_CONFIG from "../../network/config.json";
 import { APP_ENV } from "../../utils";
-import { goToPlanPage } from "../../utils/common";
+import { goToPlanPage, loginInitiatedGA4 } from "../../utils/common";
 import { grxEvent } from "utils/ga";
 
 interface StockReportsPlusProps {
@@ -39,6 +39,11 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
       },
       1
     );
+    loginInitiatedGA4({
+      isPaywalled: false,
+      entrypoint: "Feature Login",
+      screenName: "StockReportPlus"
+    });
     if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
       window.objInts.initSSOWidget();
     } else {
@@ -46,7 +51,12 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
       return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
     }
   };
-  const planPageHandler = () => {
+  const planPageHandler = (cta: string) => {
+    const params = {
+      cta,
+      widget: "stock_report_plus",
+      item_category3: "paywall_blocker_other_cta"
+    };
     grxEvent(
       "event",
       {
@@ -56,7 +66,7 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
       },
       1
     );
-    goToPlanPage();
+    goToPlanPage(params);
   };
 
   const userBaseDataGen = () => {
@@ -69,7 +79,7 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
     } else if (!isPrimeUser && isLoginUser) {
       return (
         <div className={styles.btnTextWraper}>
-          <button onClick={planPageHandler}>Subscribe To et prime</button>
+          <button onClick={() => planPageHandler("Subscribe To et prime")}>Subscribe To et prime</button>
           <p>
             Already subscribed?<span className={styles.linkAnchor}>Restore Purchase</span>
           </p>
@@ -78,7 +88,7 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
     } else {
       return (
         <div className={styles.btnTextWraper}>
-          <button onClick={planPageHandler}>Subscribe Now</button>
+          <button onClick={() => planPageHandler("Subscribe Now")}>Subscribe Now</button>
           <p>
             Already a Member?
             <span className={styles.linkAnchor} onClick={loginHandler}>

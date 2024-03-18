@@ -3,7 +3,13 @@ import { goToPlanPage } from "../../utils/common";
 import { grxEvent } from "utils/ga";
 
 export default function StockSRBTMBannerCard({ data }) {
-  const planPageHandler = () => {
+  const planPageHandler = (cta) => {
+    const params = {
+      cta,
+      widget: "stock_report_plus",
+      item_category3: "paywall_blocker_other_cta"
+    };
+
     grxEvent(
       "event",
       {
@@ -13,7 +19,7 @@ export default function StockSRBTMBannerCard({ data }) {
       },
       1
     );
-    goToPlanPage();
+    goToPlanPage(params);
   };
   return (
     <>
@@ -21,7 +27,7 @@ export default function StockSRBTMBannerCard({ data }) {
         <div className={styles.btnSection}>
           <div className={styles.textBtm}>{data.text}</div>
           <div className={styles.primeWrap}>
-            <span className={styles.primeCta} onClick={planPageHandler}>
+            <span className={styles.primeCta} onClick={() => planPageHandler(data.ctaText)}>
               {data.ctaText}
             </span>
           </div>

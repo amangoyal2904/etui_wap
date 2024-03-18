@@ -4,6 +4,8 @@ import GreyDivider from "components/GreyDivider";
 import { useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { isBrowser, isNoFollow } from "utils";
+import { grxEvent } from "utils/ga";
+import { goToPlanPage } from "utils/common";
 declare global {
   interface Window {
     objAuth: {
@@ -22,8 +24,30 @@ declare module "react" {
 const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) => {
   const hide_footer = false;
   const paymentButtonListener = () => {
-    const paymentUrl = "";
-    window.location.href = paymentUrl;
+    const params = {
+      cta: "become a member",
+      widget: "footer"
+    };
+    const items = {
+      item_name: window.customDimension["dimension25"] || "",
+      item_id: "btf",
+      item_brand: "product_interventions",
+      item_category: "btf",
+      item_category2: window.customDimension["dimension26"] || "",
+      item_category3: "btf_cta",
+      item_category4: "become a member",
+      location_id: "footer"
+    };
+    grxEvent(
+      "event",
+      {
+        event_category: "Prime Distribution - PWA",
+        event_action: `Footer`,
+        event_label: "PWA Footer Prime Click"
+      },
+      1
+    );
+    goToPlanPage(params, items);
   };
   const showPersonalizedlink = () => {
     if (isBrowser() && typeof gdprCheck !== "undefined" && !gdprCheck()) {

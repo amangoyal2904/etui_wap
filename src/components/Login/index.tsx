@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setLoggedIn, setLoggedOut, setIsPrime } from "../../Slices/login";
 import { APP_ENV } from "../../utils";
 import styles from "./Login.module.scss";
+import { loginInitiatedGA4 } from "utils/common";
 
 interface IUser {
   firstName?: string;
@@ -99,6 +100,11 @@ const Login = () => {
     if (isLogin) {
       setLogout();
     } else {
+      loginInitiatedGA4({
+        isPaywalled: false,
+        entrypoint: "Hamburger",
+        screenName: "Login"
+      });
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
         window.objInts.initSSOWidget();
       } else {

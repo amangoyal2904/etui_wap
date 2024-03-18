@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { useEffect, useRef } from "react";
-import { goToPlanPage } from "../../utils/common";
+import { goToPlanPage, loginInitiatedGA4 } from "../../utils/common";
 import APIS_CONFIG from "../../network/config.json";
 import { APP_ENV } from "../../utils";
 import { grxEvent } from "utils/ga";
@@ -36,6 +36,11 @@ export default function StockSRLoginBlocker({
       },
       1
     );
+    loginInitiatedGA4({
+      isPaywalled: true,
+      entrypoint: "Subscription blocker",
+      screenName: "StockReportPlus"
+    });
     if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
       window.objInts.initSSOWidget();
     } else {
@@ -43,7 +48,13 @@ export default function StockSRLoginBlocker({
       return (window.location.href = `${loginUrl}${APP_ENV == "development" ? `?ru=${window.location.href}` : ""}`);
     }
   };
-  const planPageHandler = () => {
+  const planPageHandler = (cta: string) => {
+    const params = {
+      cta,
+      widget: "paywall_blocker_cta",
+      item_category3: "paywall_blocker_cta"
+    };
+
     grxEvent(
       "event",
       {
@@ -53,7 +64,7 @@ export default function StockSRLoginBlocker({
       },
       1
     );
-    goToPlanPage();
+    goToPlanPage(params);
   };
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -77,7 +88,7 @@ export default function StockSRLoginBlocker({
           <div className={styles.textMember}>{overlayBlockerData.textForData}</div>
           <div className={styles.textMember2}>{overlayBlockerData.textBenefits}</div>
           <div className={styles.subBtn}>
-            <span className={styles.subLink} onClick={planPageHandler}>
+            <span className={styles.subLink} onClick={() => planPageHandler(overlayBlockerData.ctaText)}>
               {overlayBlockerData.ctaText}
             </span>
             {!isLoginUser && (

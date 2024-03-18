@@ -11,6 +11,7 @@ import { getCookie } from "utils";
 import SEO from "components/SEO";
 
 import styles from "./redeemstyles.module.scss";
+import { loginInitiatedGA4 } from "utils/common";
 
 const TOIRedeemBenefit: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
@@ -199,7 +200,11 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
         },
         1
       );
-
+      loginInitiatedGA4({
+        isPaywalled: false,
+        entrypoint: "Feature Login",
+        screenName: "TOIRedeemBenefit"
+      });
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
         window.objInts.initSSOWidget();
       } else {

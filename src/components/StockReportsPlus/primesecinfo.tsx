@@ -23,7 +23,7 @@ export default function PrimeSecInfoSec({ isPrimeUser, isLogin, userName, goToPl
               <strong className={styles.moreBold}> at no extra cost</strong>
             </h4>
             <div className={styles.btnSec}>
-              <button className={styles.etBtnPrime} onClick={() => goToPlanPage()}>
+              <button className={styles.etBtnPrime} onClick={() => goToPlanPage("View ETPrime Plans")}>
                 View ETPrime Plans
               </button>
               <p className={styles.conditionText}>
