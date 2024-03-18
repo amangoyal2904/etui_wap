@@ -94,7 +94,6 @@ export const goToPlanPage = (params, gtmItems: any = "") => {
   } else {
     items = gtmItems;
   }
-  alert("here");
   pushGA4("select_item", items);
   window.ga4Items = items;
   goToPlanPageNext(params);
