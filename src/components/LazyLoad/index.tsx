@@ -1,4 +1,4 @@
-import LazyLoad from "react-lazyload";
+// import LazyLoad from "react-lazyload";
 import { ReactNode, CSSProperties } from "react";
 
 export interface LazyLoadProps {
@@ -24,36 +24,38 @@ export interface LazyLoadProps {
   clsName?: string | undefined;
   large?: boolean | undefined;
 }
-const imageDataURI = "https://img.etimg.com/photo/42031747.cms";
+// const imageDataURI = "https://img.etimg.com/photo/42031747.cms";
 const LazyLoadImg = (props: LazyLoadProps) => {
   const alt = props.alt || "ET Lazy Load Image";
   const height = !props.large ? 150 : 270;
   const width = !props.large ? 200 : 360;
-  const placeholder = (
-    <img
-      className={props.clsName}
-      height={props.height || height}
-      width={props.width || width}
-      src={imageDataURI}
-      style={props.style}
-      alt={alt}
-    />
-  );
+  // const placeholder = (
+  //   <img
+  //     className={props.clsName}
+  //     height={props.height || height}
+  //     width={props.width || width}
+  //     src={imageDataURI}
+  //     style={props.style}
+  //     alt={alt}
+  //   />
+  // );
   return (
-    <LazyLoad offset={100} placeholder={placeholder}>
-      <img
-        src={props.img}
-        height={props.height || height}
-        alt={alt}
-        width={props.width || width}
-        style={props.style}
-        className={props.clsName}
-        onError={(e: any) => {
-          e.target.onerror = null;
-          e.target.src = imageDataURI;
-        }}
-      />
-    </LazyLoad>
+    // <LazyLoad offset={100} placeholder={placeholder}>
+    <img
+      src={props.img}
+      height={props.height || height}
+      alt={alt}
+      width={props.width || width}
+      style={props.style}
+      className={props.clsName}
+      loading="lazy"
+      decoding="async"
+      // onError={(e: any) => {
+      //   e.target.onerror = null;
+      //   e.target.src = imageDataURI;
+      // }}
+    />
+    // </LazyLoad>
   );
 };
 
