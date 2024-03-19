@@ -23,12 +23,14 @@ export interface LazyLoadProps {
   img?: string | undefined;
   clsName?: string | undefined;
   large?: boolean | undefined;
+  isNotLazy?: boolean | undefined;
 }
 // const imageDataURI = "https://img.etimg.com/photo/42031747.cms";
 const LazyLoadImg = (props: LazyLoadProps) => {
   const alt = props.alt || "ET Lazy Load Image";
   const height = !props.large ? 150 : 270;
   const width = !props.large ? 200 : 360;
+  const isNotLazy = !!props.isNotLazy;
   // const placeholder = (
   //   <img
   //     className={props.clsName}
@@ -48,8 +50,8 @@ const LazyLoadImg = (props: LazyLoadProps) => {
       width={props.width || width}
       style={props.style}
       className={props.clsName}
-      loading="lazy"
-      decoding="async"
+      loading={isNotLazy ? "eager" : "lazy"}
+      decoding={isNotLazy ? "sync" : "async"}
       // onError={(e: any) => {
       //   e.target.onerror = null;
       //   e.target.src = imageDataURI;

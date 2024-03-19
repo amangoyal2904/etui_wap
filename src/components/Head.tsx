@@ -88,6 +88,98 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
           type="font/woff"
           crossOrigin=""
         />         */}
+        <style>
+          {`
+
+      @font-face {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/montserrat-v14-latin-regular.woff");
+      }
+
+      @font-face {
+        font-family: "Montserrat";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("/fonts/montserrat-v14-latin-700.woff");
+      }
+
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        font-family: Montserrat, sans-serif;
+      }
+
+      ul,
+      ul li {
+        padding: 0px;
+        margin: 0px;
+        list-style-type: none;
+      }
+
+      ol li {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .isprimeuser .adContainer {
+        display: none;
+      }
+      .adContainer.expando_1 {
+        min-height: 250px;
+      }
+
+      #shortsVids .common .moreTextImg {
+        display: none;
+      }
+
+      #shortsVids #more-text {
+        background: transparent;
+        right: 4rem;
+        width: auto;
+      }
+
+      #shortsVids #more-text div {
+        color: #fff;
+      }
+
+      #shortsVids #footer-common {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.969087) 87.8%, #000000 100%);
+      }
+      .reportPlustSliderWrap .slick-list .slick-slide > div:first-child {
+        padding: 10px 20px;
+      }
+
+      #mh {
+        text-align: center;
+        margin-top: 10px;
+        min-height: 50px;
+      }
+
+      .loginWidgetWrapper {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999999;
+        background-color: rgba(0, 0, 0, 0.8);
+        overflow: auto;
+      }
+          `}
+        </style>
       </Head>
     </>
   );
