@@ -178,6 +178,7 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
           <iframe
             srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;"  />`}
             className={styles.video_thumb}
+            loading="lazy"
           />
         )}
       </div>

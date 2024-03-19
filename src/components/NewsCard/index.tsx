@@ -106,6 +106,7 @@ const NewsCard = (props: ListProps) => {
                           alt={item.title}
                           width={135}
                           height={100}
+                          isNotLazy={index < 4 ? true : false}
                         />
                         {item.type != "articleshow" && <div className={styles[`icon_${item.type}`]} />}
                       </div>

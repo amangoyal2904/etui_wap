@@ -43,6 +43,7 @@ const AppDownloadWidget: FC<WidgetData> = ({ tpName }) => {
             src="https://img.etimg.com/photo/msid-92587267.cms"
             alt="app download banner"
             loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
