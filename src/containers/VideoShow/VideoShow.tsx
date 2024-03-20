@@ -67,7 +67,7 @@ const VideoShow: FC<PageProps> = (props) => {
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
   return (
     <>
-      <div className={styles.mainContent}>
+      <div className={"mainContent"}>
         {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
           <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={msid} />
         )}
@@ -76,15 +76,15 @@ const VideoShow: FC<PageProps> = (props) => {
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )}
-        <div className={styles.videoshow}>
+        <div className={"videoshow"}>
           <VideoEmbed url={url} />
 
-          <div className={styles.wrap}>
+          <div className={"wrap"}>
             <h1 role="heading">{result.title}</h1>
-            <div className={styles.synopsis}>
+            <div className={"synopsis"}>
               <p>{result.synopsis}</p>
             </div>
-            <div className={styles.date}>
+            <div className={"date"}>
               {getAuthors(result.authors)} {result.agency} | {result.date}
             </div>
           </div>
@@ -110,6 +110,53 @@ const VideoShow: FC<PageProps> = (props) => {
           </div>
         )}
       </div>
+      <style jsx>{`
+        .videoshow {
+          background: #f0f0f0;
+          margin-top: 10px;
+          min-height: 500px;
+          padding-bottom: 4px;
+        }
+        .wrap {
+          padding: 1rem;
+        }
+        .date {
+          color: #666;
+          font-size: 0.95em;
+          line-height: 1.5;
+        }
+        .date a {
+          color: #000;
+        }
+
+        h1 {
+          font-size: 1.35rem;
+          font-weight: 700;
+          line-height: 1.7rem;
+        }
+
+        .synopsis p {
+          font-size: 15px;
+          line-height: 1.5rem;
+        }
+        .hdAdContainer {
+          max-width: 100vw;
+          overflow: auto;
+          text-align: center;
+          margin-top: 10px;
+          min-height: 50px;
+        }
+        .footerAd {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          z-index: 5;
+          text-align: center;
+          background-color: #fff;
+          max-height: 50px;
+        }
+      `}</style>
     </>
   );
 };
