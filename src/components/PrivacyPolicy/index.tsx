@@ -8,12 +8,6 @@ import Service from "network/service";
 
 declare global {
   interface Window {
-    e$: {
-      jStorage: {
-        set(arg1: string, arg2: any): any;
-        get(arg1: string): any;
-      };
-    };
     geoinfo: {
       CountryCode: string;
       geolocation: string;

@@ -10,7 +10,7 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-import { getPageSpecificDimensions } from "utils";
+import { getPageSpecificDimensions, updateDimension } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
@@ -50,6 +50,7 @@ const VideoShow: FC<PageProps> = (props) => {
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     } else {
       document.addEventListener("objIntsLoaded", intsCallback);
     }

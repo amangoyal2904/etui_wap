@@ -16,7 +16,7 @@ declare global {
     gtmEventDimension: object;
   }
 }
-export const pageview = (url, params = {}) => {
+export const pageview = (url, params = {}, type = "") => {
   try {
     setDimension120();
 
@@ -29,7 +29,8 @@ export const pageview = (url, params = {}) => {
     const payload = { ...params, ...window.customDimension };
     // send the page views
     window.ga && window.ga("send", "pageview", payload);
-    grxEvent("page_view", params);
+    type != "cdpPageView" && grxEvent("page_view", params);
+    grxEvent("cdp_page_view", params);
   } catch (e) {
     console.log("pageview error: ", e);
   }
@@ -190,7 +191,7 @@ export const grxEvent = (type, data, gaEvent = 0) => {
                 for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
             }
         } */
-      window.grx("track", type, grxDimension);
+      window.grx("track", "page_view", type == "cdp_page_view" ? window.grxDimension_cdp : grxDimension);
       if (gaEvent && window.ga && type == "event") {
         window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
       }
@@ -203,6 +204,10 @@ export const grxEvent = (type, data, gaEvent = 0) => {
       if (type == "page_view") {
         const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
         window.dataLayer.push(gtmEventDimension);
+      }
+      if (type == "cdp_page_view") {
+        const _gtmEventDimension = { ...window.grxDimension_cdp, event: "et_push_pageload" };
+        window.dataLayer.push(_gtmEventDimension);
       }
     }
   } catch (e) {

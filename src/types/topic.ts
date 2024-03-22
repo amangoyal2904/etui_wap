@@ -33,8 +33,5 @@ export interface PageProps {
   ];
   seo: SEOProps;
   version_control?: versionControlProps;
-  parameters: {
-    query: string;
-    tab: string;
-  };
+  parameters: any;
 }

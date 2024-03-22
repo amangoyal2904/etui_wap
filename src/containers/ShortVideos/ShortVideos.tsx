@@ -1,6 +1,6 @@
 import SEO from "components/SEO";
 import { FC, useEffect, useState } from "react";
-import { loadScript } from "utils";
+import { loadScript, updateDimension, getMSID } from "utils";
 import styles from "./ShortVideos.module.scss";
 
 declare global {
@@ -139,6 +139,8 @@ const ShortVideos: FC = (props: any) => {
     loadSlikeScripts();
     document.addEventListener("objSlikeScriptsLoaded", () => {
       initPlayer();
+      const msid = getMSID(window.location.pathname.split("/").pop());
+      updateDimension({ pageName: "shortvideos", msid, subsecnames: seo.subsecnames });
     });
   }, []);
 
