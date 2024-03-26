@@ -1,4 +1,3 @@
-import styles from "./VideoShow.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
@@ -218,7 +217,7 @@ const VideoShow: FC<PageProps> = (props) => {
           />
         ))}
         {showLoaderNext && (
-          <div ref={loadMoreRef} className={styles.loadNext}>
+          <div ref={loadMoreRef} className="loadNext">
             {isLoading && <Loading />}
             {loadErrMsg.length > 0 && loadErrMsg}
           </div>
