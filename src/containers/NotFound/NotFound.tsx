@@ -1,5 +1,4 @@
 import { ET_WAP_URL } from "utils/common";
-import styles from "./NotFound.module.scss";
 import { FC, Fragment, useEffect } from "react";
 import { grxEvent } from "utils/ga";
 import DfpAds from "components/Ad/DfpAds";
@@ -70,8 +69,8 @@ const NotFound: FC<PageProps> = (props) => {
       <div className={`hdAdContainer adContainer expando_1`}>
         <DfpAds adInfo={{ key: "atf" }} identifier="NotFoundPage" />
       </div>
-      <div className={styles.notFound}>
-        <h2 className={styles.title}>Page not found</h2>
+      <div className="notFound">
+        <h2 className="title">Page not found</h2>
         <p>
           The page you have requested might no longer exist, has had its name changed, or is temporarily unavailable.
         </p>
@@ -83,6 +82,24 @@ const NotFound: FC<PageProps> = (props) => {
       <div className={`footerAd adContainer`}>
         <DfpAds adInfo={{ key: "fbn" }} identifier="floatingAd" />
       </div>
+      <style jsx>{`
+        .notFound {
+          padding: 80px 0 80px 20px;
+          background: white;
+          min-height: 450px;
+        }
+        .notFound p {
+          line-height: 1.4;
+          margin-top: 6px;
+        }
+        .notFound .title {
+          font-size: $h2-font-size;
+          line-height: $h2-line-height;
+        }
+        .notFound a {
+          text-decoration: underline;
+        }
+      `}</style>
     </>
   );
 };

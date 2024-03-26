@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { fetchBookmark, fetchBookmarkDefault } from "Slices/bookmark";
 import { createPeuuid } from "utils/personalization";
-import styles from "./styles.module.scss";
 
 interface BookmarkProps {
   msid: string;
@@ -92,8 +91,18 @@ const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
       onClick={() => {
         saveBookmark(msid, type);
       }}
-      className={`${styles.bookmark} ${styles.commonSprite} ${isBookmarked === 1 ? styles.bookmarkAdded : ""}`}
-    ></span>
+      className={`bookmark commonSprite ${isBookmarked === 1 ? "bookmarkAdded" : ""}`}
+    >
+      <style jsx>{`
+        .bookmark {
+          background-position: -41px -198px;
+          float: right;
+        }
+        .bookmarkAdded {
+          background-position: -4px -198px;
+        }
+      `}</style>
+    </span>
   );
 };
 
