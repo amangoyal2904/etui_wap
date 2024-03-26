@@ -61,32 +61,44 @@ interface PageProps {
 const Container = (props) => {
   // eslint-disable-next-line prefer-const
   const { page, data } = props;
-  //let container = <NotFound {...data} />;
+  let container = <NotFound {...data} />;
 
   switch (page) {
     case "home":
-      return <Home {...data} />;
+      container = <Home {...data} />;
+      break;
     case "videoshow":
-      return <VideoShow {...data} />;
+      container = <VideoShow {...data} />;
+      break;
     case "videoshownew":
-      return <VideoShowNew {...data} />;
+      container = <VideoShowNew {...data} />;
+      break;
     case "topic":
-      return <Topic {...data} />;
+      container = <Topic {...data} />;
+      break;
     case "quickreads":
-      return <QuickReads {...data} />;
+      container = <QuickReads {...data} />;
+      break;
     case "shortvideos":
-      return <ShortVideos {...data} />;
+      container = <ShortVideos {...data} />;
+      break;
     case "stockreportsplus":
-      return <StockReports {...data} />;
+      container = <StockReports {...data} />;
+      break;
     case "stockreportscategory":
-      return <StockReportsCategory {...data} />;
+      container = <StockReportsCategory {...data} />;
+      break;
     case "redeemtoi":
-      return <RedeemTOI {...data} />;
+      container = <RedeemTOI {...data} />;
+      break;
     case "referrals":
-      return <Referrals {...data} />;
+      container = <Referrals {...data} />;
+      break;
     default:
-      return <NotFound {...data} />;
+      container = <NotFound {...data} />;
+      break;
   }
+  return container;
 };
 
 const MyApp = ({ pageProps }: AppProps) => {
