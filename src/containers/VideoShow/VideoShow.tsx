@@ -1,4 +1,3 @@
-import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
@@ -67,12 +66,12 @@ const VideoShow: FC<PageProps> = (props) => {
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
   return (
     <>
-      <div className={"mainContent"}>
+      <div className="mainContent">
         {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
           <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={msid} />
         )}
         {!hideAds && (
-          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+          <div className={`hdAdContainer adContainer expando_${cpd_wap}`}>
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )}
@@ -105,7 +104,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <AppDownloadWidget tpName="videoshow" />
         <BreadCrumb data={seoData.breadcrumb} />
         {!hideAds && (
-          <div className={`${styles.footerAd} adContainer`}>
+          <div className={`footerAd adContainer`}>
             <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )}
@@ -138,23 +137,6 @@ const VideoShow: FC<PageProps> = (props) => {
         .synopsis p {
           font-size: 15px;
           line-height: 1.5rem;
-        }
-        .hdAdContainer {
-          max-width: 100vw;
-          overflow: auto;
-          text-align: center;
-          margin-top: 10px;
-          min-height: 50px;
-        }
-        .footerAd {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          z-index: 5;
-          text-align: center;
-          background-color: #fff;
-          max-height: 50px;
         }
       `}</style>
     </>

@@ -178,6 +178,52 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         background-color: rgba(0, 0, 0, 0.8);
         overflow: auto;
       }
+
+    .hdAdContainer {
+      max-width: 100vw;
+      overflow: auto;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 50px;
+    }
+    .footerAd {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 5;
+      text-align: center;
+      background-color: #fff;
+      max-height: 50px;
+    }
+
+    .mrecContainer {
+      text-align: center;
+      margin: 20px 0;
+      padding-bottom: 10px;
+      background: #f7f7f7;
+      min-height: 200px;
+    }
+    .mrecContainer::before {
+        content: "ADVERTISEMENT";
+        font-size: 11px;
+        font-weight: 300;
+        display: block;
+        padding: 10px 0;
+    }
+    .mrecContainer .mrec {
+        display: inline-block;
+    }
+
+    .adContainer {
+      text-align: center;
+    }
+
+    .mainContent {
+      min-height: 450px;
+      max-width: 1024px;
+      margin: 0 auto;
+    }
           `}
         </style>
       </Head>

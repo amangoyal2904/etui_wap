@@ -388,7 +388,7 @@ const StockReports: FC<PageProps> = (props) => {
   return (
     <>
       <SEO {...seoData} />
-      <div className={styles.mainContent}>
+      <div className="mainContent">
         <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
         {!isPrimeUser && <StockTopBanner srTabActivemenu={`stockreportscategory`} data={stPlusBannerData} />}
         {stockDataFilter &&
