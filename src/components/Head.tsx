@@ -224,6 +224,10 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       max-width: 1024px;
       margin: 0 auto;
     }
+    .commonSprite {
+        background: url("https://img.etimg.com/photo/msid-105039132,quality-100.cms") no-repeat;
+        display: inline-block;
+      }
           `}
         </style>
       </Head>
