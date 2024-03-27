@@ -95,6 +95,12 @@ const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
     >
       <style jsx>{`
         .bookmark {
+          width: 32px;
+          height: 32px;
+          transform: scale(0.9);
+          display: inline-block;
+          cursor: pointer;
+          margin-right: 8px;
           background-position: -41px -198px;
           float: right;
         }

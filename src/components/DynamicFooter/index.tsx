@@ -301,7 +301,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
           .category {
             margin-top: 15px;
           }
-          .category::first-child {
+          .category:first-child {
             margin-top: 0px;
           }
           .category h2 {
@@ -330,7 +330,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             top: 7px;
             bottom: 5px;
           }
-          ul.content li::first-child {
+          ul.content li:first-child {
             padding-left: 0;
           }
 
@@ -358,7 +358,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
           .category {
             margin-top: 15px;
           }
-          .category::first-child {
+          .category:first-child {
             margin-top: 0px;
           }
           .category h2 {
@@ -387,7 +387,7 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             top: 7px;
             bottom: 5px;
           }
-          ul.content li::first-child {
+          ul.content li:first-child {
             padding-left: 0;
           }
 

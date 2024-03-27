@@ -62,7 +62,7 @@ export default function Listing({ type, title, data }: ListProps) {
             white-space: normal;
             vertical-align: top;
           }
-          .videoSlider ul li::first-child {
+          li:first-child {
             margin-left: 15px;
           }
 

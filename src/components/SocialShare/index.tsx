@@ -56,22 +56,22 @@ const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
           margin-right: 8px;
         }
 
-        .socialLinks span .wa {
+        .wa {
           background-position: -79px -163px;
         }
-        .socialLinks span .fb {
+        .fb {
           background-position: -116px -163px;
         }
-        .socialLinks span .twt {
+        .twt {
           background-position: -154px -163px;
         }
-        .socialLinks span .in {
+        .in {
           background-position: -116px -198px;
         }
-        .socialLinks span .email {
+        .email {
           background-position: -41px -163px;
         }
-        .socialLinks span .sms {
+        .sms {
           background-position: -78px -198px;
         }
       `}</style>
