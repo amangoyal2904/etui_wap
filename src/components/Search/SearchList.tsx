@@ -1,6 +1,17 @@
 import { getParameterByName } from "utils";
-import styles from "./styles.module.scss";
-
+const listLastListStyle = `
+  .list {
+    padding: 8px 10px;
+    border-bottom: dotted 1px #d4d9dc;
+    font-size: 14px;
+  }
+  .lastList {
+    padding: 8px 10px;
+    border-bottom: dotted 1px #d4d9dc;
+    font-size: 14px;
+    border-bottom-style: solid;
+  }
+`;
 export default function SearchList(props) {
   const { index, data, searchValue } = props;
   const searchKeyword = searchValue?.toLowerCase();
@@ -14,9 +25,14 @@ export default function SearchList(props) {
     const list =
       listData.length > 0 &&
       listData.map((data, i) => (
-        <li className={i == listData.length - 1 ? styles.lastList : styles.list} key={i}>
-          <a href={type == "reptr" ? `https://m.economictimes.com${data.link}` : data.link}>{makeBold(data.title)}</a>{" "}
-        </li>
+        <>
+          <li className={i == listData.length - 1 ? "lastList" : "list"} key={i}>
+            <a href={type == "reptr" ? `https://m.economictimes.com${data.link}` : data.link}>{makeBold(data.title)}</a>{" "}
+          </li>
+          <style jsx>{`
+            ${listLastListStyle}
+          `}</style>
+        </>
       ));
     return list;
   };
@@ -99,69 +115,76 @@ export default function SearchList(props) {
     const list =
       compData.length > 0 &&
       compData.map((data, i) => (
-        <li className={i == compData.length - 1 ? styles.lastList : styles.list} key={i}>
-          {(type == "company" || type == "companyUnlisted") && (
-            <a
-              href={
-                type == "company"
-                  ? `${domain}/${data.tagSeoName}/stocks/companyid-${
-                      data.entityType == "dvr" || data.entityType == "pp"
-                        ? data.tagId.substring(0, data.tagId.length - 4)
-                        : data.tagId
-                    }.cms${
-                      data.entityType != "company" || typeof data.subType != "undefined"
-                        ? `?companytype=${data.subType ? data.subType : data.entityType}`
-                        : ""
-                    }`
-                  : `${domain}/company/${data.tagSeoName}/${data.tagId}`
-              }
-            >
-              {makeBold(data.tagName)}
-            </a>
-          )}
-          {(type == "mf" || type == "etf") && (
-            <a href={`${domain}/${escape(data.tagSeoName)}/mffactsheet/schemeid-${data.tagId}.cms`}>
-              {makeBold(data.tagName.trim())}
-            </a>
-          )}
-          {type == "et" && <a href={`${domain}/${data.url}`}> {makeBold(data.key)} </a>}
-          {type == "forex" && (
-            <a
-              href={`${domain}/forex_home.cms?amount=1&fromcur=${data.fromCurrencyShort}&tocur=${data.toCurrencyShort}`}
-            >
-              {" "}
-              {makeBold(data.tagName.replace(data.tagName[0], data.tagName[0].toUpperCase()))}{" "}
-            </a>
-          )}
-          {type == "cmdt" && (
-            <a href={`${domain}/${langPrefix}commoditysummary/symbol-${data.fno}${langSufix}.cms`}>
-              {makeBold(data.tagName)}
-            </a>
-          )}
-          {type == "index" && (
-            <a
-              href={`${domain}/markets/${data.tagSeoName}/indexsummary/indexid-/${langPrefix}'indices/sensex_${
-                data.tagId == "2369" ? `50` : data.tagId == "2365" ? `30` : ""
-              }_companies,exchange-${data.exchange == "BSE" ? 47 : 50}.cms`}
-            >
-              {makeBold(data.tagName)}
-            </a>
-          )}
-          {type == "nps" && (
-            <a href={`${domain}/${escape(data.tagSeoName)}/nps/schemecode-${data.tagId}.cms`}>
-              {makeBold(data.SchemeName)}{" "}
-              {(data.SchemeName1 != "" && data.SchemeName1 != undefined ? " - " + data.SchemeName1 : "") +
-                (data.SchemeName2 != "" && data.SchemeName2 != undefined ? " - " + data.SchemeName2 : "")}
-            </a>
-          )}
-          {type == "crypto" && (
-            <a
-              href={`${domain}/markets/cryptocurrency/${escape(data.tagSeoName)}/cryptodetail/symbol-${data.tagId}.cms`}
-            >
-              {makeBold(data.tagName)}
-            </a>
-          )}
-        </li>
+        <>
+          <li className={i == compData.length - 1 ? "lastList" : "list"} key={i}>
+            {(type == "company" || type == "companyUnlisted") && (
+              <a
+                href={
+                  type == "company"
+                    ? `${domain}/${data.tagSeoName}/stocks/companyid-${
+                        data.entityType == "dvr" || data.entityType == "pp"
+                          ? data.tagId.substring(0, data.tagId.length - 4)
+                          : data.tagId
+                      }.cms${
+                        data.entityType != "company" || typeof data.subType != "undefined"
+                          ? `?companytype=${data.subType ? data.subType : data.entityType}`
+                          : ""
+                      }`
+                    : `${domain}/company/${data.tagSeoName}/${data.tagId}`
+                }
+              >
+                {makeBold(data.tagName)}
+              </a>
+            )}
+            {(type == "mf" || type == "etf") && (
+              <a href={`${domain}/${escape(data.tagSeoName)}/mffactsheet/schemeid-${data.tagId}.cms`}>
+                {makeBold(data.tagName.trim())}
+              </a>
+            )}
+            {type == "et" && <a href={`${domain}/${data.url}`}> {makeBold(data.key)} </a>}
+            {type == "forex" && (
+              <a
+                href={`${domain}/forex_home.cms?amount=1&fromcur=${data.fromCurrencyShort}&tocur=${data.toCurrencyShort}`}
+              >
+                {" "}
+                {makeBold(data.tagName.replace(data.tagName[0], data.tagName[0].toUpperCase()))}{" "}
+              </a>
+            )}
+            {type == "cmdt" && (
+              <a href={`${domain}/${langPrefix}commoditysummary/symbol-${data.fno}${langSufix}.cms`}>
+                {makeBold(data.tagName)}
+              </a>
+            )}
+            {type == "index" && (
+              <a
+                href={`${domain}/markets/${data.tagSeoName}/indexsummary/indexid-/${langPrefix}'indices/sensex_${
+                  data.tagId == "2369" ? `50` : data.tagId == "2365" ? `30` : ""
+                }_companies,exchange-${data.exchange == "BSE" ? 47 : 50}.cms`}
+              >
+                {makeBold(data.tagName)}
+              </a>
+            )}
+            {type == "nps" && (
+              <a href={`${domain}/${escape(data.tagSeoName)}/nps/schemecode-${data.tagId}.cms`}>
+                {makeBold(data.SchemeName)}{" "}
+                {(data.SchemeName1 != "" && data.SchemeName1 != undefined ? " - " + data.SchemeName1 : "") +
+                  (data.SchemeName2 != "" && data.SchemeName2 != undefined ? " - " + data.SchemeName2 : "")}
+              </a>
+            )}
+            {type == "crypto" && (
+              <a
+                href={`${domain}/markets/cryptocurrency/${escape(data.tagSeoName)}/cryptodetail/symbol-${
+                  data.tagId
+                }.cms`}
+              >
+                {makeBold(data.tagName)}
+              </a>
+            )}
+          </li>
+          <style jsx>{`
+            ${listLastListStyle}
+          `}</style>
+        </>
       ));
     return list;
   };
@@ -194,7 +217,7 @@ export default function SearchList(props) {
               data.entityType == "ipo"
           ) && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">COMPANIES</span>
                 <a
                   className="flr"
@@ -211,7 +234,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType == "MutualFund") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">MUTUAL FUNDS</span>
                 <div className="clr"></div>
               </li>
@@ -220,7 +243,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType == "NPS") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">NPS</span>
                 <div className="clr"></div>
               </li>
@@ -229,7 +252,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType == "commodity") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">COMMODITY</span>
                 <a
                   className="flr"
@@ -246,7 +269,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType.toLowerCase() == "forex") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">FOREX</span>
                 <div className="clr"></div>
               </li>
@@ -255,7 +278,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType.toLowerCase() == "etf") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">ETF</span>
                 <div className="clr"></div>
               </li>
@@ -264,7 +287,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType == "index") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">INDICES</span>
                 <div className="clr"></div>
               </li>
@@ -273,7 +296,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType.toLowerCase() == "company" && data.subType == "NonList") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">UNLISTED COMPANIES</span>
                 <div className="clr"></div>
               </li>
@@ -282,7 +305,7 @@ export default function SearchList(props) {
           )}
           {data.some((data) => data.entityType == "crypto") && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">CRYPTOCURRENCY</span>
                 <div className="clr"></div>
               </li>
@@ -297,7 +320,7 @@ export default function SearchList(props) {
         <>
           {data.some((data) => data.link.includes("/prime/")) && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">PRIME STORIES</span>
                 <div className="clr"></div>
               </li>
@@ -307,7 +330,7 @@ export default function SearchList(props) {
 
           {data.some((data) => !data.link.includes("/prime/")) && (
             <>
-              <li className={styles.head}>
+              <li className={"head"}>
                 <span className="flt">NEWS</span>
                 <a
                   className="flr"
@@ -329,7 +352,7 @@ export default function SearchList(props) {
       {index == 2 && Object.keys(data).length ? (
         <>
           {data.person && data.person.length > 0 && (
-            <li className={styles.head}>
+            <li className={"head"}>
               <span className="flt">PEOPLE</span>
               <a className="flr" target="_blank" rel="noreferrer" href={`/panache/panache-people-101`}>
                 more
@@ -341,13 +364,13 @@ export default function SearchList(props) {
             data.person.length > 0 &&
             data.person.map((data, i) => {
               return (
-                <li className={styles.list} key={i}>
+                <li className={"list"} key={i}>
                   <a href={`/${data.seo}`}>{makeBold(data.name)}</a>
                 </li>
               );
             })}
           {data.definitions && data.definitions.length > 0 && (
-            <li className={styles.head}>
+            <li className={"head"}>
               <span className="flt">DEFINITIONS</span>
               <a className="flr" target="_blank" rel="noreferrer" href={`${domain}/definition/search/${searchKeyword}`}>
                 more
@@ -359,7 +382,7 @@ export default function SearchList(props) {
             data.definitions.length > 0 &&
             data.definitions.map((data, i) => {
               return (
-                <li className={styles.list} key={i}>
+                <li className={"list"} key={i}>
                   <a href={`${domain}/definition/${data.seo}`}>{makeBold(data.name)}</a>
                 </li>
               );
@@ -370,13 +393,31 @@ export default function SearchList(props) {
       )}
       {index == 3 && data.length && (
         <>
-          <li className={`${styles.head} ${styles.reptr}`}>
+          <li className={`head reptr`}>
             <span className="flt">REPORTERS</span>
             <div className="clr"></div>
           </li>
           {displayListData("reptr")}
         </>
       )}
+      <style jsx>
+        {`
+          .head {
+            border-bottom: solid 1px #d4d9dc;
+            font-weight: 700;
+            padding: 8px 10px;
+            font-size: 14px;
+            margin-bottom: 5px;
+          }
+          .head a {
+            float: right;
+          }
+          .head .clr {
+            clear: both;
+          }
+          ${listLastListStyle}
+        `}
+      </style>
     </>
   );
 }

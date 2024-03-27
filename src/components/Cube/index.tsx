@@ -1,5 +1,4 @@
 import { FC, useState, useEffect } from "react";
-import styles from "./styles.module.scss";
 import { ET_CUBE_URL } from "../../utils/common";
 
 const Cube: FC = () => {
@@ -61,7 +60,7 @@ const Cube: FC = () => {
     <>
       {pageLoaded && displayCube && (
         <iframe
-          className={styles.cube}
+          className="cube"
           src={ifmSrc}
           onLoad={() => {
             try {
@@ -83,6 +82,19 @@ const Cube: FC = () => {
           loading="lazy"
         />
       )}
+      <style jsx>
+        {`
+          .cube {
+            border: 0px;
+            bottom: 100px;
+            position: fixed;
+            right: 4px;
+            width: 158px;
+            height: 150px;
+            z-index: 99999999 !important;
+          }
+        `}
+      </style>
     </>
   );
 };
