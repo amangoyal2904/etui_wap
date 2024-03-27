@@ -74,7 +74,7 @@ const NewsCard = (props: ListProps) => {
     return item.name === "dfp" && item.type.indexOf("mrec") != -1
       ? ((dfp_position += 1),
         (
-          <div className={`${styles.mrecContainer} adContainer`} key={`mrec_${index}`}>
+          <div className={`mrecContainer adContainer`} key={`mrec_${index}`}>
             <DfpAds adInfo={{ key: `${item.type}`, index: tab }} identifier={`${dfp_position + item.type}`} />
           </div>
         ))

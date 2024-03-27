@@ -53,11 +53,11 @@ const Topic: FC<PageProps> = (props) => {
 
   return (
     <>
-      <div className={styles.mainContent} data-testid="topic">
+      <div className="mainContent" data-testid="topic">
         {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
           <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={query} />
         )}
-        <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+        <div className={`hdAdContainer adContainer expando_${cpd_wap}`}>
           <DfpAds adInfo={{ key: "atf" }} identifier={`atf_${searchQuery}`} />
         </div>
         <div className={styles.title}>
@@ -65,7 +65,7 @@ const Topic: FC<PageProps> = (props) => {
         </div>
         {TopicContainer()}
         <SEO {...seoData} />
-        <div className={`${styles.footerAd} adContainer`}>
+        <div className={`footerAd adContainer`}>
           <DfpAds adInfo={{ key: "fbn" }} identifier={`fbn_${searchQuery}`} />
         </div>
       </div>

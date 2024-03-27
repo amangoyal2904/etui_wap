@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedIn, setLoggedOut, setIsPrime } from "../../Slices/login";
 import { APP_ENV } from "../../utils";
-import styles from "./Login.module.scss";
 
 interface IUser {
   firstName?: string;
@@ -110,23 +109,73 @@ const Login = () => {
   const firstName: string = (isLogin && userInfo.firstName) || "User";
 
   return (
-    <div className={styles.user}>
-      <div className={styles.userName}>
-        {isSubscribed == 0 && <div>Welcome</div>}
-        <div>{firstName}</div>
-        {isSubscribed == 1 && (
-          <img
-            src="https://img.etimg.com/photo/77066493.cms"
-            className={styles.primeUserLogo}
-            data-testId="primeUserLogo"
-          />
-        )}
+    <>
+      <div className="user">
+        <div className="userName">
+          {isSubscribed == 0 && <div>Welcome</div>}
+          <div>{firstName}</div>
+          {isSubscribed == 1 && (
+            <img src="https://img.etimg.com/photo/77066493.cms" className="primeUserLogo" data-testId="primeUserLogo" />
+          )}
+        </div>
+        <div className="signIn" onClick={handleLoginToggle}>
+          <div className={`userIcon commonSprite`}></div>
+          <div id="loginButton">{isLogin ? "Sign out" : "Sign In"}</div>
+        </div>
       </div>
-      <div className={styles.signIn} onClick={handleLoginToggle}>
-        <div className={`${styles.userIcon} ${styles.commonSprite}`}></div>
-        <div id="loginButton">{isLogin ? "Sign out" : "Sign In"}</div>
-      </div>
-    </div>
+      <style jsx>
+        {`
+          .loginDetails .primeUserLogo {
+            margin-top: 4px;
+            width: 55px;
+            display: block;
+          }
+          .user {
+            position: sticky;
+            top: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+            line-height: 15px;
+            height: 72px;
+            padding: 20px 20px;
+            background-color: #f6f6f6;
+            border: solid 1px #e6e6e6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1;
+          }
+
+          .userName {
+            float: left;
+            line-height: 1.31em;
+            position: relative;
+            bottom: 3px;
+          }
+          .userName img {
+            margin-top: 4px;
+            width: 55px;
+            display: block;
+          }
+
+          .signIn {
+            float: right;
+            font-size: 13px;
+            font-weight: normal;
+            position: relative;
+            bottom: 5px;
+            text-align: center;
+          }
+          .userIcon {
+            background-position: -327px -51px;
+            height: 32px;
+            width: 34px;
+            transform: scale(0.7);
+          }
+        `}
+      </style>
+    </>
   );
 };
 
