@@ -73,7 +73,7 @@ export default function Listing({ type, title, data }: ListProps) {
           }
 
           .slideVidIcon {
-            background-image: url($common-sprite-path);
+            background-image: url("https://img.etimg.com/photo/msid-105039132,quality-100.cms");
             position: absolute;
             top: 30px;
             width: 42px;
