@@ -120,7 +120,7 @@ const grxPushData = (params) => {
   const data: any = {
     logdata: JSON.stringify({
       ET: window.customDimension,
-      grxMappingObj: window.objVc.growthRxDimension,
+      grxMappingObj: window.customDimension,
       analytics_cdp: { ...window.grxDimension_cdp, last_widget_type: widget, cta_text: cta, feature_name: widget },
       objUserData,
       ga4Items: window.ga4Items
