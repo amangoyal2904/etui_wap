@@ -7,7 +7,7 @@ export default function StockSRBTMBannerCard({ data }) {
     const params = {
       cta,
       widget: "stock_report_plus",
-      item_category3: "paywall_blocker_other_cta"
+      item_category3: "bottom_banner"
     };
 
     grxEvent(

@@ -117,10 +117,17 @@ const grxPushData = (params) => {
         ? window.objUser.info.mobileData.Verified.mobile
         : "";
   }
+  const grxDimensions = window.objVc.growthRxDimension;
+  for (const key of Object.keys(grxDimensions)) {
+    if (key.includes("d")) {
+      grxDimensions[key.replace("d", "dimension")] = grxDimensions[key];
+      delete grxDimensions[key];
+    }
+  }
   const data: any = {
     logdata: JSON.stringify({
       ET: window.customDimension,
-      grxMappingObj: window.customDimension,
+      grxMappingObj: grxDimensions,
       analytics_cdp: { ...window.grxDimension_cdp, last_widget_type: widget, cta_text: cta, feature_name: widget },
       objUserData,
       ga4Items: window.ga4Items

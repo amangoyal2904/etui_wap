@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import { useEffect, useRef } from "react";
-import { goToPlanPage, loginInitiatedGA4 } from "../../utils/common";
+import { goToPlanPage, loginInitiatedGA4, pushGA4 } from "../../utils/common";
 import APIS_CONFIG from "../../network/config.json";
 import { APP_ENV } from "../../utils";
 import { grxEvent } from "utils/ga";
@@ -16,6 +16,7 @@ interface StockSRLoginBlockerProps {
   };
   srTabActivemenu?: string;
   stockname?: string;
+  companyId?: string;
 }
 
 export default function StockSRLoginBlocker({
@@ -23,7 +24,8 @@ export default function StockSRLoginBlocker({
   handleClick,
   overlayBlockerData,
   srTabActivemenu,
-  stockname
+  stockname,
+  companyId
 }: StockSRLoginBlockerProps) {
   const modalRef = useRef(null);
   const loginHandler = () => {
@@ -72,7 +74,15 @@ export default function StockSRLoginBlocker({
         handleClick(false);
       }
     };
-
+    const items = {
+      item_name: "stock_report_plus_on_company_page",
+      item_id: companyId || "",
+      item_brand: "market_tools",
+      item_category: "stock_report_plus",
+      item_category2: "company_page"
+    };
+    pushGA4("view_item_list", items);
+    window.ga4Items = items;
     document.addEventListener("click", handleClickOutside);
 
     return () => {
