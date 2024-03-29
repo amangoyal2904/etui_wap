@@ -484,6 +484,8 @@ export const updateDimension = ({
         window.grxDimension_cdp["source"] = trafficSource || "";
         window.grxDimension_cdp["business"] = "et";
         window.grxDimension_cdp["dark_mode"] = "n";
+        window.grxDimension_cdp["event_name"] = "page_view";
+        window.grxDimension_cdp["client_source"] = "cdp";
         window.grxDimension_cdp["loggedin"] =
           window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
             ? "y"
