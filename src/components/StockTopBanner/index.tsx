@@ -15,6 +15,9 @@ const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
   const subscrineUserCta = (cta: string) => {
     const params = {
       cta,
+      item_name: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_category2: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_id: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}_screener`,
       widget: "stock_top_banner",
       item_category3: "paywall_blocker_other_cta"
     };

@@ -308,6 +308,7 @@ const StockReports: FC<PageProps> = (props) => {
             userName={userName}
             isPrimeUser={isPrimeUser}
             faqdata={reportsPlusFaq}
+            srTabActivemenu={srTabActivemenu}
           />
         )}
 

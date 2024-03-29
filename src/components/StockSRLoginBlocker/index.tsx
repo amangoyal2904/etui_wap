@@ -28,6 +28,7 @@ export default function StockSRLoginBlocker({
   companyId
 }: StockSRLoginBlockerProps) {
   const modalRef = useRef(null);
+  console.log("@@@-->", isLoginUser, handleClick, overlayBlockerData, srTabActivemenu, stockname, companyId);
   const loginHandler = () => {
     grxEvent(
       "event",
@@ -53,6 +54,11 @@ export default function StockSRLoginBlocker({
   const planPageHandler = (cta: string) => {
     const params = {
       cta,
+      item_name: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_category2: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_id: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}_${stockname
+        ?.replace(" ", "_")
+        ?.toLowerCase()}`,
       widget: "paywall_blocker_cta",
       item_category3: "paywall_blocker_cta"
     };

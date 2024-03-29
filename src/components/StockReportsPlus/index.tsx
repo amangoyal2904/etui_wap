@@ -16,9 +16,16 @@ interface StockReportsPlusProps {
   isLoginUser?: number;
   faqdata: any;
   userName?: string;
+  srTabActivemenu?: string;
 }
 
-export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, userName }: StockReportsPlusProps) {
+export default function StockReportsPlus({
+  isPrimeUser,
+  faqdata,
+  isLoginUser,
+  userName,
+  srTabActivemenu
+}: StockReportsPlusProps) {
   const [showSearchUI, setShowSearchUI] = useState(false);
   const showSearchFilter = () => {
     document.body.style.overflow = "hidden";
@@ -54,6 +61,9 @@ export default function StockReportsPlus({ isPrimeUser, faqdata, isLoginUser, us
   const planPageHandler = (cta: string) => {
     const params = {
       cta,
+      item_name: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_category2: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_id: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}_screener`,
       widget: "stock_report_plus",
       item_category3: "paywall_blocker_other_cta"
     };

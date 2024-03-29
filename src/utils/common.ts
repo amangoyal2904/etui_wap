@@ -82,11 +82,11 @@ export const goToPlanPage = (params, gtmItems: any = "") => {
   let items = {};
   if (gtmItems == "") {
     items = {
-      item_name: "stock_report_plus_on_company_page",
-      item_id: "",
+      item_name: params.item_name || "stock_report_plus_overview",
+      item_id: params.item_id || "",
       item_brand: "market_tools",
       item_category: "stock_report_plus",
-      item_category2: "company_page",
+      item_category2: params.item_category2 || "stock_report_plus_overview",
       item_category3: params.item_category3 || "paywall_blocker_cta",
       item_category4: params.cta,
       location_id: window.customDimension["dimension25"] || ""
