@@ -14,6 +14,7 @@ declare global {
     dataLayer: [push: object];
     customDimension: any;
     gtmEventDimension: object;
+    grxDimensionCdp: any;
   }
 }
 export const pageview = (url, params = {}, type = "") => {
@@ -174,7 +175,17 @@ export const grxEvent = (type, data, gaEvent = 0) => {
       const localobjVc = window.objVc || {};
       // const localobjVc = {};
       grxDimension["url"] = grxDimension["url"] || window.location.href;
-      if (window.customDimension && localobjVc["growthRxDimension"]) {
+      if (type == "cdp_event" && window.grxDimensionCdp && localobjVc.growthRxDimension) {
+        const objDim = localobjVc.growthRxDimension;
+        for (const key in window.grxDimensionCdp) {
+          const dimId = "d" + key.substr(9, key.length);
+          if (objDim[dimId] && [key] && typeof window.grxDimensionCdp[key] !== "undefined") {
+            grxDimension[objDim[dimId]] = window.grxDimensionCdp[key];
+          } else if ([key] && typeof window.grxDimensionCdp[key] !== "undefined") {
+            grxDimension[key] = window.grxDimensionCdp[key];
+          }
+        }
+      } else if (window.customDimension && localobjVc.growthRxDimension) {
         const objDim = localobjVc["growthRxDimension"];
         for (const key in window.customDimension) {
           const dimId = "d" + key.substr(9, key.length);

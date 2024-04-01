@@ -3,7 +3,7 @@ import { useEffect, useState, Fragment, FC } from "react";
 import { PageProps, StockReportsProps } from "types/stockreports";
 import BreadCrumb from "components/BreadCrumb";
 import GreyDivider from "components/GreyDivider";
-import { getPageSpecificDimensions } from "utils";
+import { getPageSpecificDimensions, updateDimension } from "utils";
 import StockReportCard from "components/StockReportCard";
 import StockReportUpside from "components/StockReportUpside";
 import StockSrTabs from "components/StocksSRTabs";
@@ -168,6 +168,7 @@ const StockReports: FC<PageProps> = (props) => {
       document.addEventListener("objIntsLoaded", intsCallback);
     }
     filterApiCall();
+    updateDimension({ pageName: "stock_report_plus" });
     return () => {
       document.removeEventListener("objIntsLoaded", intsCallback);
     };

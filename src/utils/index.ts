@@ -448,8 +448,8 @@ export const updateDimension = ({
   type = "",
   pageName = "",
   msid = "",
-  subsecnames
-}) => {
+  subsecnames = {}
+}: any) => {
   try {
     if (typeof window !== "undefined") {
       const sendEvent = () => {
@@ -459,12 +459,36 @@ export const updateDimension = ({
         const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
         const isSubscribed =
           typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
+        const product = pageName == "stock_report_plus" ? "prime" : "other";
         const nonAdPageArray = ["shortvideos", "quickreads"];
         let isMonetizable = "y";
         if (isSubscribed || nonAdPageArray.indexOf(pageName) !== -1) {
           isMonetizable = "n";
         }
+        let subsStatus = "free";
+        if (typeof window.objInts != "undefined") {
+          if (window.objInts.permissions.indexOf("expired_subscription") > -1) {
+            subsStatus = "expired";
+          } else if (
+            window.objInts.permissions.indexOf("subscribed") > -1 &&
+            window.objInts.permissions.indexOf("cancelled_subscription") > -1 &&
+            window.objInts.permissions.indexOf("can_buy_subscription") > -1
+          ) {
+            subsStatus = "trial";
+          } else if (window.objInts.permissions.indexOf("subscribed") > -1) {
+            subsStatus = "paid";
+          } else if (window.objInts.permissions.indexOf("etadfree_subscribed") > -1) {
+            subsStatus = "adfree";
+          } else if (window.objInts.permissions.indexOf("cancelled_subscription") > -1) {
+            subsStatus = "cancelled";
+          }
+        }
         const { trafficSource, lastClick } = fetchAdaptiveData();
+        const ticketId = window.objInts.readCookie("TicketId");
+        const userAccountDetails = ticketId && window.e$.jStorage.get(`prime_${ticketId}`);
+        const subscriptionDetails =
+          (userAccountDetails && userAccountDetails.subscriptionDetails && userAccountDetails.subscriptionDetails[0]) ||
+          {};
         window.grxDimension_cdp = {
           url: window.location.href,
           title: document.title,
@@ -486,6 +510,7 @@ export const updateDimension = ({
         window.grxDimension_cdp["dark_mode"] = "n";
         window.grxDimension_cdp["event_name"] = "page_view";
         window.grxDimension_cdp["client_source"] = "cdp";
+        window.grxDimension_cdp["product"] = product || "";
         window.grxDimension_cdp["loggedin"] =
           window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
             ? "y"
@@ -497,26 +522,23 @@ export const updateDimension = ({
           userInfo && userInfo.mobileData && userInfo.mobileData.Verified && userInfo.mobileData.Verified.mobile
             ? userInfo.mobileData.Verified.mobile
             : "";
-        window.grxDimension_cdp["subscription_status"] =
-          (window.customDimension["dimension37"] && window.customDimension["dimension37"].toLowerCase()) || "";
+        window.grxDimension_cdp["subscription_status"] = subsStatus;
         window.grxDimension_cdp["page_template"] =
           (window.customDimension["dimension25"] && window.customDimension["dimension25"].toLowerCase()) ||
           (pageName && pageName.toLowerCase());
         window.grxDimension_cdp["subscription_type"] =
-          (typeof window.e$ != "undefined" &&
-            window.e$.jStorage &&
-            window.e$.jStorage.get("et_subscription_profile") &&
-            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type &&
-            window.e$.jStorage.get("et_subscription_profile").prime_user_acquisition_type.toLowerCase()) ||
-          "";
+          (subscriptionDetails &&
+            subscriptionDetails.userAcquisitionType &&
+            subscriptionDetails.userAcquisitionType.toLowerCase()) ||
+          "free";
         window.grxDimension_cdp["monetizable"] = isMonetizable;
         const navigator: any = window.navigator;
         window.grxDimension_cdp["browser_name"] = (navigator && navigator.sayswho) || "";
         window.grxDimension_cdp["product"] =
           (window.customDimension["dimension1"] && window.customDimension["dimension1"]) || "";
-        window.grxDimension_cdp["level_2"] = subsecnames.subsecname2 || "";
-        window.grxDimension_cdp["level_3"] = subsecnames.subsecname3 || "";
-        window.grxDimension_cdp["level_4"] = subsecnames.subsecname4 || "";
+        window.grxDimension_cdp["level_2"] = subsecnames?.subsecname2 || "";
+        window.grxDimension_cdp["level_3"] = subsecnames?.subsecname3 || "";
+        window.grxDimension_cdp["level_4"] = subsecnames?.subsecname4 || "";
         const utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search);
         const utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source");
         const utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium");

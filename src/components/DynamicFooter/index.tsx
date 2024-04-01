@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
 import { isBrowser, isNoFollow } from "utils";
+import { grxEvent } from "utils/ga";
 declare global {
   interface Window {
     objAuth: {
@@ -21,6 +22,22 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
   const hide_footer = false;
   const paymentButtonListener = () => {
     const paymentUrl = "";
+    const uniqueID = Date.now() + "_" + window.objInts.readCookie("_grx");
+    const eventData = {
+      cta_text: `bottom_button_become_a_member`,
+      unique_subscription_id: uniqueID,
+      feature_name: ""
+    };
+    const userInfo = typeof window.objUser !== "undefined" && window.objUser.info && window.objUser.info;
+    window.grxDimension_cdp["loggedin"] = userInfo && userInfo.isLogged ? "y" : "n";
+    window.grxDimension_cdp["email"] = (userInfo && userInfo.primaryEmail) || "";
+    window.grxDimension_cdp["phone"] =
+      userInfo && userInfo.mobileData && userInfo.mobileData.Verified && userInfo.mobileData.Verified.mobile
+        ? userInfo.mobileData.Verified.mobile
+        : "";
+    "event_name" in window.grxDimension_cdp && delete window.grxDimension_cdp["event_name"];
+    window.grxDimensionCdp = { ...window.grxDimension_cdp, ...eventData, discount: "" };
+    grxEvent("cdp_event", { event_category: "subscription", event_name: "paywall", event_nature: "click" });
     window.location.href = paymentUrl;
   };
   const showPersonalizedlink = () => {
