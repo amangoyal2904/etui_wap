@@ -47,7 +47,7 @@ declare global {
     objUser: any;
     objInts: any;
     isprimeuser: number;
-    dataLayer: [push: object];
+    dataLayer: any;
     grxDimensionCdp: any;
   }
 }
