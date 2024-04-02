@@ -18,6 +18,7 @@ const ShortVideos = dynamic(() => import("containers/ShortVideos"));
 const StockReports = dynamic(() => import("containers/StockReports"));
 const StockReportsCategory = dynamic(() => import("containers/StockReportsCategory"));
 const Referrals = dynamic(() => import("containers/Referrals/referrals"));
+const Redeemetmhril = dynamic(() => import("containers/Redeemetmhril"));
 const RedeemTOI = dynamic(() => import("containers/Redeemtoi"));
 
 declare module "react" {
@@ -90,6 +91,9 @@ const Container = (props) => {
       break;
     case "redeemtoi":
       container = <RedeemTOI {...data} />;
+      break;
+    case "redeemetmhril":
+      container = <Redeemetmhril {...data} />;
       break;
     case "referrals":
       container = <Referrals {...data} />;

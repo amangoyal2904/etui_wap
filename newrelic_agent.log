@@ -24,3 +24,12 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"TILLT08769","pid":86220,"time":"2023-02-07T12:12:26.963Z","msg":"Agent state changed from connected to started."}
 {"v":0,"level":30,"name":"newrelic","hostname":"TILLT08769","pid":86220,"time":"2023-02-07T12:12:27.964Z","msg":"Starting initial 1000ms harvest."}
 {"v":0,"level":40,"name":"newrelic","hostname":"TILLT08769","pid":86220,"time":"2023-02-07T12:13:28.434Z","msg":"Transaction WebTransaction/WebFrameworkUri/Nextjs/GET//[[...all]] (e7b59eb2498d9d8a) contained 2401 segments, only collecting the first 900","component":"Transaction Trace Aggregator"}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27132,"time":"2024-04-02T06:27:32.924Z","msg":"Using New Relic for Node.js. Agent version: 9.15.0; Node version: v21.7.1."}
+{"v":0,"level":40,"name":"newrelic","hostname":"TILLT09843","pid":27132,"time":"2024-04-02T06:27:32.927Z","msg":"New Relic for Node.js 9.15.0 has not been tested on Node.js v21.7.1. Please update the agent or downgrade your version of Node.js"}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27132,"time":"2024-04-02T06:27:32.927Z","msg":"Module disabled in configuration. Not starting."}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27179,"time":"2024-04-02T06:27:52.691Z","msg":"Using New Relic for Node.js. Agent version: 9.15.0; Node version: v20.11.0."}
+{"v":0,"level":40,"name":"newrelic","hostname":"TILLT09843","pid":27179,"time":"2024-04-02T06:27:52.694Z","msg":"New Relic for Node.js 9.15.0 has not been tested on Node.js v20.11.0. Please update the agent or downgrade your version of Node.js"}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27179,"time":"2024-04-02T06:27:52.694Z","msg":"Module disabled in configuration. Not starting."}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27267,"time":"2024-04-02T06:28:27.316Z","msg":"Using New Relic for Node.js. Agent version: 9.15.0; Node version: v20.11.0."}
+{"v":0,"level":40,"name":"newrelic","hostname":"TILLT09843","pid":27267,"time":"2024-04-02T06:28:27.319Z","msg":"New Relic for Node.js 9.15.0 has not been tested on Node.js v20.11.0. Please update the agent or downgrade your version of Node.js"}
+{"v":0,"level":30,"name":"newrelic","hostname":"TILLT09843","pid":27267,"time":"2024-04-02T06:28:27.319Z","msg":"Module disabled in configuration. Not starting."}

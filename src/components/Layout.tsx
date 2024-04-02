@@ -18,7 +18,7 @@ const Layout: FC<PageProps> = ({ page, dynamicFooterData, children }) => {
 
   const router = useRouter();
   const reqData = router.query;
-  const standalonePages = ["referrals", "redeemtoi"];
+  const standalonePages = ["referrals", "redeemtoi", "redeemetmhril"];
   const isStandAlonePage = standalonePages.indexOf(page) > -1;
 
   return (
