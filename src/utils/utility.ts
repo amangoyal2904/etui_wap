@@ -94,9 +94,9 @@ export const goToPlanPageNext = (params?: any) => {
       (newUrl + (newUrl.indexOf("?") == -1 ? "?" : "&") + "ticketId=" + window.objInts &&
         window.objInts.readCookie("TicketId")) ||
       urlWithTID;
-    //window.location.href = urlWithTID;
+    window.location.href = urlWithTID;
   } else {
-    //window.location.href = newUrl;
+    window.location.href = newUrl;
   }
 };
 const grxPushData = (params) => {
