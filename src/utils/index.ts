@@ -510,7 +510,7 @@ export const updateDimension = ({
         window.grxDimension_cdp["dark_mode"] = "n";
         window.grxDimension_cdp["event_name"] = "page_view";
         window.grxDimension_cdp["client_source"] = "cdp";
-        window.grxDimension_cdp["product"] = product || "";
+        window.grxDimension_cdp["product"] = product;
         window.grxDimension_cdp["loggedin"] =
           window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
             ? "y"
@@ -534,8 +534,6 @@ export const updateDimension = ({
         window.grxDimension_cdp["monetizable"] = isMonetizable;
         const navigator: any = window.navigator;
         window.grxDimension_cdp["browser_name"] = (navigator && navigator.sayswho) || "";
-        window.grxDimension_cdp["product"] =
-          (window.customDimension["dimension1"] && window.customDimension["dimension1"]) || "";
         window.grxDimension_cdp["level_2"] = subsecnames?.subsecname2 || "";
         window.grxDimension_cdp["level_3"] = subsecnames?.subsecname3 || "";
         window.grxDimension_cdp["level_4"] = subsecnames?.subsecname4 || "";
