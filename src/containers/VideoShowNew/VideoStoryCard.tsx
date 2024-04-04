@@ -172,7 +172,8 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
         {/* {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} fetchpriority="high" />} */}
         {isFirstVidBeforeLoad && (
           <iframe
-            srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;"  />`}
+            srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;" loading="lazy"
+            decoding="async" />`}
             className="video_thumb"
             loading="lazy"
           />

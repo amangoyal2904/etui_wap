@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
 
 interface ListProps {
   tabsName?: string[];
@@ -37,12 +36,12 @@ const Index = (props: ListProps) => {
   };
 
   return (
-    <div className={styles.tabWidget}>
-      <div className={styles.tabs}>
+    <>
+      <div className="tabs">
         {tabsName &&
           tabsName.map((tabName) => (
             <p
-              className={`${styles.tTab} ${activeTab.toLowerCase() == `${tabName.toLowerCase()}` ? styles.active : ""}`}
+              className={`tTab ${activeTab.toLowerCase() == `${tabName.toLowerCase()}` ? "active" : ""}`}
               key={tabName}
               data-name={tabName.toLowerCase()}
               data-testid="tabs"
@@ -52,7 +51,28 @@ const Index = (props: ListProps) => {
             </p>
           ))}
       </div>
-    </div>
+      <style jsx>
+        {`
+          .tabs {
+            display: flex;
+            padding: 5px 15px 0;
+            border: 1px solid #909090;
+            border-left: 0;
+            border-right: 0;
+          }
+          .tTab {
+            padding: 5px;
+            color: #909090;
+            margin-right: 5px;
+          }
+          .active {
+            border-bottom: 2px solid black;
+            color: black;
+            font-weight: bold;
+          }
+        `}
+      </style>
+    </>
   );
 };
 
