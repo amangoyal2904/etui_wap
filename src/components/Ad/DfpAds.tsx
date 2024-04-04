@@ -34,7 +34,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
   const { key, index = 0, subsecnames = {} } = adInfo;
   const router = useRouter();
   const isTopicPage = router.asPath.indexOf("/topic/") !== -1;
-
+  const isVideoPage = router.asPath.indexOf("/videoshow/") !== -1;
   let divId = key;
   if (key) {
     if (key.indexOf("mrec") != -1) {
@@ -127,7 +127,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
           !!_keyword && googleTag.pubads().setTargeting("Keyword", _keyword);
           !!currMsid && googleTag.pubads().setTargeting("ArticleID", currMsid);
 
-          if (isTopicPage) {
+          if (isTopicPage || isVideoPage) {
             googleTag.pubads().enableLazyLoad({
               // Fetch slots within 5 viewports.
               fetchMarginPercent: 0,
