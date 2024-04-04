@@ -372,7 +372,6 @@ $referralSprite: url("https://img.etimg.com/photo/107137662.cms");
   }
   .errorDialog {
     max-width: 675px;
-    height: 419px;
     padding: 20px;
     border-radius: 6px;
     background-color: #fff;
@@ -386,6 +385,7 @@ $referralSprite: url("https://img.etimg.com/photo/107137662.cms");
     margin: auto;
     z-index: 2;
     width: 90%;
+    display: inline-table;
     @media only screen and (min-width: 768px) {
       padding: 45px;
     }
