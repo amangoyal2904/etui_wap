@@ -153,7 +153,7 @@ const NewsCard = (props: ListProps) => {
                 position: relative;
               }
               .icon_videoshow {
-                background-position: -96px -235px;
+                background-position: -96px -235px !important;
                 position: absolute;
                 top: 50px;
                 left: -5px;
