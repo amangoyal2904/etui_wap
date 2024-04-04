@@ -115,7 +115,13 @@ const Login = () => {
           {isSubscribed == 0 && <div>Welcome</div>}
           <div>{firstName}</div>
           {isSubscribed == 1 && (
-            <img src="https://img.etimg.com/photo/77066493.cms" className="primeUserLogo" data-testId="primeUserLogo" />
+            <img
+              src="https://img.etimg.com/photo/77066493.cms"
+              loading="lazy"
+              decoding="async"
+              className="primeUserLogo"
+              data-testId="primeUserLogo"
+            />
           )}
         </div>
         <div className="signIn" onClick={handleLoginToggle}>

@@ -243,9 +243,21 @@ const Redeemetmhril: FC<PageProps> = (props) => {
       <div className={styles.redeemContainer}>
         <div className={styles.content}>
           <div className={styles.brandLogos}>
-            <img alt="Prime" height="21" src="https://img.etimg.com/photo/108092512.cms" />
+            <img
+              alt="Prime"
+              height="21"
+              src="https://img.etimg.com/photo/108092512.cms"
+              loading="lazy"
+              decoding="async"
+            />
             <span className={styles.seperator} />
-            <img alt="Club Mahindra" height="56" src="https://img.etimg.com/photo/108605272.cms" />
+            <img
+              alt="Club Mahindra"
+              height="56"
+              src="https://img.etimg.com/photo/108605272.cms"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <p className={styles.heading}>Exclusive offer for ClubM Select Members</p>
           <p className={styles.subheading}>Redeem your voucher to activate your ETPrime membership.</p>
@@ -276,7 +288,13 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         <p className={styles.benefitHeading}>What’s included with ETPrime membership</p>
         <div className={styles.benefits}>
           <div className={styles.benefitItem}>
-            <img alt="Club Mahindra" height="188" src="https://img.etimg.com/photo/108620135.cms" />
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108620135.cms"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p className={styles.benefitTitle}>TimesPrime 1-Year Membership</p>
               <p className={styles.benefitDesc}>
@@ -286,14 +304,26 @@ const Redeemetmhril: FC<PageProps> = (props) => {
             </div>
           </div>
           <div className={styles.benefitItem}>
-            <img alt="Club Mahindra" height="188" src="https://img.etimg.com/photo/108620115.cms" />
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108620115.cms"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p className={styles.benefitTitle}>Docubay Subscription (1 Year)</p>
               <p className={styles.benefitDesc}>Stream new documentaries from all across the world every day.</p>
             </div>
           </div>
           <div className={styles.benefitItem}>
-            <img alt="Club Mahindra" height="188" src="https://img.etimg.com/photo/108619569.cms" />
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108619569.cms"
+              loading="lazy"
+              decoding="async"
+            />
             <div>
               <p className={styles.benefitTitle}>TOI+ Subscription</p>
               <p className={styles.benefitDesc}>
