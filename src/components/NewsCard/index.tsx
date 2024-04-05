@@ -80,9 +80,10 @@ const NewsCard = (props: ListProps) => {
       : item.title && (
           <>
             <li key={index} className="borderedContent">
-              <Link href={item?.url}>
-                <a
-                  onClick={() =>
+              <Fragment>
+                <div
+                  className="newsContent"
+                  onClick={() => {
                     grxEvent(
                       "event",
                       {
@@ -91,40 +92,37 @@ const NewsCard = (props: ListProps) => {
                         event_label: item.url
                       },
                       1
-                    )
-                  }
+                    );
+                    window.location.href = item?.url;
+                  }}
                 >
-                  <Fragment>
-                    <div className="newsContent">
-                      <h2 data-testid="newsCardTitle">{item.title}</h2>
-                      {item.img && (
-                        <div className="imgWrapper">
-                          <LazyLoadImg
-                            large={false}
-                            img={item.img}
-                            alt={item.title}
-                            width={100}
-                            height={75}
-                            style={{ marginRight: "20px", marginTop: "5px" }}
-                            isNotLazy={index < 4 ? true : false}
-                          />
-                          {item.type != "articleshow" && <div className={`icon_${item.type}`} />}
-                        </div>
-                      )}
-                    </div>
-                    {showSynopsis ? (
-                      <p className="synopsis">
-                        {removeBackSlash(item.synopsis).length > 140
-                          ? `${removeBackSlash(item.synopsis).slice(0, 140)}...`
-                          : removeBackSlash(item.synopsis)}
-                      </p>
-                    ) : (
-                      ""
-                    )}
-                    {item.date && <p className="timeago">{item.date}</p>}
-                  </Fragment>
-                </a>
-              </Link>
+                  <h2 data-testid="newsCardTitle">{item.title}</h2>
+                  {item.img && (
+                    <span className="imgWrapper">
+                      <LazyLoadImg
+                        large={false}
+                        img={item.img}
+                        alt={item.title}
+                        width={100}
+                        height={75}
+                        style={{ marginRight: "20px", marginTop: "5px" }}
+                        isNotLazy={index < 4 ? true : false}
+                      />
+                      {item.type != "articleshow" && <span className={`icon_${item.type}`} />}
+                    </span>
+                  )}
+                </div>
+                {showSynopsis ? (
+                  <p className="synopsis">
+                    {removeBackSlash(item.synopsis).length > 140
+                      ? `${removeBackSlash(item.synopsis).slice(0, 140)}...`
+                      : removeBackSlash(item.synopsis)}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {item.date && <p className="timeago">{item.date}</p>}
+              </Fragment>
             </li>
             <style jsx>{`
               .newsContent h2 {

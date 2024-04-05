@@ -18,6 +18,8 @@ const VideoShow: FC<PageProps> = (props) => {
   const hideAds = result.hideAds == 1;
 
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [loadVideo, setLoadVideo] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
@@ -62,6 +64,13 @@ const VideoShow: FC<PageProps> = (props) => {
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
   }, [props]);
+  const loadVideoIframe = () => {
+    setLoadVideo(true);
+    setShowLoader(true);
+  };
+  const onIframeLoadTask = () => {
+    setShowLoader(false);
+  };
 
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
   return (
@@ -76,7 +85,14 @@ const VideoShow: FC<PageProps> = (props) => {
           </div>
         )}
         <div className={"videoshow"}>
-          <VideoEmbed url={url} />
+          {!loadVideo ? (
+            <div className="videoShowWrapper" onClick={loadVideoIframe}>
+              <img height={200} src={result?.img} loading="lazy" decoding="async" />
+              <span className="playButton">&#9658;</span>
+            </div>
+          ) : (
+            <VideoEmbed url={url} showLoader={showLoader} onIframeLoadTask={onIframeLoadTask} />
+          )}
 
           <div className={"wrap"}>
             <h1 role="heading">{result.title}</h1>
@@ -137,6 +153,21 @@ const VideoShow: FC<PageProps> = (props) => {
         .synopsis p {
           font-size: 15px;
           line-height: 1.5rem;
+        }
+        .videoShowWrapper {
+          background: #000;
+          text-align: center;
+          position: relative;
+        }
+        .playButton {
+          color: #fff;
+          border: 5px solid;
+          border-radius: 50%;
+          padding: 6px 10px;
+          position: absolute;
+          top: 35%;
+          left: 44%;
+          font-size: 22px;
         }
       `}</style>
     </>

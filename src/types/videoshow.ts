@@ -14,6 +14,7 @@ export interface OtherVidsProps {
   name: string;
 }
 export interface VideoShowProps {
+  img: string;
   hostid: string;
   msid: string;
   hideAds: number;
