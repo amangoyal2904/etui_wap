@@ -8,10 +8,14 @@ interface VideoEmbedProps {
 }
 const VideoEmbed: FC<VideoEmbedProps> = ({ url, onIframeLoadTask, showLoader }) => {
   useEffect(() => {
+    let timeout: any;
     const videoEle: any = document.getElementById("videoShow");
     if (videoEle?.contentWindow) {
-      setTimeout(() => onIframeLoadTask(), 5000);
+      timeout = setTimeout(() => onIframeLoadTask(), 5000);
     }
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (

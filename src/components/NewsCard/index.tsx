@@ -81,8 +81,9 @@ const NewsCard = (props: ListProps) => {
           <>
             <li key={index} className="borderedContent">
               <Fragment>
-                <div
+                <a
                   className="newsContent"
+                  href={item?.url}
                   onClick={() => {
                     grxEvent(
                       "event",
@@ -93,10 +94,11 @@ const NewsCard = (props: ListProps) => {
                       },
                       1
                     );
-                    window.location.href = item?.url;
                   }}
                 >
-                  <h2 data-testid="newsCardTitle">{item.title}</h2>
+                  <span className="title" data-testid="newsCardTitle">
+                    {item.title}
+                  </span>
                   {item.img && (
                     <span className="imgWrapper">
                       <LazyLoadImg
@@ -111,7 +113,7 @@ const NewsCard = (props: ListProps) => {
                       {item.type != "articleshow" && <span className={`icon_${item.type}`} />}
                     </span>
                   )}
-                </div>
+                </a>
                 {showSynopsis ? (
                   <p className="synopsis">
                     {removeBackSlash(item.synopsis).length > 140
@@ -125,13 +127,14 @@ const NewsCard = (props: ListProps) => {
               </Fragment>
             </li>
             <style jsx>{`
-              .newsContent h2 {
+              .newsContent .title {
                 font-size: 20px;
                 color: #000;
                 font-family: "Faustina", "sans";
                 padding: 0 20px;
                 line-height: 1.17;
                 margin: 0px;
+                font-weight: bold;
               }
               .borderedContent {
                 padding: 10px 0 0 0;
