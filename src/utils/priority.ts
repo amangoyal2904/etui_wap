@@ -3,6 +3,7 @@ import * as ga from "./ga";
 declare global {
   interface Window {
     _ibeat_track: any;
+    COMSCORE: any;
   }
 }
 
@@ -23,6 +24,7 @@ export function callJsOnRouteChange(url?): void {
   console.log("callJsOnRouteChange called");
   ga.pageview(url);
   window._ibeat_track.ct = getIbeatContentType();
+  window.COMSCORE && window.COMSCORE.beacon({ c1: "2", c2: "6036484" });
 }
 
 // export function gdprCheck(geoCode) {
