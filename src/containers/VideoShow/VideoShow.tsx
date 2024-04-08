@@ -73,6 +73,9 @@ const VideoShow: FC<PageProps> = (props) => {
   };
 
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
+  let imgUrl = result?.img && result?.img.replace("width-440", "width-267");
+  imgUrl = imgUrl && imgUrl.replace("height-330", "height-200");
+
   return (
     <>
       <div className="mainContent">
@@ -87,7 +90,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <div className={"videoshow"}>
           {!loadVideo ? (
             <div className="videoShowWrapper" onClick={loadVideoIframe}>
-              <img height={200} src={result?.img} fetchpriority="high" />
+              <img height={200} src={imgUrl || result?.img} fetchpriority="high" />
               <span className="playButton">&#9658;</span>
             </div>
           ) : (
