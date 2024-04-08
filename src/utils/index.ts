@@ -132,6 +132,8 @@ export const pageType = (pathurl, msid, all) => {
     return "stockreportsplus";
   } else if (pathurl.indexOf("/redeemtoi") != -1) {
     return "redeemtoi";
+  } else if (pathurl.indexOf("/redeemetmhril") != -1) {
+    return "redeemetmhril";
   } else if (pathurl.indexOf("/referrals") != -1) {
     return "referrals";
   } else if (/^\/markets\/stockreportsplus\/(.)+\/stockreportscategory\/screenerid-(.)+/.test(pathurl)) {

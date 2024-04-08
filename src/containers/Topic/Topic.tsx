@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { PageProps, TopicDataProps } from "types/topic";
-import styles from "./Topic.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import NewsCard from "components/NewsCard";
 import SEO from "components/SEO";
@@ -44,31 +43,53 @@ const Topic: FC<PageProps> = (props) => {
       return props?.searchResult[0]?.data.length > 0 ? (
         <NewsCard data={topicData} key={item.name} showSynopsis={true} query={query} type={tab} />
       ) : (
-        <p className={styles.noData} key="paragraph">
-          Sorry, there are no results for your search!
-        </p>
+        <>
+          <p className="noData" key="paragraph">
+            Sorry, there are no results for your search!
+          </p>
+          <style jsx>{`
+            .noData {
+              margin: 2em 0 4em 20px;
+              font-size: 13px;
+            }
+          `}</style>
+        </>
       );
     });
   };
 
   return (
     <>
-      <div className={styles.mainContent} data-testid="topic">
+      <div className="mainContent" data-testid="topic">
         {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
           <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={query} />
         )}
-        <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+        <div className={`hdAdContainer adContainer expando_${cpd_wap}`}>
           <DfpAds adInfo={{ key: "atf" }} identifier={`atf_${searchQuery}`} />
         </div>
-        <div className={styles.title}>
+        <div className="title">
           Searched For <h1>{searchQuery}</h1>{" "}
         </div>
         {TopicContainer()}
         <SEO {...seoData} />
-        <div className={`${styles.footerAd} adContainer`}>
+        <div className={`footerAd adContainer`}>
           <DfpAds adInfo={{ key: "fbn" }} identifier={`fbn_${searchQuery}`} />
         </div>
       </div>
+      <style jsx>
+        {`
+          .title {
+            margin: 20px 0 0 20px;
+            font-size: 16px;
+          }
+          .title h1 {
+            font-size: 18px;
+            display: inline-block;
+            vertical-align: baseline;
+            margin-left: 5px;
+          }
+        `}
+      </style>
     </>
   );
 };

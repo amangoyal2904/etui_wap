@@ -121,6 +121,25 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             const geoLoaded = new Event("geoLoaded");
             document.dispatchEvent(geoLoaded);
           }
+          document.addEventListener("geoLoaded", () => {
+            if (window.geoinfo && window.geoinfo.CountryCode != "IN") {
+                function loadOnetrustSdk() {
+                  const script = document.createElement('script');
+                  script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+                  script.async = true; 
+                  script.charSet = 'UTF-8';
+                  script.setAttribute('data-domain-script', '2e8261f2-d127-4191-b6f6-62ba7e124082');
+                  document.head.appendChild(script);
+                }
+                if('requestIdleCallback' in window){
+                  window.requestIdleCallback(function(){          
+                    loadOnetrustSdk();
+                  }, { timeout: 2500 })
+                } else {
+                  loadOnetrustSdk();
+                }
+            }
+          });
           const hdomain = "economictimes.com";
           if (document.domain != hdomain && document.domain.indexOf(hdomain) != -1) {
               document.domain = hdomain;
@@ -183,12 +202,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             }}
           />
 
-          <Script
-            strategy="lazyOnload"
-            src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
-            type="text/javascript"
-            data-domain-script={`2e8261f2-d127-4191-b6f6-62ba7e124082${APP_ENV === "development" ? "-test" : ""}`}
-          />
           <Script id="cookielaw">
             {`              
             function OptanonWrapper() { }

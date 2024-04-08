@@ -1,4 +1,3 @@
-import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import VideoEmbed from "components/VideoEmbed";
 import SeoWidget from "components/SeoWidget";
@@ -19,6 +18,8 @@ const VideoShow: FC<PageProps> = (props) => {
   const hideAds = result.hideAds == 1;
 
   const [isPrimeUser, setIsPrimeUser] = useState(0);
+  const [loadVideo, setLoadVideo] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const { seo = {}, version_control, parameters } = props;
   const seoData = { ...seo, ...version_control?.seo };
   const { msid } = parameters;
@@ -63,28 +64,42 @@ const VideoShow: FC<PageProps> = (props) => {
     const payload = getPageSpecificDimensions(seo);
     window.customDimension = { ...window.customDimension, ...payload };
   }, [props]);
+  const loadVideoIframe = () => {
+    setLoadVideo(true);
+    setShowLoader(true);
+  };
+  const onIframeLoadTask = () => {
+    setShowLoader(false);
+  };
 
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
   return (
     <>
-      <div className={styles.mainContent}>
+      <div className="mainContent">
         {typeof objVc !== "undefined" && objVc.ticker_ad == 1 && !isPrimeUser && (
           <DfpAds adInfo={{ key: "mh", subsecnames: seo.subsecnames || {} }} identifier={msid} />
         )}
         {!hideAds && (
-          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+          <div className={`hdAdContainer adContainer expando_${cpd_wap}`}>
             <DfpAds adInfo={{ key: "atf", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )}
-        <div className={styles.videoshow}>
-          <VideoEmbed url={url} />
+        <div className={"videoshow"}>
+          {!loadVideo ? (
+            <div className="videoShowWrapper" onClick={loadVideoIframe}>
+              <img height={200} src={result?.img} fetchpriority="high" />
+              <span className="playButton">&#9658;</span>
+            </div>
+          ) : (
+            <VideoEmbed url={url} showLoader={showLoader} onIframeLoadTask={onIframeLoadTask} />
+          )}
 
-          <div className={styles.wrap}>
+          <div className={"wrap"}>
             <h1 role="heading">{result.title}</h1>
-            <div className={styles.synopsis}>
+            <div className={"synopsis"}>
               <p>{result.synopsis}</p>
             </div>
-            <div className={styles.date}>
+            <div className={"date"}>
               {getAuthors(result.authors)} {result.agency} | {result.date}
             </div>
           </div>
@@ -105,11 +120,56 @@ const VideoShow: FC<PageProps> = (props) => {
         <AppDownloadWidget tpName="videoshow" />
         <BreadCrumb data={seoData.breadcrumb} />
         {!hideAds && (
-          <div className={`${styles.footerAd} adContainer`}>
+          <div className={`footerAd adContainer`}>
             <DfpAds adInfo={{ key: "fbn", subsecnames: seo.subsecnames || {} }} identifier={msid} />
           </div>
         )}
       </div>
+      <style jsx>{`
+        .videoshow {
+          background: #f0f0f0;
+          margin-top: 10px;
+          min-height: 500px;
+          padding-bottom: 4px;
+        }
+        .wrap {
+          padding: 1rem;
+        }
+        .date {
+          color: #666;
+          font-size: 0.95em;
+          line-height: 1.5;
+        }
+        .date a {
+          color: #000;
+        }
+
+        h1 {
+          font-size: 1.35rem;
+          font-weight: 700;
+          line-height: 1.7rem;
+        }
+
+        .synopsis p {
+          font-size: 15px;
+          line-height: 1.5rem;
+        }
+        .videoShowWrapper {
+          background: #000;
+          text-align: center;
+          position: relative;
+        }
+        .playButton {
+          color: #fff;
+          border: 5px solid;
+          border-radius: 50%;
+          padding: 6px 10px;
+          position: absolute;
+          top: 35%;
+          left: 44%;
+          font-size: 22px;
+        }
+      `}</style>
     </>
   );
 };

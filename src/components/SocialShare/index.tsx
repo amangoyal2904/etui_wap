@@ -1,6 +1,5 @@
 import { FC } from "react";
 import socialshare from "utils/socialshare";
-import styles from "./styles.module.scss";
 import Bookmark from "components/Bookmark";
 
 interface SocialShareProps {
@@ -15,35 +14,67 @@ interface SocialShareProps {
 
 const SocialShare: FC<SocialShareProps> = ({ shareParam }) => {
   return (
-    <div className={styles.socialShare}>
-      <div className={styles.shareText}>Share this Video</div>
-      <div className={styles.socialLinks}>
-        <span
-          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })}
-          className={`${styles.wa} ${styles.commonSprite}`}
-        ></span>
-        <span
-          onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })}
-          className={`${styles.fb} ${styles.commonSprite}`}
-        ></span>
+    <div className="socialShare">
+      <div className="shareText">Share this Video</div>
+      <div className="socialLinks">
+        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "wa" })} className={`wa commonSprite`}></span>
+        <span onClick={(e) => socialshare.Share(e, { ...shareParam, type: "fb" })} className={`fb commonSprite`}></span>
         <span
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "twt" })}
-          className={`${styles.twt} ${styles.commonSprite}`}
+          className={`twt commonSprite`}
         ></span>
         <span
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "lin" })}
-          className={`${styles.in} ${styles.commonSprite}`}
+          className={`in commonSprite`}
         ></span>
         <span
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "email" })}
-          className={`${styles.email} ${styles.commonSprite}`}
+          className={`email commonSprite`}
         ></span>
         <span
           onClick={(e) => socialshare.Share(e, { ...shareParam, type: "sms" })}
-          className={`${styles.sms} ${styles.commonSprite}`}
+          className={`sms commonSprite`}
         ></span>
         <Bookmark {...shareParam}></Bookmark>
       </div>
+      <style jsx>{`
+        .socialShare {
+          margin: 1rem;
+        }
+
+        .shareText {
+          font-weight: 600;
+          margin: 15px 0;
+        }
+
+        .socialLinks span {
+          width: 32px;
+          height: 32px;
+          transform: scale(0.9, 0.9);
+          display: inline-block;
+          cursor: pointer;
+          margin-right: 8px;
+        }
+
+        .wa {
+          background-position: -79px -163px;
+        }
+        .fb {
+          background-position: -116px -163px;
+        }
+        .twt {
+          background-position: -154px -163px;
+        }
+        .in {
+          background-position: -116px -198px;
+        }
+        .email {
+          background-position: -41px -163px;
+        }
+        .sms {
+          background-position: -78px -198px;
+        }
+      `}</style>
     </div>
   );
 };

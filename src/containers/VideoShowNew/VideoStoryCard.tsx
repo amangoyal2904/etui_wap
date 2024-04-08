@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useRef, useState } from "react";
-import styles from "./VideoShow.module.scss";
 import SocialShare from "components/SocialShare";
 import { dynamicPlayerConfig, handleAdEvents, handlePlayerEvents, setGetPlayerConfig } from "utils/slike";
 import { grxEvent, pageview } from "utils/ga";
@@ -163,37 +162,36 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
   const isFirstVidBeforeLoad = index === 0 && !didUserInteractionStart;
 
   return (
-    <div className={styles.videoshow} ref={videoStoryCardRef}>
+    <div className="videoshow" ref={videoStoryCardRef}>
       {/* {isFirstVidBeforeLoad && (
         <Head>
           <link rel="preload" as="image" fetchpriority="high" href={result.img}></link>
         </Head>
       )} */}
-      <div
-        className={`${styles.vidDiv} ${isFirstVidBeforeLoad ? styles.firstVidBeforeLoad : ""}`}
-        id={`id_${result.msid}`}
-      >
+      <div className={`vidDiv ${isFirstVidBeforeLoad ? "firstVidBeforeLoad" : ""}`} id={`id_${result.msid}`}>
         {/* {isFirstVidBeforeLoad && <img src={result.img} className={styles.video_thumb} fetchpriority="high" />} */}
         {isFirstVidBeforeLoad && (
           <iframe
-            srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;"  />`}
-            className={styles.video_thumb}
+            srcDoc={`<img src=${result.img} style="position: absolute;top:0;width:100%;height:100%;left:0;" loading="lazy"
+            decoding="async" />`}
+            className="video_thumb"
+            loading="lazy"
           />
         )}
       </div>
-      <div className={styles.wrap}>
+      <div className="wrap">
         <h1 role="heading">{result.title}</h1>
-        <div className={styles.synopsis}>
+        <div className="synopsis">
           {
             <p>
               {isMoreShown && result.synopsis}
-              <span className={styles.moreLess} onClick={handleClick}>
+              <span className="moreLess" onClick={handleClick}>
                 {isMoreShown ? " show less" : "More..."}
               </span>
             </p>
           }
         </div>
-        <div className={styles.date}>
+        <div className="date">
           {getAuthors(result.authors)} {result.agency} | {result.date}
         </div>
       </div>
@@ -206,6 +204,88 @@ export default function VideoStoryCard({ result, subsecNames, index, didUserInte
           type: "5"
         }}
       />
+      <style jsx>
+        {`
+          .videoshow {
+            margin-top: 10px;
+            min-height: 500px;
+            border-bottom: 1px solid #bcbcbc;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+          }
+          .videoshow .wrap {
+            padding: 4px 16px 8px 16px;
+          }
+          .wrap .date {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+          }
+          .wrap .date a {
+            color: #000;
+          }
+
+          .videoshow h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.7rem;
+          }
+
+          .synopsis p {
+            font-size: 15px;
+            line-height: 1.5rem;
+          }
+
+          .moreLess {
+            color: #238def;
+          }
+
+          .vidDiv {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: #000;
+          }
+          .vidDiv .video_thumb {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transform: translate(-50%, 0);
+            left: 50%;
+            border: 0;
+          }
+
+          .vidDiv > div:first-child {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+          }
+
+          .loadNext {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+          }
+
+          .firstVidBeforeLoad::after {
+            content: "";
+            background-image: url("https://img.etimg.com/photo/msid-105039132,quality-100.cms");
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            left: 45px;
+            display: inline-block;
+            cursor: pointer;
+            background-position: -190px -160px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+          }
+        `}
+      </style>
     </div>
   );
 }

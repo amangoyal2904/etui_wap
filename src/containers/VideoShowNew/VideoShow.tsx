@@ -1,4 +1,3 @@
-import styles from "./VideoShow.module.scss";
 import DfpAds from "components/Ad/DfpAds";
 import { useEffect, useState, FC, useRef } from "react";
 import SEO from "components/SEO";
@@ -126,7 +125,7 @@ const VideoShow: FC<PageProps> = (props) => {
           if (status) {
             const SlikePlayerReady = new Event("SlikePlayerReady");
             document.dispatchEvent(SlikePlayerReady);
-            let nextVideoMsid = result.nextvideo;
+            let nextVideoMsid: any = result.nextvideo;
             if (nextVideoMsid) {
               const observer = new IntersectionObserver(([entry]) => {
                 if (
@@ -201,9 +200,9 @@ const VideoShow: FC<PageProps> = (props) => {
 
   return (
     <>
-      <div className={styles.mainContent} id="vidContainer">
+      <div className="mainContent" id="vidContainer">
         {!hideAds && (
-          <div className={`${styles.hdAdContainer} adContainer expando_${cpd_wap}`}>
+          <div className={`hdAdContainer adContainer expando_${cpd_wap}`}>
             <DfpAds adInfo={{ key: "atf" }} identifier={msid} />
           </div>
         )}
@@ -218,7 +217,7 @@ const VideoShow: FC<PageProps> = (props) => {
           />
         ))}
         {showLoaderNext && (
-          <div ref={loadMoreRef} className={styles.loadNext}>
+          <div ref={loadMoreRef} className="loadNext">
             {isLoading && <Loading />}
             {loadErrMsg.length > 0 && loadErrMsg}
           </div>
@@ -226,7 +225,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <SEO {...seoData} />
         <BreadCrumb data={seoData.breadcrumb} />
         {!hideAds && (
-          <div className={`${styles.footerAd} adContainer`}>
+          <div className={`footerAd adContainer`}>
             <DfpAds adInfo={{ key: "fbn" }} identifier={msid} />
           </div>
         )}

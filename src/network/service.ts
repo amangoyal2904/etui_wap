@@ -1,6 +1,5 @@
-import { encodeQueryData, getParameterByName, APP_ENV } from "../utils";
+import { APP_ENV } from "../utils";
 import axios from "axios";
-import { isBrowser } from "utils";
 
 const headerWhiteList = ["X-FORWARDED-FOR", "X-ISBOT", "fullcontent"];
 

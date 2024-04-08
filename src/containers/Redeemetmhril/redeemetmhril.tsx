@@ -1,34 +1,33 @@
 import React, { useEffect, useState, FC } from "react";
-import Image from "next/image";
 
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
-import TOIBenefitsWap from "./TOIBenefitsWap";
 import LoginWidget from "components/LoginSdk";
-import TOIBenefitsWeb from "./TOIBenefitsWeb";
 import { grxEvent } from "utils/ga";
 import { getCookie } from "utils";
 import SEO from "components/SEO";
 
-import styles from "./redeemstyles.module.scss";
+import styles from "./redeemetmhrilstyles.module.scss";
 import LazyLoadImg from "components/LazyLoad";
-import { loginInitiatedGA4 } from "utils/common";
 
-const TOIRedeemBenefit: FC<PageProps> = (props) => {
+const Redeemetmhril: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
   const [invalidVoucher, setInvalidVoucher] = useState({ invalid: false, msg: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [voucherCode, setVoucherCode] = useState("");
+  const [userToken, setUserToken] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
+
+  console.log(isMobile);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const voucherCode = queryParams.get("redeemvoucher");
-    if (voucherCode) {
-      setVoucherCode(voucherCode);
+    const usertoken = queryParams.get("usertoken");
+    if (usertoken) {
+      setUserToken(usertoken);
     }
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -40,6 +39,25 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
       document.addEventListener("objIntsLoaded", userState);
     }
   }, []);
+
+  useEffect(() => {
+    if (userToken) {
+      const endPoint = `https://${isLiveApp() ? "select" : "select1"}.clubmahindra.com/check-valid-token-callback`;
+      const requestOptions = {
+        body: JSON.stringify({ token: userToken }),
+        method: "POST"
+      };
+
+      fetch(endPoint, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [userToken]);
 
   const userState = () => {
     console.log(window.objUser, "User Details");
@@ -127,7 +145,7 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
 
     const endPoint = `https://${
       isLiveApp() ? "subscriptions" : "testsubscription"
-    }.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=TOIPLUS&merchantCode=TOI&country_code=IN&voucherCode=${voucherCode}`;
+    }.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=ET&merchantCode=ET&country_code=IN&voucherCode=${voucherCode}`;
     const requestOptions = {
       body: JSON.stringify({}),
       method: "POST",
@@ -146,9 +164,9 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
           grxEvent(
             "event",
             {
-              event_category: "TOI Landing Page",
+              event_category: "Redeem voucher",
               event_action: "Redeem Clicked - LoggedIn",
-              event_label: `{${voucherCode}} Invalid Voucher Code`
+              event_label: `{${voucherCode}} Invalid Voucher Code {Mahindra}`
             },
             1
           );
@@ -157,9 +175,9 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
           grxEvent(
             "event",
             {
-              event_category: "TOI Landing Page",
+              event_category: "Redeem voucher",
               event_action: "Redeem Clicked - LoggedIn",
-              event_label: `{${voucherCode}} Redeemed Voucher Code`
+              event_label: `{${voucherCode}} Redeemed Voucher Code {Mahindra}`
             },
             1
           );
@@ -176,9 +194,9 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
         grxEvent(
           "event",
           {
-            event_category: "TOI Landing Page",
+            event_category: "Redeem voucher",
             event_action: "Redeem Clicked - LoggedIn",
-            event_label: `{${voucherCode}} Invalid Voucher Code`
+            event_label: `{${voucherCode}} Invalid Voucher Code {Mahindra}`
           },
           1
         );
@@ -195,24 +213,19 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
       grxEvent(
         "event",
         {
-          event_category: "TOI Landing Page",
+          event_category: "Redeem voucher",
           event_action: "Redeem Clicked - LoggedOut",
-          event_label: `{${voucherCode}} Voucher Code`
+          event_label: `{${voucherCode}} Voucher Code {Mahindra}`
         },
         1
       );
-      loginInitiatedGA4({
-        isPaywalled: false,
-        entrypoint: "Feature Login",
-        screenName: "TOIRedeemBenefit"
-      });
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
-        window.objInts.initSSOWidget();
+        window.objInts.initSSOWidget({ prefill_identifier: "hello@et.com" });
       } else {
         // typeof window.e$ != 'undefined' && window.e$.jStorage.set('userlogin_ru', window.location.href, {TTL:(15*60*1000)});
         window.location.href = `https://${
           isLiveApp() ? "buy" : "dev-buy"
-        }.indiatimes.com/clogin.cms?ref=TOI&flag=toiredeem&ru=${window.location.href}`;
+        }.indiatimes.com/clogin.cms?ref=ET&flag=etredeem&ru=${window.location.href}`;
       }
     } else {
       apiHit();
@@ -223,20 +236,31 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
     <React.Fragment>
       <SEO {...seoData} />
       <header className={`${styles.pageHeader} skipInts`}>
-        <a href="https://timesofindia.indiatimes.com/">
-          <LazyLoadImg
-            large={false}
-            img="https://economictimes.indiatimes.com/photo/107824390.cms"
-            alt="TOI Logo"
-            width={80}
-            height={24}
-          />
+        <a href="https://economictimes.indiatimes.com/">
+          <LazyLoadImg large={false} img="https://img.etimg.com/photo/msid-74651805.cms" alt="ET Logo" height={24} />
         </a>
       </header>
       <div className={styles.redeemContainer}>
         <div className={styles.content}>
-          <p className={styles.title}>You&apos;re just a step away from TOI+ member-only benefits.</p>
-          <p className={styles.desc}>Redeem your voucher to activate your TOI+ membership.</p>
+          <div className={styles.brandLogos}>
+            <img
+              alt="Prime"
+              height="21"
+              src="https://img.etimg.com/photo/108092512.cms"
+              loading="lazy"
+              decoding="async"
+            />
+            <span className={styles.seperator} />
+            <img
+              alt="Club Mahindra"
+              height="56"
+              src="https://img.etimg.com/photo/108605272.cms"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <p className={styles.heading}>Exclusive offer for ClubM Select Members</p>
+          <p className={styles.subheading}>Redeem your voucher to activate your ETPrime membership.</p>
         </div>
         <div className={styles.redeemBoxParent}>
           <div className={styles.redeemBox}>
@@ -256,14 +280,61 @@ const TOIRedeemBenefit: FC<PageProps> = (props) => {
             )}
           </div>
           <p className={styles.disclaimer}>
-            For any other query you can reach out to us at toipluscare@timesofindia.com
+            For any other query, you can reach out to us at <u>care@etprime.com</u>
           </p>
         </div>
       </div>
-      {!isMobile && <TOIBenefitsWeb />}
-      {isMobile && <TOIBenefitsWap />}
+      <div>
+        <p className={styles.benefitHeading}>What’s included with ETPrime membership</p>
+        <div className={styles.benefits}>
+          <div className={styles.benefitItem}>
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108620135.cms"
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p className={styles.benefitTitle}>TimesPrime 1-Year Membership</p>
+              <p className={styles.benefitDesc}>
+                Unique membership program with 20+ premium subscriptions like Disney+ Hotstar, SonyLiv, Youtube & more{" "}
+                <strong>worth Rs.1199</strong>
+              </p>
+            </div>
+          </div>
+          <div className={styles.benefitItem}>
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108620115.cms"
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p className={styles.benefitTitle}>Docubay Subscription (1 Year)</p>
+              <p className={styles.benefitDesc}>Stream new documentaries from all across the world every day.</p>
+            </div>
+          </div>
+          <div className={styles.benefitItem}>
+            <img
+              alt="Club Mahindra"
+              height="188"
+              src="https://img.etimg.com/photo/108619569.cms"
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <p className={styles.benefitTitle}>TOI+ Subscription</p>
+              <p className={styles.benefitDesc}>
+                Get to read 300+ exclusive stories every month & 6 weekly newsletters along with other benefits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <LoginWidget />
     </React.Fragment>
   );
 };
-export default TOIRedeemBenefit;
+export default Redeemetmhril;

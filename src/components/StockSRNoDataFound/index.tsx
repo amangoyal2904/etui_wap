@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 
-export default function StockSRNoDataFoundCard() {
+export function StockSRNoDataFoundCard() {
   return (
     <>
       <div className={styles.noDatafoundCat}>

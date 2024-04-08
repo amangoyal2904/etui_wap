@@ -53,7 +53,7 @@ const ArticleShow: FC<PageProps> = (props) => {
     <>
       <div className={styles.articleshow}>ArticleShow</div>
       <p>{JSON.stringify(props)}</p>
-      <div className={`${styles.hdAdContainer} adContainer`}>
+      <div className={`hdAdContainer adContainer`}>
         <DfpAds adInfo={{ key: "atf" }} />
       </div>
       <div>

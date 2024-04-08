@@ -11,9 +11,9 @@ import StockTopBanner from "components/StockTopBanner";
 import StockReportFilter from "components/StockReportFilter";
 import SEO from "components/SEO";
 import StockReportSortFilter from "components/StockReportSortFilter";
-import StockCatTabNoDataFound from "components/StockSRNoDataFound";
 import { grxEvent } from "utils/ga";
 import StockSRBTMBannerCard from "components/StockSRBTMBanner";
+import { StockCatTabNoDataFound } from "components/StockSRNoDataFound/StockCatTabNoDataFound";
 
 const StockReports: FC<PageProps> = (props) => {
   const result = props?.searchResult?.find((item) => item.name === "stockreports")?.data as StockReportsProps;
@@ -388,7 +388,7 @@ const StockReports: FC<PageProps> = (props) => {
   return (
     <>
       <SEO {...seoData} />
-      <div className={styles.mainContent}>
+      <div className="mainContent">
         <StockSrCatTabs srTabsClick={srTabsHandlerClick} data={tabData} />
         {!isPrimeUser && <StockTopBanner srTabActivemenu={`stockreportscategory`} data={stPlusBannerData} />}
         {stockDataFilter &&
