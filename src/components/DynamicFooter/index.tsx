@@ -2,6 +2,7 @@ import { FC } from "react";
 import GreyDivider from "components/GreyDivider";
 import { isBrowser, isNoFollow } from "utils";
 import { grxEvent } from "utils/ga";
+import { goToPlanPage } from "utils/common";
 declare global {
   interface Window {
     objAuth: {
@@ -20,7 +21,10 @@ declare module "react" {
 const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) => {
   const hide_footer = false;
   const paymentButtonListener = () => {
-    const paymentUrl = "";
+    const params = {
+      cta: "become a member",
+      widget: "footer"
+    };
     const uniqueID = Date.now() + "_" + window.objInts.readCookie("_grx");
     const eventData = {
       cta_text: `bottom_button_become_a_member`,
@@ -39,7 +43,26 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
     }
     window.grxDimensionCdp = { ...window.grxDimension_cdp, ...eventData, discount: "" };
     grxEvent("cdp_event", { event_category: "subscription", event_name: "paywall", event_nature: "click" });
-    window.location.href = paymentUrl;
+    const items = {
+      item_name: window.customDimension["dimension25"] || "",
+      item_id: "btf",
+      item_brand: "product_interventions",
+      item_category: "btf",
+      item_category2: window.customDimension["dimension26"] || "",
+      item_category3: "btf_cta",
+      item_category4: "become a member",
+      location_id: "footer"
+    };
+    grxEvent(
+      "event",
+      {
+        event_category: "Prime Distribution - PWA",
+        event_action: `Footer`,
+        event_label: "PWA Footer Prime Click"
+      },
+      1
+    );
+    goToPlanPage(params, items);
   };
   const showPersonalizedlink = () => {
     if (isBrowser() && typeof gdprCheck !== "undefined" && !gdprCheck()) {

@@ -71,5 +71,9 @@
   "etReferrals": {
     "development": "https://etonboard-stg.economictimes.indiatimes.com/etonboard/referral/fetch/code.json",
     "production": "https://etonboard.economictimes.indiatimes.com/etonboard/referral/fetch/code.json"
+  },
+  "pushGA": {
+    "development": "https://etpwaapipre.economictimes.com/pushGaData",
+    "production": "https://etpwaapi.economictimes.com/pushGaData"
   }
 }

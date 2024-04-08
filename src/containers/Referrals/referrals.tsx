@@ -10,6 +10,7 @@ import { grxEvent } from "utils/ga";
 import SEO from "components/SEO";
 
 import styles from "./referrals.module.scss";
+import { loginInitiatedGA4 } from "utils/common";
 
 const Referrals: FC<PageProps> = (props) => {
   const [referralLink, setReferralLink] = useState("");
@@ -62,6 +63,11 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const loadLogin = () => {
+    loginInitiatedGA4({
+      isPaywalled: false,
+      entrypoint: "Feature Login",
+      screenName: "Referrals"
+    });
     if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
       window.objInts.initSSOWidget();
     } else {

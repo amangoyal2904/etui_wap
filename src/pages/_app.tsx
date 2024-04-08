@@ -48,8 +48,8 @@ declare global {
     objUser: any;
     objInts: any;
     isprimeuser: number;
-    dataLayer: any;
     grxDimensionCdp: any;
+    dataLayer: any[];
   }
 }
 

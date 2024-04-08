@@ -40,6 +40,7 @@ export default function StockReportCard({
   const ratingBox = _cardType && _cardType === "upgradeCard" ? true : false;
   const prevScore = _cardType && _cardType === "upgradeCard" ? true : false;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [companyId, setCompanyId] = useState("");
   const modalRef = useRef(null);
   const seoNameGenrate = stockname && stockname !== "" ? stockname?.trim().replace(/\s/g, "-").toLowerCase() : "";
 
@@ -49,25 +50,28 @@ export default function StockReportCard({
     filterSeoName && filterSeoName !== ""
       ? `/markets/stockreportsplus/${filterSeoName}/stockreportscategory/screenerid-${id}${filterIdSeo}`
       : `/markets/stockreportsplus/${seoNameGenrate}/stockreportscategory/screenerid-${id}${filterIdSeo}`;
-  const handleClick = (value: boolean) => {
-    setIsModalOpen(value);
-    if (value) {
-      document.body.style.overflow = "hidden";
-      grxEvent(
-        "event",
-        {
-          event_category: `SR+ ${srTabActivemenu}`,
-          event_action: `${stockname} - Card click`,
-          event_label: `${stockname}`
-        },
-        1
-      );
-    } else {
-      document.body.style.overflow = "visible";
+  const handleClick = (value: boolean, id?: any) => {
+    if (!isPrimeUser) {
+      setIsModalOpen(value);
+      setCompanyId(id);
+      if (value) {
+        document.body.style.overflow = "hidden";
+        grxEvent(
+          "event",
+          {
+            event_category: `SR+ ${srTabActivemenu}`,
+            event_action: `${stockname} - Card click`,
+            event_label: `${stockname}`
+          },
+          1
+        );
+      } else {
+        document.body.style.overflow = "visible";
+      }
     }
   };
 
-  const cardClickProps = !isPrimeUser ? { onClick: () => handleClick(true) } : {};
+  const cardClickProps = !isPrimeUser ? { onClick: (e) => handleClick(e, true) } : {};
 
   const handleClickGRX = () => {
     const name = "";
@@ -99,7 +103,10 @@ export default function StockReportCard({
         {data && data.length > 0 ? (
           data.map((item: any, i: any) => (
             <Fragment key={i}>
-              <div {...cardClickProps} className={`${styles.cardSec} ${prevScore ? styles.btt : ""}`}>
+              <div
+                onClick={(e) => handleClick(true, item?.companyID)}
+                className={`${styles.cardSec} ${prevScore ? styles.btt : ""}`}
+              >
                 {isPrimeUser ? (
                   <h2 className={styles.heading}>
                     <Link href={`/${item?.seoName}/stocks/companyid-${item?.companyID}.cms`}>
@@ -117,7 +124,7 @@ export default function StockReportCard({
                 ) : (
                   <div className={styles.nameBlur}>no prieme user</div>
                 )}
-                <div className={styles.boxWraper}>
+                <div className={styles.boxWraper} data-id={item?.companyID}>
                   <div className={styles.leftSec}>
                     <StockReportBox
                       data={item?.data}
@@ -168,6 +175,7 @@ export default function StockReportCard({
           overlayBlockerData={overlayBlockerData}
           isLoginUser={isLoginUser}
           handleClick={handleClick}
+          companyId={companyId}
           srTabActivemenu={srTabActivemenu}
           stockname={stockname}
         />
