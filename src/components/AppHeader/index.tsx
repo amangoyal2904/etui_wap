@@ -90,7 +90,13 @@ const AppHeader: FC<{ page: string }> = ({ page }) => {
           </div>
           <div className="logo">
             <a href={ET_WAP_URL}>
-              <img width={277} height={30} src="https://img.etimg.com/photo/msid-74651805,quality-100.cms" alt="logo" />
+              <img
+                width={277}
+                height={30}
+                fetchpriority="high"
+                src="https://img.etimg.com/photo/msid-74651805,quality-100.cms"
+                alt="logo"
+              />
             </a>
           </div>
           <div className="search">

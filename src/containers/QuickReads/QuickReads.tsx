@@ -104,8 +104,6 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
                 width="800"
                 height="600"
                 alt={slides[currentCardIndex].title}
-                loading="lazy"
-                decoding="async"
               />
               <div className={styles.txt}>
                 <h2>{slides[currentCardIndex].title}</h2>

@@ -87,7 +87,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <div className={"videoshow"}>
           {!loadVideo ? (
             <div className="videoShowWrapper" onClick={loadVideoIframe}>
-              <img height={200} src={result?.img} />
+              <img height={200} src={result?.img} fetchpriority="high" />
               <span className="playButton">&#9658;</span>
             </div>
           ) : (
