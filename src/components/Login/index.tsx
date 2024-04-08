@@ -52,9 +52,9 @@ const Login = () => {
       dispatch(setIsPrime(1));
       // add isprimeuser class in the body
       document.body.classList.add("isprimeuser");
-      window.customDimension["dimension37"] = "Paid User";
+      window.customDimension["dimension37"] = "paid";
     } else {
-      window.customDimension["dimension37"] = "Free User";
+      window.customDimension["dimension37"] = "free";
       // remove isprimeuser class from the body
       document.body.classList.remove("isprimeuser");
     }

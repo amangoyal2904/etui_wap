@@ -43,7 +43,5 @@ export interface PageProps {
   ];
   seo: SEOProps;
   version_control?: versionControlProps;
-  parameters: {
-    msid?: string;
-  };
+  parameters: any;
 }
