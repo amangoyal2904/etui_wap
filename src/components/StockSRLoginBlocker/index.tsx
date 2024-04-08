@@ -28,7 +28,6 @@ export default function StockSRLoginBlocker({
   companyId
 }: StockSRLoginBlockerProps) {
   const modalRef = useRef(null);
-  console.log("@@@-->", isLoginUser, handleClick, overlayBlockerData, srTabActivemenu, stockname, companyId);
   const loginHandler = () => {
     grxEvent(
       "event",

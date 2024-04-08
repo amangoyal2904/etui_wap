@@ -208,22 +208,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               `}
           </Script>
 
-          {/* <Script
-            src="https://static.growthrx.in/js/v2/web-sdk.js"
-            strategy="lazyOnload"
-            onLoad={() => {
-              try{
-                window.grx("init", window.objVc.growthRxId || "gc2744074");
-                window.customDimension = { ...window["customDimension"], url: window.location.href };
-                // window.grx("track", "page_view", window.customDimension);
-                updateDimension();
-              } catch(e) {
-                updateDimension();
-              }
-              
-            }}
-          />
-           */}
           <Script
             id="tag-manager"
             strategy="lazyOnload"
@@ -233,19 +217,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
               document.dispatchEvent(gtmLoaded);
             }}
           />
-          {/* {isTopicPage ? ( */}
-          {/* <Script
-            id="tag-manager-init"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', '${Config.GA.GTM_ID}', { page_path: window.location.pathname });
-              `
-            }}
-          /> */}
           <Script
             id="tag-manager-init"
             strategy="lazyOnload"
@@ -265,20 +236,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc }) => {
             }}
           />
 
-          {/* ) : (
-            <Script
-              id="tag-manager-init"
-              type="text/partytown"
-              dangerouslySetInnerHTML={{
-                __html: `
-                window.dataLayer = window.dataLayer || [];
-                window.gtag = function gtag(){window.dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${Config.GA.GTM_ID}', { send_page_view: false });
-              `
-              }}
-            />
-          )} */}
           <Script strategy="lazyOnload" src="https://agi-static.indiatimes.com/cms-common/ibeat.min.js" />
           <Script strategy="lazyOnload" src="https://sb.scorecardresearch.com/beacon.js" />
 
