@@ -3,7 +3,7 @@ import styles from "./QuickReads.module.scss";
 import { QuickReadsProps } from "types/quickReads";
 import { useSwipeable } from "react-swipeable";
 import { useRouter } from "next/router";
-import { getMSID } from "utils";
+import { getMSID, updateDimension } from "utils";
 import { grxEvent } from "utils/ga";
 import SEO from "components/SEO";
 
@@ -32,9 +32,11 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
   const handlers = useSwipeable({
     onSwipedUp: () => {
       currentCardIndex + 1 < slides.length && setCurrentCardIndex(currentCardIndex + 1);
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     },
     onSwipedDown: () => {
       currentCardIndex > 0 && setCurrentCardIndex(currentCardIndex - 1);
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     },
     ...config
   });
@@ -45,6 +47,7 @@ const QuickReads: FC<QuickReadsProps> = (props) => {
     if (foundIndex !== -1 && currentCardIndex !== foundIndex) {
       setCurrentCardIndex(foundIndex);
     }
+    updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
   }, []);
 
   useEffect(() => {

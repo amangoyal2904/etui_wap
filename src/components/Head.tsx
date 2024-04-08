@@ -230,7 +230,6 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       }
           `}
         </style>
-        <script src="https://cdn.debugbear.com/GomMMcYh8zyE.js" async></script>
       </Head>
     </>
   );

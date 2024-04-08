@@ -9,7 +9,7 @@ import { PageProps, VideoShowProps, OtherVidsProps } from "types/videoshow";
 import BreadCrumb from "components/BreadCrumb";
 import Listing from "components/Listing";
 import GreyDivider from "components/GreyDivider";
-import { getPageSpecificDimensions } from "utils";
+import { getPageSpecificDimensions, updateDimension } from "utils";
 import { ET_WAP_URL } from "utils/common";
 
 const VideoShow: FC<PageProps> = (props) => {
@@ -51,6 +51,7 @@ const VideoShow: FC<PageProps> = (props) => {
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
       intsCallback();
+      updateDimension({ pageName: parameters?.type, msid: parameters.msid, subsecnames: seo.subsecnames });
     } else {
       document.addEventListener("objIntsLoaded", intsCallback);
     }
@@ -73,6 +74,9 @@ const VideoShow: FC<PageProps> = (props) => {
   };
 
   const url = `${result.iframeUrl}&skipad=${isPrimeUser || hideAds}&primeuser=${isPrimeUser}`;
+  let imgUrl = result?.img && result?.img.replace("width-440", "width-267");
+  imgUrl = imgUrl && imgUrl.replace("height-330", "height-200");
+
   return (
     <>
       <div className="mainContent">
@@ -87,7 +91,7 @@ const VideoShow: FC<PageProps> = (props) => {
         <div className={"videoshow"}>
           {!loadVideo ? (
             <div className="videoShowWrapper" onClick={loadVideoIframe}>
-              <img height={200} src={result?.img} fetchpriority="high" />
+              <img height={200} src={imgUrl || result?.img} fetchpriority="high" />
               <span className="playButton">&#9658;</span>
             </div>
           ) : (

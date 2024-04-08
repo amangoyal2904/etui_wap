@@ -48,6 +48,7 @@ declare global {
     objUser: any;
     objInts: any;
     isprimeuser: number;
+    grxDimensionCdp: any;
     dataLayer: any[];
   }
 }
