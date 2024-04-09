@@ -22,10 +22,6 @@ const dfpAdSlots = {
         [728, 90]
       ]
     },
-    andbeyond: {
-      adSlot: "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Andbeyond_1x1",
-      adSize: [[1, 1]]
-    },
     fbn: {
       adSlot: "/7176/ET_MWeb/ET_Mweb_ETNow/ET_Mweb_ETNow_FBN",
       adSize: [

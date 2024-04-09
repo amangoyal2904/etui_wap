@@ -1,6 +1,5 @@
 import { FC } from "react";
 import DynamicFooter from "components/DynamicFooter";
-import DfpAds from "components/Ad/DfpAds";
 import Cube from "components/Cube";
 
 interface Props {
@@ -15,7 +14,6 @@ const Footer: FC<Props> = ({ dynamicFooterData, objVc }) => {
     <>
       <footer id="wapFooter" className="wapFooter">
         <DynamicFooter dynamicFooterData={dynamicFooterData} />
-        <DfpAds adInfo={{ key: "andbeyond" }} />
         {objVc?.global_cube_wap && objVc?.global_cube_wap == 1 && <Cube />}
       </footer>
       <style jsx>{`
