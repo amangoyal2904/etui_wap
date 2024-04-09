@@ -73,10 +73,6 @@ export const GA = {
   GRX_ID: "gc2744074"
 };
 
-export const AND_BEYOND = {
-  adSlot: "/7176/ET_MWeb/ET_MWeb_ROS/ET_Mweb_ROS_Andbeyond_1x1",
-  adSize: [[1, 1]]
-};
 export const goToPlanPage = (params, gtmItems: any = "") => {
   //window?.objInts?.goToPlanPageNext();
   let items = {};
