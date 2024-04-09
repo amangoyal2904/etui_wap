@@ -1,0 +1,204 @@
+.benefitsContainer {
+  padding: 10px 20px 100px;
+  @media only screen and (max-width: 767px) {
+    margin: 0 auto;
+  }
+  .heading {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px auto 60px;
+    @media only screen and (max-width: 767px) {
+      font-size: 28px;
+      width: 300px;
+      margin: 20px auto 30px;
+    }
+  }
+  .benefitItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1280px;
+    margin: 0 auto;
+    .creativeBox {
+      position: relative;
+      margin-right: 50px;
+      margin-left: 0;
+      &.lhsBenefit {
+        margin-left: 50px;
+        margin-right: 0;
+        &::before {
+          background-image: url("https://img.etimg.com/photo/msid-109154907,quality-100/sprit-img.jpg");
+          left: -225px;
+        }
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        background-image: url("https://economictimes.indiatimes.com/photo/109154940.cms");
+        background-size: 544px 425px;
+        width: 544px;
+        height: 425px;
+        z-index: -1;
+        right: -100px;
+        top: -5px;
+      }
+      &.lastBenefit::before {
+        background-image: url("https://img.etimg.com/photo/msid-104579437,quality-100/sprit-img.jpg");
+        background-size: 347px 347px;
+        width: 347px;
+        height: 347px;
+        z-index: -1;
+        right: 60px;
+        top: 0;
+      }
+    }
+    .textBox {
+      display: flex;
+      grid-gap: 1rem;
+      font-family: Montserrat;
+      .title {
+        margin: 20px 0 0;
+        text-align: left;
+        width: 410px;
+        font-size: 30px;
+        font-weight: 700;
+      }
+      .subText {
+        font-size: 18px;
+        font-weight: 400;
+        max-width: 410px;
+        margin: 10px 0;
+      }
+      .number {
+        font-family: "Faustina";
+        font-size: 120px;
+        font-weight: 700;
+        color: #ed1a3b;
+        vertical-align: baseline;
+      }
+      .marketBadge {
+        background-image: url("https://img.etimg.com/photo/msid-109155782.jpg");
+        background-size: 180px 20px;
+        width: 180px;
+        height: 20px;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.benefitList {
+  width: 100%;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  margin: 0;
+  overflow: hidden;
+  li {
+    width: 100%;
+    padding: 20px 36px 20px 16px;
+    border-bottom: 1px solid #dcdcdc;
+    background-color: #fff;
+    position: relative;
+    display: flex;
+    font-family: "Montserrat";
+    img {
+      margin-right: 15px;
+    }
+    h4 {
+      margin: 0;
+    }
+    .desc {
+      color: #464646;
+      margin-top: 8px;
+      &::after {
+        content: "";
+        display: block;
+        border-bottom: 3px solid #ed193b;
+        border-right: 3px solid #ed193b;
+        transform: rotate(-45deg);
+        height: 8px;
+        width: 8px;
+        position: absolute;
+        cursor: pointer;
+        top: 40%;
+        right: 20px;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.bgTransparent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin: auto;
+  height: 100vh;
+  opacity: 0.8;
+}
+.carouselContainer {
+  width: 100%;
+  position: fixed;
+  height: 60%;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  background: #fff;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  overflow: hidden;
+  @media only screen and (max-width: 390px) {
+    height: 75%;
+  }
+  .closePopUp {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    background-color: #e4e4e4;
+    z-index: 9999;
+    cursor: pointer;
+    img {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      width: 12px;
+    }
+  }
+  .carouselBox {
+    margin-top: 10%;
+    text-align: center;
+    img {
+      height: 300px;
+      @media only screen and (max-width: 390px) {
+        height: 260px;
+      }
+    }
+  }
+  .dots {
+    text-align: center;
+    li {
+      height: 8px;
+      width: 8px;
+      background-color: #000;
+      opacity: 0.25;
+      border-radius: 9px;
+      display: inline-block;
+      margin: 4px;
+      text-align: center;
+      &.active {
+        background-color: red;
+        opacity: 1;
+        width: 20px;
+      }
+    }
+  }
+}
