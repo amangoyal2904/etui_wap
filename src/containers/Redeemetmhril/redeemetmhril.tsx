@@ -1,5 +1,6 @@
 import React, { useEffect, useState, FC } from "react";
 
+import PaywallBenefits from "components/PaywallBenefits";
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
 import LoginWidget from "components/LoginSdk";
@@ -9,17 +10,17 @@ import SEO from "components/SEO";
 
 import styles from "./redeemetmhrilstyles.module.scss";
 import LazyLoadImg from "components/LazyLoad";
+import Benefits from "./Data.json";
 
 const Redeemetmhril: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
   const [invalidVoucher, setInvalidVoucher] = useState({ invalid: false, msg: "" });
+  const [prefillIdentifier, setPrefillIdentifier] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [voucherCode, setVoucherCode] = useState("");
   const [userToken, setUserToken] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
-
-  console.log(isMobile);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
@@ -42,9 +43,11 @@ const Redeemetmhril: FC<PageProps> = (props) => {
 
   useEffect(() => {
     if (userToken) {
-      const endPoint = `https://${isLiveApp() ? "select" : "select1"}.clubmahindra.com/check-valid-token-callback`;
+      const endPoint = `https://${
+        isLiveApp() ? "select" : "select1"
+      }.clubmahindra.com/check-valid-token-callback?token=${userToken}&et_flag=1`;
       const requestOptions = {
-        body: JSON.stringify({ token: userToken }),
+        body: JSON.stringify({}),
         method: "POST"
       };
 
@@ -52,6 +55,10 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         .then((response) => response.json())
         .then((result) => {
           console.log(result);
+          if (result && result?.memberInfo) {
+            setVoucherCode(result?.memberInfo?.etVoucher);
+            setPrefillIdentifier(result?.memberInfo?.EmailID || result?.memberInfo?.ContactNumber);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -220,7 +227,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         1
       );
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
-        window.objInts.initSSOWidget({ prefill_identifier: "hello@et.com" });
+        window.objInts.initSSOWidget({ prefill_identifier: prefillIdentifier });
       } else {
         // typeof window.e$ != 'undefined' && window.e$.jStorage.set('userlogin_ru', window.location.href, {TTL:(15*60*1000)});
         window.location.href = `https://${
@@ -287,50 +294,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
       <div>
         <p className={styles.benefitHeading}>What’s included with ETPrime membership</p>
         <div className={styles.benefits}>
-          <div className={styles.benefitItem}>
-            <img
-              alt="Club Mahindra"
-              height="188"
-              src="https://img.etimg.com/photo/108620135.cms"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <p className={styles.benefitTitle}>TimesPrime 1-Year Membership</p>
-              <p className={styles.benefitDesc}>
-                Unique membership program with 20+ premium subscriptions like Disney+ Hotstar, SonyLiv, Youtube & more{" "}
-                <strong>worth Rs.1199</strong>
-              </p>
-            </div>
-          </div>
-          <div className={styles.benefitItem}>
-            <img
-              alt="Club Mahindra"
-              height="188"
-              src="https://img.etimg.com/photo/108620115.cms"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <p className={styles.benefitTitle}>Docubay Subscription (1 Year)</p>
-              <p className={styles.benefitDesc}>Stream new documentaries from all across the world every day.</p>
-            </div>
-          </div>
-          <div className={styles.benefitItem}>
-            <img
-              alt="Club Mahindra"
-              height="188"
-              src="https://img.etimg.com/photo/108619569.cms"
-              loading="lazy"
-              decoding="async"
-            />
-            <div>
-              <p className={styles.benefitTitle}>TOI+ Subscription</p>
-              <p className={styles.benefitDesc}>
-                Get to read 300+ exclusive stories every month & 6 weekly newsletters along with other benefits.
-              </p>
-            </div>
-          </div>
+          <PaywallBenefits data={Benefits} />
         </div>
       </div>
       <LoginWidget />

@@ -205,22 +205,4 @@
   @media only screen and (max-width: 767px) {
     justify-content: flex-start;
   }
-  .benefitItem {
-    width: 360px;
-    height: 390px;
-    padding: 5px 35px;
-    border-right: 1px solid #dfdfdf;
-    &:last-child {
-      border: none;
-    }
-    .benefitTitle {
-      font-size: 24px;
-      font-weight: 600;
-    }
-    .benefitDesc {
-      font-size: 14px;
-      font-weight: 400;
-      list-style: 17.7;
-    }
-  }
 }
