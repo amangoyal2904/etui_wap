@@ -12,7 +12,15 @@ interface StockTopBannerProps {
 }
 
 const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
-  const subscrineUserCta = () => {
+  const subscrineUserCta = (cta: string) => {
+    const params = {
+      cta,
+      item_name: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_category2: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}`,
+      item_id: `stock_report_plus_${srTabActivemenu.replace("stock", "stock_")}_screener`,
+      widget: "stock_top_banner",
+      item_category3: "paywall_blocker_other_cta"
+    };
     grxEvent(
       "event",
       {
@@ -22,7 +30,7 @@ const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
       },
       1
     );
-    goToPlanPage();
+    goToPlanPage(params);
   };
 
   return (
@@ -39,7 +47,7 @@ const StockTopBanner = ({ data, srTabActivemenu }: StockTopBannerProps) => {
                 return <li key={item}>{item}</li>;
               })}
           </ul>
-          <span onClick={subscrineUserCta} className={styles.bannerCta}>
+          <span onClick={() => subscrineUserCta(data.ctaTxt)} className={styles.bannerCta}>
             {data.ctaTxt}
           </span>
         </div>

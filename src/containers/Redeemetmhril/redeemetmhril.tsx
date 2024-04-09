@@ -250,9 +250,21 @@ const Redeemetmhril: FC<PageProps> = (props) => {
       <div className={styles.redeemContainer}>
         <div className={styles.content}>
           <div className={styles.brandLogos}>
-            <img alt="Prime" height="21" src="https://img.etimg.com/photo/108092512.cms" />
+            <img
+              alt="Prime"
+              height="21"
+              src="https://img.etimg.com/photo/108092512.cms"
+              loading="lazy"
+              decoding="async"
+            />
             <span className={styles.seperator} />
-            <img alt="Club Mahindra" height="56" src="https://img.etimg.com/photo/108605272.cms" />
+            <img
+              alt="Club Mahindra"
+              height="56"
+              src="https://img.etimg.com/photo/108605272.cms"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <p className={styles.heading}>Exclusive offer for ClubM Select Members</p>
           <p className={styles.subheading}>Redeem your voucher to activate your ETPrime membership.</p>

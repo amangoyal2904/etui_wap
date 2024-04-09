@@ -225,12 +225,11 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       margin: 0 auto;
     }
     .commonSprite {
-        background: url("https://img.etimg.com/photo/msid-105039132,quality-100.cms") no-repeat;
+        background: url(https://img.etimg.com/photo/msid-105039132,quality-100.cms) no-repeat;
         display: inline-block;
       }
           `}
         </style>
-        <script src="https://cdn.debugbear.com/6wo3vLGELIvI.js" async></script>
       </Head>
     </>
   );

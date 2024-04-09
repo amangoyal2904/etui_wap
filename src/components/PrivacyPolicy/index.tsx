@@ -10,8 +10,10 @@ declare global {
   interface Window {
     e$: {
       jStorage: {
+        deleteKey(arg0: string): unknown;
         set(arg1: string, arg2: any): any;
         get(arg1: string): any;
+        index: any;
       };
     };
     geoinfo: {

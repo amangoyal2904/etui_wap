@@ -11,12 +11,13 @@ declare global {
     gtag: (event: string, action: string, params: object) => void;
     // eslint-disable-next-line
     // gtag: any;
-    dataLayer: [push: object];
+    dataLayer: any[];
     customDimension: any;
     gtmEventDimension: object;
+    grxDimensionCdp: any;
   }
 }
-export const pageview = (url, params = {}) => {
+export const pageview = (url, params = {}, type = "") => {
   try {
     setDimension120();
 
@@ -29,7 +30,8 @@ export const pageview = (url, params = {}) => {
     const payload = { ...params, ...window.customDimension };
     // send the page views
     window.ga && window.ga("send", "pageview", payload);
-    grxEvent("page_view", params);
+    type != "cdpPageView" && grxEvent("page_view", params);
+    grxEvent("cdp_page_view", params);
   } catch (e) {
     console.log("pageview error: ", e);
   }
@@ -173,7 +175,17 @@ export const grxEvent = (type, data, gaEvent = 0) => {
       const localobjVc = window.objVc || {};
       // const localobjVc = {};
       grxDimension["url"] = grxDimension["url"] || window.location.href;
-      if (window.customDimension && localobjVc["growthRxDimension"]) {
+      if (type == "cdp_event" && window.grxDimensionCdp && localobjVc.growthRxDimension) {
+        const objDim = localobjVc.growthRxDimension;
+        for (const key in window.grxDimensionCdp) {
+          const dimId = "d" + key.substr(9, key.length);
+          if (objDim[dimId] && [key] && typeof window.grxDimensionCdp[key] !== "undefined") {
+            grxDimension[objDim[dimId]] = window.grxDimensionCdp[key];
+          } else if ([key] && typeof window.grxDimensionCdp[key] !== "undefined") {
+            grxDimension[key] = window.grxDimensionCdp[key];
+          }
+        }
+      } else if (window.customDimension && localobjVc.growthRxDimension) {
         const objDim = localobjVc["growthRxDimension"];
         for (const key in window.customDimension) {
           const dimId = "d" + key.substr(9, key.length);
@@ -184,13 +196,16 @@ export const grxEvent = (type, data, gaEvent = 0) => {
           }
         }
       }
-      /* if (typeof e$ != "undefined" && e$.jStorage) {
-            var objProf = e$.jStorage.get('et_subscription_profile');
-            if(objProf) {
-                for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
-            }
-        } */
-      window.grx("track", type, grxDimension);
+      switch (type) {
+        case "cdp_page_view":
+          window.grx("track", "page_view", window.grxDimension_cdp);
+          break;
+        case "cdp_event":
+          window.grx("track", grxDimension.event_name, grxDimension);
+          break;
+        default:
+          type != "event" && window.grx("track", type, grxDimension);
+      }
       if (gaEvent && window.ga && type == "event") {
         window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
       }
@@ -203,6 +218,15 @@ export const grxEvent = (type, data, gaEvent = 0) => {
       if (type == "page_view") {
         const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
         window.dataLayer.push(gtmEventDimension);
+      }
+      if (type == "cdp_page_view") {
+        const _gtmEventDimension = { ...window.grxDimension_cdp, event: "et_push_pageload" };
+        window.dataLayer.push(_gtmEventDimension);
+      }
+      if (type == "cdp_event") {
+        const _gtmEventDimension = { ...grxDimension, event: "et_push_cdp_event" };
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(_gtmEventDimension);
       }
     }
   } catch (e) {

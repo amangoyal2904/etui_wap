@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedIn, setLoggedOut, setIsPrime } from "../../Slices/login";
 import { APP_ENV } from "../../utils";
+import { loginInitiatedGA4 } from "utils/common";
 
 interface IUser {
   firstName?: string;
@@ -52,9 +53,9 @@ const Login = () => {
       dispatch(setIsPrime(1));
       // add isprimeuser class in the body
       document.body.classList.add("isprimeuser");
-      window.customDimension["dimension37"] = "Paid User";
+      window.customDimension["dimension37"] = "paid";
     } else {
-      window.customDimension["dimension37"] = "Free User";
+      window.customDimension["dimension37"] = "free";
       // remove isprimeuser class from the body
       document.body.classList.remove("isprimeuser");
     }
@@ -98,6 +99,11 @@ const Login = () => {
     if (isLogin) {
       setLogout();
     } else {
+      loginInitiatedGA4({
+        isPaywalled: false,
+        entrypoint: "Hamburger",
+        screenName: "Login"
+      });
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
         window.objInts.initSSOWidget();
       } else {
@@ -115,7 +121,13 @@ const Login = () => {
           {isSubscribed == 0 && <div>Welcome</div>}
           <div>{firstName}</div>
           {isSubscribed == 1 && (
-            <img src="https://img.etimg.com/photo/77066493.cms" className="primeUserLogo" data-testId="primeUserLogo" />
+            <img
+              src="https://img.etimg.com/photo/77066493.cms"
+              loading="lazy"
+              decoding="async"
+              className="primeUserLogo"
+              data-testId="primeUserLogo"
+            />
           )}
         </div>
         <div className="signIn" onClick={handleLoginToggle}>

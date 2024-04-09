@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "app/store";
 import { fetchBookmark, fetchBookmarkDefault } from "Slices/bookmark";
 import { createPeuuid } from "utils/personalization";
+import { loginInitiatedGA4 } from "utils/common";
 
 interface BookmarkProps {
   msid: string;
@@ -46,6 +47,11 @@ const Bookmark: FC<BookmarkProps> = ({ msid, hostId, type }) => {
   //save book mark of current article api
   const saveBookmark = async (currentMSID, type) => {
     if (login.userInfo && Object.keys(login.userInfo).length === 0) {
+      loginInitiatedGA4({
+        isPaywalled: false,
+        entrypoint: "Feature Login",
+        screenName: "Bookmark"
+      });
       if (typeof window != "undefined" && typeof window.objInts != "undefined" && window.objInts) {
         window.objInts.initSSOWidget();
       } else {

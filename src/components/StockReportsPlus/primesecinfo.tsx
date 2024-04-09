@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import styles from "./styles.module.scss";
 import LazyLoadImg from "../LazyLoad";
 import Link from "next/link";
+import { grxEvent } from "utils/ga";
 
 interface PrimeSecInfoProps {
   isPrimeUser?: number;
@@ -11,6 +12,26 @@ interface PrimeSecInfoProps {
 }
 
 export default function PrimeSecInfoSec({ isPrimeUser, isLogin, userName, goToPlanPage }: PrimeSecInfoProps) {
+  const planPageHandler = (cta: string) => {
+    const params = {
+      cta,
+      item_name: "stock_report_plus_stock_report_detail",
+      item_category2: "stock_report_plus_stock_report_detail",
+      item_id: "stock_report_plus_stock_report_detail_benefits",
+      widget: "paywall_blocker_detail_benefits_cta",
+      item_category3: "paywall_blocker_other_benefits_cta"
+    };
+    grxEvent(
+      "event",
+      {
+        event_category: "Subscription Flow",
+        event_action: `Subscribe Now`,
+        event_label: `Stock Report  - View ETPrime Plans`
+      },
+      1
+    );
+    goToPlanPage(params);
+  };
   return (
     <>
       <section className={`${styles.etPrimeSec} topSec3`}>
@@ -23,7 +44,7 @@ export default function PrimeSecInfoSec({ isPrimeUser, isLogin, userName, goToPl
               <strong className={styles.moreBold}> at no extra cost</strong>
             </h4>
             <div className={styles.btnSec}>
-              <button className={styles.etBtnPrime} onClick={() => goToPlanPage()}>
+              <button className={styles.etBtnPrime} onClick={() => planPageHandler("View ETPrime Plans")}>
                 View ETPrime Plans
               </button>
               <p className={styles.conditionText}>
