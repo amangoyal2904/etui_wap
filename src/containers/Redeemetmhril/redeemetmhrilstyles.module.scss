@@ -79,7 +79,7 @@
       font-weight: 500;
       font-size: 18px;
       margin-top: 15px;
-      color: #4d4b4b;
+      color: #b49250;
       @media only screen and (max-width: 767px) {
         font-size: 12px;
         width: 250px;
@@ -174,29 +174,7 @@
   opacity: 0.8;
 }
 
-.benefitHeading {
-  font-size: 32px;
-  font-weight: 700;
-  text-align: center;
-  margin: 50px 0 80px;
-  position: relative;
-  @media only screen and (max-width: 767px) {
-    font-size: 20px;
-  }
-  &::after {
-    content: "";
-    height: 4px;
-    width: 64px;
-    background-color: #ed193b;
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: -15px;
-  }
-}
-.benefits {
+/* .benefits {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -205,4 +183,4 @@
   @media only screen and (max-width: 767px) {
     justify-content: flex-start;
   }
-}
+} */
