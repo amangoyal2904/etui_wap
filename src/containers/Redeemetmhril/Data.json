@@ -2,7 +2,7 @@
   {
     "orderId": 1,
     "title": "TOI+ Subscription",
-    "tileTitle": "TOI+ Subscription",
+    "tileTitle": "Get 1 Year Complimentary Subscription of TOI+ worth Rs.1499/-",
     "tileImageUrl": "https://economictimes.indiatimes.com/photo/104016319.cms",
     "tileImageUrlDark": "",
     "tileImageIcon": "",
@@ -10,14 +10,14 @@
     "imageUrl": "https://economictimes.indiatimes.com/photo/104022140.cms",
     "imageUrlDark": "https://economictimes.indiatimes.com/photo/104022140.cms",
     "subTitle": "Exclusive stories with in-depth coverage across multiple topics, expert opinions & more.",
-    "tileSubTitle": "10+ stories & expert opinions covering lifestyle, politics, health & more.",
+    "tileSubTitle": "Enjoy unlimited access to breaking news and thought provoking stories from all around the world.",
     "detailText": "Exclusive Insight-rich Stories",
     "detailSubText": "Get to read 300+ exclusive stories every month & 6 weekly newsletters along with other benefits."
   },
   {
     "orderId": 2,
     "title": "TimesPrime 1-Year Memebership worth Rs.1199",
-    "tileTitle": "TimesPrime 1-Year Memebership worth Rs.1199",
+    "tileTitle": "Get One Year Times Prime Subscription worth ₹1199 for free",
     "tileImageUrl": "https://economictimes.indiatimes.com/photo/109154077.cms",
     "tileImageUrlDark": "",
     "tileImageIcon": "",
@@ -25,14 +25,14 @@
     "imageUrl": "https://economictimes.indiatimes.com/photo/109154203.cms",
     "imageUrlDark": "https://economictimes.indiatimes.com/photo/109154203.cms",
     "subTitle": "Exclusive stories with in-depth coverage across multiple topics, expert opinions & more.",
-    "tileSubTitle": "10+ stories & expert opinions covering lifestyle, politics, health & more.",
+    "tileSubTitle": "",
     "detailText": "Exclusive Insight-rich Stories",
     "detailSubText": "Unique membership program with 20+ premium subscriptions like Disney+ Hotstar, SonyLiv, Youtube & more."
   },
   {
     "orderId": 3,
     "title": "Docubay Subscription (1 Year)",
-    "tileTitle": "Docubay Subscription (1 Year)",
+    "tileTitle": "Get One Year Docubay Subscription worth ₹999 for free",
     "tileImageUrl": "https://economictimes.indiatimes.com/photo/104016319.cms",
     "tileImageUrlDark": "",
     "tileImageIcon": "",
@@ -40,7 +40,7 @@
     "imageUrl": "https://economictimes.indiatimes.com/photo/109154344.cms",
     "imageUrlDark": "https://economictimes.indiatimes.com/photo/109154344.cms",
     "subTitle": "Exclusive stories with in-depth coverage across multiple topics, expert opinions & more.",
-    "tileSubTitle": "10+ stories & expert opinions covering lifestyle, politics, health & more.",
+    "tileSubTitle": "Stream award-winning international documentaries from more than 100 countries.",
     "detailText": "Exclusive Insight-rich Stories",
     "detailSubText": "Stream new documentaries from all across the world every day."
   },

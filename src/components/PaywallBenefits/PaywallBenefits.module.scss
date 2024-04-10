@@ -1,3 +1,25 @@
+.benefitHeading {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin: 50px 0 80px;
+  position: relative;
+  @media only screen and (max-width: 767px) {
+    font-size: 20px;
+  }
+  &::after {
+    content: "";
+    height: 4px;
+    width: 64px;
+    background-color: #ed193b;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -15px;
+  }
+}
 .benefitsContainer {
   padding: 10px 20px 100px;
   @media only screen and (max-width: 767px) {
@@ -45,7 +67,7 @@
         top: -5px;
       }
       &.lastBenefit::before {
-        background-image: url("https://img.etimg.com/photo/msid-104579437,quality-100/sprit-img.jpg");
+        background-image: url("https://img.etimg.com/photo/msid-107629211,quality-100/sprit-img.jpg");
         background-size: 347px 347px;
         width: 347px;
         height: 347px;
@@ -130,74 +152,184 @@
   }
 }
 
-.bgTransparent {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  background-color: rgba(0, 0, 0, 0.8);
-  margin: auto;
-  height: 100vh;
-  opacity: 0.8;
+$commonSpritemWeb: url("https://img.etimg.com/photo/109187696.cms");
+.sprite {
+  background-image: $commonSpritemWeb;
+  background-size: 1540px 1133px;
+  background-repeat: no-repeat;
+  display: inline-block;
 }
-.carouselContainer {
-  width: 100%;
-  position: fixed;
-  height: 60%;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
-  background: #fff;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  overflow: hidden;
-  @media only screen and (max-width: 390px) {
-    height: 75%;
+
+.headingmWeb {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 40px 0 20px;
+  .etprimelogo {
+    @extend .sprite;
+    background-position: -952px -492px;
+    width: 161px;
+    height: 27px;
   }
-  .closePopUp {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    height: 30px;
-    width: 30px;
-    border-radius: 100%;
-    background-color: #e4e4e4;
-    z-index: 9999;
-    cursor: pointer;
-    img {
-      position: absolute;
-      top: 9px;
-      left: 9px;
-      width: 12px;
-    }
+  p {
+    font-weight: 400;
+    font-size: 28px;
+    margin: 6px;
   }
-  .carouselBox {
-    margin-top: 10%;
+}
+.benefitsContainermWeb {
+  .textBox {
+    border-bottom: 1px solid #cfcfcf;
+    font-family: Montserrat;
     text-align: center;
-    img {
-      height: 300px;
-      @media only screen and (max-width: 390px) {
-        height: 260px;
+    padding: 30px 10px;
+    .title {
+      margin: 10px auto;
+      font-size: 24px;
+      font-weight: 800;
+      width: 318px;
+    }
+    .subtitle {
+      font-size: 19px;
+      font-weight: 500;
+      margin: 10px 0;
+    }
+    .subText {
+      font-size: 17px;
+      font-weight: 400;
+      margin: 18px 0;
+      padding: 0 16px;
+    }
+    @media only screen and (max-width: 380px) {
+      .mainImg {
+        zoom: 0.8;
       }
     }
-  }
-  .dots {
-    text-align: center;
-    li {
-      height: 8px;
-      width: 8px;
+    &.toi {
+      .mainImg {
+        @extend .sprite;
+        background-position: -393px -912px;
+        width: 368px;
+        height: 178px;
+      }
+    }
+    &.timesprime {
+      background-color: #2d0140;
+      color: #fff;
+      padding-bottom: 0;
+      .mainImg {
+        @extend .sprite;
+        background-position: -775px -31px;
+        width: 375px;
+        height: 373px;
+      }
+      .headerImg {
+        @extend .sprite;
+        background-position: -775px -491px;
+        width: 166px;
+        height: 33px;
+      }
+    }
+    &.docubay {
       background-color: #000;
-      opacity: 0.25;
-      border-radius: 9px;
-      display: inline-block;
-      margin: 4px;
-      text-align: center;
-      &.active {
-        background-color: red;
-        opacity: 1;
-        width: 20px;
+      color: #fff;
+      .mainImg {
+        @extend .sprite;
+        background-position: -775px -537px;
+        width: 375px;
+        height: 303px;
+      }
+      .headerImg {
+        @extend .sprite;
+        background-position: -390px -496px;
+        width: 166px;
+        height: 33px;
+      }
+    }
+    &.exclusive_et {
+      .mainImg {
+        @extend .sprite;
+        background-position: -390px 0;
+        width: 375px;
+        height: 480px;
+      }
+    }
+    &.srplus {
+      .mainImg {
+        @extend .sprite;
+        background-position: -397px -543px;
+        width: 366px;
+        height: 299px;
+      }
+    }
+    &.stockAnalyzer {
+      background-color: #fff1ed;
+      .mainImg {
+        @extend .sprite;
+        background-position: -17px -29px;
+        width: 375px;
+        height: 522px;
+      }
+    }
+    &.wealthedition {
+      background-color: #f6fff0;
+      .headerImg {
+        @extend .sprite;
+        background-position: -775px -455px;
+        width: 240px;
+        height: 28px;
+      }
+      .mainImg {
+        @extend .sprite;
+        background-position: -1162px -302px;
+        width: 370px;
+        height: 278px;
+      }
+    }
+    &.bigbull {
+      .headerImg {
+        @extend .sprite;
+        background-position: -1161px -825px;
+        width: 211px;
+        height: 44px;
+      }
+      .mainImg {
+        @extend .sprite;
+        background-position: -1174px -9px;
+        width: 349px;
+        height: 235px;
+      }
+    }
+    &.epaper {
+      background-color: #fff1ed;
+      .headerImg {
+        @extend .sprite;
+        background-position: -1383px -827px;
+        width: 116px;
+        height: 33px;
+      }
+      .mainImg {
+        @extend .sprite;
+        background-position: -1160px -593px;
+        width: 375px;
+        height: 217px;
+      }
+    }
+    &.cleanexperience {
+      background-color: #fff8f6;
+      .mainImg {
+        @extend .sprite;
+        background-position: -5px -913px;
+        width: 375px;
+        height: 215px;
+      }
+    }
+    &.deepstories {
+      .mainImg {
+        @extend .sprite;
+        background-position: -13px -546px;
+        width: 360px;
+        height: 349px;
       }
     }
   }

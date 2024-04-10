@@ -38,6 +38,7 @@ const PaywallBenefits = (Benefits) => {
 
   return (
     <React.Fragment>
+      <p className={styles.benefitHeading}>What’s included with ETPrime membership</p>
       <div className={styles.benefitsContainer}>
         {Benefits?.data.map((benefit, index) =>
           index % 2 === 0 ? BenefitItemLHS(benefit, index) : BenefitItem(benefit, index)

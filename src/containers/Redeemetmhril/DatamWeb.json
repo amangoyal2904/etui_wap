@@ -1,0 +1,81 @@
+[
+  {
+    "detailSubText": "Enjoy unlimited access to breaking news and thought provoking stories from all around the world.",
+    "title": "Get 1 Year Complimentary Subscription of TOI+ worth Rs.1499/-",
+    "headerImage": false,
+    "cssClass": "toi",
+    "orderId": 1
+  },
+  {
+    "title": "Get One Year Times Prime Subscription worth ₹1199 for free",
+    "cssClass": "timesprime",
+    "headerImage": true,
+    "detailSubText": "",
+    "orderId": 2
+  },
+  {
+    "detailSubText": "Stream award-winning international documentaries from more than 100 countries.",
+    "title": "Get One Year Docubay Subscription worth ₹999 for free",
+    "cssClass": "docubay",
+    "headerImage": true,
+    "orderId": 3
+  },
+  {
+    "detailSubText": "Stories, Editorial & Expert opinion",
+    "title": "Access the exclusive Economic Times",
+    "cssClass": "exclusive_et",
+    "headerImage": false,
+    "orderId": 4
+  },
+  {
+    "detailSubText": "Experience your Economic Times newspaper, The way you've always liked!",
+    "title": "Complete Access with ET Prime",
+    "cssClass": "epaper",
+    "headerImage": true,
+    "orderId": 5
+  },
+  {
+    "detailSubText": "Get to know where the market gurus invest & grow your portfolio.",
+    "cssClass": "bigbull",
+    "headerImage": true,
+    "title": "",
+    "orderId": 6
+  },
+  {
+    "detailSubText": "In-depth stock analysis for 4000+",
+    "title": "Stock Report Plus",
+    "cssClass": "srplus",
+    "headerImage": false,
+    "orderId": 7
+  },
+  {
+    "detailSubText": "Instant stock analysis based on Solvency, Profitability, Growth, Valuation, Momentum, Risk & More.",
+    "title": "Stock Analyzer",
+    "cssClass": "stockAnalyzer",
+    "headerImage": false,
+    "orderId": 8
+  },
+  {
+    "detailSubText": "Manage your money efficiently with this weekly guide.",
+    "title": "Now Available with ET Prime",
+    "cssClass": "wealthedition",
+    "headerImage": true,
+    "orderId": 9
+  },
+  {
+    "detailSubText": "Easy & distraction-free reading with 90% less ads",
+    "title": "Clean experience",
+    "subtitle": "with minimal ads",
+    "cssClass": "cleanexperience",
+    "headerImage": false,
+    "orderId": 10
+  },
+  {
+    "detailSubText": "1500+ Exclusive stories & analysis across sectors to help you stay informed",
+    "title": "Sharp Insight-rich,",
+    "subtitle": "In-depth stories across 20+ sectors",
+    "cssClass": "deepstories",
+    "headerImage": false,
+    "orderId": 11
+  }
+]

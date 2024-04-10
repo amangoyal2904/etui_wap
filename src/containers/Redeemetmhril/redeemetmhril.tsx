@@ -1,6 +1,7 @@
 import React, { useEffect, useState, FC } from "react";
 
-import PaywallBenefits from "components/PaywallBenefits";
+import PaywallBenefits from "components/PaywallBenefits/PaywallBenefitsWeb";
+import PaywallBenefitsmWeb from "components/PaywallBenefits/PaywallBenefitsmWeb";
 import { PageProps } from "types/stockreportscategory";
 import { isLiveApp } from "utils/articleUtility";
 import LoginWidget from "components/LoginSdk";
@@ -11,6 +12,7 @@ import SEO from "components/SEO";
 import styles from "./redeemetmhrilstyles.module.scss";
 import LazyLoadImg from "components/LazyLoad";
 import Benefits from "./Data.json";
+import BenefitsmWeb from "./DatamWeb.json";
 
 const Redeemetmhril: FC<PageProps> = (props) => {
   const [vouchedRedeemed, setVouchedRedeemed] = useState({ redeemed: false, msg: "" });
@@ -291,12 +293,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
           </p>
         </div>
       </div>
-      <div>
-        <p className={styles.benefitHeading}>What’s included with ETPrime membership</p>
-        <div className={styles.benefits}>
-          <PaywallBenefits data={Benefits} />
-        </div>
-      </div>
+      <div>{isMobile ? <PaywallBenefitsmWeb data={BenefitsmWeb} /> : <PaywallBenefits data={Benefits} />}</div>
       <LoginWidget />
     </React.Fragment>
   );
