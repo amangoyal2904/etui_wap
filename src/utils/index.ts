@@ -506,7 +506,7 @@ export const updateDimension = ({
           (window.customDimension["dimension27"] && window.customDimension["dimension27"].toLowerCase()) || "";
         window.grxDimension_cdp["paywalled"] = window.customDimension["dimension59"] == "Yes" ? "y" : "n";
         window.grxDimension_cdp["content_id"] =
-          (window.customDimension["msid"] && window.customDimension["msid"]) || msid;
+          (window.customDimension["msid"] && parseInt(window.customDimension["msid"])) || parseInt(msid);
         window.grxDimension_cdp["last_click_source"] = lastClick || "";
         window.grxDimension_cdp["source"] = trafficSource || "";
         window.grxDimension_cdp["business"] = "et";

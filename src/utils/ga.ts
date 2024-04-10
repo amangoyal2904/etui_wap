@@ -210,20 +210,20 @@ export const grxEvent = (type, data, gaEvent = 0) => {
         window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
       }
 
-      if (type == "event") {
+      if (type == "event" && Array.isArray(window.dataLayer)) {
         const gtmEventDimension = { ...grxDimension, event: "et_push_event" };
         window.dataLayer.push(gtmEventDimension);
       }
 
-      if (type == "page_view") {
+      if (type == "page_view" && Array.isArray(window.dataLayer)) {
         const gtmEventDimension = { ...grxDimension, event: "et_push_pageload" };
         window.dataLayer.push(gtmEventDimension);
       }
-      if (type == "cdp_page_view") {
+      if (type == "cdp_page_view" && Array.isArray(window.dataLayer)) {
         const _gtmEventDimension = { ...window.grxDimension_cdp, event: "et_push_pageload" };
         window.dataLayer.push(_gtmEventDimension);
       }
-      if (type == "cdp_event") {
+      if (type == "cdp_event" && Array.isArray(window.dataLayer)) {
         const _gtmEventDimension = { ...grxDimension, event: "et_push_cdp_event" };
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(_gtmEventDimension);
