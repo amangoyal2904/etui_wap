@@ -154,7 +154,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
 
     const endPoint = `https://${
       isLiveApp() ? "subscriptions" : "testsubscription"
-    }.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=ET&merchantCode=ET&country_code=IN&voucherCode=${voucherCode}`;
+    }.economictimes.indiatimes.com/api/subscription/redeemVoucher?productCode=ETPR&merchantCode=ET&country_code=IN&voucherCode=${voucherCode}`;
     const requestOptions = {
       body: JSON.stringify({}),
       method: "POST",
