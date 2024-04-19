@@ -148,7 +148,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
   const apiHit = () => {
     setIsLoading(true);
     const headers = {
-      "X-SITE-APP-CODE": isLiveApp() ? "04e2b3dc222d26d7ffa0ed3d3285cce6" : "7a3514a35e5493b739659ba1bb9ea0a9",
+      "X-SITE-APP-CODE": isLiveApp() ? "c21b937c35b0d7cc7c6659d3b57e3d4a" : "d8bf11298a038d8f20be2c4486c3c728",
       "X-TOKEN": window.objInts.readCookie("OTR") || getCookie("OTR")
     };
 
