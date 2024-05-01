@@ -170,26 +170,20 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         const msg = setConfigMessage(result);
         if (result.status == "FAILURE") {
           setInvalidVoucher({ invalid: true, msg });
-          grxEvent(
-            "event",
-            {
-              event_category: "Redeem voucher",
-              event_action: "Redeem Clicked - LoggedIn",
-              event_label: `{${voucherCode}} Invalid Voucher Code {Mahindra}`
-            },
-            1
-          );
         } else {
-          setVouchedRedeemed({ redeemed: true, msg });
           grxEvent(
             "event",
             {
-              event_category: "Redeem voucher",
-              event_action: "Redeem Clicked - LoggedIn",
-              event_label: `{${voucherCode}} Redeemed Voucher Code {Mahindra}`
+              event_category: "Mahindra Voucher",
+              event_action: "voucher_redeemed",
+              event_label: `{${voucherCode}}`
             },
             1
           );
+          setVouchedRedeemed({ redeemed: true, msg });
+          setTimeout(() => {
+            window.location.href = "/et_benefits.cms";
+          }, 1500);
         }
       })
       .catch((error) => {
@@ -203,9 +197,9 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         grxEvent(
           "event",
           {
-            event_category: "Redeem voucher",
-            event_action: "Redeem Clicked - LoggedIn",
-            event_label: `{${voucherCode}} Invalid Voucher Code {Mahindra}`
+            event_category: "Mahindra Voucher",
+            event_action: "redeem_click",
+            event_label: `{${voucherCode}} Invalid Voucher Code`
           },
           1
         );
@@ -222,9 +216,9 @@ const Redeemetmhril: FC<PageProps> = (props) => {
       grxEvent(
         "event",
         {
-          event_category: "Redeem voucher",
-          event_action: "Redeem Clicked - LoggedOut",
-          event_label: `{${voucherCode}} Voucher Code {Mahindra}`
+          event_category: "Mahindra Voucher",
+          event_action: "redeem_click",
+          event_label: `Login & Redeem`
         },
         1
       );
@@ -237,6 +231,15 @@ const Redeemetmhril: FC<PageProps> = (props) => {
         }.indiatimes.com/clogin.cms?ref=ET&flag=etredeem&ru=${window.location.href}`;
       }
     } else {
+      grxEvent(
+        "event",
+        {
+          event_category: "Mahindra Voucher",
+          event_action: "redeem_click",
+          event_label: `Redeem`
+        },
+        1
+      );
       apiHit();
     }
   };
@@ -289,7 +292,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
             )}
           </div>
           <p className={styles.disclaimer}>
-            For any other query, you can reach out to us at <u>care@etprime.com</u>
+            For any other query, you can reach out to us at <u>clubmselectgp@mahindraholidays.com</u>
           </p>
         </div>
       </div>
