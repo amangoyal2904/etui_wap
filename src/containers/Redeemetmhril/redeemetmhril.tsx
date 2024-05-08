@@ -45,11 +45,9 @@ const Redeemetmhril: FC<PageProps> = (props) => {
 
   useEffect(() => {
     if (userToken) {
-      const endPoint = `https://${
-        isLiveApp() ? "select" : "select1"
-      }.clubmahindra.com/check-valid-token-callback?token=${userToken}&et_flag=1`;
+      const endPoint = `https://${isLiveApp() ? "etpwaapi" : "etpwaapipre"}.economictimes.com/validate_mahindra_token`;
       const requestOptions = {
-        body: JSON.stringify({}),
+        body: JSON.stringify({ token: userToken }),
         method: "POST"
       };
 
