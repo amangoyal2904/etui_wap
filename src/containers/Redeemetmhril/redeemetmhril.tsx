@@ -47,6 +47,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
     if (userToken) {
       const endPoint = `https://${isLiveApp() ? "etpwaapi" : "etpwaapipre"}.economictimes.com/validate_mahindra_token`;
       const requestOptions = {
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: userToken }),
         method: "POST"
       };
