@@ -291,7 +291,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
             )}
           </div>
           <p className={styles.disclaimer}>
-            For any other query, you can reach out to us at <u>clubmselectgp@mahindraholidays.com</u>
+            For any other query, you can reach out to us at <u><a href="mailto:clubmselectgp@mahindraholidays.com">clubmselectgp@mahindraholidays.com</a></u>
           </p>
         </div>
       </div>
