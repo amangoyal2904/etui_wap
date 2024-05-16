@@ -107,7 +107,11 @@ const Referrals: FC<PageProps> = (props) => {
           shareUrl = `https://www.linkedin.com/shareArticle?url=${referralLink}`;
           break;
       }
-      window.open(shareUrl, "_blank", "");
+      if(flag === "Whatsapp" || flag === "LinkedIn") {
+        window.location.href = shareUrl;
+      } else {
+        window.open(shareUrl, "_blank", "");
+      }
     }
   };
 
