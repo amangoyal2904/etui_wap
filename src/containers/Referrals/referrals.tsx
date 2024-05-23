@@ -12,17 +12,27 @@ import SEO from "components/SEO";
 import styles from "./referrals.module.scss";
 import { loginInitiatedGA4 } from "utils/common";
 
+declare global {
+  interface Window {
+    appUserData: any;
+  }
+}
+
 const Referrals: FC<PageProps> = (props) => {
   const [referralLink, setReferralLink] = useState("");
   const [isEligible, setIsElegible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
+  const [isMobile, setIsMobile] = useState(true);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    setIsMobile(isMobile);
+
     if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
     } else if (typeof document !== "undefined") {
@@ -40,15 +50,31 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const getUserInfo = () => {
-    if (window.objUser.info.isLogged) {
-      const isSubscribed =
-        typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
-      if (!isSubscribed) {
+    const queryParams = new URLSearchParams(location.search);
+    const frmapp = queryParams.get("frmapp");
+
+    if (frmapp) {
+      const userData = window?.appUserData || {};
+      const permissionsArr: Array<string> = (typeof userData.permissions != "undefined" && userData.permissions) || [];
+      if (permissionsArr?.includes("loggedin")) {
+        const isSubscribed =
+          permissionsArr && (permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed"));
+        if (!isSubscribed) {
+          setIsElegible(false);
+        }
+      } else {
         setIsElegible(false);
       }
     } else {
-      setIsElegible(false);
-      loginMapping();
+      if (window.objUser.info.isLogged) {
+        const isSubscribed =
+          typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
+        if (!isSubscribed) {
+          setIsElegible(false);
+        }
+      } else {
+        setIsElegible(false);
+      }
     }
   };
 
@@ -89,27 +115,36 @@ const Referrals: FC<PageProps> = (props) => {
         setIsCopied(false);
       }, 3000);
     } else {
-      let text: string, shareUrl: string;
-      switch (flag) {
-        case "Twitter":
-          text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
-          shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
-            referralLink
-          )}`;
-          break;
-        case "Whatsapp":
-          text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
-          shareUrl = `https://api.whatsapp.com//send?text=${encodeURIComponent(text)} ${encodeURIComponent(
-            referralLink
-          )}`;
-          break;
-        case "LinkedIn":
-          shareUrl = `https://www.linkedin.com/shareArticle?url=${referralLink}`;
-          break;
-      }
-      if(flag === "Whatsapp" || flag === "LinkedIn") {
-        window.location.href = shareUrl;
+      if (isMobile) {
+        const shareData = {
+          text: "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights",
+          title: "ET Referrals",
+          url: referralLink
+        };
+        try {
+          window.navigator.share(shareData);
+        } catch (err) {
+          console.log(err);
+        }
       } else {
+        let text: string, shareUrl: string;
+        switch (flag) {
+          case "Twitter":
+            text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
+            shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
+              referralLink
+            )}`;
+            break;
+          case "Whatsapp":
+            text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
+            shareUrl = `https://api.whatsapp.com//send?text=${encodeURIComponent(text)} ${encodeURIComponent(
+              referralLink
+            )}`;
+            break;
+          case "LinkedIn":
+            shareUrl = `https://www.linkedin.com/shareArticle?url=${referralLink}`;
+            break;
+        }
         window.open(shareUrl, "_blank", "");
       }
     }
@@ -132,11 +167,12 @@ const Referrals: FC<PageProps> = (props) => {
 
   const generateReferralCode = () => {
     setIsLoading(true);
-
+    const ssoID = getCookie("ssoid") || window?.appUserData?.ssoid;
+    console.log(ssoID);
     const endPoint = APIS_CONFIG.etReferrals[APP_ENV],
       requestOptions = {
         method: "GET",
-        headers: { Authorization: getCookie("ssoid") }
+        headers: { Authorization: ssoID }
       };
     fetch(endPoint, requestOptions)
       .then((response) => response.json())
@@ -202,6 +238,9 @@ const Referrals: FC<PageProps> = (props) => {
                 </button>
                 <button disabled={!referralLink} onClick={() => socialShare("Twitter")} className={styles.twt}>
                   <span className={styles.twtIcon}></span> Twitter
+                </button>
+                <button disabled={!referralLink} onClick={() => socialShare("share")} className={styles.share}>
+                  <span className={styles.shareicon}></span>Share
                 </button>
               </div>
             </div>
