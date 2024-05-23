@@ -15,7 +15,7 @@ const ErrorDialog = ({ onSignin }) => {
           </p>
           <p className={styles.already_member}>Already a member?</p>
           <button onClick={onSignin} className={styles.sigin_btn}>
-            Sign In
+            Sign In with ET Prime ID
           </button>
           <p className={styles.email_label}>
             In case of any issues further, connect with us at <u>care@etprime.com</u>
