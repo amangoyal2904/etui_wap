@@ -24,28 +24,18 @@ const Referrals: FC<PageProps> = (props) => {
   const [referralLink, setReferralLink] = useState("");
   const [isEligible, setIsElegible] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
-  const [isAppView, setIsAppView] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const frmapp = queryParams.get("frmapp");
-    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
-    setIsAppView(isAppReff);
-
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(isMobile);
 
-    if (isAppView) {
-      setTimeout(() => {
-        getUserInfo();
-      }, 1000);
-    } else if (typeof window.objInts !== "undefined") {
+    if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
     } else if (typeof document !== "undefined") {
       document.addEventListener("objIntsLoaded", () => {
@@ -61,19 +51,26 @@ const Referrals: FC<PageProps> = (props) => {
     setMetaInfo(data);
   };
 
-  const getUserInfo = () => {
-    if (isAppView) {
-      const userData = window?.appUserData || {};
-      const permissionsArr: Array<string> = (typeof userData.permissions != "undefined" && userData.permissions) || [];
-      if (permissionsArr?.includes("loggedin")) {
-        const isSubscribed =
-          permissionsArr && (permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed"));
-        if (!isSubscribed) {
+  function getUserInfo() {
+    const queryParams = new URLSearchParams(location.search);
+    const frmapp = queryParams.get("frmapp");
+    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
+
+    if (isAppReff) {
+      setTimeout(() => {
+        console.log(window?.appUserData, "Existing User Data");
+        const userData = window?.appUserData || {};
+        const permissionsArr: Array<string> =
+          (typeof userData.permissions != "undefined" && userData.permissions) || [];
+        if (permissionsArr?.includes("loggedin")) {
+          const isSubscribed = permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed");
+          if (!isSubscribed) {
+            setIsElegible(false);
+          }
+        } else {
           setIsElegible(false);
         }
-      } else {
-        setIsElegible(false);
-      }
+      }, 1000);
     } else {
       if (window.objUser.info.isLogged) {
         const isSubscribed =
@@ -85,7 +82,7 @@ const Referrals: FC<PageProps> = (props) => {
         setIsElegible(false);
       }
     }
-  };
+  }
 
   const loginMapping = () => {
     if (window.objUser.info.isLogged) {
@@ -112,13 +109,17 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const socialShare = (flag) => {
+    const queryParams = new URLSearchParams(location.search);
+    const frmapp = queryParams.get("frmapp");
+    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
+
     grxEvent(
       "event",
       { event_category: "Referral Page", event_action: "Share", event_label: flag === "Copy" ? "N/A" : flag },
       1
     );
     if (flag === "Copy") {
-      if (isAppView) {
+      if (isAppReff) {
         const dataToPost = { type: "copy", value: referralLink };
         if (window?.appUserData.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -135,7 +136,7 @@ const Referrals: FC<PageProps> = (props) => {
     } else {
       const text =
         "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights";
-      if (isAppView) {
+      if (isAppReff) {
         const dataToPost = { type: "share", value: `${text} ${referralLink}` };
         if (window?.appUserData.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
