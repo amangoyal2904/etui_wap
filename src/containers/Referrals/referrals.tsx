@@ -42,7 +42,9 @@ const Referrals: FC<PageProps> = (props) => {
     setIsMobile(isMobile);
 
     if (isAppView) {
-      getUserInfo();
+      setTimeout(() => {
+        getUserInfo();
+      }, 1000);
     } else if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
     } else if (typeof document !== "undefined") {
