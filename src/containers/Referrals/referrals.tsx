@@ -14,7 +14,9 @@ import { loginInitiatedGA4 } from "utils/common";
 
 declare global {
   interface Window {
+    tilAppWebBridge: any;
     appUserData: any;
+    webkit: any;
   }
 }
 
@@ -24,16 +26,26 @@ const Referrals: FC<PageProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
+  const [isAppView, setIsAppView] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const frmapp = queryParams.get("frmapp");
+    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
+    setIsAppView(isAppReff);
+
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(isMobile);
 
-    if (typeof window.objInts !== "undefined") {
+    if (isAppView) {
+      setTimeout(() => {
+        getUserInfo();
+      }, 1000);
+    } else if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
     } else if (typeof document !== "undefined") {
       document.addEventListener("objIntsLoaded", () => {
@@ -50,10 +62,7 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const getUserInfo = () => {
-    const queryParams = new URLSearchParams(location.search);
-    const frmapp = queryParams.get("frmapp");
-
-    if (frmapp) {
+    if (isAppView) {
       const userData = window?.appUserData || {};
       const permissionsArr: Array<string> = (typeof userData.permissions != "undefined" && userData.permissions) || [];
       if (permissionsArr?.includes("loggedin")) {
@@ -109,15 +118,33 @@ const Referrals: FC<PageProps> = (props) => {
       1
     );
     if (flag === "Copy") {
-      window.navigator.clipboard.writeText(referralLink);
-      setIsCopied(true);
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 3000);
+      if (isAppView) {
+        const dataToPost = { type: "copy", value: referralLink };
+        if (window?.appUserData.platform === "ios") {
+          window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
+        } else {
+          window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
+        }
+      } else {
+        window.navigator.clipboard.writeText(referralLink);
+        setIsCopied(true);
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 3000);
+      }
     } else {
-      if (isMobile) {
+      const text =
+        "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights";
+      if (isAppView) {
+        const dataToPost = { type: "share", value: `${text} ${referralLink}` };
+        if (window?.appUserData.platform === "ios") {
+          window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
+        } else {
+          window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
+        }
+      } else if (isMobile) {
         const shareData = {
-          text: "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights",
+          text: text,
           title: "ET Referrals",
           url: referralLink
         };
@@ -127,16 +154,14 @@ const Referrals: FC<PageProps> = (props) => {
           console.log(err);
         }
       } else {
-        let text: string, shareUrl: string;
+        let shareUrl: string;
         switch (flag) {
           case "Twitter":
-            text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
             shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(
               referralLink
             )}`;
             break;
           case "Whatsapp":
-            text = `Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights.`;
             shareUrl = `https://api.whatsapp.com//send?text=${encodeURIComponent(text)} ${encodeURIComponent(
               referralLink
             )}`;
