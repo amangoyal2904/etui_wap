@@ -44,7 +44,7 @@ const Referrals: FC<PageProps> = (props) => {
     if (isAppView) {
       setTimeout(() => {
         getUserInfo();
-      }, 1000);
+      }, 1500);
     } else if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
     } else if (typeof document !== "undefined") {
