@@ -23,31 +23,35 @@ declare global {
 const Referrals: FC<PageProps> = (props) => {
   const [referralLink, setReferralLink] = useState("");
   const [isEligible, setIsElegible] = useState(true);
+  const [isAppRef, setIsAppRef] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
   const [isCopied, setIsCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
-  const [isAppRef, setIsAppRef] = useState(true);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
   useEffect(() => {
+    if (isAppRef !== undefined) {
+      if (typeof window.objInts !== "undefined") {
+        window.objInts.afterPermissionCall(getUserInfo);
+      } else if (typeof document !== "undefined") {
+        document.addEventListener("objIntsLoaded", () => {
+          window.objInts.afterPermissionCall(getUserInfo);
+        });
+      }
+    }
+  }, [isAppRef]);
+
+  useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(isMobile);
 
-    const queryParams = new URLSearchParams(location.search);
-    const frmapp = queryParams.get("frmapp");
-    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
-    setIsAppRef(isAppReff);
+    const queryParams = new URLSearchParams(window.location.search).get("frmapp");
+    const isOriginApp = queryParams?.toLocaleLowerCase() === "yes" || false;
+    setIsAppRef(isOriginApp);
 
-    if (typeof window.objInts !== "undefined") {
-      window.objInts.afterPermissionCall(getUserInfo);
-    } else if (typeof document !== "undefined") {
-      document.addEventListener("objIntsLoaded", () => {
-        window.objInts.afterPermissionCall(getUserInfo);
-      });
-    }
     grxEvent("event", { event_category: "Referral Page", event_action: "Page loaded", event_label: "N/A" }, 1);
     fetchMeta();
   }, []);
@@ -57,7 +61,7 @@ const Referrals: FC<PageProps> = (props) => {
     setMetaInfo(data);
   };
 
-  function getUserInfo() {
+  const getUserInfo = () => {
     if (isAppRef) {
       setTimeout(() => {
         console.log(window?.appUserData, "Existing User Data");
@@ -84,7 +88,7 @@ const Referrals: FC<PageProps> = (props) => {
         setIsElegible(false);
       }
     }
-  }
+  };
 
   const loginMapping = () => {
     if (window.objUser.info.isLogged) {
@@ -177,7 +181,7 @@ const Referrals: FC<PageProps> = (props) => {
   const shortLink = (longLink) => {
     const endPoint = `https://${
         isLiveApp() ? "economictimes" : "etdev8243"
-      }.indiatimes.com/tinyurl_feed.cms?feedtype=etjson&url=${encodeURIComponent(longLink)}`,
+      }.indiatimes.com/tinyurl_feed.cms?upcache=2&feedtype=etjson&url=${encodeURIComponent(longLink)}`,
       requestOptions = { method: "GET" };
 
     fetch(endPoint, requestOptions)
