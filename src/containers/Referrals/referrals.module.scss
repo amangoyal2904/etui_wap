@@ -185,11 +185,13 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
           border-radius: 3px;
           overflow: hidden;
           max-width: 292px;
-          min-height: 64px;
-          display: block;
+          min-height: 40px;
           margin: 0 auto;
-          padding: 5px;
+          padding: 0;
           width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           @media only screen and (min-width: 768px) {
             width: 620px;
             height: 16px;
@@ -198,6 +200,8 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
             max-width: 620px;
             padding: 22px 0;
             text-align: left;
+            min-height: 64px;
+            justify-content: start;
           }
         }
         .generate_btn {
