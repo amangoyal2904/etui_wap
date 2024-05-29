@@ -72,7 +72,7 @@ const Referrals: FC<PageProps> = (props) => {
         } else {
           setIsElegible(false);
         }
-      }, 1000);
+      }, 1500);
     } else {
       if (window.objUser.info.isLogged) {
         const isSubscribed =
