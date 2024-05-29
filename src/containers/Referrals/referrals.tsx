@@ -27,6 +27,7 @@ const Referrals: FC<PageProps> = (props) => {
   const [metaInfo, setMetaInfo] = useState<any>({});
   const [isCopied, setIsCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
+  const [isAppRef, setIsAppRef] = useState(true);
 
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
@@ -34,6 +35,11 @@ const Referrals: FC<PageProps> = (props) => {
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(isMobile);
+
+    const queryParams = new URLSearchParams(location.search);
+    const frmapp = queryParams.get("frmapp");
+    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
+    setIsAppRef(isAppReff);
 
     if (typeof window.objInts !== "undefined") {
       window.objInts.afterPermissionCall(getUserInfo);
@@ -52,11 +58,7 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   function getUserInfo() {
-    const queryParams = new URLSearchParams(location.search);
-    const frmapp = queryParams.get("frmapp");
-    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
-
-    if (isAppReff) {
+    if (isAppRef) {
       setTimeout(() => {
         console.log(window?.appUserData, "Existing User Data");
         const userData = window?.appUserData || {};
@@ -70,7 +72,7 @@ const Referrals: FC<PageProps> = (props) => {
         } else {
           setIsElegible(false);
         }
-      }, 1000);
+      }, 1500);
     } else {
       if (window.objUser.info.isLogged) {
         const isSubscribed =
@@ -109,17 +111,13 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const socialShare = (flag) => {
-    const queryParams = new URLSearchParams(location.search);
-    const frmapp = queryParams.get("frmapp");
-    const isAppReff = frmapp?.toLocaleLowerCase() === "yes";
-
     grxEvent(
       "event",
       { event_category: "Referral Page", event_action: "Share", event_label: flag === "Copy" ? "N/A" : flag },
       1
     );
     if (flag === "Copy") {
-      if (isAppReff) {
+      if (isAppRef) {
         const dataToPost = { type: "copy", value: referralLink };
         if (window?.appUserData.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -136,7 +134,7 @@ const Referrals: FC<PageProps> = (props) => {
     } else {
       const text =
         "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights";
-      if (isAppReff) {
+      if (isAppRef) {
         const dataToPost = { type: "share", value: `${text} ${referralLink}` };
         if (window?.appUserData.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -218,12 +216,14 @@ const Referrals: FC<PageProps> = (props) => {
       <SEO {...seoData} />
       <div className={styles.referreralContainer}>
         <div className={`skipInts ${styles.et_referrals}`}>
-          <div className={styles.head_sec}>
-            <a className={styles.head_logo} href="/"></a>
-            <span className={styles.head_seperator}></span>
-            <span className={styles.head_seperator}></span>
-            <a className={styles.head_primelogo} href="/"></a>
-          </div>
+          {!isAppRef && (
+            <div className={styles.head_sec}>
+              <a className={styles.head_logo} href="/"></a>
+              <span className={styles.head_seperator}></span>
+              <span className={styles.head_seperator}></span>
+              <a className={styles.head_primelogo} href="/"></a>
+            </div>
+          )}
 
           <section className={styles.info_section}>
             <p className={styles.title}>
