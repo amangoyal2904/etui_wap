@@ -12,7 +12,7 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
   background-image: $referralSpriteWeb;
   background-size: 1210px 1084px;
 }
-.referreralContainer {
+body, .referreralContainer {
   background-color: #ffe9e2;
 }
 .et_referrals {
@@ -385,9 +385,9 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
       display: inline-block;
       background: #ed193b;
       border-radius: 3px;
-      margin-right: 10px;
       position: relative;
       top: -3px;
+      left: -10px;
     }
   }
 }
