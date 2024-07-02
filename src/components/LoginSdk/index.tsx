@@ -9,7 +9,6 @@ const LoginWidget = () => {
       <style jsx>
         {`
           .ssoLogin {
-            margin-top: 12px;
             overflow: auto;
             align-items: center;
             justify-content: center;
