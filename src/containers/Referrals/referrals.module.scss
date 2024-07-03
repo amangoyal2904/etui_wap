@@ -150,7 +150,7 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
         font-size: 20px;
         font-weight: bold;
         text-align: center;
-        width: 325px;
+        max-width: 325px;
         margin: 0 auto;
         @media only screen and (min-width: 768px) {
           width: 100%;

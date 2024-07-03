@@ -1,6 +1,8 @@
 import React, { useEffect, useState, FC } from "react";
+import { useRouter } from "next/router";
 
 import { fetchAllMetaInfo, isLiveApp } from "utils/articleUtility";
+import { initializeUnifiedAppLoginHandlers } from "utils/webview";
 import { PageProps } from "types/stockreportscategory";
 import APIS_CONFIG from "../../network/config.json";
 import LoginWidget from "components/LoginSdk";
@@ -15,15 +17,16 @@ import { loginInitiatedGA4 } from "utils/common";
 declare global {
   interface Window {
     tilAppWebBridge: any;
-    appUserData: any;
     webkit: any;
   }
 }
 
 const Referrals: FC<PageProps> = (props) => {
+  const router = useRouter();
+
+  const [appUserData, setAppUserData] = useState({ platform: "", ssoid: "" });
   const [referralLink, setReferralLink] = useState("");
-  const [isEligible, setIsElegible] = useState(true);
-  const [isAppRef, setIsAppRef] = useState<any>();
+  const [isEligible, setIsElegible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
   const [isCopied, setIsCopied] = useState(false);
@@ -32,29 +35,52 @@ const Referrals: FC<PageProps> = (props) => {
   const { seo = {}, version_control } = props;
   const seoData = { ...seo, ...version_control?.seo };
 
-  useEffect(() => {
-    if (isAppRef !== undefined) {
-      if (typeof window.objInts !== "undefined") {
-        window.objInts.afterPermissionCall(getUserInfo);
-      } else if (typeof document !== "undefined") {
-        document.addEventListener("objIntsLoaded", () => {
-          window.objInts.afterPermissionCall(getUserInfo);
-        });
-      }
-    }
-  }, [isAppRef]);
+  const fromApp = router.query.frmapp ? router.query.frmapp : "";
+  const platform = router.query.platform ? router.query.platform : "";
+  const isWebView = fromApp ? ["aos", "ios", "yes"].includes(`${fromApp}`) : false;
 
   useEffect(() => {
+    if (typeof window.objInts !== "undefined") {
+      isWebView ? initiateWebBridgeConnection() : window.objInts.afterPermissionCall(getUserInfo);
+    } else {
+      document.addEventListener("objIntsLoaded", () => {
+        isWebView ? initiateWebBridgeConnection() : window.objInts.afterPermissionCall(getUserInfo);
+      });
+    }
+
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     setIsMobile(isMobile);
 
-    const queryParams = new URLSearchParams(window.location.search).get("frmapp");
-    const isOriginApp = queryParams?.toLocaleLowerCase() === "yes" || false;
-    setIsAppRef(isOriginApp);
-
     grxEvent("event", { event_category: "Referral Page", event_action: "Page loaded", event_label: "N/A" }, 1);
     fetchMeta();
+
+    return () => {
+      isWebView && document.removeEventListener("objIntsLoaded", initiateWebBridgeConnection);
+    };
   }, []);
+
+  const initiateWebBridgeConnection = () => {
+    console.log("Start Web Bridge");
+    initializeUnifiedAppLoginHandlers(fromApp, (user) => {
+      console.log("CB of Start Web Bridge", user);
+      if (typeof window.objInts != undefined && typeof window.objUser != undefined && user) {
+        user["platform"] = platform;
+        console.log(user, "Existing User Data");
+        setAppUserData(user);
+        const userData = user || {};
+        const permissionsArr: Array<string> =
+          (typeof userData.permissions != "undefined" && userData.permissions) || [];
+        if (permissionsArr?.includes("loggedin")) {
+          const isSubscribed = permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed");
+          setIsElegible(isSubscribed);
+        } else {
+          setIsElegible(false);
+        }
+      } else {
+        window.saveLogs({ type: "referearn", res: "error", msg: `Params missing ${user}` });
+      }
+    });
+  };
 
   const fetchMeta = async () => {
     const data = await fetchAllMetaInfo(105842328);
@@ -62,31 +88,10 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const getUserInfo = () => {
-    if (isAppRef) {
-      setTimeout(() => {
-        console.log(window?.appUserData, "Existing User Data");
-        const userData = window?.appUserData || {};
-        const permissionsArr: Array<string> =
-          (typeof userData.permissions != "undefined" && userData.permissions) || [];
-        if (permissionsArr?.includes("loggedin")) {
-          const isSubscribed = permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed");
-          if (!isSubscribed) {
-            setIsElegible(false);
-          }
-        } else {
-          setIsElegible(false);
-        }
-      }, 1500);
-    } else {
-      if (window.objUser.info.isLogged) {
-        const isSubscribed =
-          typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
-        if (!isSubscribed) {
-          setIsElegible(false);
-        }
-      } else {
-        setIsElegible(false);
-      }
+    if (!isWebView && window.objUser.info.isLogged) {
+      const isSubscribed =
+        typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
+      setIsElegible(isSubscribed);
     }
   };
 
@@ -121,9 +126,9 @@ const Referrals: FC<PageProps> = (props) => {
       1
     );
     if (flag === "Copy") {
-      if (isAppRef) {
+      if (isWebView) {
         const dataToPost = { type: "copy", value: referralLink };
-        if (window?.appUserData.platform === "ios") {
+        if (appUserData?.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
         } else {
           window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -138,9 +143,9 @@ const Referrals: FC<PageProps> = (props) => {
     } else {
       const text =
         "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights";
-      if (isAppRef) {
+      if (isWebView) {
         const dataToPost = { type: "share", value: `${text} ${referralLink}` };
-        if (window?.appUserData.platform === "ios") {
+        if (appUserData.platform === "ios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
         } else {
           window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -195,7 +200,7 @@ const Referrals: FC<PageProps> = (props) => {
 
   const generateReferralCode = () => {
     setIsLoading(true);
-    const ssoID = getCookie("ssoid") || window?.appUserData?.ssoid;
+    const ssoID = getCookie("ssoid") || appUserData?.ssoid;
     console.log(ssoID);
     const endPoint = APIS_CONFIG.etReferrals[APP_ENV],
       requestOptions = {
@@ -220,7 +225,7 @@ const Referrals: FC<PageProps> = (props) => {
       <SEO {...seoData} />
       <div className={styles.referreralContainer}>
         <div className={`skipInts ${styles.et_referrals}`}>
-          {!isAppRef && (
+          {!isWebView && (
             <div className={styles.head_sec}>
               <a className={styles.head_logo} href="/"></a>
               <span className={styles.head_seperator}></span>
