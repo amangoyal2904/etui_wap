@@ -36,6 +36,7 @@ const Referrals: FC<PageProps> = (props) => {
   const seoData = { ...seo, ...version_control?.seo };
 
   const fromApp = router.query.frmapp ? router.query.frmapp : "";
+  const platform = router.query.platform ? router.query.platform : "";
   const isWebView = fromApp ? ["aos", "ios", "yes"].includes(`${fromApp}`) : false;
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const Referrals: FC<PageProps> = (props) => {
     initializeUnifiedAppLoginHandlers(fromApp, (user) => {
       console.log("CB of Start Web Bridge", user);
       if (typeof window.objInts != undefined && typeof window.objUser != undefined && user) {
+        user["platform"] = platform;
         console.log(user, "Existing User Data");
         setAppUserData(user);
         const userData = user || {};
