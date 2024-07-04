@@ -153,7 +153,7 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
         max-width: 325px;
         margin: 0 auto;
         @media only screen and (min-width: 768px) {
-          width: 100%;
+          max-width: 100%;
           font-size: 30px;
           font-weight: 600;
           margin: 30px 0;
@@ -239,6 +239,7 @@ $referralSprite: url("https://img.etimg.com/photo/110362974.cms");
           margin-right: 10px;
           position: relative;
           top: -3px;
+          left: 0;
         }
         &:after {
           content: "";
