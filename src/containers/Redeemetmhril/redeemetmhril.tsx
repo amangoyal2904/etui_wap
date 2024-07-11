@@ -181,7 +181,7 @@ const Redeemetmhril: FC<PageProps> = (props) => {
           );
           setVouchedRedeemed({ redeemed: true, msg });
           setTimeout(() => {
-            window.location.href = "/et_benefits.cms";
+            window.location.href = "/et_benefits.cms?from=clubm";
           }, 1500);
         }
       })
@@ -291,7 +291,10 @@ const Redeemetmhril: FC<PageProps> = (props) => {
             )}
           </div>
           <p className={styles.disclaimer}>
-            For any other query, you can reach out to us at <u><a href="mailto:clubmselectgp@mahindraholidays.com">clubmselectgp@mahindraholidays.com</a></u>
+            For any other query, you can reach out to us at{" "}
+            <u>
+              <a href="mailto:clubmselectgp@mahindraholidays.com">clubmselectgp@mahindraholidays.com</a>
+            </u>
           </p>
         </div>
       </div>
