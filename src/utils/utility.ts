@@ -1,6 +1,8 @@
 import APIS_CONFIG from "network/config.json";
 import Service from "network/service";
-import { APP_ENV } from "utils";
+import { APP_ENV, getCookie } from "utils";
+import { X_CLIENT_ID } from "utils/common";
+import { isLiveApp } from "./articleUtility";
 
 declare global {
   interface Window {
@@ -176,4 +178,35 @@ export const getSubscriptionStatus = () => {
     }
   }
   return subsStatus;
+};
+export const getSubDetails = async () => {
+  try {
+    if (window?.objUser?.info?.isLogged) {
+      const url =
+        "https://" + isLiveApp()
+          ? "subscription"
+          : "qcsubscription" +
+            ".economictimes.indiatimes.com/subscription/growthAnalyitcs?merchantCode=ET&isGroupUser=false";
+      const otr = getCookie("OTR");
+      const headers = {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-TOKEN": otr,
+        "X-CLIENT-ID": isLiveApp() ? X_CLIENT_ID.production : X_CLIENT_ID.development
+      };
+      const response = await fetch(url, {
+        headers: headers,
+        method: "get",
+        credentials: "include"
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const subsData = (data && data.length && data[0]) || {};
+        window?.e$?.jStorage.set("userSubsDetails", subsData);
+        return subsData;
+      }
+    }
+  } catch (e) {
+    console.log("Error in getting subscription details", e);
+  }
 };
