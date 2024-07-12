@@ -560,11 +560,11 @@ export const updateDimension = ({
         window.grxDimension_cdp["first_date_on_et"] =
           (window.e$.jStorage && window.e$.jStorage.get("et_first_date")) || "";
         window.grxDimension_cdp["last_visited_date"] = dateFormat(new Date(), "%d-%M-%Y") || "";
-        window.grxDimension_cdp["trial_status"] = subDetails.trial || "";
-        window.grxDimension_cdp["recurring"] = subDetails.recurring || "";
-        window.grxDimension_cdp["plan_name"] = subDetails.planName || "";
-        window.grxDimension_cdp["subscription_cancellation_date"] = getDate(subDetails.cancelledOn) || "";
-        window.grxDimension_cdp["trial_end_date"] = getDate(subDetails.trialEndDate) || "";
+        window.grxDimension_cdp["trial_status"] = subDetails?.trial || "";
+        window.grxDimension_cdp["recurring"] = subDetails?.recurring || "";
+        window.grxDimension_cdp["plan_name"] = subDetails?.planName || "";
+        window.grxDimension_cdp["subscription_cancellation_date"] = getDate(subDetails?.cancelledOn) || "";
+        window.grxDimension_cdp["trial_end_date"] = getDate(subDetails?.trialEndDate) || "";
         window.grxDimension_cdp["article_publish_time"] = isArticle ? window.customDimension["dimension13"] : "";
         window.grxDimension_cdp["agency"] = isArticle ? window.customDimension["dimension4"] : "";
         window.grxDimension_cdp["author_id"] = window.customDimension["dimension23"] || "";
