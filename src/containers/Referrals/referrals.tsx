@@ -37,7 +37,7 @@ const Referrals: FC<PageProps> = (props) => {
 
   const fromApp = router.query.frmapp ? router.query.frmapp : "";
   const platform = router.query.platform ? router.query.platform : "";
-  const isWebView = fromApp ? ["aos", "ios", "yes"].includes(`${fromApp}`) : false;
+  const isWebView = fromApp ? ["aos", "ios", "mktios", "yes"].includes(`${fromApp}`) : false;
 
   useEffect(() => {
     if (typeof window.objInts !== "undefined") {
@@ -91,6 +91,8 @@ const Referrals: FC<PageProps> = (props) => {
       const isSubscribed =
         typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
       setIsElegible({ loading: false, flag: isSubscribed });
+    } else {
+      setIsElegible({ loading: false, flag: false });
     }
   };
 
@@ -127,7 +129,7 @@ const Referrals: FC<PageProps> = (props) => {
     if (flag === "Copy") {
       if (isWebView) {
         const dataToPost = { type: "copy", value: referralLink };
-        if (appUserData?.platform === "ios") {
+        if (appUserData?.platform === "ios" || appUserData?.platform === "mktios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
         } else {
           window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
@@ -144,7 +146,7 @@ const Referrals: FC<PageProps> = (props) => {
         "Hello! I am an ETPrime member & I have access to exclusive updates & member-only benefits. It has made my daily investment decisions simple and better. Use my invite link to make informed decisions with in-depth insights";
       if (isWebView) {
         const dataToPost = { type: "share", value: `${text} ${referralLink}` };
-        if (appUserData.platform === "ios") {
+        if (appUserData?.platform === "ios" || appUserData?.platform === "mktios") {
           window.webkit.messageHandlers.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
         } else {
           window.tilAppWebBridge.postMessage(JSON.stringify(dataToPost));
