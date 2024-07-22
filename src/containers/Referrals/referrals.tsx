@@ -25,8 +25,8 @@ const Referrals: FC<PageProps> = (props) => {
   const router = useRouter();
 
   const [appUserData, setAppUserData] = useState({ platform: "", ssoid: "" });
+  const [isEligible, setIsElegible] = useState({ loading: true, flag: false });
   const [referralLink, setReferralLink] = useState("");
-  const [isEligible, setIsElegible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [metaInfo, setMetaInfo] = useState<any>({});
   const [isCopied, setIsCopied] = useState(false);
@@ -60,21 +60,20 @@ const Referrals: FC<PageProps> = (props) => {
   }, []);
 
   const initiateWebBridgeConnection = () => {
-    console.log("Start Web Bridge");
     initializeUnifiedAppLoginHandlers(fromApp, (user) => {
       console.log("CB of Start Web Bridge", user);
       if (typeof window.objInts != undefined && typeof window.objUser != undefined && user) {
         user["platform"] = platform;
-        console.log(user, "Existing User Data");
         setAppUserData(user);
         const userData = user || {};
         const permissionsArr: Array<string> =
           (typeof userData.permissions != "undefined" && userData.permissions) || [];
-        if (permissionsArr?.includes("loggedin")) {
+        const isValidUser = isWebView || permissionsArr?.includes("loggedin");
+        if (isValidUser) {
           const isSubscribed = permissionsArr.includes("subscribed") || permissionsArr.includes("etadfree_subscribed");
-          setIsElegible(isSubscribed);
+          setIsElegible({ loading: false, flag: isSubscribed });
         } else {
-          setIsElegible(false);
+          setIsElegible({ loading: false, flag: false });
         }
       } else {
         window.saveLogs({ type: "referearn", res: "error", msg: `Params missing ${user}` });
@@ -88,10 +87,10 @@ const Referrals: FC<PageProps> = (props) => {
   };
 
   const getUserInfo = () => {
-    if (!isWebView && window.objUser.info.isLogged) {
+    if (window.objUser.info.isLogged) {
       const isSubscribed =
         typeof window.objInts != "undefined" && window.objInts.permissions.indexOf("subscribed") > -1;
-      setIsElegible(isSubscribed);
+      setIsElegible({ loading: false, flag: isSubscribed });
     }
   };
 
@@ -201,7 +200,6 @@ const Referrals: FC<PageProps> = (props) => {
   const generateReferralCode = () => {
     setIsLoading(true);
     const ssoID = getCookie("ssoid") || appUserData?.ssoid;
-    console.log(ssoID);
     const endPoint = APIS_CONFIG.etReferrals[APP_ENV],
       requestOptions = {
         method: "GET",
@@ -252,7 +250,7 @@ const Referrals: FC<PageProps> = (props) => {
               <div className={styles.link_box}>
                 <span className={styles.referralLink}>{referralLink}</span>
                 <button
-                  disabled={!!referralLink || isLoading || !isEligible}
+                  disabled={!!referralLink || isLoading || !isEligible?.flag}
                   onClick={generateReferralCode}
                   className={styles.generate_btn}
                 >
@@ -313,7 +311,7 @@ const Referrals: FC<PageProps> = (props) => {
             </ul>
           </section>
 
-          {!isEligible && <ErrorDialog onSignin={loginMapping} />}
+          {!isEligible?.loading && !isEligible.flag && <ErrorDialog onSignin={loginMapping} />}
         </div>
       </div>
       <LoginWidget />
