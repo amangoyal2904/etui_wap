@@ -39,7 +39,7 @@ const Login = () => {
 
       window.customDimension["dimension3"] = "LOGGEDIN";
       window.customDimension["email"] = objUser.primaryEmail;
-      if (objUser.ssoid) window.customDimension["userId"] = objUser.ssoid;
+      if (objUser.ssoid) window.customDimension["user_id"] = objUser.ssoid;
     } else {
       window.customDimension["dimension3"] = "NONLOGGEDIN";
     }
