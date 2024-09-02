@@ -461,6 +461,7 @@ export const updateDimension = ({
     if (typeof window !== "undefined") {
       const sendEvent = async () => {
         dimensions["dimension20"] = "PWA";
+        dimensions["ga_url"] = window.location.href;
         window.customDimension = { ...window.customDimension, ...dimensions };
         createGAPageViewPayload(payload);
         const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
@@ -517,6 +518,7 @@ export const updateDimension = ({
         window.grxDimension_cdp["source"] = trafficSource || "";
         window.grxDimension_cdp["business"] = "et";
         window.grxDimension_cdp["dark_mode"] = "n";
+        window.grxDimension_cdp["ga_url"] = window.location.href;
         window.grxDimension_cdp["event_name"] = "page_view";
         window.grxDimension_cdp["client_source"] = "cdp";
         window.grxDimension_cdp["product"] = product;
