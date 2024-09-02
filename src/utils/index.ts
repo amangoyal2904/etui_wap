@@ -541,7 +541,7 @@ export const updateDimension = ({
         window.grxDimension_cdp["level_3"] = subsecnames?.subsecname3 || "";
         window.grxDimension_cdp["level_4"] = subsecnames?.subsecname4 || "";
         window.grxDimension_cdp["user_grx_id"] = window.objInts.readCookie("_grx") || "";
-        window.grxDimension_cdp["user_id"] = window.objInts.readCookie("ssoid") || "";
+        window.grxDimension_cdp["user_id"] = userInfo?.ssoid || "";
         const utmParams_dim = window.URLSearchParams && new URLSearchParams(window.location.search);
         const utmSource_dim = utmParams_dim.get && utmParams_dim.get("utm_source");
         const utmMedium_dim = utmParams_dim.get && utmParams_dim.get("utm_medium");
@@ -569,7 +569,7 @@ export const updateDimension = ({
         dimensions["dimension3"] = "NONLOGGEDIN";
       }
       dimensions["user_grx_id"] = window.objInts.readCookie("_grx") || "";
-      dimensions["user_id"] = window.objInts.readCookie("ssoid") || "";
+      dimensions["user_id"] = objUser?.ssoid || "";
       window.customDimension = { ...window.customDimension, ...dimensions };
       if (typeof window.objInts !== "undefined") {
         window.objInts.afterPermissionCall(sendEvent);
