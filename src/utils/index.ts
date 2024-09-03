@@ -1,5 +1,6 @@
 import getConfig from "next/config";
 import { pageview } from "./ga";
+import { getSubDetails } from "./utility";
 
 const { publicRuntimeConfig } = getConfig();
 export const APP_ENV = (publicRuntimeConfig.APP_ENV && publicRuntimeConfig.APP_ENV.trim()) || "production";
@@ -444,6 +445,9 @@ export const fetchAdaptiveData = function () {
     continuousPaywallHits
   };
 };
+function getDate(dt) {
+  return (dt && dateFormat(dt, "%d-%M-%Y")) || "";
+}
 export const updateDimension = ({
   dimensions = {},
   payload = {},
@@ -455,14 +459,16 @@ export const updateDimension = ({
 }: any) => {
   try {
     if (typeof window !== "undefined") {
-      const sendEvent = () => {
+      const sendEvent = async () => {
         dimensions["dimension20"] = "PWA";
+        dimensions["ga_url"] = window.location.href;
         window.customDimension = { ...window.customDimension, ...dimensions };
         createGAPageViewPayload(payload);
         const userInfo = typeof objUser !== "undefined" && objUser.info && objUser.info;
         const isSubscribed =
           typeof window.objInts != undefined && window.objInts.permissions.indexOf("subscribed") > -1;
         const product = pageName == "stock_report_plus" ? "prime" : "other";
+        const isArticle = pageName == "primearticleshow" || pageName == "articleshow";
         const nonAdPageArray = ["shortvideos", "quickreads"];
         let isMonetizable = "y";
         if (isSubscribed || nonAdPageArray.indexOf(pageName) !== -1) {
@@ -487,6 +493,7 @@ export const updateDimension = ({
           }
         }
         const { trafficSource, lastClick } = fetchAdaptiveData();
+        const subDetails = window.e$.jStorage.get("userSubsDetails") || (await getSubDetails());
         const ticketId = window.objInts.readCookie("TicketId");
         const userAccountDetails = ticketId && window.e$.jStorage.get(`prime_${ticketId}`);
         const subscriptionDetails =
@@ -511,6 +518,7 @@ export const updateDimension = ({
         window.grxDimension_cdp["source"] = trafficSource || "";
         window.grxDimension_cdp["business"] = "et";
         window.grxDimension_cdp["dark_mode"] = "n";
+        window.grxDimension_cdp["ga_url"] = window.location.href;
         window.grxDimension_cdp["event_name"] = "page_view";
         window.grxDimension_cdp["client_source"] = "cdp";
         window.grxDimension_cdp["product"] = product;
@@ -550,6 +558,34 @@ export const updateDimension = ({
         window.grxDimension_cdp["utm_campaign"] = utmCamp_dim || "";
         window.grxDimension_cdp["campaign_id"] = campaign_id || "";
         window.grxDimension_cdp["login_method"] = window.objInts.readCookie("LoginType") || "";
+
+        window.grxDimension_cdp["first_date_on_et"] =
+          (window.e$.jStorage && window.e$.jStorage.get("et_first_date")) || "";
+        window.grxDimension_cdp["last_visited_date"] = dateFormat(new Date(), "%d-%M-%Y") || "";
+        window.grxDimension_cdp["trial_status"] = subDetails?.trial || "";
+        window.grxDimension_cdp["recurring"] = subDetails?.recurring || "";
+        window.grxDimension_cdp["plan_name"] = subDetails?.planName || "";
+        window.grxDimension_cdp["subscription_cancellation_date"] = getDate(subDetails?.cancelledOn) || "";
+        window.grxDimension_cdp["trial_end_date"] = getDate(subDetails?.trialEndDate) || "";
+        window.grxDimension_cdp["article_publish_time"] = isArticle ? window.customDimension["dimension13"] : "";
+        window.grxDimension_cdp["agency"] = isArticle ? window.customDimension["dimension4"] : "";
+        window.grxDimension_cdp["author_id"] = window.customDimension["dimension23"] || "";
+        window.grxDimension_cdp["author_name"] = window.customDimension["dimension5"] || "";
+        window.grxDimension_cdp["bureau_articles_read"] = window.customDimension.dimension65 || "";
+        window.grxDimension_cdp["continuous_paywall_hits"] = window.customDimension.dimension96 || "";
+        window.grxDimension_cdp["daily_article_count"] = window.customDimension.dimension94 || "";
+        window.grxDimension_cdp["daily_paid_article_count"] = window.customDimension.dimension98 || "";
+        window.grxDimension_cdp["eligibility_paywall_rule"] = window.customDimension.dimension62 || "";
+        window.grxDimension_cdp["free_articles_read"] = window.customDimension.dimension64 || "";
+        window.grxDimension_cdp["paywall_hits"] = window.customDimension.dimension68 || "";
+        window.grxDimension_cdp["monthly_article_count"] = window.customDimension.dimension95 || "";
+        window.grxDimension_cdp["monthly_paid_article_count"] = window.customDimension.dimension97 || "";
+        window.grxDimension_cdp["syft_initiate_page"] = window.customDimension.dimension24 || "";
+        window.grxDimension_cdp["user_login_status_session"] = window.customDimension.dimension3 || "";
+        window.grxDimension_cdp["user_region"] = window.customDimension.dimension109 || "";
+        window.grxDimension_cdp["paywall_experiment"] = window.customDimension.dimension72 || "";
+        window.grxDimension_cdp["web_peuuid"] = getCookie("peuuid") || "";
+        window.grxDimension_cdp["web_pfuuid"] = getCookie("pfuuid") || "";
         url
           ? pageview(url, payload, type)
           : pageview(
@@ -579,7 +615,53 @@ export const updateDimension = ({
     console.log("updateDimension error: ", e);
   }
 };
+export const dateFormat = (dt, format = "%Y-%M-%d") => {
+  const objD: any = dt instanceof Date ? dt : new Date(dt);
+  const shortMonthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const fullMonthName = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  const shortDaysName = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+  const fullDaysName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  let newDate = "";
+  if (objD != "Invalid Date") {
+    const hour = objD.getHours();
+    const dList = {
+      "%ss": objD.getMilliseconds(),
+      "%Y": objD.getFullYear(),
+      "%y": objD.getFullYear().toString().substr(-2),
+      "%MMM": shortMonthName[objD.getMonth()],
+      "%MM": fullMonthName[objD.getMonth()],
+      "%M": objD.getMonth() + 1,
+      "%d": objD.getDate(),
+      "%h": hour <= 12 ? hour : hour - 12,
+      "%H": hour,
+      "%m": objD.getMinutes(),
+      "%s": objD.getSeconds(),
+      "%DD": fullDaysName[objD.getDay()],
+      "%D": shortDaysName[objD.getDay()],
+      "%p": objD.getHours() > 11 ? "PM" : "AM"
+    };
+    newDate = format;
 
+    for (const key in dList) {
+      const regEx = new RegExp(key, "g");
+      newDate = newDate.replace(regEx, appendZero(dList[key]));
+    }
+  }
+  return newDate;
+};
 export const prepSeoListData = (data) => {
   let primaryList = data || [];
   primaryList = primaryList.filter((i) => {

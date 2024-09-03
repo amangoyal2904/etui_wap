@@ -152,3 +152,11 @@ export const loginInitiatedGA4 = ({ isPaywalled, entrypoint, screenName }) => {
       });
   }
 };
+export const X_CLIENT_ID = {
+  development: "w6590a0af0377c711dedefck565f27c1",
+  production: "w6590a0af0377c711dede6bd565f27c2"
+};
+export const SITE_APP_CODE = {
+  development: "d8bf11298a038d8f20be2c4486c3c728",
+  production: "w6590a0af0377c711dede6bd565f27c2"
+};
