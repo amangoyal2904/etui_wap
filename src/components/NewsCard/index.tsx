@@ -80,8 +80,8 @@ const NewsCard = (props: ListProps) => {
           </div>
         ))
       : item.title && (
-          <>
-            <li key={index} className="borderedContent">
+          <Fragment key={index}>
+            <li className="borderedContent">
               <Fragment>
                 <a
                   className="newsContent"
@@ -189,7 +189,7 @@ const NewsCard = (props: ListProps) => {
                 margin: 0px;
               }
             `}</style>
-          </>
+          </Fragment>
         );
   };
   return (

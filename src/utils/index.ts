@@ -289,10 +289,10 @@ export const getPageSpecificDimensions = (seo) => {
     subsecname1 && subsecname2 && subsecname3
       ? `/${subsecname1}/${subsecname2}/${subsecname3}/`
       : subsecname1 && subsecname2
-      ? `$/${subsecname1}/${subsecname2}/`
-      : subsecname1
-      ? `/${subsecname1}/`
-      : "";
+        ? `$/${subsecname1}/${subsecname2}/`
+        : subsecname1
+          ? `/${subsecname1}/`
+          : "";
 
   const payload = {
     dimension4: agency,
@@ -526,8 +526,8 @@ export const updateDimension = ({
           window.customDimension["dimension3"] && window.customDimension["dimension3"] == "LOGGEDIN"
             ? "y"
             : userInfo && userInfo.isLogged
-            ? "y"
-            : "n";
+              ? "y"
+              : "n";
         window.grxDimension_cdp["email"] = (userInfo && userInfo.primaryEmail) || "";
         window.grxDimension_cdp["phone"] =
           userInfo && userInfo.mobileData && userInfo.mobileData.Verified && userInfo.mobileData.Verified.mobile
@@ -604,8 +604,8 @@ export const updateDimension = ({
       } else {
         dimensions["dimension3"] = "NONLOGGEDIN";
       }
-      dimensions["user_grx_id"] = window.objInts.readCookie("_grx") || "";
-      dimensions["user_id"] = window.customDimension["user_id"] || objUser?.ssoid || "";
+      dimensions["user_grx_id"] = window?.objInts?.readCookie("_grx") || "";
+      dimensions["user_id"] = window?.customDimension?.["user_id"] || objUser?.ssoid || "";
       window.customDimension = { ...window.customDimension, ...dimensions };
       if (typeof window.objInts !== "undefined") {
         window.objInts.afterPermissionCall(sendEvent);
