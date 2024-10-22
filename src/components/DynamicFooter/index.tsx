@@ -306,11 +306,11 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             }
 
             .downloadSection .row .ot_sdk_btn {
-              font-size: 0.875em;
-              color: #cccccc;
-              border: none;
               background: none;
-              padding: 10px 10px 0;
+              color: #ccc !important;
+              border: 0 !important;
+              padding: 10px 10px 0 !important;
+              font-size: 0.875em !important;
             }
             .downloadSection .row .ot_sdk_btn::hover {
               background: none;
