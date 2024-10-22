@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import GreyDivider from "components/GreyDivider";
 import { isBrowser, isNoFollow } from "utils";
 import { grxEvent } from "utils/ga";
@@ -20,6 +20,17 @@ declare module "react" {
 
 const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) => {
   const hide_footer = false;
+  const [ccpaRegion, setCcpaRegion] = useState(false);
+  useEffect(() => {
+    if (typeof window != "undefined" && window.geoinfo && window.geoinfo.geolocation) {
+      setRegion();
+    } else {
+      document.addEventListener("geoLoaded", setRegion);
+    }
+    return () => {
+      document.removeEventListener("geoLoaded", setRegion);
+    };
+  }, []);
   const paymentButtonListener = () => {
     const params = {
       cta: "become a member",
@@ -185,10 +196,14 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             }
             {showPersonalizedlink()}
           </div>
-          |
-          <button className={`ot-sdk-show-settings ot_sdk_btn`} id="ot-sdk-btn">
-            Cookies Settings
-          </button>
+          {ccpaRegion && (
+            <>
+              |
+              <button className={`ot-sdk-show-settings ot_sdk_btn`} id="ot-sdk-btn">
+                Cookies Settings
+              </button>
+            </>
+          )}
         </div>
         <div className="row">
           <div className="copyright">
@@ -291,11 +306,11 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
             }
 
             .downloadSection .row .ot_sdk_btn {
-              font-size: 0.875em;
-              color: #cccccc;
-              border: none;
               background: none;
-              padding: 10px 10px 0;
+              color: #ccc !important;
+              border: 0 !important;
+              padding: 10px 10px 0 !important;
+              font-size: 0.875em !important;
             }
             .downloadSection .row .ot_sdk_btn::hover {
               background: none;
@@ -447,7 +462,32 @@ const DynamicFooter: FC<{ dynamicFooterData: any }> = ({ dynamicFooterData }) =>
       </>
     );
   };
-
+  const setRegion = () => {
+    const caRegion =
+      typeof window != "undefined" &&
+      window.geoinfo &&
+      window.geoinfo.geolocation == "2" &&
+      window.geoinfo.region_code == "CA";
+    setCcpaRegion(caRegion);
+    function loadOnetrustSdk() {
+      const script = document.createElement("script");
+      script.src = "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js";
+      script.async = true;
+      script.charset = "UTF-8";
+      script.setAttribute("data-domain-script", "2e8261f2-d127-4191-b6f6-62ba7e124082");
+      document.head.appendChild(script);
+    }
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(
+        function () {
+          loadOnetrustSdk();
+        },
+        { timeout: 2500 }
+      );
+    } else {
+      loadOnetrustSdk();
+    }
+  };
   return (
     <div id="footer" className={hide_footer ? "hide_footer" : ""}>
       <div className="dynamicContainer">
